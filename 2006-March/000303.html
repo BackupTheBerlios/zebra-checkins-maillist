@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicRole.java,1.1,1.2 DynamicGroup.java,1.1,1.2 DynamicPermission.java,1.1,1.2 DynamicUser.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity%20DynamicRole.java%2C1.1%2C1.2%20DynamicGroup.java%2C1.1%2C1.2%20DynamicPermission.java%2C1.1%2C1.2%20DynamicUser.java%2C1.3%2C1.4&In-Reply-To=%3C200603181718.k2IHIjb18142%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000299.html">
+   <LINK REL="Next"  HREF="000302.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicRole.java,1.1,1.2 DynamicGroup.java,1.1,1.2 DynamicPermission.java,1.1,1.2 DynamicUser.java,1.3,1.4</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity%20DynamicRole.java%2C1.1%2C1.2%20DynamicGroup.java%2C1.1%2C1.2%20DynamicPermission.java%2C1.1%2C1.2%20DynamicUser.java%2C1.3%2C1.4&In-Reply-To=%3C200603181718.k2IHIjb18142%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicRole.java,1.1,1.2 DynamicGroup.java,1.1,1.2 DynamicPermission.java,1.1,1.2 DynamicUser.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Mar 18 18:18:45 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000299.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/test AbstractDynamicModelManagerTest.java,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000302.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/acl AccessControlException.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#303">[ date ]</a>
+              <a href="thread.html#303">[ thread ]</a>
+              <a href="subject.html#303">[ subject ]</a>
+              <a href="author.html#303">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+In directory sheep:/tmp/cvs-serv18372/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+
+Modified Files:
+	DynamicRole.java DynamicGroup.java DynamicPermission.java 
+	DynamicUser.java 
+Log Message:
+Added functionality to disable users
+
+Index: DynamicRole.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicRole.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** DynamicRole.java	14 Nov 2005 18:20:50 -0000	1.1
+--- DynamicRole.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 138,140 ****
+          return groupSet;
+      }
+! }
+--- 138,140 ----
+          return groupSet;
+      }
+! }
+\ No newline at end of file
+
+Index: DynamicGroup.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicGroup.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** DynamicGroup.java	14 Nov 2005 18:20:50 -0000	1.1
+--- DynamicGroup.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 37,40 ****
+--- 37,41 ----
+      private Set roleSet = new RoleSet();
+      private Set userSet = new UserSet();
++     
+      /**
+       * @return
+***************
+*** 125,127 ****
+  		return roleSet;
+  	}    
+! }
+--- 126,128 ----
+  		return roleSet;
+  	}    
+! }
+\ No newline at end of file
+
+Index: DynamicPermission.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicPermission.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** DynamicPermission.java	14 Nov 2005 18:20:50 -0000	1.1
+--- DynamicPermission.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 33,40 ****
+  public class DynamicPermission extends SecurityEntityImpl implements Permission
+  {
+- 
+      private Set roleSet = new RoleSet();
+  
+- 
+      /**
+       * @return
+--- 33,38 ----
+***************
+*** 90,93 ****
+          return roleSet;
+      }
+! 
+! }
+--- 88,90 ----
+          return roleSet;
+      }
+! }
+\ No newline at end of file
+
+Index: DynamicUser.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicUser.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** DynamicUser.java	24 Jan 2006 11:38:54 -0000	1.3
+--- DynamicUser.java	18 Mar 2006 16:19:36 -0000	1.4
+***************
+*** 41,47 ****
+  public class DynamicUser extends SecurityEntityImpl implements User
+  {
+!     private String password;
+      private Date passwordExpiryDate;
+!     private long locked;
+      private int loginAttempts;
+          
+--- 41,48 ----
+  public class DynamicUser extends SecurityEntityImpl implements User
+  {
+! 	private static final long serialVersionUID = -7298282701583455184L;
+! 	private String password;
+      private Date passwordExpiryDate;
+!     private long lockTime;
+      private int loginAttempts;
+          
+***************
+*** 147,151 ****
+  	 */
+  	public long getLockTime() {
+! 		return locked;
+  	}
+  
+--- 148,152 ----
+  	 */
+  	public long getLockTime() {
+! 		return lockTime;
+  	}
+  
+***************
+*** 157,162 ****
+  	 * Created on Jan 11, 2006
+  	 */
+! 	public void setLockTime(long locked) {
+! 		this.locked = locked;
+  	}
+  	
+--- 158,163 ----
+  	 * Created on Jan 11, 2006
+  	 */
+! 	public void setLockTime(long lockTime) {
+! 		this.lockTime = lockTime;
+  	}
+  	
+***************
+*** 212,214 ****
+  		this.loginAttempts = loginAttempts;
+  	}
+! }
+--- 213,215 ----
+  		this.loginAttempts = loginAttempts;
+  	}
+! }
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000299.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/test AbstractDynamicModelManagerTest.java,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000302.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/acl AccessControlException.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#303">[ date ]</a>
+              <a href="thread.html#303">[ thread ]</a>
+              <a href="subject.html#303">[ subject ]</a>
+              <a href="author.html#303">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

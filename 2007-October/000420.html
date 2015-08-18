@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/vbcode/ACGWFD frmVersions.frm,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20frmVersions.frm%2CNONE%2C1.1&In-Reply-To=%3C20071016155417.3728611095E%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000421.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/vbcode/ACGWFD frmVersions.frm,NONE,1.1</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20frmVersions.frm%2CNONE%2C1.1&In-Reply-To=%3C20071016155417.3728611095E%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/vbcode/ACGWFD frmVersions.frm,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Oct 16 17:54:17 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000421.html">[Zebra-checkins] zebra/src/vbcode/ACGProcessVersions Revision.cls,	NONE, 1.1 Revisions.cls, NONE, 1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#420">[ date ]</a>
+              <a href="thread.html#420">[ thread ]</a>
+              <a href="subject.html#420">[ subject ]</a>
+              <a href="author.html#420">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv11100/src/vbcode/ACGWFD
+
+Added Files:
+	frmVersions.frm 
+Log Message:
+
+
+--- NEW FILE: frmVersions.frm ---
+VERSION 5.00
+Begin VB.Form frmVersions 
+   BorderStyle     =   3  'Fixed Dialog
+   Caption         =   &quot;Select Version&quot;
+   ClientHeight    =   2655
+   ClientLeft      =   45
+   ClientTop       =   330
+   ClientWidth     =   3705
+   ControlBox      =   0   'False
+   BeginProperty Font 
+      Name            =   &quot;Tahoma&quot;
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   LinkTopic       =   &quot;Form1&quot;
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   2655
+   ScaleWidth      =   3705
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   3  'Windows Default
+   Begin VB.CheckBox chkUpdate 
+      Caption         =   &quot;Open for Update&quot;
+      Height          =   255
+      Left            =   2040
+      TabIndex        =   3
+      ToolTipText     =   &quot;If this option is checked you will not be able to remove Tasks or Routing lines.&quot;
+      Top             =   1560
+      Width           =   1575
+   End
+   Begin VB.CommandButton cmdOK 
+      Caption         =   &quot;OK&quot;
+      Height          =   495
+      Left            =   2040
+      TabIndex        =   2
+      Top             =   2040
+      Width           =   1575
+   End
+   Begin VB.ListBox lst 
+      Height          =   2010
+      Left            =   240
+      TabIndex        =   0
+      Top             =   480
+      Width           =   1455
+   End
+   Begin VB.Label lbl 
+      AutoSize        =   -1  'True
+      Caption         =   &quot;Please select a Version to load&quot;
+      Height          =   195
+      Left            =   240
+      TabIndex        =   1
+      Top             =   120
+      Width           =   2175
+   End
+End
+Attribute VB_Name = &quot;frmVersions&quot;
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Public forUpdate As Boolean
+
+Public Function showVersions(oVersions As Versions) As ProcessVersion
+    lst.Clear
+    chkUpdate.Value = vbUnchecked
+    Dim v As ProcessVersion
+    For Each v In oVersions
+        lst.AddItem v.version
+    Next
+    lst.ListIndex = lst.ListCount - 1
+    Me.Show vbModal
+    '/ code stops here until form is hidden
+    forUpdate = (chkUpdate.Value = vbChecked)
+    Set showVersions = oVersions.Item(lst.List(lst.ListIndex))
+    Unload Me
+End Function
+
+Private Sub cmdOK_Click()
+    Me.Hide
+End Sub
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000421.html">[Zebra-checkins] zebra/src/vbcode/ACGProcessVersions Revision.cls,	NONE, 1.1 Revisions.cls, NONE, 1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#420">[ date ]</a>
+              <a href="thread.html#420">[ thread ]</a>
+              <a href="subject.html#420">[ subject ]</a>
+              <a href="author.html#420">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

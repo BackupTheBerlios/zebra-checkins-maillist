@@ -1,0 +1,652 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.3,1.4 Zebra.java,1.8,1.9
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraDefinitionFactory.java%2C1.3%2C1.4%20Zebra.java%2C1.8%2C1.9&In-Reply-To=%3C200603151243.k2FChKb09601%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000261.html">
+   <LINK REL="Next"  HREF="000265.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.3,1.4 Zebra.java,1.8,1.9</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraDefinitionFactory.java%2C1.3%2C1.4%20Zebra.java%2C1.8%2C1.9&In-Reply-To=%3C200603151243.k2FChKb09601%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.3,1.4 Zebra.java,1.8,1.9">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Mar 15 13:43:20 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000261.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraDefinitionsFactoryCleanUpTest.java,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000265.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraDefinitionFactory.java,NONE,1.1 StateFactoryEvent.java,NONE,1.1 ZebraStateFactory.java,NONE,1.1 StateFactoryListener.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#262">[ date ]</a>
+              <a href="thread.html#262">[ thread ]</a>
+              <a href="subject.html#262">[ subject ]</a>
+              <a href="author.html#262">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv28237/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraDefinitionFactory.java Zebra.java 
+Log Message:
+
+
+Index: ZebraDefinitionFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/ZebraDefinitionFactory.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ZebraDefinitionFactory.java	14 Mar 2006 08:25:56 -0000	1.3
+--- ZebraDefinitionFactory.java	15 Mar 2006 11:44:41 -0000	1.4
+***************
+*** 3,10 ****
+  import java.math.BigInteger;
+  import java.util.ArrayList;
+- import java.util.HashMap;
+  import java.util.Iterator;
+  import java.util.List;
+- import java.util.Map;
+  import java.util.Set;
+  
+--- 3,8 ----
+***************
+*** 14,24 ****
+  import org.apache.commons.logging.Log;
+  import org.apache.commons.logging.LogFactory;
+  import org.hibernate.HibernateException;
+- import org.hibernate.LockMode;
+  import org.hibernate.Query;
+  import org.hibernate.Session;
+  import org.hibernate.Transaction;
+  
+- import com.anite.zebra.core.exceptions.DefinitionNotFoundException;
+  import com.anite.zebra.ext.xmlloader.LoadFromFile;
+  import com.anite.zebra.hivemind.om.defs.IXmlDefinition;
+--- 12,22 ----
+  import org.apache.commons.logging.Log;
+  import org.apache.commons.logging.LogFactory;
++ import org.hibernate.Criteria;
+  import org.hibernate.HibernateException;
+  import org.hibernate.Query;
+  import org.hibernate.Session;
+  import org.hibernate.Transaction;
++ import org.hibernate.criterion.Restrictions;
+  
+  import com.anite.zebra.ext.xmlloader.LoadFromFile;
+  import com.anite.zebra.hivemind.om.defs.IXmlDefinition;
+***************
+*** 39,315 ****
+   */
+  public class ZebraDefinitionFactory {
+! 	/** logging */
+! 	private static Log log = LogFactory.getLog(ZebraDefinitionFactory.class);
+! 
+! 	/* Variables for configuration */
+! 	private String processesPath;
+! 
+! 	/**
+! 	 * Hibernate Session for loading definitions
+! 	 */
+! 	private Session session;
+! 
+! 	/**
+! 	 * All the process definitions
+! 	 */
+! 	private Map&lt;String, ZebraProcessDefinition&gt; allProcessDefinitionsByName = new HashMap&lt;String, ZebraProcessDefinition&gt;();
+! 
+! 	private Map&lt;Long, ZebraProcessDefinition&gt; allProcessDefinitionsById = new HashMap&lt;Long, ZebraProcessDefinition&gt;();
+! 
+! 	private Map&lt;Long, ZebraTaskDefinition&gt; latestTaskDefinitionsById = new HashMap&lt;Long, ZebraTaskDefinition&gt;();
+! 
+! 	/**
+! 	 * Get a task definition
+! 	 */
+! 	public ZebraTaskDefinition getTaskDefinition(Long id)
+! 			throws DefinitionNotFoundException {
+! 		ZebraTaskDefinition taskDefinition;
+  
+! 		taskDefinition = this.latestTaskDefinitionsById.get(id);
+  
+! 		if (taskDefinition == null) {
+! 			try {
+  
+! 				taskDefinition = (ZebraTaskDefinition) this.session.get(
+! 						ZebraTaskDefinition.class, id);
+! 			} catch (Exception e) {
+! 				log.error(&quot;Exception while loading task definition:&quot; + id, e);
+! 				throw new DefinitionNotFoundException(e);
+! 			}
+! 		}
+  
+! 		if (taskDefinition == null) {
+! 			throw new DefinitionNotFoundException(
+! 					&quot;Definition not found in DB or Cache:&quot; + id.toString());
+! 		}
+! 		return taskDefinition;
+! 	}
+  
+! 	/**
+! 	 * Checks to see if given definition is in the database
+! 	 * 
+! 	 * @param definition
+! 	 * @return
+! 	 * @throws HibernateException
+! 	 * @throws PersistenceException
+! 	 */
+! 	protected boolean checkIfXmlProcessDefinitionInDatabase(
+! 			ZebraProcessDefinition definition) throws HibernateException {
+  
+! 		Query query = this.session
+! 				.createQuery(&quot;from &quot;
+! 						+ ZebraProcessDefinition.class.getName()
+! 						+ &quot; cpd where cpd.processVersions.name=:name and cpd.version = :version&quot;);
+! 		query.setString(&quot;name&quot;, definition.getName());
+! 		query.setLong(&quot;version&quot;, definition.getVersion().longValue());
+  
+! 		List q = query.list();
+! 		if (q.size() == 1) {
+! 			return true;
+! 		}
+! 		return false;
+  
+! 	}
+  
+! 	/**
+! 	 * Save an XML process definition
+! 	 * 
+! 	 * @param processDefinition
+! 	 * @throws HibernateException
+! 	 * @throws PersistenceException
+! 	 */
+! 	protected void saveXmlProcessDefinitionInDatabase(
+! 			ZebraProcessDefinition processDefinition) throws HibernateException {
+  
+! 		Transaction t = this.session.beginTransaction();
+  
+! 		initXmlSet(processDefinition.getRoutingDefinitions());
+  
+! 		for (Iterator i = processDefinition.getTaskDefinitions().iterator(); i
+! 				.hasNext();) {
+! 			ZebraTaskDefinition taskDefinition = (ZebraTaskDefinition) i.next();
+! 			initXmlId(taskDefinition);
+! 			initXmlSet(taskDefinition.getRoutingOut());
+! 			initXmlSet(taskDefinition.getRoutingIn());
+! 		}
+! 		ZebraProcessVersions processVersions = findOrCreateProcessVersion(processDefinition
+! 				.getName());
+! 		processVersions.addProcessVersion(processDefinition);
+! 		this.session.saveOrUpdate(processDefinition);
+! 		t.commit();
+! 	}
+  
+! 	/**
+! 	 * Finds/Creates a process version
+! 	 * 
+! 	 * @param name
+! 	 * @throws PersistenceException
+! 	 * @throws HibernateException
+! 	 */
+! 	protected ZebraProcessVersions findOrCreateProcessVersion(String name)
+! 			throws HibernateException {
+  
+! 		ZebraProcessVersions processVersions = null;
+! 		Query query = this.session.createQuery(&quot;from &quot;
+! 				+ ZebraProcessVersions.class.getName()
+! 				+ &quot; apv where name=:name&quot;);
+! 		query.setString(&quot;name&quot;, name);
+! 		List q = query.list();
+! 		if (q.size() == 1) {
+! 			processVersions = (ZebraProcessVersions) q.get(0);
+! 		} else if (q.size() == 0) {
+! 			processVersions = new ZebraProcessVersions();
+! 			processVersions.setName(name);
+! 			this.session.save(processVersions);
+! 		} else {
+! 			// More than 1 process with this name (this is impossible!)
+! 			throw new NestableRuntimeException(
+! 					&quot;There is more than one process with name:&quot; + name);
+! 		}
+! 		return processVersions;
+! 	}
+  
+! 	private void initXmlId(IXmlDefinition xmlDefinition) {
+! 		xmlDefinition.setXmlId(xmlDefinition.getId());
+! 		xmlDefinition.setId(null);
+! 	}
+  
+! 	private void initXmlSet(Set xmlSet) {
+! 		for (Iterator j = xmlSet.iterator(); j.hasNext();) {
+! 			IXmlDefinition xmlDefinition = (IXmlDefinition) j.next();
+! 			initXmlId(xmlDefinition);
+! 		}
+! 	}
+  
+! 	/**
+! 	 * Fetches the latest version of each process in a map
+! 	 * 
+! 	 * @return
+! 	 * @throws Exception
+! 	 */
+! 	protected void getDistinctLatestVersions() throws Exception {
+  
+! 		Query q = this.session.createQuery(&quot;from ZebraProcessVersions&quot;);
+! 		List results = q.list();
+! 		for (Iterator i = results.iterator(); i.hasNext();) {
+! 			ZebraProcessVersions zebraProcessVersions = (ZebraProcessVersions) i
+! 					.next();
+! 			ZebraProcessDefinition latestProcessDefinition = (ZebraProcessDefinition) zebraProcessVersions
+! 					.getLatestProcessVersion();
+! 			this.allProcessDefinitionsByName.put(
+! 					zebraProcessVersions.getName(), latestProcessDefinition);
+! 			this.allProcessDefinitionsById.put(latestProcessDefinition.getId(),
+! 					latestProcessDefinition);
+  
+! 			// Cache the last version's task defs only
+! 			Iterator tasks = latestProcessDefinition.getTaskDefinitions()
+! 					.iterator();
+! 			while (tasks.hasNext()) {
+! 				ZebraTaskDefinition taskDefinition = (ZebraTaskDefinition) tasks
+! 						.next();
+! 				this.latestTaskDefinitionsById.put(taskDefinition.getId(),
+! 						taskDefinition);
+! 			}
+! 		}
+! 	}
+  
+! 	/* Avalon Methods */
+! 	/**
+! 	 * Initialize service
+! 	 */
+! 	public void initializeService() throws Exception {
+  
+! 		LoadFromFile loadFromFile = new LoadFromFile();
+! 		loadFromFile.setProcessDefinitionClass(ZebraProcessDefinition.class);
+! 		loadFromFile.setTaskDefinitionClass(ZebraTaskDefinition.class);
+! 		loadFromFile.setProcessVersionsClass(ZebraProcessVersions.class);
+! 		loadFromFile.setPropertyElementClass(ZebraPropertyElement.class);
+! 		loadFromFile.setPropertyGroupsClass(ZebraPropertyGroups.class);
+! 		loadFromFile.setRoutingDefinitionClass(ZebraRoutingDefinition.class);
+  
+! 		loadFromFile.loadProcessDefs(this.processesPath);
+  
+! 		for (Iterator i = loadFromFile.getAllProcessVersions().iterator(); i
+! 				.hasNext();) {
+! 			try {
+! 				ZebraProcessVersions processVersions = (ZebraProcessVersions) i
+! 						.next();
+! 				for (Iterator j = processVersions.getProcessVersions()
+! 						.iterator(); j.hasNext();) {
+! 					ZebraProcessDefinition processDefinition = (ZebraProcessDefinition) j
+! 							.next();
+! 					if (!checkIfXmlProcessDefinitionInDatabase(processDefinition)) {
+! 						saveXmlProcessDefinitionInDatabase(processDefinition);
+! 					}
+! 				}
+! 			} catch (Exception e) {
+! 				log.error(e);
+! 				throw e;
+! 			}
+! 		}
+! 		// Set up the two maps
+! 		getDistinctLatestVersions();
+! 	}
+  
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public List&lt;Long&gt; getTaskDefinitionIds(String processName, String taskName) {
+!     	StringBuffer sql = new StringBuffer();
+!     	sql.append(&quot;SELECT td.id &quot;);
+!     	sql.append(&quot;FROM ZebraProcessDefinition pd, processTaskDefinitions ptd, ZebraTaskDefinition td, ZebraProcessVersions pv &quot;);
+!     	sql.append(&quot;WHERE pd.id=ptd.processDefinitionId &quot;);
+!     	sql.append(&quot;AND pd.versionId=pv.id &quot;);
+!     	sql.append(&quot;AND pd.id=ptd.processDefinitionId &quot;);
+!     	sql.append(&quot;AND ptd.taskDefinitionId=td.id &quot;);
+!     	sql.append(&quot;AND pv.name=:processName &quot;);
+!     	sql.append(&quot;AND td.name=:taskName&quot;);
+!     	
+!     	Query q = session.createSQLQuery(sql.toString());
+!     	q.setString(&quot;processName&quot;, processName);
+!     	q.setString(&quot;taskName&quot;, taskName);
+!     	
+!     	// Query stupidly returns a list of BigIntegers. 
+!     	// Need to convert them into Longs. Yawn.
+!     	List&lt;BigInteger&gt; results = q.list();
+!     	List&lt;Long&gt; properResults = new ArrayList&lt;Long&gt;(results.size());
+!     	for (BigInteger i : results) {
+!     		properResults.add(i.longValue());
+!     	}
+!     	
+!     	return properResults;
+      }
+  
+! 	public Session getSession() {
+! 		return this.session;
+! 	}
+  
+! 	public void setSession(Session session) {
+! 		this.session = session;
+! 	}
+  
+! 	public ZebraProcessDefinition getProcessDefinitionById(Long id) {
+! 		ZebraProcessDefinition processDef = allProcessDefinitionsById.get(id);
+! 		session.lock(processDef, LockMode.NONE);
+! 		return processDef;
+! 	}
+  
+! 	public ZebraProcessDefinition getProcessDefinitionByName(String name) {
+! 		ZebraProcessDefinition processDef = allProcessDefinitionsByName.get(name);
+! 		session.lock(processDef, LockMode.NONE);
+! 		return processDef;
+! 	}
+  
+! 	public ZebraTaskDefinition getTaskDefinitionById(Long id) {
+! 		ZebraTaskDefinition taskDef = latestTaskDefinitionsById.get(id);
+! 		session.lock(taskDef, LockMode.NONE);
+! 		return taskDef;
+! 	}
+  
+! 	public String getProcessesPath() {
+! 		return this.processesPath;
+! 	}
+  
+! 	public void setProcessesPath(String processesPath) {
+! 		this.processesPath = processesPath;
+! 	}
+  
+  }
+--- 37,277 ----
+   */
+  public class ZebraDefinitionFactory {
+!     /** logging */
+!     private static Log log = LogFactory.getLog(ZebraDefinitionFactory.class);
+  
+!     /* Variables for configuration */
+!     private String processesPath;
+  
+!     /**
+!      * Hibernate Session for loading definitions
+!      */
+!     private Session session;
+  
+!     /**
+!      * All the process definitions
+!      */
+!     //private Map&lt;String, ZebraProcessDefinition&gt; allProcessDefinitionsByName = new HashMap&lt;String, ZebraProcessDefinition&gt;();
+!     //	private Map&lt;Long, ZebraProcessDefinition&gt; allProcessDefinitionsById = new HashMap&lt;Long, ZebraProcessDefinition&gt;();
+!     //private Map&lt;Long, ZebraTaskDefinition&gt; latestTaskDefinitionsById = new HashMap&lt;Long, ZebraTaskDefinition&gt;();
+!     /**
+!      * Get a task definition
+!      */
+!     public ZebraTaskDefinition getTaskDefinition(Long id) {
+!         ZebraTaskDefinition taskDefinition;
+!         taskDefinition = (ZebraTaskDefinition) this.session.get(ZebraTaskDefinition.class, id);
+!         return taskDefinition;
+!     }
+  
+!     /**
+!      * Checks to see if given definition is in the database
+!      * 
+!      * @param definition
+!      * @return
+!      * @throws HibernateException
+!      * @throws PersistenceException
+!      */
+!     protected boolean checkIfXmlProcessDefinitionInDatabase(ZebraProcessDefinition definition)
+!             throws HibernateException {
+  
+!         Query query = this.session.createQuery(&quot;from &quot; + ZebraProcessDefinition.class.getName()
+!                 + &quot; cpd where cpd.processVersions.name=:name and cpd.version = :version&quot;);
+!         query.setString(&quot;name&quot;, definition.getName());
+!         query.setLong(&quot;version&quot;, definition.getVersion().longValue());
+  
+!         List q = query.list();
+!         if (q.size() == 1) {
+!             return true;
+!         }
+!         return false;
+  
+!     }
+  
+!     /**
+!      * Save an XML process definition
+!      * 
+!      * @param processDefinition
+!      * @throws HibernateException
+!      * @throws PersistenceException
+!      */
+!     protected void saveXmlProcessDefinitionInDatabase(ZebraProcessDefinition processDefinition)
+!             throws HibernateException {
+  
+!         Transaction t = this.session.beginTransaction();
+  
+!         initXmlSet(processDefinition.getRoutingDefinitions());
+  
+!         for (Iterator i = processDefinition.getTaskDefinitions().iterator(); i.hasNext();) {
+!             ZebraTaskDefinition taskDefinition = (ZebraTaskDefinition) i.next();
+!             initXmlId(taskDefinition);
+!             initXmlSet(taskDefinition.getRoutingOut());
+!             initXmlSet(taskDefinition.getRoutingIn());
+!         }
+!         ZebraProcessVersions processVersions = findOrCreateProcessVersion(processDefinition.getName());
+!         processVersions.addProcessVersion(processDefinition);
+!         this.session.saveOrUpdate(processDefinition);
+!         t.commit();
+!     }
+  
+!     /**
+!      * Finds/Creates a process version
+!      * 
+!      * @param name
+!      * @throws PersistenceException
+!      * @throws HibernateException
+!      */
+!     protected ZebraProcessVersions findOrCreateProcessVersion(String name) throws HibernateException {
+  
+!         ZebraProcessVersions processVersions = null;
+!         Query query = this.session
+!                 .createQuery(&quot;from &quot; + ZebraProcessVersions.class.getName() + &quot; apv where name=:name&quot;);
+!         query.setString(&quot;name&quot;, name);
+!         List q = query.list();
+!         if (q.size() == 1) {
+!             processVersions = (ZebraProcessVersions) q.get(0);
+!         } else if (q.size() == 0) {
+!             processVersions = new ZebraProcessVersions();
+!             processVersions.setName(name);
+!             this.session.save(processVersions);
+!         } else {
+!             // More than 1 process with this name (this is impossible!)
+!             throw new NestableRuntimeException(&quot;There is more than one process with name:&quot; + name);
+!         }
+!         return processVersions;
+!     }
+  
+!     private void initXmlId(IXmlDefinition xmlDefinition) {
+!         xmlDefinition.setXmlId(xmlDefinition.getId());
+!         xmlDefinition.setId(null);
+!     }
+  
+!     private void initXmlSet(Set xmlSet) {
+!         for (Iterator j = xmlSet.iterator(); j.hasNext();) {
+!             IXmlDefinition xmlDefinition = (IXmlDefinition) j.next();
+!             initXmlId(xmlDefinition);
+!         }
+!     }
+  
+!     //    /**
+!     //     * Fetches the latest version of each process in a map
+!     //     * 
+!     //     * @return
+!     //     * @throws Exception
+!     //     */
+!     //    protected void getDistinctLatestVersions() throws Exception {
+!     //
+!     //        Query q = this.session.createQuery(&quot;from ZebraProcessVersions&quot;);
+!     //        List results = q.list();
+!     //        for (Iterator i = results.iterator(); i.hasNext();) {
+!     //            ZebraProcessVersions zebraProcessVersions = (ZebraProcessVersions) i.next();
+!     //            ZebraProcessDefinition latestProcessDefinition = (ZebraProcessDefinition) zebraProcessVersions
+!     //                    .getLatestProcessVersion();
+!     //            this.allProcessDefinitionsByName.put(zebraProcessVersions.getName(), latestProcessDefinition);
+!     //            this.allProcessDefinitionsById.put(latestProcessDefinition.getId(), latestProcessDefinition);
+!     //
+!     //            // Cache the last version's task defs only
+!     //            Iterator tasks = latestProcessDefinition.getTaskDefinitions().iterator();
+!     //            while (tasks.hasNext()) {
+!     //                ZebraTaskDefinition taskDefinition = (ZebraTaskDefinition) tasks.next();
+!     //                this.latestTaskDefinitionsById.put(taskDefinition.getId(), taskDefinition);
+!     //            }
+!     //        }
+!     //    }
+  
+!     /**
+!      * Initialize service
+!      */
+!     public void initializeService() throws Exception {
+  
+!         LoadFromFile loadFromFile = new LoadFromFile();
+!         loadFromFile.setProcessDefinitionClass(ZebraProcessDefinition.class);
+!         loadFromFile.setTaskDefinitionClass(ZebraTaskDefinition.class);
+!         loadFromFile.setProcessVersionsClass(ZebraProcessVersions.class);
+!         loadFromFile.setPropertyElementClass(ZebraPropertyElement.class);
+!         loadFromFile.setPropertyGroupsClass(ZebraPropertyGroups.class);
+!         loadFromFile.setRoutingDefinitionClass(ZebraRoutingDefinition.class);
+  
+!         loadFromFile.loadProcessDefs(this.processesPath);
+  
+!         for (Iterator i = loadFromFile.getAllProcessVersions().iterator(); i.hasNext();) {
+!             try {
+!                 ZebraProcessVersions processVersions = (ZebraProcessVersions) i.next();
+!                 for (Iterator j = processVersions.getProcessVersions().iterator(); j.hasNext();) {
+!                     ZebraProcessDefinition processDefinition = (ZebraProcessDefinition) j.next();
+!                     if (!checkIfXmlProcessDefinitionInDatabase(processDefinition)) {
+!                         saveXmlProcessDefinitionInDatabase(processDefinition);
+!                     }
+!                 }
+!             } catch (Exception e) {
+!                 log.error(e);
+!                 throw e;
+!             }
+!         }
+!     }
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+!     public List&lt;Long&gt; getTaskDefinitionIds(String processName, String taskName) {
+!         StringBuffer sql = new StringBuffer();
+!         sql.append(&quot;SELECT td.id &quot;);
+!         sql
+!                 .append(&quot;FROM ZebraProcessDefinition pd, processTaskDefinitions ptd, ZebraTaskDefinition td, ZebraProcessVersions pv &quot;);
+!         sql.append(&quot;WHERE pd.id=ptd.processDefinitionId &quot;);
+!         sql.append(&quot;AND pd.versionId=pv.id &quot;);
+!         sql.append(&quot;AND pd.id=ptd.processDefinitionId &quot;);
+!         sql.append(&quot;AND ptd.taskDefinitionId=td.id &quot;);
+!         sql.append(&quot;AND pv.name=:processName &quot;);
+!         sql.append(&quot;AND td.name=:taskName&quot;);
+  
+!         Query q = session.createSQLQuery(sql.toString());
+!         q.setString(&quot;processName&quot;, processName);
+!         q.setString(&quot;taskName&quot;, taskName);
+  
+!         // Query stupidly returns a list of BigIntegers. 
+!         // Need to convert them into Longs. Yawn.
+!         List&lt;BigInteger&gt; results = q.list();
+!         List&lt;Long&gt; properResults = new ArrayList&lt;Long&gt;(results.size());
+!         for (BigInteger i : results) {
+!             properResults.add(i.longValue());
+!         }
+  
+!         return properResults;
+      }
+  
+!     public Session getSession() {
+!         return this.session;
+!     }
+  
+!     public void setSession(Session session) {
+!         this.session = session;
+!     }
+  
+!     public ZebraProcessDefinition getProcessDefinitionById(Long id) {
+!         return (ZebraProcessDefinition) session.load(ZebraProcessDefinition.class, id);
+!     }
+  
+!     public ZebraProcessDefinition getProcessDefinitionByName(String name) {
+!         Criteria criteria = session.createCriteria(ZebraProcessVersions.class);
+!         criteria.add(Restrictions.eq(&quot;name&quot;, name));
+!         ZebraProcessVersions versions = (ZebraProcessVersions) criteria.uniqueResult();
+!         return (ZebraProcessDefinition) versions.getLatestProcessVersion();
+!         
+!     }
+  
+!     /**
+!      * Use getTaskDefinition instead
+!      * @deprecated
+!      * @param id
+!      * @return
+!      */
+!     public ZebraTaskDefinition getTaskDefinitionById(Long id) {
+!         return this.getTaskDefinition(id);
+!     }
+  
+!     public String getProcessesPath() {
+!         return this.processesPath;
+!     }
+  
+!     public void setProcessesPath(String processesPath) {
+!         this.processesPath = processesPath;
+!     }
+  
+  }
+
+Index: Zebra.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/Zebra.java,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+*** Zebra.java	9 Mar 2006 10:14:17 -0000	1.8
+--- Zebra.java	15 Mar 2006 11:44:41 -0000	1.9
+***************
+*** 23,27 ****
+  import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+- import org.hibernate.LockMode;
+  
+  import com.anite.zebra.core.Engine;
+--- 23,26 ----
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000261.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraDefinitionsFactoryCleanUpTest.java,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000265.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraDefinitionFactory.java,NONE,1.1 StateFactoryEvent.java,NONE,1.1 ZebraStateFactory.java,NONE,1.1 StateFactoryListener.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#262">[ date ]</a>
+              <a href="thread.html#262">[ thread ]</a>
+              <a href="subject.html#262">[ subject ]</a>
+              <a href="author.html#262">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

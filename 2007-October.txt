@@ -1,0 +1,3760 @@
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:17 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:17 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFD frmVersions.frm,NONE,1.1
+Message-ID: <20071016155417.3728611095E@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv11100/src/vbcode/ACGWFD
+
+Added Files:
+	frmVersions.frm 
+Log Message:
+
+
+--- NEW FILE: frmVersions.frm ---
+VERSION 5.00
+Begin VB.Form frmVersions 
+   BorderStyle     =   3  'Fixed Dialog
+   Caption         =   "Select Version"
+   ClientHeight    =   2655
+   ClientLeft      =   45
+   ClientTop       =   330
+   ClientWidth     =   3705
+   ControlBox      =   0   'False
+   BeginProperty Font 
+      Name            =   "Tahoma"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   2655
+   ScaleWidth      =   3705
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   3  'Windows Default
+   Begin VB.CheckBox chkUpdate 
+      Caption         =   "Open for Update"
+      Height          =   255
+      Left            =   2040
+      TabIndex        =   3
+      ToolTipText     =   "If this option is checked you will not be able to remove Tasks or Routing lines."
+      Top             =   1560
+      Width           =   1575
+   End
+   Begin VB.CommandButton cmdOK 
+      Caption         =   "OK"
+      Height          =   495
+      Left            =   2040
+      TabIndex        =   2
+      Top             =   2040
+      Width           =   1575
+   End
+   Begin VB.ListBox lst 
+      Height          =   2010
+      Left            =   240
+      TabIndex        =   0
+      Top             =   480
+      Width           =   1455
+   End
+   Begin VB.Label lbl 
+      AutoSize        =   -1  'True
+      Caption         =   "Please select a Version to load"
+      Height          =   195
+      Left            =   240
+      TabIndex        =   1
+      Top             =   120
+      Width           =   2175
+   End
+End
+Attribute VB_Name = "frmVersions"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Public forUpdate As Boolean
+
+Public Function showVersions(oVersions As Versions) As ProcessVersion
+    lst.Clear
+    chkUpdate.Value = vbUnchecked
+    Dim v As ProcessVersion
+    For Each v In oVersions
+        lst.AddItem v.version
+    Next
+    lst.ListIndex = lst.ListCount - 1
+    Me.Show vbModal
+    '/ code stops here until form is hidden
+    forUpdate = (chkUpdate.Value = vbChecked)
+    Set showVersions = oVersions.Item(lst.List(lst.ListIndex))
+    Unload Me
+End Function
+
+Private Sub cmdOK_Click()
+    Me.Hide
+End Sub
+
+
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:17 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:17 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProcessVersions Revision.cls,
+	NONE, 1.1 Revisions.cls, NONE, 1.1
+Message-ID: <20071016155417.25ABB110727@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProcessVersions
+In directory sheep:/tmp/cvs-serv11100/src/vbcode/ACGProcessVersions
+
+Added Files:
+	Revision.cls Revisions.cls 
+Log Message:
+
+
+--- NEW FILE: Revision.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Revision"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+'/*
+' * Copyright 2004 Anite - Central Government Division
+' *    http://www.anite.com/publicsector
+' *
+' * Licensed under the Apache License, Revision 2.0 (the "License");
+' * you may not use this file except in compliance with the License.
+' * You may obtain a copy of the License at
+' *
+' *    http://www.apache.org/licenses/LICENSE-2.0
+' *
+' * Unless required by applicable law or agreed to in writing, software
+' * distributed under the License is distributed on an "AS IS" BASIS,
+' * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+' * See the License for the specific language governing permissions and
+' * limitations under the License.
+' */
+Option Explicit
+
+Private mProcessDef As ProcessDef
+Private mlngRevision As Long
+
+Private moParent As ACGContainer.Container
+Public Property Get Revision() As Long
+    Revision = mlngRevision
+End Property
+
+Public Property Get ProcessDef()
+    Set ProcessDef = mProcessDef
+End Property
+
+Friend Sub Init(oProcessDef As ProcessDef, lngRevision As Long, oParent As Container)
+    Set mProcessDef = oProcessDef
+    mlngRevision = lngRevision
+    Set moParent = oParent
+End Sub
+
+Public Property Get Revisions() As Revisions
+    Set Revisions = moParent.GetParent
+End Property
+
+
+--- NEW FILE: Revisions.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Revisions"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+'/*
+' * Copyright 2004 Anite - Central Government Division
+' *    http://www.anite.com/publicsector
+' *
+' * Licensed under the Apache License, Revision 2.0 (the "License");
+' * you may not use this file except in compliance with the License.
+' * You may obtain a copy of the License at
+' *
+' *    http://www.apache.org/licenses/LICENSE-2.0
+' *
+' * Unless required by applicable law or agreed to in writing, software
+' * distributed under the License is distributed on an "AS IS" BASIS,
+' * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+' * See the License for the specific language governing permissions and
+' * limitations under the License.
+' */
+Option Explicit
+
+Private mlngMaxRevision As Long
+Private moParent As ACGContainer.Container
+Private mcol As Collection
+Private WithEvents moThis As ACGContainer.Container
+Attribute moThis.VB_VarHelpID = -1
+
+Friend Sub Init(oParent As Container)
+    Set mcol = New Collection
+    Set moThis = New ACGContainer.Container
+    Set moParent = oParent
+End Sub
+
+Private Sub moThis_GetMe(oReturn As Object)
+    Set oReturn = Me
+End Sub
+
+Public Function Add(Optional ByVal oProcessDef As ProcessDef = Nothing, Optional ByVal lngRevision As Long = -1) As Revision
+    Dim oNew As Revision
+    Set oNew = New Revision
+    If oProcessDef Is Nothing Then
+        oProcessDef = New ProcessDef
+    End If
+    If lngRevision = -1 Then
+        lngRevision = mlngMaxRevision + 1
+    ElseIf lngRevision > mlngMaxRevision Then
+        mlngMaxRevision = lngRevision
+    End If
+    oNew.Init oProcessDef, lngRevision, moThis
+    mcol.Add oNew, "@" & lngRevision
+    Set Add = oNew
+End Function
+
+Public Property Get MaxVer() As Long
+    MaxVer = mlngMaxRevision
+End Property
+
+Public Property Get Item(RevisionId As Long) As Revision
+    Set Item = mcol("@" & RevisionId)
+End Property
+
+Public Property Get Count() As Long
+    Count = mcol.Count
+End Property
+
+Public Property Get ItemByPos(Index As Long) As Revision
+    Set ItemByPos = mcol(Index)
+End Property
+
+Public Property Get NewEnum() As IUnknown
+    'this property allows you to enumerate
+    'this collection with the For...Each syntax
+    Set NewEnum = mcol.[_NewEnum]
+End Property
+
+Public Property Get Version() As ProcessVersion
+    Set Version = moParent.GetParent
+End Property
+
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:17 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:17 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode AllProjects.vbg,NONE,1.1
+Message-ID: <20071016155417.46C161109AF@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode
+In directory sheep:/tmp/cvs-serv11100/src/vbcode
+
+Added Files:
+	AllProjects.vbg 
+Log Message:
+
+
+--- NEW FILE: AllProjects.vbg ---
+VBGROUP 5.0
+StartupProject=ACGWFD\ACGWFD.vbp
+Project=ACGContainer\ACGContainer.vbp
+Project=ACGWFDHelper\ACGWFDHelper.vbp
+Project=ACGProcessDefs\ACGProcessDefs.vbp
+Project=ACGProcessVersions\ACGZVER.vbp
+Project=ACGProperties\ACGProperties.vbp
+Project=ACGPropertyGrid\PropertyGridControl.vbp
+Project=ACGWFDXML\ACGWFDXML.vbp
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:17 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:17 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProperties
+	ACGProperties.compatible, NONE, 1.1
+Message-ID: <20071016155417.59335110C00@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProperties
+In directory sheep:/tmp/cvs-serv11100/src/vbcode/ACGProperties
+
+Added Files:
+	ACGProperties.compatible 
+Log Message:
+
+
+--- NEW FILE: ACGProperties.compatible ---
+(This appears to be a binary file; contents omitted.)
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:17 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:17 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDXML XMLRevision.cls, NONE,
+	1.1
+Message-ID: <20071016155417.7876E110C29@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML
+In directory sheep:/tmp/cvs-serv11100/src/vbcode/ACGWFDXML
+
+Added Files:
+	XMLRevision.cls 
+Log Message:
+
+
+--- NEW FILE: XMLRevision.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "XMLRevision"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+'/*
+' * Copyright 2004 Anite - Central Government Division
+' *    http://www.anite.com/publicsector
+' *
+' * Licensed under the Apache License, Revision 2.0 (the "License");
+' * you may not use this file except in compliance with the License.
+' * You may obtain a copy of the License at
+' *
+' *    http://www.apache.org/licenses/LICENSE-2.0
+' *
+' * Unless required by applicable law or agreed to in writing, software
+' * distributed under the License is distributed on an "AS IS" BASIS,
+' * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+' * See the License for the specific language governing permissions and
+' * limitations under the License.
+' */
+Option Explicit
+Private Const mcstrXMLRevision As String = "1.0"
+
+Public Function FileLoadXML(FileName As String, oRevisions As Revisions, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates) As Boolean
+    On Error GoTo Err_Handler
+    Dim oDoc As MSXML2.DOMDocument
+    Dim oRoot As MSXML2.IXMLDOMNode
+    Set oDoc = New MSXML2.DOMDocument
+    oDoc.Load FileName
+    
+    Set oRoot = oDoc.firstChild
+    
+    If oRoot.nodeName <> "ACGWFDNative" Then
+        FileLoadXML = False
+        Exit Function
+    End If
+    Dim strRevision As String
+    strRevision = oRoot.Attributes.getNamedItem("Revision").nodeValue
+    
+    Dim oNode As IXMLDOMNode
+    
+    If strRevision = mcstrXMLRevision Then
+        FileLoadXML = XMLRevisions(oRevisions, oRoot.firstChild, oProcessTemplates, oTaskTemplates)
+    Else
+        '/ bad version number
+        FileLoadXML = False
+    End If
+    Exit Function
+Err_Handler:
+    Stop
+    Resume 0
+End Function
+
+Private Function XMLRevisions(oRevisions As Revisions, oRoot As MSXML2.IXMLDOMNode, oProcessTemplates As ProcessTemplates, oTaskTemplates As TaskTemplates) As Boolean
+    On Error GoTo Err_Handler
+    
+    Dim oNode As IXMLDOMNode
+    
+    If StrComp(oRoot.nodeName, "Revisions", vbTextCompare) <> 0 Then
+        Exit Function
+    End If
+    
+    For Each oNode In oRoot.childNodes
+        If StrComp(oNode.nodeName, "Revision", vbTextCompare) = 0 Then
+            If Not XMLRevision(oRevisions, oNode, oProcessTemplates, oTaskTemplates) Then
+                Exit Function
+            End If
+        End If
+    Next
+    XMLRevisions = True
+    Exit Function
+Err_Handler:
+    Stop
+    Resume 0
+End Function
+Private Function XMLRevision(oRevisions As Revisions, oRoot As MSXML2.IXMLDOMNode, oProcessTemplates As ProcessTemplates, oTaskTemplates As TaskTemplates) As Boolean
+    On Error GoTo Err_Handler
+    
+    Dim oNode As IXMLDOMNode
+    
+    If StrComp(oRoot.nodeName, "Revision", vbTextCompare) <> 0 Then
+        Exit Function
+    End If
+    
+    Dim lngRevision As Long
+    lngRevision = CLng(GetNodeAttr(oRoot, "RevisionID", -1))
+    
+    If lngRevision = -1 Then
+        '/ something wrong!
+        Exit Function
+    End If
+    
+    Dim oImport As XMLProcessDef
+    Dim oProcessDef As ProcessDef
+    
+    Set oProcessDef = New ProcessDef
+    
+    Set oImport = New XMLProcessDef
+    
+    For Each oNode In oRoot.childNodes
+        If StrComp(oNode.nodeName, "ProcessDef", vbTextCompare) = 0 Then
+            If Not (oImport.XMLProcess(oProcessDef, oNode, oProcessTemplates, oTaskTemplates)) Then
+                Exit Function
+            End If
+            
+        End If
+    Next
+    
+    oRevisions.Add oProcessDef, lngRevision
+    
+    XMLRevision = True
+    Exit Function
+Err_Handler:
+    Stop
+    Resume 0
+End Function
+
+'/ saves the process definition to an XML file
+Public Function FileSaveXML(FileName As String, oRevisions As Revisions, oProcessDef As ProcessDef) As Boolean
+    
+    Dim oRevision As Revision
+    Set oRevision = oRevisions.Add(oProcessDef)
+    
+    '/ now have our version number
+    
+    Dim oRoot As MSXML2.IXMLDOMNode
+    
+    Dim oDoc As MSXML2.DOMDocument
+    Set oDoc = GetDoc(FileName)
+    Set oRoot = GetRevisionRoot(oDoc.firstChild)
+    Dim oNode As MSXML2.IXMLDOMNode
+    Set oNode = XMLNode(oRoot, "Revision")
+    oRoot.appendChild oNode
+    XMLAttr oNode, "RevisionID", oRevision.version
+    Dim oExport As XMLProcessDef
+    Set oExport = New XMLProcessDef
+    
+    If Not oExport.ProcessXML(oProcessDef, oNode) Then
+        Exit Function
+    End If
+    
+    oDoc.save FileName
+    
+    FileSaveXML = True
+End Function
+
+Private Function GetDoc(FileName As String) As DOMDocument
+    Dim oDoc As DOMDocument
+    Dim oRoot As IXMLDOMNode
+    If Len(Dir$(FileName)) > 0 Then
+        Set oDoc = New DOMDocument
+        oDoc.Load FileName
+        Set GetDoc = oDoc
+        Exit Function
+    End If
+    
+    Set oRoot = XMLDoc("ACGWFDNative")
+    XMLAttr oRoot, "Revision", mcstrXMLRevision
+        
+    oRoot.appendChild XMLNode(oRoot, "Revisions")
+    Set GetDoc = oRoot.ownerDocument
+End Function
+
+Private Function GetRevisionRoot(oRoot As IXMLDOMNode) As IXMLDOMNode
+    Dim oNode As IXMLDOMNode
+    If oRoot.nodeName <> "ACGWFDNative" Then
+        Exit Function
+    End If
+    For Each oNode In oRoot.childNodes
+        If StrComp(oNode.nodeName, "Revisions", vbTextCompare) = 0 Then
+            Set GetRevisionRoot = oNode
+            Exit Function
+        End If
+    Next
+    
+End Function
+    
+
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:37 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:37 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProcessDefs ACGProcessDefs.vbp,
+	1.2, 1.3 ACGProcessDefs.vbw, 1.4, 1.5
+Message-ID: <20071016155437.12C5111095E@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProcessDefs
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGProcessDefs
+
+Modified Files:
+	ACGProcessDefs.vbp ACGProcessDefs.vbw 
+Log Message:
+
+
+Index: ACGProcessDefs.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProcessDefs/ACGProcessDefs.vbp,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ACGProcessDefs.vbp	3 Feb 2005 11:56:48 -0000	1.2
+--- ACGProcessDefs.vbp	16 Oct 2007 15:53:51 -0000	1.3
+***************
+*** 1,7 ****
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
+! Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\..\..\..\..\..\..\..\DOCUME~1\matt\MYDOCU~1\SOURCE~1\ZEBRAT~1.ORG\src\vbcode\ACGPRO~2\ACGPRO~1.DLL#
+! Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\..\..\..\..\..\..\..\DOCUME~1\matt\MYDOCU~1\SOURCE~1\ZEBRAT~1.ORG\src\vbcode\ACGCON~1\ACGCON~1.DLL#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\..\..\..\..\..\..\..\DOCUME~1\matt\MYDOCU~1\SOURCE~1\ZEBRAT~1.ORG\src\vbcode\ACGWFD~1\ACGWFD~1.DLL#
+  Class=ProcessDef; ProcessDef.cls
+  Class=TaskDef; TaskDef.cls
+--- 1,7 ----
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+! Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\..\..\..\..\..\matt\MYDOCU~1\SOURCE~1\ZEBRAT~1.ORG\src\vbcode\ACGPRO~2\ACGPRO~1.DLL#
+! Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\ACGContainer\ACGContainer.dll#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\..\..\..\..\..\matt\MYDOCU~1\SOURCE~1\ZEBRAT~1.ORG\src\vbcode\ACGWFD~1\ACGWFD~1.DLL#
+  Class=ProcessDef; ProcessDef.cls
+  Class=TaskDef; TaskDef.cls
+
+Index: ACGProcessDefs.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProcessDefs/ACGProcessDefs.vbw,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** ACGProcessDefs.vbw	20 May 2005 16:06:43 -0000	1.4
+--- ACGProcessDefs.vbw	16 Oct 2007 15:53:51 -0000	1.5
+***************
+*** 1,11 ****
+! ProcessDef = 88, 88, 718, 490, 
+! TaskDef = 154, 154, 784, 556, 
+! RoutingDef = 154, 154, 784, 556, 
+! Routings = 176, 176, 806, 578, 
+  Tasks = 176, 176, 806, 578, 
+! RoutingList = 0, 0, 630, 402, 
+! TaskTemplate = 0, 0, 630, 402, 
+! TaskTemplates = 22, 22, 652, 424, 
+  basMain = 66, 66, 696, 468, C
+! ProcessTemplate = 110, 110, 740, 512, 
+! ProcessTemplates = 132, 132, 762, 534, 
+--- 1,11 ----
+! ProcessDef = 88, 88, 718, 490, C
+! TaskDef = 154, 154, 784, 556, C
+! RoutingDef = 154, 154, 784, 556, C
+! Routings = 176, 176, 806, 578, C
+  Tasks = 176, 176, 806, 578, 
+! RoutingList = 0, 0, 630, 402, C
+! TaskTemplate = 0, 0, 630, 402, C
+! TaskTemplates = 22, 22, 652, 424, C
+  basMain = 66, 66, 696, 468, C
+! ProcessTemplate = 110, 110, 740, 512, C
+! ProcessTemplates = 132, 132, 762, 534, C
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:37 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:37 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProcessVersions ACGZVER.vbp,
+	1.2, 1.3 Versions.cls, 1.2, 1.3
+Message-ID: <20071016155437.4CEA01109AF@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProcessVersions
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGProcessVersions
+
+Modified Files:
+	ACGZVER.vbp Versions.cls 
+Log Message:
+
+
+Index: ACGZVER.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProcessVersions/ACGZVER.vbp,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ACGZVER.vbp	3 Feb 2005 11:58:26 -0000	1.2
+--- ACGZVER.vbp	16 Oct 2007 15:53:52 -0000	1.3
+***************
+*** 1,8 ****
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\WINDOWS\System32\stdole2.tlb#OLE Automation
+  Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\ACGProcessDefs\ACGProcessDefs.dll#ACGProcessDefs
+! Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\..\..\..\..\..\..\..\DOCUME~1\matt\MYDOCU~1\SOURCE~1\ZEBRAT~1.ORG\src\vbcode\ACGCON~1\ACGCON~1.DLL#ACGContainer
+  Class=ProcessVersion; ProcessVersion.cls
+  Class=Versions; Versions.cls
+  Startup="(None)"
+  HelpFile=""
+--- 1,10 ----
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+  Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\ACGProcessDefs\ACGProcessDefs.dll#ACGProcessDefs
+! Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\ACGContainer\ACGContainer.dll#
+  Class=ProcessVersion; ProcessVersion.cls
+  Class=Versions; Versions.cls
++ Class=Revisions; ..\..\..\..\..\..\..\..\..\Documents and Settings\Matthew.Norris\My Documents\Projects\Zebra\zebra\src\vbcode\ACGProcessVersions\Revisions.cls
++ Class=Revision; ..\..\..\..\..\..\..\..\..\Documents and Settings\Matthew.Norris\My Documents\Projects\Zebra\zebra\src\vbcode\ACGProcessVersions\Revision.cls
+  Startup="(None)"
+  HelpFile=""
+
+Index: Versions.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProcessVersions/Versions.cls,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** Versions.cls	3 Feb 2005 11:58:26 -0000	1.2
+--- Versions.cls	16 Oct 2007 15:53:52 -0000	1.3
+***************
+*** 85,86 ****
+--- 85,89 ----
+  End Property
+  
++ Public Sub Remove(pv As ProcessVersion)
++     mcol.Remove "@" & pv.Version
++ End Sub
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:37 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:37 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProperties ACGProperties.vbp,
+	1.2, 1.3 ACGProperties.vbw, 1.3, 1.4
+Message-ID: <20071016155437.856F711095E@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProperties
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGProperties
+
+Modified Files:
+	ACGProperties.vbp ACGProperties.vbw 
+Log Message:
+
+
+Index: ACGProperties.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProperties/ACGProperties.vbp,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ACGProperties.vbp	3 Feb 2005 11:58:49 -0000	1.2
+--- ACGProperties.vbp	16 Oct 2007 15:53:52 -0000	1.3
+***************
+*** 1,4 ****
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\WINDOWS\System32\STDOLE2.TLB#OLE Automation
+  Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\ACGContainer\ACGContainer.dll#
+  Class=PropertyGroup; PropertyGroup.cls
+--- 1,4 ----
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+  Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\ACGContainer\ACGContainer.dll#
+  Class=PropertyGroup; PropertyGroup.cls
+***************
+*** 15,19 ****
+  HelpContextID="0"
+  CompatibleMode="2"
+! CompatibleEXE32="ACGProperties.dll"
+  VersionCompatible32="1"
+  MajorVer=1
+--- 15,19 ----
+  HelpContextID="0"
+  CompatibleMode="2"
+! CompatibleEXE32="ACGProperties.compatible"
+  VersionCompatible32="1"
+  MajorVer=1
+
+Index: ACGProperties.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProperties/ACGProperties.vbw,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ACGProperties.vbw	7 Dec 2005 12:49:38 -0000	1.3
+--- ACGProperties.vbw	16 Oct 2007 15:53:52 -0000	1.4
+***************
+*** 1,5 ****
+! PropertyGroup = 66, 66, 696, 468, 
+! basProperties = 110, 110, 740, 512, 
+! GPropertyHelper = 0, 0, 630, 402, 
+  Properties = 44, 44, 674, 446, C
+! Property = 88, 88, 718, 490, 
+--- 1,5 ----
+! PropertyGroup = 66, 66, 696, 468, C
+! basProperties = 110, 110, 740, 512, C
+! GPropertyHelper = 0, 0, 630, 402, C
+  Properties = 44, 44, 674, 446, C
+! Property = 88, 88, 718, 490, C
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:37 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:37 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGPropertyGrid
+	PropertyGridControl.vbp, 1.3, 1.4
+Message-ID: <20071016155437.C06FF110D15@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGPropertyGrid
+
+Modified Files:
+	PropertyGridControl.vbp 
+Log Message:
+
+
+Index: PropertyGridControl.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid/PropertyGridControl.vbp,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** PropertyGridControl.vbp	7 Dec 2005 12:49:40 -0000	1.3
+--- PropertyGridControl.vbp	16 Oct 2007 15:53:52 -0000	1.4
+***************
+*** 1,4 ****
+  Type=Control
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+  Object={C0A63B80-4B21-11D3-BD95-D426EF2C7949}#1.0#0; vsflex7l.ocx
+  Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\ACGProperties\ACGProperties.dll#
+--- 1,4 ----
+  Type=Control
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+  Object={C0A63B80-4B21-11D3-BD95-D426EF2C7949}#1.0#0; vsflex7l.ocx
+  Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\ACGProperties\ACGProperties.dll#
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:38 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:38 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDHelper ACGWFDHelper.vbp, 1.2,
+	1.3 ACGWFDHelper.vbw, 1.3, 1.4
+Message-ID: <20071016155438.0CBC21109AF@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDHelper
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGWFDHelper
+
+Modified Files:
+	ACGWFDHelper.vbp ACGWFDHelper.vbw 
+Log Message:
+
+
+Index: ACGWFDHelper.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDHelper/ACGWFDHelper.vbp,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ACGWFDHelper.vbp	3 Feb 2005 12:01:33 -0000	1.2
+--- ACGWFDHelper.vbp	16 Oct 2007 15:53:52 -0000	1.3
+***************
+*** 1,5 ****
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\..\WINDOWS\System32\STDOLE2.TLB#OLE Automation
+! Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#4.0#0#..\..\..\..\..\..\..\..\..\..\WINDOWS\System32\msxml4.dll#Microsoft XML, v4.0
+  Class=StringTokenizer; StringTokenizer.cls
+  Module=basHelper; basHelper.bas
+--- 1,5 ----
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+! Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#4.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\msxml4.dll#Microsoft XML, v4.0
+  Class=StringTokenizer; StringTokenizer.cls
+  Module=basHelper; basHelper.bas
+
+Index: ACGWFDHelper.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDHelper/ACGWFDHelper.vbw,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ACGWFDHelper.vbw	2 Mar 2005 16:53:32 -0000	1.3
+--- ACGWFDHelper.vbw	16 Oct 2007 15:53:52 -0000	1.4
+***************
+*** 1,4 ****
+! StringTokenizer = 0, 0, 630, 402, Z
+! basHelper = 0, 0, 630, 402, 
+! GXMLHelper = 44, 44, 674, 446, 
+! ScanPath = 66, 66, 696, 468, 
+--- 1,4 ----
+! StringTokenizer = 0, 0, 630, 402, C
+! basHelper = 0, 0, 630, 402, C
+! GXMLHelper = 44, 44, 674, 446, C
+! ScanPath = 66, 66, 696, 468, C
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:36 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:36 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGContainer ACGContainer.dll, 1.1,
+	1.2 ACGContainer.exp, 1.1, 1.2 ACGContainer.lib, 1.1,
+	1.2 ACGContainer.vbp, 1.2, 1.3
+Message-ID: <20071016155436.DE59210FA30@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGContainer
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGContainer
+
+Modified Files:
+	ACGContainer.dll ACGContainer.exp ACGContainer.lib 
+	ACGContainer.vbp 
+Log Message:
+
+
+Index: ACGContainer.dll
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGContainer/ACGContainer.dll,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+Binary files /tmp/cvs.NA8ajz and /tmp/cvs.xpb8i1 differ
+
+Index: ACGContainer.exp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGContainer/ACGContainer.exp,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+Binary files /tmp/cvs.2Y3OwC and /tmp/cvs.o7qyx4 differ
+
+Index: ACGContainer.lib
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGContainer/ACGContainer.lib,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+Binary files /tmp/cvs.v3OGbD and /tmp/cvs.8Nbbd5 differ
+
+Index: ACGContainer.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGContainer/ACGContainer.vbp,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ACGContainer.vbp	3 Feb 2005 11:55:42 -0000	1.2
+--- ACGContainer.vbp	16 Oct 2007 15:53:51 -0000	1.3
+***************
+*** 1,4 ****
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\..\WINDOWS\System32\STDOLE2.TLB#OLE Automation
+  Class=Container; Container.cls
+  Startup="(None)"
+--- 1,4 ----
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+  Class=Container; Container.cls
+  Startup="(None)"
+***************
+*** 6,10 ****
+  Title="ACGContainer"
+  ExeName32="ACGContainer.dll"
+- Path32=""
+  Command32=""
+  Name="ACGContainer"
+--- 6,9 ----
+***************
+*** 15,19 ****
+  MajorVer=1
+  MinorVer=0
+! RevisionVer=2
+  AutoIncrementVer=1
+  ServerSupportFiles=0
+--- 14,18 ----
+  MajorVer=1
+  MinorVer=0
+! RevisionVer=5
+  AutoIncrementVer=1
+  ServerSupportFiles=0
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:38 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:38 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDXML ACGWFDXML.vbp, 1.4,
+	1.5 XMLProcessVersion.cls, 1.3, 1.4
+Message-ID: <20071016155438.431D3110D22@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGWFDXML
+
+Modified Files:
+	ACGWFDXML.vbp XMLProcessVersion.cls 
+Log Message:
+
+
+Index: ACGWFDXML.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML/ACGWFDXML.vbp,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** ACGWFDXML.vbp	20 May 2005 16:06:43 -0000	1.4
+--- ACGWFDXML.vbp	16 Oct 2007 15:53:53 -0000	1.5
+***************
+*** 1,9 ****
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\System32\STDOLE2.TLB#OLE Automation
+  Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#4.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\msxml4.dll#Microsoft XML, v4.0
+! Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\..\..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProperties.dll#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\..\..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGWFDHelper.dll#
+! Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\..\..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProcessDefs.dll#
+! Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.0#0#..\..\..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGZVER.dll#ACG Zebra Versioning
+  Class=XMLPropPersist; XMLPropPersist.cls
+  Class=XMLProcessDef; XMLProcessDef.cls
+--- 1,9 ----
+  Type=OleDll
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+  Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#4.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\msxml4.dll#Microsoft XML, v4.0
+! Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProperties.dll#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGWFDHelper.dll#
+! Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProcessDefs.dll#
+! Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGZVER.dll#ACG Zebra Versioning
+  Class=XMLPropPersist; XMLPropPersist.cls
+  Class=XMLProcessDef; XMLProcessDef.cls
+
+Index: XMLProcessVersion.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML/XMLProcessVersion.cls,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** XMLProcessVersion.cls	2 Mar 2005 16:53:33 -0000	1.3
+--- XMLProcessVersion.cls	16 Oct 2007 15:53:53 -0000	1.4
+***************
+*** 125,128 ****
+--- 125,153 ----
+  End Function
+  
++ Public Function FileDeleteVersion(FileName As String, oProcessVersion As ProcessVersion)
++     Dim oDoc As MSXML2.DOMDocument
++     Set oDoc = GetDoc(FileName)
++     Dim oRoot As MSXML2.IXMLDOMNode
++     Set oRoot = GetVersionRoot(oDoc.firstChild)
++     Dim oNode As MSXML2.IXMLDOMNode
++     Dim oNVersions As IXMLDOMNodeList
++     Set oNVersions = oRoot.childNodes
++     Do
++         Set oNode = oNVersions.nextNode
++         If oNode Is Nothing Then Exit Do
++         If CLng(GetNodeAttr(oNode, "VersionID", "-1")) = oProcessVersion.version Then
++             oRoot.removeChild oNode
++             Exit Do
++         End If
++     Loop
++     oDoc.save FileName
++     FileDeleteVersion = True
++ End Function
++ 
++ '/ updates the process definition in the XML file, adds a new revision
++ Public Function FileSaveRevisionXML(FileName As String, oProcessVersion As ProcessVersion) As Boolean
++     
++ End Function
++ 
+  '/ saves the process definition to an XML file
+  Public Function FileSaveXML(FileName As String, oVersions As Versions, oProcessDef As ProcessDef) As Boolean
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:54:38 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:54:38 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbp, 1.10,
+	1.11 ACGWFD.vbw, 1.8, 1.9 frmFlow.frm, 1.7, 1.8 frmMDI.frm,
+	1.6, 1.7 frmMDI.frx, 1.5, 1.6
+Message-ID: <20071016155438.A22BD110D19@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv11127/src/vbcode/ACGWFD
+
+Modified Files:
+	ACGWFD.vbp ACGWFD.vbw frmFlow.frm frmMDI.frm frmMDI.frx 
+Log Message:
+
+
+Index: ACGWFD.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbp,v
+retrieving revision 1.10
+retrieving revision 1.11
+diff -C2 -d -r1.10 -r1.11
+*** ACGWFD.vbp	7 Dec 2005 12:49:42 -0000	1.10
+--- ACGWFD.vbp	16 Oct 2007 15:53:53 -0000	1.11
+***************
+*** 1,13 ****
+  Type=Exe
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+! Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#4.0#0#..\..\..\..\..\..\..\WINDOWS\system32\msxml4.dll#Microsoft XML, v4.0
+  Object={D76D7128-4A96-11D3-BD95-D296DC2DD072}#1.0#0; vsflex7.ocx
+! Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\ACGProperties\ACGProperties.dll#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\ACGWFDHelper\ACGWFDHelper.dll#
+  Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\ACGContainer\ACGContainer.dll#
+! Reference=*\G{70514876-FEA4-425D-AFBD-3389C20D7AAF}#4.1#0#..\..\..\..\..\..\..\DOCUME~1\MATTHE~1.NOR\MYDOCU~1\PROJECTS\IPCC\ZEBRAB~1.DE\ACGWFD~2\ACGWFD~3.DLL#ACG Workflow Definition Loader v4
+! Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\ACGProcessDefs\ACGProcessDefs.dll#
+! Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.0#0#..\ACGProcessVersions\ACGZVER.compatible.dll#ACG Zebra Versioning
+! Object={F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0; InnovaDSXP.OCX
+  Object={83B0E423-D4EE-11D4-BEDF-BAB7F1EEA455}#4.2#0; addflow4.ocx
+  Object={F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0; comdlg32.ocx
+--- 1,13 ----
+  Type=Exe
+! Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+! Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#4.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\msxml4.dll#Microsoft XML, v4.0
+  Object={D76D7128-4A96-11D3-BD95-D296DC2DD072}#1.0#0; vsflex7.ocx
+! Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProperties.dll#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGWFDHelper.dll#
+  Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\ACGContainer\ACGContainer.dll#
+! Reference=*\G{70514876-FEA4-425D-AFBD-3389C20D7AAF}#4.1#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGWFDXML4.dll#ACG Workflow Definition Loader v4
+! Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProcessDefs.dll#
+! Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.1#0#..\ACGProcessVersions\ACGZVER.dll#ACG Zebra Versioning
+! Object={F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0; innovadsxp.ocx
+  Object={83B0E423-D4EE-11D4-BEDF-BAB7F1EEA455}#4.2#0; addflow4.ocx
+  Object={F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0; comdlg32.ocx
+***************
+*** 30,33 ****
+--- 30,34 ----
+  Form=frmInput.frm
+  Class=DocScan; DocScan.cls
++ Form=frmVersions.frm
+  IconForm="frmFlow"
+  Startup="Sub Main"
+
+Index: ACGWFD.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbw,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+*** ACGWFD.vbw	7 Dec 2005 12:49:42 -0000	1.8
+--- ACGWFD.vbw	16 Oct 2007 15:53:53 -0000	1.9
+***************
+*** 1,14 ****
+! frmPalette = 0, 0, 0, 0, C, 176, 176, 762, 641, C
+! ImageCaption = 0, 0, 0, 0, C, 198, 198, 784, 663, C
+! IContextMenu = 0, 0, 0, 0, C
+  frmWarnings = 0, 0, 0, 0, C, 220, 220, 806, 685, C
+  frmFind = 0, 0, 0, 0, C, 0, 0, 586, 465, C
+! clShellBrowse = 0, 0, 0, 0, C
+! frmProcessTemplate = 110, 110, 600, 466, , 22, 22, 608, 487, C
+! frmMDI = 32, 25, 752, 480, , -14, 59, 572, 524, C
+! frmPropertyAdd = 132, 132, 614, 489, , 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, , 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, , 110, 110, 696, 575, C
+! basMain = 22, 22, 608, 487, Z
+! frmInput = 0, 0, 0, 0, C, 132, 132, 718, 597, C
+! DocScan = 0, 0, 0, 0, C
+--- 1,15 ----
+! frmPalette = 22, 22, 544, 376, C, 176, 176, 762, 641, C
+! ImageCaption = 44, 44, 566, 398, C, 198, 198, 784, 663, C
+! IContextMenu = 176, 176, 803, 634, C
+  frmWarnings = 0, 0, 0, 0, C, 220, 220, 806, 685, C
+  frmFind = 0, 0, 0, 0, C, 0, 0, 586, 465, C
+! clShellBrowse = 66, 66, 588, 420, C
+! frmProcessTemplate = 110, 110, 600, 466, C, 22, 22, 608, 487, C
+! frmMDI = 32, 25, 752, 480, C, -14, 59, 572, 524, C
+! frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, C, 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, C, 110, 110, 696, 575, C
+! basMain = 22, 22, 608, 487, C
+! frmInput = 154, 154, 676, 508, C, 132, 132, 718, 597, C
+! DocScan = 0, 0, 522, 354, C
+! frmVersions = 44, 44, 566, 398, C, 22, 22, 544, 376, C
+
+Index: frmFlow.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmFlow.frm,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** frmFlow.frm	7 Dec 2005 12:49:42 -0000	1.7
+--- frmFlow.frm	16 Oct 2007 15:53:53 -0000	1.8
+***************
+*** 183,188 ****
+--- 183,192 ----
+  Option Explicit
+  Private Const mcstrModule = "frmFlow"
++ '// if true then a save will cause an overwrite. some features also disabled in the designer
++ Private mForUpdate As Boolean
++ Private moVersions As Versions
+  Private moParent As Container
+  Public mProcessDef As ProcessDef
++ Public mProcessVersion As ProcessVersion
+  '/ last XY pos of mouse - used for pasting
+  Private msglLastX As Single
+***************
+*** 266,270 ****
+          For Each oPT In oLink.ExtraPoints
+              If Not IgnorePoint(oLink, oPT) Then
+!                 oRouting.AddPoint oPT.x, oPT.y
+              End If
+          Next
+--- 270,274 ----
+          For Each oPT In oLink.ExtraPoints
+              If Not IgnorePoint(oLink, oPT) Then
+!                 oRouting.AddPoint oPT.X, oPT.y
+              End If
+          Next
+***************
+*** 276,280 ****
+          For Each oPT In oLink.ExtraPoints
+              If Not IgnorePoint(oLink, oPT) Then
+!                 oRouting.AddPoint oPT.x, oPT.y
+              End If
+          Next
+--- 280,284 ----
+          For Each oPT In oLink.ExtraPoints
+              If Not IgnorePoint(oLink, oPT) Then
+!                 oRouting.AddPoint oPT.X, oPT.y
+              End If
+          Next
+***************
+*** 298,309 ****
+      Dim sglR As Single, sglB As Single
+      
+!     sglL = oPT.x - oNode.Left
+!     sglR = (oNode.Left + oNode.Width) - oPT.x
+      sglT = oPT.y - oNode.Top
+      sglB = (oNode.Top + oNode.Height) - oPT.y
+      If sglL < sglR And sglL < sglT And sglL < sglB Then
+!         oPT.x = oPT.x - sglL
+      ElseIf sglR < sglL And sglR < sglT And sglR < sglB Then
+!         oPT.x = oPT.x + sglR
+      ElseIf sglB < sglL And sglB < sglR And sglB < sglT Then
+          oPT.y = oPT.y + sglB
+--- 302,313 ----
+      Dim sglR As Single, sglB As Single
+      
+!     sglL = oPT.X - oNode.Left
+!     sglR = (oNode.Left + oNode.Width) - oPT.X
+      sglT = oPT.y - oNode.Top
+      sglB = (oNode.Top + oNode.Height) - oPT.y
+      If sglL < sglR And sglL < sglT And sglL < sglB Then
+!         oPT.X = oPT.X - sglL
+      ElseIf sglR < sglL And sglR < sglT And sglR < sglB Then
+!         oPT.X = oPT.X + sglR
+      ElseIf sglB < sglL And sglB < sglR And sglB < sglT Then
+          oPT.y = oPT.y + sglB
+***************
+*** 335,339 ****
+      Set oRouting = mProcessDef.Routings(oLink.key)
+      '# check to see if the final point intersects a part of the destination task
+!     If Not IntersectNodeLine(oTaskDefDest, oLink.ExtraPoints(oLink.ExtraPoints.Count - 1).x, oLink.ExtraPoints(oLink.ExtraPoints.Count - 1).y, oLink.ExtraPoints(oLink.ExtraPoints.Count - 2).x, oLink.ExtraPoints(oLink.ExtraPoints.Count - 2).y, sglX, sglY) Then
+          fCancel = True
+      ElseIf oRouting.TaskDest.Guid <> oTaskDefDest.Guid Then
+--- 339,343 ----
+      Set oRouting = mProcessDef.Routings(oLink.key)
+      '# check to see if the final point intersects a part of the destination task
+!     If Not IntersectNodeLine(oTaskDefDest, oLink.ExtraPoints(oLink.ExtraPoints.Count - 1).X, oLink.ExtraPoints(oLink.ExtraPoints.Count - 1).y, oLink.ExtraPoints(oLink.ExtraPoints.Count - 2).X, oLink.ExtraPoints(oLink.ExtraPoints.Count - 2).y, sglX, sglY) Then
+          fCancel = True
+      ElseIf oRouting.TaskDest.Guid <> oTaskDefDest.Guid Then
+***************
+*** 363,367 ****
+      For Each oPT In oLink.ExtraPoints
+          If Not IgnorePoint(oLink, oPT) Then
+!             oRouting.AddPoint oPT.x, oPT.y
+          End If
+      Next
+--- 367,371 ----
+      For Each oPT In oLink.ExtraPoints
+          If Not IgnorePoint(oLink, oPT) Then
+!             oRouting.AddPoint oPT.X, oPT.y
+          End If
+      Next
+***************
+*** 424,428 ****
+  End Function
+  
+! Private Sub FlowGUI_DragDrop(Source As Control, x As Single, y As Single)
+      Const cstrFunc = "flow_DragDrop"
+      On Error GoTo Err_Handler
+--- 428,432 ----
+  End Function
+  
+! Private Sub FlowGUI_DragDrop(Source As Control, X As Single, y As Single)
+      Const cstrFunc = "flow_DragDrop"
+      On Error GoTo Err_Handler
+***************
+*** 438,442 ****
+      DoTaskProps oTaskDef, oTaskTemplate
+      
+!     Set oNode = FlowGUI.Nodes.Add(x + FlowGUI.xScroll, y + FlowGUI.yScroll, Source.Width, Source.Height * 2)
+      
+      Set oNode.Picture = Source.Picture
+--- 442,446 ----
+      DoTaskProps oTaskDef, oTaskTemplate
+      
+!     Set oNode = FlowGUI.Nodes.Add(X + FlowGUI.xScroll, y + FlowGUI.yScroll, Source.Width, Source.Height * 2)
+      
+      Set oNode.Picture = Source.Picture
+***************
+*** 494,498 ****
+  End Sub
+  
+! Private Sub FlowGUI_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+      Dim oNode As afNode
+      Dim oLink As afLink
+--- 498,502 ----
+  End Sub
+  
+! Private Sub FlowGUI_MouseDown(Button As Integer, Shift As Integer, X As Single, y As Single)
+      Dim oNode As afNode
+      Dim oLink As afLink
+***************
+*** 503,509 ****
+      
+      If Button = vbRightButton Then
+!         Set oNode = FlowGUI.GetNodeAtPoint(FlowGUI.xScroll + x, FlowGUI.yScroll + y)
+          If oNode Is Nothing Then
+!             Set oLink = FlowGUI.GetLinkAtPoint(FlowGUI.xScroll + x, FlowGUI.yScroll + y)
+              If oLink Is Nothing Then Exit Sub
+              For Each oLinkCheck In FlowGUI.SelLinks
+--- 507,513 ----
+      
+      If Button = vbRightButton Then
+!         Set oNode = FlowGUI.GetNodeAtPoint(FlowGUI.xScroll + X, FlowGUI.yScroll + y)
+          If oNode Is Nothing Then
+!             Set oLink = FlowGUI.GetLinkAtPoint(FlowGUI.xScroll + X, FlowGUI.yScroll + y)
+              If oLink Is Nothing Then Exit Sub
+              For Each oLinkCheck In FlowGUI.SelLinks
+***************
+*** 530,534 ****
+  End Sub
+  
+! Private Sub FlowGUI_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+      Dim ods As DockStudio
+      Set ods = Parent.ds
+--- 534,538 ----
+  End Sub
+  
+! Private Sub FlowGUI_MouseUp(Button As Integer, Shift As Integer, X As Single, y As Single)
+      Dim ods As DockStudio
+      Set ods = Parent.ds
+***************
+*** 545,549 ****
+          End If
+      End If
+!     msglLastX = x
+      msglLastY = y
+  End Sub
+--- 549,553 ----
+          End If
+      End If
+!     msglLastX = X
+      msglLastY = y
+  End Sub
+***************
+*** 746,749 ****
+--- 750,755 ----
+  End Sub
+  Private Sub IContextMenu_Activate()
++     
++     Parent.ds.Commands.Item("tlDeleteVersion").Enabled = mForUpdate
+      ShowPropWin
+  End Sub
+***************
+*** 757,760 ****
+--- 763,769 ----
+              IContextMenu_CommandClick = DeleteSelected
+              ShowPropWin
++         Case "TLDELETEVERSION"
++             IContextMenu_CommandClick = True
++             Call DeleteVersion
+          Case "TLCOPY"
+              IContextMenu_CommandClick = CopySelected
+***************
+*** 803,806 ****
+--- 812,831 ----
+      
+  End Function
++ Private Sub DeleteVersion()
++     '// check that the user really wants to do this
++     If MsgBox("Are you SURE you want to DELETE this Version? This operation cannot be undone and will automatically save the current Process Definition.", vbCritical Or vbDefaultButton2 Or vbOKCancel, "Delete Version") = vbCancel Then
++         Exit Sub
++     End If
++     '// save the whole shebang
++     Dim oExport As XMLProcessVersion
++     Set oExport = New XMLProcessVersion
++     oExport.FileDeleteVersion mstrFileName, mProcessVersion
++     '// mark flow as unchanged
++     FlowGUI.SetChangedFlag False
++     '// ...so that we can close this window without an error message
++     Parent.ds.ActiveDocumentWindow.Delete
++     Unload Me
++ End Sub
++     
+  Public Property Get canRemoveProp(oProp As Property) As Boolean
+      canRemoveProp = False
+***************
+*** 953,956 ****
+--- 978,982 ----
+          mProcessDef.Routings.Remove oRouting.Guid
+          FlowGUI.Nodes(oRouting.TaskDest.Guid).InLinks.Remove oRouting.Guid
++     
+      Loop
+      
+***************
+*** 1032,1038 ****
+                  For Each oPT In oLink.ExtraPoints
+                      If Not IgnorePoint(oLink, oPT) Then
+!                         If oPT.x < sglOffsetX Then sglOffsetX = oPT.x
+                          If oPT.y < sglOffsetY Then sglOffsetY = oPT.y
+!                         oNewRouting.AddPoint oPT.x, oPT.y
+                      End If
+                  Next
+--- 1058,1064 ----
+                  For Each oPT In oLink.ExtraPoints
+                      If Not IgnorePoint(oLink, oPT) Then
+!                         If oPT.X < sglOffsetX Then sglOffsetX = oPT.X
+                          If oPT.y < sglOffsetY Then sglOffsetY = oPT.y
+!                         oNewRouting.AddPoint oPT.X, oPT.y
+                      End If
+                  Next
+***************
+*** 1289,1296 ****
+      Dim oLoad As XMLProcessVersion
+      Set oLoad = New XMLProcessVersion
+!     Dim oVersions As Versions
+!     Set oVersions = New Versions
+      mstrFileName = FileName
+!     If Not oLoad.FileLoadXML(FileName, oVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+--- 1315,1321 ----
+      Dim oLoad As XMLProcessVersion
+      Set oLoad = New XMLProcessVersion
+!     Set moVersions = New Versions
+      mstrFileName = FileName
+!     If Not oLoad.FileLoadXML(FileName, moVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+***************
+*** 1312,1318 ****
+          Call AddGUIDForConvert(mProcessDef)
+          Kill mstrFileName
+!         oLoad.FileSaveXML mstrFileName, oVersions, mProcessDef
+      Else
+!         Set mProcessDef = oVersions(oVersions.MaxVer).ProcessDef
+      End If
+      
+--- 1337,1348 ----
+          Call AddGUIDForConvert(mProcessDef)
+          Kill mstrFileName
+!         oLoad.FileSaveXML mstrFileName, moVersions, mProcessDef
+      Else
+!         '// pop up versions dialog
+!         Set mProcessVersion = frmVersions.showVersions(moVersions)
+!         mForUpdate = frmVersions.forUpdate
+!         
+!         Set mProcessDef = mProcessVersion.ProcessDef
+!         '/Set mProcessDef = oVersions(oVersions.MaxVer).ProcessDef
+      End If
+      
+***************
+*** 1359,1363 ****
+      '# ignore 1st point
+      
+!     IgnorePoint = oPT.x = oLink.ExtraPoints(0).x And oPT.y = oLink.ExtraPoints(0).y
+      Exit Function
+      Dim oSrc As TaskDef
+--- 1389,1393 ----
+      '# ignore 1st point
+      
+!     IgnorePoint = oPT.X = oLink.ExtraPoints(0).X And oPT.y = oLink.ExtraPoints(0).y
+      Exit Function
+      Dim oSrc As TaskDef
+***************
+*** 1370,1374 ****
+  
+  Private Function TouchesStep(oTaskDef As TaskDef, oPT As afLinkPoint) As Boolean
+!     TouchesStep = (oPT.x = oTaskDef.Left Or oPT.x = oTaskDef.Width + oTaskDef.Left Or oPT.y = oTaskDef.Top Or oPT.y = oTaskDef.Top + oTaskDef.Height)
+  End Function
+  
+--- 1400,1404 ----
+  
+  Private Function TouchesStep(oTaskDef As TaskDef, oPT As afLinkPoint) As Boolean
+!     TouchesStep = (oPT.X = oTaskDef.Left Or oPT.X = oTaskDef.Width + oTaskDef.Left Or oPT.y = oTaskDef.Top Or oPT.y = oTaskDef.Top + oTaskDef.Height)
+  End Function
+  
+***************
+*** 1408,1412 ****
+              For Each oPT In oLink.ExtraPoints
+                  If Not IgnorePoint(oLink, oPT) Then
+!                     oRouting.AddPoint oPT.x, oPT.y
+                  End If
+              Next
+--- 1438,1442 ----
+              For Each oPT In oLink.ExtraPoints
+                  If Not IgnorePoint(oLink, oPT) Then
+!                     oRouting.AddPoint oPT.X, oPT.y
+                  End If
+              Next
+***************
+*** 1441,1446 ****
+          mProcessDef.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(".acgwfd.xml"))
+          oExport.FileSaveXML dlg.FileName, oVersions, mProcessDef
+!         Caption = mProcessDef.Name
+          Parent.ds.ActiveDocumentWindow.Caption = mProcessDef.Name
+      Else
+          oExport.FileLoadXML mstrFileName, oVersions, moTaskTemplates, moProcessTemplates
+--- 1471,1481 ----
+          mProcessDef.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(".acgwfd.xml"))
+          oExport.FileSaveXML dlg.FileName, oVersions, mProcessDef
+!         Caption = getCaption
+          Parent.ds.ActiveDocumentWindow.Caption = mProcessDef.Name
++     ElseIf mForUpdate Then
++         '// update the version with a new revision
++         '// TODO
++         'oExport.FileLoadXML mstrFileName, oVersions, moTaskTemplates, moProcessTemplates
++         'oExport.FileSaveXML mstrFileName, oVersions, mProcessDef
+      Else
+          oExport.FileLoadXML mstrFileName, oVersions, moTaskTemplates, moProcessTemplates
+***************
+*** 1508,1512 ****
+          For Each oPT In oLink.ExtraPoints
+              If Not IgnorePoint(oLink, oPT) Then
+!                 oRouting.AddPoint oPT.x, oPT.y
+              End If
+          Next
+--- 1543,1547 ----
+          For Each oPT In oLink.ExtraPoints
+              If Not IgnorePoint(oLink, oPT) Then
+!                 oRouting.AddPoint oPT.X, oPT.y
+              End If
+          Next
+***************
+*** 1529,1533 ****
+              'Debug.Print "Moving Point", sglX, sglY
+              Set oPT = oLink.ExtraPoints(lngPointCount)
+!             oPT.x = sglX - OffsetX
+              oPT.y = sglY - OffsetY
+              Set oLink.ExtraPoints.Item(lngPointCount) = oPT
+--- 1564,1568 ----
+              'Debug.Print "Moving Point", sglX, sglY
+              Set oPT = oLink.ExtraPoints(lngPointCount)
+!             oPT.X = sglX - OffsetX
+              oPT.y = sglY - OffsetY
+              Set oLink.ExtraPoints.Item(lngPointCount) = oPT
+***************
+*** 1688,1689 ****
+--- 1723,1731 ----
+  End Sub
+  
++ Public Property Get forUpdate() As Boolean
++     forUpdate = mForUpdate
++ End Property
++ 
++ Public Property Get getCaption() As String
++      getCaption = mProcessDef.Name & " v." & mProcessVersion.version & IIf(mForUpdate, " [UPDATING]", "")
++ End Property
+
+Index: frmMDI.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frm,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** frmMDI.frm	7 Dec 2005 12:49:42 -0000	1.6
+--- frmMDI.frm	16 Oct 2007 15:53:53 -0000	1.7
+***************
+*** 1,5 ****
+  VERSION 5.00
+! Object = "{F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0"; "InnovaDSXP.OCX"
+! Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
+  Begin VB.Form frmMDI 
+     Caption         =   "ACG Workflow Designer"
+--- 1,5 ----
+  VERSION 5.00
+! Object = "{F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0"; "innovadsxp.ocx"
+! Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "COMDLG32.OCX"
+  Begin VB.Form frmMDI 
+     Caption         =   "ACG Workflow Designer"
+***************
+*** 171,175 ****
+              Set oFlow = loadProcess()
+              If Not (oFlow Is Nothing) Then
+!                 Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.mProcessDef.Name, , oFlow, True)
+              End If
+          Case "TLSAVE"
+--- 171,175 ----
+              Set oFlow = loadProcess()
+              If Not (oFlow Is Nothing) Then
+!                 Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.getCaption, , oFlow, True)
+              End If
+          Case "TLSAVE"
+***************
+*** 323,327 ****
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "Load Process"
+!     dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+--- 323,327 ----
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "Load Process"
+!     '/dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+***************
+*** 337,341 ****
+      Set oFlow = LoadFromFile(FileName)
+      If Not (oFlow Is Nothing) Then
+!         Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.mProcessDef.Name, , oFlow, True)
+      End If
+  End Sub
+--- 337,341 ----
+      Set oFlow = LoadFromFile(FileName)
+      If Not (oFlow Is Nothing) Then
+!         Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.getCaption, , oFlow, True)
+      End If
+  End Sub
+
+Index: frmMDI.frx
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frx,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+Binary files /tmp/cvs.uYiN7q and /tmp/cvs.J6OZ6U differ
+
+
+
+From nobody at sheep.berlios.de  Tue Oct 16 17:55:00 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Tue, 16 Oct 2007 17:55:00 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDXML XMLProcessDef.cls, 1.3,
+	1.4
+Message-ID: <20071016155500.8CB6E10FA30@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML
+In directory sheep:/tmp/cvs-serv11188/src/vbcode/ACGWFDXML
+
+Modified Files:
+	XMLProcessDef.cls 
+Log Message:
+
+
+Index: XMLProcessDef.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML/XMLProcessDef.cls,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** XMLProcessDef.cls	2 Mar 2005 16:53:33 -0000	1.3
+--- XMLProcessDef.cls	16 Oct 2007 15:54:15 -0000	1.4
+***************
+*** 362,370 ****
+          CopyProps oTaskTemplate.PropertyGroup, oTaskDef.PropertyGroup
+      End If
+-     
+      For Each oNode In oRoot.childNodes
+          fOk = XMLProperties(oTaskDef.PropertyGroup, oNode)
+          If Not fOk Then Exit For
+      Next
+      XMLTask = fOk
+      Exit Function
+--- 362,379 ----
+          CopyProps oTaskTemplate.PropertyGroup, oTaskDef.PropertyGroup
+      End If
+      For Each oNode In oRoot.childNodes
+          fOk = XMLProperties(oTaskDef.PropertyGroup, oNode)
+          If Not fOk Then Exit For
+      Next
++     If fOk Then
++         '// update props
++         If Not (moProcessTemplate Is Nothing) Then
++             updateLockedProps oTaskDef.PropertyGroup, moProcessTemplate.CommonTaskProperties
++         End If
++         If Not (oTaskTemplate Is Nothing) Then
++             updateLockedProps oTaskDef.PropertyGroup, oTaskTemplate.PropertyGroup
++         End If
++         
++     End If
+      XMLTask = fOk
+      Exit Function
+***************
+*** 373,376 ****
+--- 382,398 ----
+      Resume 0
+  End Function
++ 
++ Private Sub updateLockedProps(propsToUpdate As PropertyGroup, propsTemplate As PropertyGroup)
++     Dim ps As Properties
++     Dim p As Property
++     For Each ps In propsTemplate
++         For Each p In ps
++             If p.Locked Then
++                 propsToUpdate.Item(ps.Name).Item(p.Name).Value = p.Value
++                 propsToUpdate.Item(ps.Name).Item(p.Name).Locked = p.Locked
++             End If
++         Next
++     Next
++ End Sub
+  
+  Private Function XMLRoutings(oRoutings As Routings, oRoot As IXMLDOMNode) As Boolean
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:24 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:24 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProcessVersions ACGZVER.vbp,
+	1.3, 1.4
+Message-ID: <20071031123724.18C6E44A9E@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProcessVersions
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGProcessVersions
+
+Modified Files:
+	ACGZVER.vbp 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: ACGZVER.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProcessVersions/ACGZVER.vbp,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ACGZVER.vbp	16 Oct 2007 15:53:52 -0000	1.3
+--- ACGZVER.vbp	31 Oct 2007 12:36:33 -0000	1.4
+***************
+*** 5,10 ****
+  Class=ProcessVersion; ProcessVersion.cls
+  Class=Versions; Versions.cls
+! Class=Revisions; ..\..\..\..\..\..\..\..\..\Documents and Settings\Matthew.Norris\My Documents\Projects\Zebra\zebra\src\vbcode\ACGProcessVersions\Revisions.cls
+! Class=Revision; ..\..\..\..\..\..\..\..\..\Documents and Settings\Matthew.Norris\My Documents\Projects\Zebra\zebra\src\vbcode\ACGProcessVersions\Revision.cls
+  Startup="(None)"
+  HelpFile=""
+--- 5,10 ----
+  Class=ProcessVersion; ProcessVersion.cls
+  Class=Versions; Versions.cls
+! Class=Revisions; Revisions.cls
+! Class=Revision; Revision.cls
+  Startup="(None)"
+  HelpFile=""
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:24 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:24 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProperties ACGProperties.vbw,
+	1.4, 1.5
+Message-ID: <20071031123724.4F9BE44A9F@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProperties
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGProperties
+
+Modified Files:
+	ACGProperties.vbw 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: ACGProperties.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProperties/ACGProperties.vbw,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** ACGProperties.vbw	16 Oct 2007 15:53:52 -0000	1.4
+--- ACGProperties.vbw	31 Oct 2007 12:36:33 -0000	1.5
+***************
+*** 1,3 ****
+! PropertyGroup = 66, 66, 696, 468, C
+  basProperties = 110, 110, 740, 512, C
+  GPropertyHelper = 0, 0, 630, 402, C
+--- 1,3 ----
+! PropertyGroup = 66, 66, 696, 468, 
+  basProperties = 110, 110, 740, 512, C
+  GPropertyHelper = 0, 0, 630, 402, C
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:24 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:24 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGPropertyGrid PropertyGrid.ctl,
+	1.3, 1.4 PropertyGridControl.vbw, 1.3, 1.4
+Message-ID: <20071031123724.8A53844AA1@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGPropertyGrid
+
+Modified Files:
+	PropertyGrid.ctl PropertyGridControl.vbw 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: PropertyGrid.ctl
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid/PropertyGrid.ctl,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** PropertyGrid.ctl	7 Dec 2005 12:49:40 -0000	1.3
+--- PropertyGrid.ctl	31 Oct 2007 12:36:33 -0000	1.4
+***************
+*** 143,146 ****
+--- 143,147 ----
+  Event PropChanged(ByRef oProperty As Property)
+  Event PropRemoved(ByRef oProperty As Property)
++ Event TextPopup(ByRef oProperty As Property, ByRef Cancel As Boolean)
+  Event FileBrowse(ByRef oProperty As Property, ByRef FileName As String, ByRef Cancel As Boolean)
+  Event ContextClick(ByRef oProperty As Property, X As Single, Y As Single)
+***************
+*** 201,204 ****
+--- 202,207 ----
+  End Sub
+  
++ 
++ 
+  Private Sub UserControl_Initialize()
+      ' initialize control
+***************
+*** 375,378 ****
+--- 378,385 ----
+              fg.CellButtonPicture = imgFile
+           
++         Case ptString
++             fg.ComboList = "..."
++             fg.CellButtonPicture = imgFile
++         
+          Case ptBoolean
+              fg.ComboList = "Yes|No"
+***************
+*** 410,429 ****
+      Dim oProp As Property
+      Set oProp = fg.RowData(Row)
+!     Dim strFileName As String
+!     Dim fCancel As Boolean
+!     mfDontRefresh = True
+!     mfRefreshRequest = False
+!     
+!     Select Case oProp.PropertyType
+!         Case ptFile
+!             On Error Resume Next
+!             RaiseEvent FileBrowse(oProp, strFileName, fCancel)
+!             If Not (fCancel = True Or Err.Number <> 0) Then
+!                 fg.TextMatrix(Row, fg.Cols - 1) = strFileName
+!             End If
+!             
+!     End Select
+!     mfDontRefresh = False
+!     If mfRefreshRequest Then Refresh
+  End Sub
+  
+--- 417,445 ----
+      Dim oProp As Property
+      Set oProp = fg.RowData(Row)
+!     If oProp.PropertyType = ptFile Then
+!         Dim strFileName As String
+!         Dim fCancel As Boolean
+!         mfDontRefresh = True
+!         mfRefreshRequest = False
+!         
+!         Select Case oProp.PropertyType
+!             Case ptFile
+!                 On Error Resume Next
+!                 RaiseEvent FileBrowse(oProp, strFileName, fCancel)
+!                 If Not (fCancel = True Or Err.Number <> 0) Then
+!                     fg.TextMatrix(Row, fg.Cols - 1) = strFileName
+!                 End If
+!                 
+!         End Select
+!         mfDontRefresh = False
+!         If mfRefreshRequest Then Refresh
+!     ElseIf oProp.PropertyType = ptString Then
+!         Dim strText As String
+!         strText = oProp.Value
+!         RaiseEvent TextPopup(oProp, fCancel)
+!         If Not (fCancel = True Or Err.Number <> 0) Then
+!             fg.TextMatrix(Row, fg.Cols - 1) = oProp.Value
+!         End If
+!     End If
+  End Sub
+  
+
+Index: PropertyGridControl.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid/PropertyGridControl.vbw,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** PropertyGridControl.vbw	7 Dec 2005 12:49:40 -0000	1.3
+--- PropertyGridControl.vbw	31 Oct 2007 12:36:33 -0000	1.4
+***************
+*** 1 ****
+! PropertyGrid = 22, 22, 652, 424, C, 44, 44, 674, 446, C
+--- 1 ----
+! PropertyGrid = 22, 22, 652, 424, , 44, 44, 674, 446, C
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:24 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:24 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDHelper GXMLHelper.cls, 1.2,
+	1.3
+Message-ID: <20071031123724.BEC1644A9E@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDHelper
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGWFDHelper
+
+Modified Files:
+	GXMLHelper.cls 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: GXMLHelper.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDHelper/GXMLHelper.cls,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** GXMLHelper.cls	3 Feb 2005 12:01:33 -0000	1.2
+--- GXMLHelper.cls	31 Oct 2007 12:36:34 -0000	1.3
+***************
+*** 38,41 ****
+--- 38,42 ----
+      Dim oRoot As MSXML2.IXMLDOMNode
+      Set oDoc = New MSXML2.DOMDocument
++ '    Set XMLDoc = XMLNode(oDoc.documentElement, FirstNodeName)
+      Set oRoot = oDoc.createNode(1, FirstNodeName, "")
+      oDoc.appendChild oRoot
+***************
+*** 62,68 ****
+          oRtn.appendChild oValueNode
+      End If
+      Set XMLNode = oRtn
+  End Function
+! 
+  Public Sub XMLAttr(ParentNode As IXMLDOMNode, Name As String, Value As Variant)
+      Dim oAttr As MSXML2.IXMLDOMAttribute
+--- 63,80 ----
+          oRtn.appendChild oValueNode
+      End If
++     oXMLNode.appendChild oRtn
+      Set XMLNode = oRtn
+  End Function
+! Public Function xmlNodeDisconnected(oDoc As MSXML2.DOMDocument, Name As String, Optional Value As String = vbNullString) As IXMLDOMNode
+!     Dim oRtn As MSXML2.IXMLDOMNode
+!     Dim oValueNode As MSXML2.IXMLDOMNode
+!     Set oRtn = oDoc.createNode(1, Name, "")
+!     If Len(Value) > 0 Then
+!         Set oValueNode = oDoc.createNode(3, "", "")
+!         oValueNode.nodeValue = Value
+!         oRtn.appendChild oValueNode
+!     End If
+!     Set xmlNodeDisconnected = oRtn
+! End Function
+  Public Sub XMLAttr(ParentNode As IXMLDOMNode, Name As String, Value As Variant)
+      Dim oAttr As MSXML2.IXMLDOMAttribute
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:25 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:25 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDXML ACGWFDXML.vbp, 1.5,
+	1.6 XMLProcessDef.cls, 1.4, 1.5
+Message-ID: <20071031123725.0220E44AA3@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGWFDXML
+
+Modified Files:
+	ACGWFDXML.vbp XMLProcessDef.cls 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: ACGWFDXML.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML/ACGWFDXML.vbp,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ACGWFDXML.vbp	16 Oct 2007 15:53:53 -0000	1.5
+--- ACGWFDXML.vbp	31 Oct 2007 12:36:34 -0000	1.6
+***************
+*** 12,15 ****
+--- 12,17 ----
+  Class=XMLProcessTemplate; XMLProcessTemplate.cls
+  Class=XMLProcessVersion; XMLProcessVersion.cls
++ Class=XMLAddinLoader; XMLAddinLoader.cls
++ Class=Addin; Addin.cls
+  Startup="(None)"
+  HelpFile=""
+
+Index: XMLProcessDef.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML/XMLProcessDef.cls,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** XMLProcessDef.cls	16 Oct 2007 15:54:15 -0000	1.4
+--- XMLProcessDef.cls	31 Oct 2007 12:36:34 -0000	1.5
+***************
+*** 91,95 ****
+          
+      Set oNode = XMLNode(oRoot, "ProcessDef")
+!     oRoot.appendChild oNode
+      
+      '/ XMLAttr oNode, "GUID", GUID2ID(oProcessDef.GUID)
+--- 91,95 ----
+          
+      Set oNode = XMLNode(oRoot, "ProcessDef")
+!     'oRoot.appendChild oNode
+      
+      '/ XMLAttr oNode, "GUID", GUID2ID(oProcessDef.GUID)
+***************
+*** 123,127 ****
+      
+      Set oNode = XMLNode(oRoot, "TaskDefs")
+!     oRoot.appendChild oNode
+      
+      For Each oTaskDef In oTasks
+--- 123,127 ----
+      
+      Set oNode = XMLNode(oRoot, "TaskDefs")
+!     'oRoot.appendChild oNode
+      
+      For Each oTaskDef In oTasks
+***************
+*** 136,140 ****
+      
+      Set oNode = XMLNode(oRoot, "TaskDef")
+!     oRoot.appendChild oNode
+      
+      With oTaskDef
+--- 136,140 ----
+      
+      Set oNode = XMLNode(oRoot, "TaskDef")
+!     'oRoot.appendChild oNode
+      
+      With oTaskDef
+***************
+*** 156,160 ****
+      
+      Set oNode = XMLNode(oRoot, "RoutingDefs")
+!     oRoot.appendChild oNode
+      
+      For Each oRoutingDef In oRoutings
+--- 156,160 ----
+      
+      Set oNode = XMLNode(oRoot, "RoutingDefs")
+!     'oRoot.appendChild oNode
+      
+      For Each oRoutingDef In oRoutings
+***************
+*** 169,173 ****
+  
+      Set oNode = XMLNode(oRoot, "RoutingDef")
+!     oRoot.appendChild oNode
+      
+      With oRoutingDef
+--- 169,173 ----
+  
+      Set oNode = XMLNode(oRoot, "RoutingDef")
+!     'oRoot.appendChild oNode
+      
+      With oRoutingDef
+***************
+*** 190,194 ****
+      
+      Set oNode = XMLNode(oRoot, "Points")
+!     oRoot.appendChild oNode
+      
+      For lngCount = 1 To oRoutingDef.PointCount
+--- 190,194 ----
+      
+      Set oNode = XMLNode(oRoot, "Points")
+!     'oRoot.appendChild oNode
+      
+      For lngCount = 1 To oRoutingDef.PointCount
+***************
+*** 203,207 ****
+      
+      Set oNode = XMLNode(oRoot, "Point")
+!     oRoot.appendChild oNode
+      
+      XMLAttr oNode, "X", X
+--- 203,207 ----
+      
+      Set oNode = XMLNode(oRoot, "Point")
+!     'oRoot.appendChild oNode
+      
+      XMLAttr oNode, "X", X
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:23 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:23 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProcessDefs ACGProcessDefs.vbw,
+	1.5, 1.6
+Message-ID: <20071031123723.D6B4944A59@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProcessDefs
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGProcessDefs
+
+Modified Files:
+	ACGProcessDefs.vbw 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: ACGProcessDefs.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProcessDefs/ACGProcessDefs.vbw,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ACGProcessDefs.vbw	16 Oct 2007 15:53:51 -0000	1.5
+--- ACGProcessDefs.vbw	31 Oct 2007 12:36:32 -0000	1.6
+***************
+*** 1,8 ****
+  ProcessDef = 88, 88, 718, 490, C
+! TaskDef = 154, 154, 784, 556, C
+! RoutingDef = 154, 154, 784, 556, C
+! Routings = 176, 176, 806, 578, C
+  Tasks = 176, 176, 806, 578, 
+! RoutingList = 0, 0, 630, 402, C
+  TaskTemplate = 0, 0, 630, 402, C
+  TaskTemplates = 22, 22, 652, 424, C
+--- 1,8 ----
+  ProcessDef = 88, 88, 718, 490, C
+! TaskDef = 154, 154, 784, 556, 
+! RoutingDef = 154, 154, 784, 556, 
+! Routings = 176, 176, 806, 578, 
+  Tasks = 176, 176, 806, 578, 
+! RoutingList = 0, 0, 630, 402, 
+  TaskTemplate = 0, 0, 630, 402, C
+  TaskTemplates = 22, 22, 652, 424, C
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:25 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:25 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbp, 1.11,
+	1.12 ACGWFD.vbw, 1.9, 1.10 IContextMenu.cls, 1.2,
+	1.3 frmFlow.frm, 1.8, 1.9 frmMDI.frm, 1.7, 1.8 frmMDI.frx, 1.6,
+	1.7 frmPropList.frm, 1.3, 1.4
+Message-ID: <20071031123725.56F6C44AA2@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGWFD
+
+Modified Files:
+	ACGWFD.vbp ACGWFD.vbw IContextMenu.cls frmFlow.frm frmMDI.frm 
+	frmMDI.frx frmPropList.frm 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: ACGWFD.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbp,v
+retrieving revision 1.11
+retrieving revision 1.12
+diff -C2 -d -r1.11 -r1.12
+*** ACGWFD.vbp	16 Oct 2007 15:53:53 -0000	1.11
+--- ACGWFD.vbp	31 Oct 2007 12:36:34 -0000	1.12
+***************
+*** 9,12 ****
+--- 9,13 ----
+  Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProcessDefs.dll#
+  Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.1#0#..\ACGProcessVersions\ACGZVER.dll#ACG Zebra Versioning
++ Reference=*\A..\ACGWFDAddin\ACGWFDAddin.vbp
+  Object={F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0; innovadsxp.ocx
+  Object={83B0E423-D4EE-11D4-BEDF-BAB7F1EEA455}#4.2#0; addflow4.ocx
+***************
+*** 31,39 ****
+  Class=DocScan; DocScan.cls
+  Form=frmVersions.frm
+  IconForm="frmFlow"
+  Startup="Sub Main"
+  HelpFile=""
+  Title="ACGWFD"
+- ExeName32="ACGWFD.exe"
+  Command32=""
+  Name="ACGWFD"
+--- 32,43 ----
+  Class=DocScan; DocScan.cls
+  Form=frmVersions.frm
++ Class=DocFlow; DocFlow.cls
++ Class=AddinAccess; AddinAccess.cls
++ Class=Dialog; Dialog.cls
++ Form=frmTextPopup.frm
+  IconForm="frmFlow"
+  Startup="Sub Main"
+  HelpFile=""
+  Title="ACGWFD"
+  Command32=""
+  Name="ACGWFD"
+
+Index: ACGWFD.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbw,v
+retrieving revision 1.9
+retrieving revision 1.10
+diff -C2 -d -r1.9 -r1.10
+*** ACGWFD.vbw	16 Oct 2007 15:53:53 -0000	1.9
+--- ACGWFD.vbw	31 Oct 2007 12:36:34 -0000	1.10
+***************
+*** 6,15 ****
+  clShellBrowse = 66, 66, 588, 420, C
+  frmProcessTemplate = 110, 110, 600, 466, C, 22, 22, 608, 487, C
+! frmMDI = 32, 25, 752, 480, C, -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, C, 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, C, 110, 110, 696, 575, C
+  basMain = 22, 22, 608, 487, C
+  frmInput = 154, 154, 676, 508, C, 132, 132, 718, 597, C
+  DocScan = 0, 0, 522, 354, C
+  frmVersions = 44, 44, 566, 398, C, 22, 22, 544, 376, C
+--- 6,19 ----
+  clShellBrowse = 66, 66, 588, 420, C
+  frmProcessTemplate = 110, 110, 600, 466, C, 22, 22, 608, 487, C
+! frmMDI = 88, 164, 808, 619, , -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, , 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, , 110, 110, 696, 575, C
+  basMain = 22, 22, 608, 487, C
+  frmInput = 154, 154, 676, 508, C, 132, 132, 718, 597, C
+  DocScan = 0, 0, 522, 354, C
+  frmVersions = 44, 44, 566, 398, C, 22, 22, 544, 376, C
++ DocFlow = 0, 0, 0, 0, C
++ AddinAccess = 0, 0, 0, 0, C
++ Dialog = 88, 88, 610, 442, 
++ frmTextPopup = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+
+Index: IContextMenu.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/IContextMenu.cls,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** IContextMenu.cls	3 Feb 2005 11:52:28 -0000	1.2
+--- IContextMenu.cls	31 Oct 2007 12:36:34 -0000	1.3
+***************
+*** 46,47 ****
+--- 46,53 ----
+      '
+  End Sub
++ Public Property Get ProcessDef() As ProcessDef
++     '
++ End Property
++ Public Sub Refresh()
++     '
++ End Sub
+
+Index: frmFlow.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmFlow.frm,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+*** frmFlow.frm	16 Oct 2007 15:53:53 -0000	1.8
+--- frmFlow.frm	31 Oct 2007 12:36:34 -0000	1.9
+***************
+*** 200,204 ****
+  Private mstrFileName As String
+  
+! Public Sub Init(oParent As Container, oProcessTemplate As ProcessTemplate, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set mProcessDef = New ProcessDef
+--- 200,204 ----
+  Private mstrFileName As String
+  
+! Public Sub init(oParent As Container, oProcessTemplate As ProcessTemplate, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set mProcessDef = New ProcessDef
+***************
+*** 766,769 ****
+--- 766,772 ----
+              IContextMenu_CommandClick = True
+              Call DeleteVersion
++         Case "TLDOCUMENT"
++             IContextMenu_CommandClick = True
++             Call documentProcess
+          Case "TLCOPY"
+              IContextMenu_CommandClick = CopySelected
+***************
+*** 812,815 ****
+--- 815,854 ----
+      
+  End Function
++ Private Sub documentProcess()
++     Const cstrFunc = "documentProcess"
++     Dim strErrFunc As String
++     
++     Dim dlg As MSComDlg.CommonDialog
++     
++     Set dlg = Parent.dlg
++     dlg.Filter = "HTML Documents|*.html"
++     dlg.FilterIndex = 1
++     dlg.DialogTitle = "Document Process"
++     dlg.fileName = mProcessDef.Name
++     dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
++     On Error Resume Next
++     dlg.ShowSave
++     If Err.Number <> 0 Then Exit Sub
++     On Error GoTo Err_Handler
++     strErrFunc = "Deleting existing file"
++     If Len(Dir$(dlg.fileName)) > 0 Then
++         Kill dlg.fileName
++     End If
++     
++     strErrFunc = "Creating documentation"
++     Dim oDocProcess As DocFlow
++     Set oDocProcess = New DocFlow
++     oDocProcess.DocProcess mProcessDef, dlg.fileName, False
++     Exit Sub
++ Err_Handler:
++     Select Case StdErrMsg(Err, mcstrModule, cstrFunc + "." & strErrFunc)
++         Case vbIgnore
++             Resume Next
++         Case vbRetry
++             Resume 0
++         Case Else
++             Exit Sub
++     End Select
++ End Sub
+  Private Sub DeleteVersion()
+      '// check that the user really wants to do this
+***************
+*** 1238,1242 ****
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "Export Flow Image"
+!     dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+--- 1277,1281 ----
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "Export Flow Image"
+!     dlg.fileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+***************
+*** 1245,1249 ****
+      On Error GoTo Err_Handler
+      
+!     SaveImage dlg.FileName
+      MsgBox "Export Complete"
+      
+--- 1284,1288 ----
+      On Error GoTo Err_Handler
+      
+!     SaveImage dlg.fileName
+      MsgBox "Export Complete"
+      
+***************
+*** 1264,1278 ****
+  End Property
+  
+! Public Sub SaveImage(FileName As String)
+      On Error GoTo Err_Handler
+      Const cstrFunc = "SaveImage"
+!     If Len(Dir$(FileName)) > 0 Then
+!         Kill FileName
+      End If
+          
+!     If StrComp(Right$(FileName, 4), ".emf", vbTextCompare) Then
+!         FlowGUI.SaveImage afTypeMediumFile, afEMF, FileName
+      Else
+!         FlowGUI.SaveImage afTypeMediumFile, afWMF, FileName
+      End If
+      
+--- 1303,1317 ----
+  End Property
+  
+! Public Sub SaveImage(fileName As String)
+      On Error GoTo Err_Handler
+      Const cstrFunc = "SaveImage"
+!     If Len(Dir$(fileName)) > 0 Then
+!         Kill fileName
+      End If
+          
+!     If StrComp(Right$(fileName, 4), ".emf", vbTextCompare) Then
+!         FlowGUI.SaveImage afTypeMediumFile, afEMF, fileName
+      Else
+!         FlowGUI.SaveImage afTypeMediumFile, afWMF, fileName
+      End If
+      
+***************
+*** 1308,1314 ****
+          oDW.Caption = "Process"
+      End If
+!     moPropList.Init moParent, moTaskTemplates, moProcessTemplates
+  End Sub
+! Public Function LoadFlow(FileName As String) As Boolean
+      Const cstrFunc = "LoadFlow"
+      On Error GoTo Err_Handler
+--- 1347,1353 ----
+          oDW.Caption = "Process"
+      End If
+!     moPropList.init moParent, moTaskTemplates, moProcessTemplates
+  End Sub
+! Public Function LoadFlow(fileName As String) As Boolean
+      Const cstrFunc = "LoadFlow"
+      On Error GoTo Err_Handler
+***************
+*** 1316,1326 ****
+      Set oLoad = New XMLProcessVersion
+      Set moVersions = New Versions
+!     mstrFileName = FileName
+!     If Not oLoad.FileLoadXML(FileName, moVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set mProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(FileName, mProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox "Failed to load process!", vbExclamation
+              LoadFlow = False
+--- 1355,1365 ----
+      Set oLoad = New XMLProcessVersion
+      Set moVersions = New Versions
+!     mstrFileName = fileName
+!     If Not oLoad.FileLoadXML(fileName, moVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set mProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(fileName, mProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox "Failed to load process!", vbExclamation
+              LoadFlow = False
+***************
+*** 1457,1461 ****
+          dlg.FilterIndex = 1
+          dlg.DialogTitle = "New Process"
+!         dlg.FileName = "Copy of " & mProcessDef.Name & " Process"
+          dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+          On Error Resume Next
+--- 1496,1500 ----
+          dlg.FilterIndex = 1
+          dlg.DialogTitle = "New Process"
+!         dlg.fileName = "Copy of " & mProcessDef.Name & " Process"
+          dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+          On Error Resume Next
+***************
+*** 1464,1474 ****
+          On Error GoTo Err_Handler
+          strErrFunc = "Deleting existing file"
+!         If Len(Dir$(dlg.FileName)) > 0 Then
+!             Kill dlg.FileName
+          End If
+          
+          strErrFunc = "Exporting new file"
+          mProcessDef.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(".acgwfd.xml"))
+!         oExport.FileSaveXML dlg.FileName, oVersions, mProcessDef
+          Caption = getCaption
+          Parent.ds.ActiveDocumentWindow.Caption = mProcessDef.Name
+--- 1503,1513 ----
+          On Error GoTo Err_Handler
+          strErrFunc = "Deleting existing file"
+!         If Len(Dir$(dlg.fileName)) > 0 Then
+!             Kill dlg.fileName
+          End If
+          
+          strErrFunc = "Exporting new file"
+          mProcessDef.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(".acgwfd.xml"))
+!         oExport.FileSaveXML dlg.fileName, oVersions, mProcessDef
+          Caption = getCaption
+          Parent.ds.ActiveDocumentWindow.Caption = mProcessDef.Name
+***************
+*** 1478,1481 ****
+--- 1517,1521 ----
+          'oExport.FileLoadXML mstrFileName, oVersions, moTaskTemplates, moProcessTemplates
+          'oExport.FileSaveXML mstrFileName, oVersions, mProcessDef
++         MsgBox "ERROR: can't save an updated process yet!!!! File has NOT been saved!", vbCritical
+      Else
+          oExport.FileLoadXML mstrFileName, oVersions, moTaskTemplates, moProcessTemplates
+***************
+*** 1576,1579 ****
+--- 1616,1623 ----
+  End Sub
+  
++ Private Property Get IContextMenu_ProcessDef() As ACGProcessDefs.ProcessDef
++     Set IContextMenu_ProcessDef = mProcessDef
++ End Property
++ 
+  Private Sub IContextMenu_QueryUnload(Cancel As Boolean)
+      If FlowGUI.IsChanged Then
+***************
+*** 1709,1712 ****
+--- 1753,1769 ----
+              Exit Sub
+      End Select
++ End Sub
++ 
++ Private Sub IContextMenu_Refresh()
++     Sanitize
++     ShowPropWin
++     Dim oNode As afNode
++     Dim oTaskDef As TaskDef
++     '/ reset all captions in case properties have been changed
++     For Each oNode In FlowGUI.Nodes
++         Set oTaskDef = mProcessDef.Tasks(oNode.key)
++         oNode.Text = NodeCaption(oTaskDef)
++     Next
++     FlowGUI.Refresh
+  End Sub
+  
+
+Index: frmMDI.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frm,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** frmMDI.frm	16 Oct 2007 15:53:53 -0000	1.7
+--- frmMDI.frm	31 Oct 2007 12:36:34 -0000	1.8
+***************
+*** 90,94 ****
+--- 90,105 ----
+  Private moTemplates As TaskTemplates
+  Private moProcessTemplates As ProcessTemplates
++ Private mAddins As Collection
++ Public Sub refreshActiveProcess()
++     moContextMenu.Refresh
++ End Sub
+  
++ Public Property Get activeProcessDef() As ProcessDef
++     If moContextMenu Is Nothing Then
++         Set activeProcessDef = Nothing
++     Else
++         Set activeProcessDef = moContextMenu.ProcessDef
++     End If
++ End Property
+  Private Sub ds_CommandClick(ByVal Command As InnovaDSXP.Command)
+      Const cstrFunc = "ds_CommandClick"
+***************
+*** 113,116 ****
+--- 124,129 ----
+                  Case "EDIT"
+                      MenuHandlerEdit Command
++                 Case "ADDINS"
++                     menuHandlerAddins Command
+                  Case Else
+                      If Command.Name = "tlUndo" Then
+***************
+*** 144,148 ****
+      ds.DockWindows.Item(oTool.Tag).Visible = (oTool.State = dsxpCommandToolButtonStateChecked)
+  End Sub
+! 
+  Private Sub MenuHandlerWindow(ByRef Command As InnovaDSXP.Command)
+      Dim ofrmMDI As frmMDI
+--- 157,167 ----
+      ds.DockWindows.Item(oTool.Tag).Visible = (oTool.State = dsxpCommandToolButtonStateChecked)
+  End Sub
+! Private Sub menuHandlerAddins(ByRef Command As InnovaDSXP.Command)
+!     Dim oAddin As IAddin
+!     Set oAddin = CreateObject(Command.Name)
+!     Dim oAccess As New AddinAccess
+!     oAccess.init Me
+!     oAddin.runAddin oAccess
+! End Sub
+  Private Sub MenuHandlerWindow(ByRef Command As InnovaDSXP.Command)
+      Dim ofrmMDI As frmMDI
+***************
+*** 233,237 ****
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "New Process"
+!     dlg.FileName = "New " & oProcessTemplate.Name & " Process"
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+--- 252,256 ----
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "New Process"
+!     dlg.fileName = "New " & oProcessTemplate.Name & " Process"
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+***************
+*** 240,245 ****
+      On Error GoTo Err_Handler
+      strErrFunc = "Deleting existing file"
+!     If Len(Dir$(dlg.FileName)) > 0 Then
+!         Kill dlg.FileName
+      End If
+      
+--- 259,264 ----
+      On Error GoTo Err_Handler
+      strErrFunc = "Deleting existing file"
+!     If Len(Dir$(dlg.fileName)) > 0 Then
+!         Kill dlg.fileName
+      End If
+      
+***************
+*** 249,256 ****
+      oProcess.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(".acgwfd.xml"))
+      Dim oVersions As New Versions
+!     oExport.FileSaveXML dlg.FileName, oVersions, oProcess
+      strErrFunc = "Loading process"
+!     oFlow.Init moContainer, oProcessTemplate, moTemplates, moProcessTemplates
+!     oFlow.LoadFlow dlg.FileName
+      ds.DocumentWindows.AddForm CreateGUID, oProcess.Name, , oFlow, True
+      Exit Sub
+--- 268,275 ----
+      oProcess.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(".acgwfd.xml"))
+      Dim oVersions As New Versions
+!     oExport.FileSaveXML dlg.fileName, oVersions, oProcess
+      strErrFunc = "Loading process"
+!     oFlow.init moContainer, oProcessTemplate, moTemplates, moProcessTemplates
+!     oFlow.LoadFlow dlg.fileName
+      ds.DocumentWindows.AddForm CreateGUID, oProcess.Name, , oFlow, True
+      Exit Sub
+***************
+*** 329,348 ****
+      If Err.Number <> 0 Then Exit Function
+      
+!     Set loadProcess = LoadFromFile(dlg.FileName)
+  End Function
+! Public Sub CommandLineLoadProcess(FileName As String)
+      Dim oFlow As frmFlow
+      Dim oDW As DocumentWindow
+      
+!     Set oFlow = LoadFromFile(FileName)
+      If Not (oFlow Is Nothing) Then
+          Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.getCaption, , oFlow, True)
+      End If
+  End Sub
+! Private Function LoadFromFile(FileName As String) As frmFlow
+      Dim oFlow As frmFlow
+      Set oFlow = New frmFlow
+!     oFlow.Init moContainer, New ProcessTemplate, moTemplates, moProcessTemplates
+!     If Not oFlow.LoadFlow(FileName) Then
+          Unload oFlow
+          Set oFlow = Nothing
+--- 348,367 ----
+      If Err.Number <> 0 Then Exit Function
+      
+!     Set loadProcess = LoadFromFile(dlg.fileName)
+  End Function
+! Public Sub CommandLineLoadProcess(fileName As String)
+      Dim oFlow As frmFlow
+      Dim oDW As DocumentWindow
+      
+!     Set oFlow = LoadFromFile(fileName)
+      If Not (oFlow Is Nothing) Then
+          Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.getCaption, , oFlow, True)
+      End If
+  End Sub
+! Private Function LoadFromFile(fileName As String) As frmFlow
+      Dim oFlow As frmFlow
+      Set oFlow = New frmFlow
+!     oFlow.init moContainer, New ProcessTemplate, moTemplates, moProcessTemplates
+!     If Not oFlow.LoadFlow(fileName) Then
+          Unload oFlow
+          Set oFlow = Nothing
+***************
+*** 425,428 ****
+--- 444,448 ----
+      
+      LoadProcessTemplates
++     loadAddinMenus
+  End Sub
+  
+***************
+*** 513,517 ****
+  End Sub
+  
+! Private Function loadProcessVers(FileName As String, Optional destPath As String = vbNullString) As Versions
+      On Error GoTo Err_Handler
+      Const cstrFunc = "loadProcessVers"
+--- 533,537 ----
+  End Sub
+  
+! Private Function loadProcessVers(fileName As String, Optional destPath As String = vbNullString) As Versions
+      On Error GoTo Err_Handler
+      Const cstrFunc = "loadProcessVers"
+***************
+*** 520,527 ****
+      Dim oLoad As XMLProcessVersion
+      Dim strErrMsg As String
+!     strErrMsg = FileName
+      
+      Set oLoad = New XMLProcessVersion
+!     fLoaded = oLoad.FileLoadXML(FileName, oVersions, moTemplates, moProcessTemplates)
+      
+      If fLoaded Then
+--- 540,547 ----
+      Dim oLoad As XMLProcessVersion
+      Dim strErrMsg As String
+!     strErrMsg = fileName
+      
+      Set oLoad = New XMLProcessVersion
+!     fLoaded = oLoad.FileLoadXML(fileName, oVersions, moTemplates, moProcessTemplates)
+      
+      If fLoaded Then
+***************
+*** 537,546 ****
+      Set oProcessDef = New ProcessDef
+      Set oFilter = New XMLProcessDef
+!     fLoaded = oFilter.FileLoadXML(FileName, oProcessDef, moTemplates, moProcessTemplates)
+      If fLoaded Then
+          '/ add original GUID's as properties for conversion
+          Call AddGUIDForConvert(oProcessDef)
+      Else
+!         MsgBox "Failed to convert " & FileName, vbCritical
+          Exit Function
+      End If
+--- 557,566 ----
+      Set oProcessDef = New ProcessDef
+      Set oFilter = New XMLProcessDef
+!     fLoaded = oFilter.FileLoadXML(fileName, oProcessDef, moTemplates, moProcessTemplates)
+      If fLoaded Then
+          '/ add original GUID's as properties for conversion
+          Call AddGUIDForConvert(oProcessDef)
+      Else
+!         MsgBox "Failed to convert " & fileName, vbCritical
+          Exit Function
+      End If
+***************
+*** 552,557 ****
+      End If
+      
+!     Debug.Print "converting " & FileName
+!     strNewName = OffsetPath(FileName, destPath)
+      
+      strErrMsg = strNewName
+--- 572,577 ----
+      End If
+      
+!     Debug.Print "converting " & fileName
+!     strNewName = OffsetPath(fileName, destPath)
+      
+      strErrMsg = strNewName
+***************
+*** 578,582 ****
+  End Function
+  
+! Private Function OffsetPath(FileName As String, NewPath As String) As String
+      On Error GoTo Err_Handler:
+      Dim intPos As Integer
+--- 598,602 ----
+  End Function
+  
+! Private Function OffsetPath(fileName As String, NewPath As String) As String
+      On Error GoTo Err_Handler:
+      Dim intPos As Integer
+***************
+*** 586,596 ****
+      
+      Do
+!         intPos = InStr(intStart, FileName, "\")
+          If intPos < 1 Then
+!             OffsetPath = Trim$(Left$(FileName, intStart))
+              Exit Do
+          End If
+!         If StrComp(Left$(FileName, intPos), Left$(NewPath, intPos)) <> 0 Then
+!             strFileName = Right$(FileName, Len(FileName) - InStrRev(FileName, "\"))
+              OffsetPath = NewPath & "\" & strFileName
+              Exit Function
+--- 606,616 ----
+      
+      Do
+!         intPos = InStr(intStart, fileName, "\")
+          If intPos < 1 Then
+!             OffsetPath = Trim$(Left$(fileName, intStart))
+              Exit Do
+          End If
+!         If StrComp(Left$(fileName, intPos), Left$(NewPath, intPos)) <> 0 Then
+!             strFileName = Right$(fileName, Len(fileName) - InStrRev(fileName, "\"))
+              OffsetPath = NewPath & "\" & strFileName
+              Exit Function
+***************
+*** 639,643 ****
+     
+  End Sub
+! 
+  Private Sub LoadProcessTemplates()
+      Dim oXMLProcessTemplate As XMLProcessTemplate
+--- 659,672 ----
+     
+  End Sub
+! Private Sub loadAddinMenus()
+!     Dim XMLAddins As New XMLAddinLoader
+!     Set mAddins = XMLAddins.loadAddins(getTemplatePath() & "..\Addins")
+!     Dim cAddin As Addin
+!     Dim cmd As InnovaDSXP.Command
+!     For Each cAddin In mAddins
+!         Set cmd = ds.Commands.AddToolButton(cAddin.ClassName, cAddin.MenuName, , ds.Categories("Addins"))
+!         ds.Commands.GetPopupMenu("mnuAddins").CommandBar.Controls.Add cmd.ID
+!     Next
+! End Sub
+  Private Sub LoadProcessTemplates()
+      Dim oXMLProcessTemplate As XMLProcessTemplate
+
+Index: frmMDI.frx
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frx,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+Binary files /tmp/cvs.bcGoEH and /tmp/cvs.RhRzkf differ
+
+Index: frmPropList.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmPropList.frm,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** frmPropList.frm	7 Dec 2005 12:49:42 -0000	1.3
+--- frmPropList.frm	31 Oct 2007 12:36:34 -0000	1.4
+***************
+*** 1,4 ****
+  VERSION 5.00
+! Object = "{BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.0#0"; "PropertyGridControl.ocx"
+  Begin VB.Form frmPropList 
+     Caption         =   "Form1"
+--- 1,4 ----
+  VERSION 5.00
+! Object = "{BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.1#0"; "PropertyGridControl.ocx"
+  Begin VB.Form frmPropList 
+     Caption         =   "Form1"
+***************
+*** 66,70 ****
+      pg.Move 0, 0, ScaleWidth, ScaleHeight
+  End Sub
+! Public Sub Init(oParent As Container, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set moTaskTemplates = oTaskTemplates
+--- 66,70 ----
+      pg.Move 0, 0, ScaleWidth, ScaleHeight
+  End Sub
+! Public Sub init(oParent As Container, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set moTaskTemplates = oTaskTemplates
+***************
+*** 87,95 ****
+  End Property
+  
+! Private Sub pg_ContextClick(oProperty As ACGProperties.Property, x As Single, y As Single)
+      MDI.showPropGroupsPopup oProperty
+  End Sub
+  
+! Private Sub pg_FileBrowse(oProperty As ACGProperties.Property, FileName As String, Cancel As Boolean)
+      Const cstrFunc = "pg_FileBrowse"
+      On Error GoTo Err_Handler
+--- 87,95 ----
+  End Property
+  
+! Private Sub pg_ContextClick(oProperty As ACGProperties.Property, X As Single, y As Single)
+      MDI.showPropGroupsPopup oProperty
+  End Sub
+  
+! Private Sub pg_FileBrowse(oProperty As ACGProperties.Property, fileName As String, Cancel As Boolean)
+      Const cstrFunc = "pg_FileBrowse"
+      On Error GoTo Err_Handler
+***************
+*** 101,105 ****
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "Set SubProcess"
+!     dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+--- 101,105 ----
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = "Set SubProcess"
+!     dlg.fileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+***************
+*** 114,124 ****
+      Set oVersions = New Versions
+      Dim oProcessDef As ProcessDef
+!     FileName = dlg.FileName
+!     If Not oLoad.FileLoadXML(FileName, oVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set oProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(FileName, oProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox "Failed to load process!", vbExclamation
+              Cancel = True
+--- 114,124 ----
+      Set oVersions = New Versions
+      Dim oProcessDef As ProcessDef
+!     fileName = dlg.fileName
+!     If Not oLoad.FileLoadXML(fileName, oVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set oProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(fileName, oProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox "Failed to load process!", vbExclamation
+              Cancel = True
+***************
+*** 131,140 ****
+          End If
+          oProcessDef.PropertyGroup.Item("(General)").Item("Name").Locked = True
+!         Kill FileName
+!         oLoad.FileSaveXML FileName, oVersions, oProcessDef
+      Else
+          Set oProcessDef = oVersions(oVersions.MaxVer).ProcessDef
+      End If
+!     FileName = oProcessDef.Name
+      '# copy Input and Output property sections
+      Dim oPropsSrc As Properties, oPropsDest As Properties
+--- 131,140 ----
+          End If
+          oProcessDef.PropertyGroup.Item("(General)").Item("Name").Locked = True
+!         Kill fileName
+!         oLoad.FileSaveXML fileName, oVersions, oProcessDef
+      Else
+          Set oProcessDef = oVersions(oVersions.MaxVer).ProcessDef
+      End If
+!     fileName = oProcessDef.Name
+      '# copy Input and Output property sections
+      Dim oPropsSrc As Properties, oPropsDest As Properties
+***************
+*** 186,188 ****
+--- 186,201 ----
+              Exit Sub
+      End Select
++ End Sub
++ 
++ Private Sub pg_TextPopup(oProperty As ACGProperties.Property, Cancel As Boolean)
++     On Error Resume Next
++     Load frmTextPopup
++     If frmTextPopup.doTextPopup(oProperty) Then
++         oProperty.Value = Trim$(frmTextPopup.Text)
++         Cancel = False
++     Else
++         Cancel = True
++     End If
++     Unload frmTextPopup
++     
+  End Sub
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:37:25 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:37:25 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode AllProjects.vbg,1.1,1.2
+Message-ID: <20071031123725.77D4444AA9@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode
+In directory sheep:/tmp/cvs-serv17277/src/vbcode
+
+Modified Files:
+	AllProjects.vbg 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: AllProjects.vbg
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/AllProjects.vbg,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** AllProjects.vbg	16 Oct 2007 15:53:30 -0000	1.1
+--- AllProjects.vbg	31 Oct 2007 12:36:34 -0000	1.2
+***************
+*** 8,9 ****
+--- 8,11 ----
+  Project=ACGPropertyGrid\PropertyGridControl.vbp
+  Project=ACGWFDXML\ACGWFDXML.vbp
++ Project=ACGWFDAddin\ACGWFDAddin.vbp
++ Project=AnitePrettyDoc\AnitePrettyDoc.vbp
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:38:14 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:38:14 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDAddin - New directory
+Message-ID: <20071031123814.63EB144ACD@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDAddin
+In directory sheep:/tmp/cvs-serv17603/ACGWFDAddin
+
+Log Message:
+Directory /cvsroot/zebra/zebra/src/vbcode/ACGWFDAddin added to the repository
+
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:38:48 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:38:48 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDAddin ACGWFDAddin.vbp, NONE,
+	1.1 IAddin.cls, NONE, 1.1 IAddinAccess.cls, NONE,
+	1.1 IDialog.cls, NONE, 1.1 Stub.cls, NONE, 1.1
+Message-ID: <20071031123848.58A7E44AAB@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDAddin
+In directory sheep:/tmp/cvs-serv17811/src/vbcode/ACGWFDAddin
+
+Added Files:
+	ACGWFDAddin.vbp IAddin.cls IAddinAccess.cls IDialog.cls 
+	Stub.cls 
+Log Message:
+new feature to allow addins to be created for the workflow designer
+
+--- NEW FILE: ACGWFDAddin.vbp ---
+Type=OleDll
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\..\..\..\WINDOWS\system32\stdole2.tlb#OLE Automation
+Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\..\..\..\..\..\..\DOCUME~1\MATTHE~1.NOR\MYDOCU~1\Projects\Zebra\vbcode\ACGProcessDefs\ACGProcessDefs.dll#
+Class=IAddin; IAddin.cls
+Class=IAddinAccess; IAddinAccess.cls
+Class=Stub; Stub.cls
+Class=IDialog; IDialog.cls
+Startup="(None)"
+HelpFile=""
+Title="ACGWFDAddin"
+Command32=""
+Name="ACGWFDAddin"
+HelpContextID="0"
+CompatibleMode="1"
+MajorVer=1
+MinorVer=0
+RevisionVer=0
+AutoIncrementVer=1
+ServerSupportFiles=0
+VersionCompanyName="Anite Public Sector"
+CompilationType=0
+OptimizationType=0
+FavorPentiumPro(tm)=0
+CodeViewDebugInfo=0
+NoAliasing=0
+BoundsCheck=0
+OverflowCheck=0
+FlPointCheck=0
+FDIVCheck=0
+UnroundedFP=0
+StartMode=1
+Unattended=0
+Retained=0
+ThreadPerObject=0
+MaxNumberOfThreads=1
+ThreadingModel=1
+DebugStartupOption=0
+
+--- NEW FILE: IAddin.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "IAddin"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+'/ interface to allow addins to appear
+
+Public Sub runAddin(AddinAccess As IAddinAccess)
+'
+End Sub
+
+
+--- NEW FILE: IAddinAccess.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "IAddinAccess"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+Public Property Get Dialog() As IDialog
+    'Set dialog = mMDI.dlg
+End Property
+
+Public Property Get activeProcessDef() As ProcessDef
+    'Set activeProcessDef = mMDI.activeProcessDef
+End Property
+
+Public Sub refreshProcessDisplay()
+    'mMDI.refreshActiveProcess
+End Sub
+Public Property Get TemplatePath() As String
+'
+End Property
+
+--- NEW FILE: IDialog.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "IDialog"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+'/ stub for common dialog class
+Public Property Get filter() As String
+'
+End Property
+Public Property Get filterIndex() As Integer
+'
+End Property
+Public Property Get dialogTitle() As String
+'
+End Property
+Public Property Get fileName() As String
+'
+End Property
+Public Property Let filter(filterText As String)
+'
+End Property
+Public Property Let filterIndex(filterIndex As Integer)
+'
+End Property
+Public Property Let dialogTitle(dialogTitle As String)
+'
+End Property
+Public Property Let fileName(fileName As String)
+'
+End Property
+'/ return false if save cancelled
+Public Function ShowSave() As Boolean
+'
+End Function
+
+
+--- NEW FILE: Stub.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Stub"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+'/ just a public creatable class so that vb doesn't complain at compile time
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:39:16 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:39:16 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFDXML Addin.cls, NONE,
+	1.1 XMLAddinLoader.cls, NONE, 1.1
+Message-ID: <20071031123916.8B18144AAB@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML
+In directory sheep:/tmp/cvs-serv17930/src/vbcode/ACGWFDXML
+
+Added Files:
+	Addin.cls XMLAddinLoader.cls 
+Log Message:
+addin loader components
+
+--- NEW FILE: Addin.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Addin"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+Private mMenuName As String
+Private mClassName As String
+Public Property Get MenuName() As String
+    MenuName = mMenuName
+End Property
+Public Property Get ClassName() As String
+    ClassName = mClassName
+End Property
+
+Friend Property Let ClassName(v As String)
+    mClassName = v
+End Property
+Friend Property Let MenuName(v As String)
+    mMenuName = v
+End Property
+
+
+--- NEW FILE: XMLAddinLoader.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "XMLAddinLoader"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+Public Function loadAddins(Path As String) As Collection
+    '# scan the path for addin templates
+    
+    Dim oScanPath As ScanPath
+    Dim lngCount As Long
+    Dim fLoadOK As Boolean
+    Dim oAddins As New Collection
+    
+    Set oScanPath = New ScanPath
+    oScanPath.StartScan Path, ".xml"
+    
+    Do Until oScanPath.FileList.Count = 0
+        loadAddin oScanPath.FileList(1), oAddins
+        oScanPath.FileList.Remove 1
+    Loop
+    
+    Set loadAddins = oAddins
+End Function
+
+Private Sub loadAddin(FileName As String, oAddins As Collection)
+    Dim oDoc As MSXML2.DOMDocument
+    Dim oRoot As MSXML2.IXMLDOMNode
+    
+    Set oDoc = New MSXML2.DOMDocument
+    
+    oDoc.Load FileName
+    
+    Set oRoot = getRealNode(oDoc.firstChild)
+    
+    If StrComp(oRoot.nodeName, "ACGWFD.Addins", vbTextCompare) <> 0 Then
+        Exit Sub
+    End If
+    
+    processAddin oRoot, oAddins
+End Sub
+
+Private Sub processAddin(oRoot As MSXML2.IXMLDOMNode, oAddins As Collection)
+    Dim oAddin As Addin
+    Dim n As IXMLDOMNode
+    For Each n In oRoot.childNodes
+        If StrComp(n.nodeName, "Addin", vbTextCompare) = 0 Then
+            Set oAddin = New Addin
+            oAddin.ClassName = GetNodeAttr(n, "classname")
+            oAddin.MenuName = GetNodeAttr(n, "menuname")
+            oAddins.Add oAddin
+        End If
+    Next
+    
+End Sub
+
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:39:59 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:39:59 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFD AddinAccess.cls, NONE,
+	1.1 Dialog.cls, NONE, 1.1 DocFlow.cls, NONE,
+	1.1 frmTextPopup.frm, NONE, 1.1 frmTextPopup.frx, NONE, 1.1
+Message-ID: <20071031123959.B2BE3396E9@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv18114/src/vbcode/ACGWFD
+
+Added Files:
+	AddinAccess.cls Dialog.cls DocFlow.cls frmTextPopup.frm 
+	frmTextPopup.frx 
+Log Message:
+Addin feature plus basic documentation facility
+
+--- NEW FILE: AddinAccess.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "AddinAccess"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+Private mMDI As frmMDI
+Private mDialog As Dialog
+Implements IAddinAccess
+Public Sub init(frm As frmMDI)
+    Set mMDI = frm
+    Set mDialog = New Dialog
+    mDialog.init frm
+End Sub
+Public Property Get IAddinAccess_dialog() As IDialog
+    Set IAddinAccess_dialog = mDialog
+End Property
+
+Public Property Get IAddinAccess_activeProcessDef() As ProcessDef
+    Set IAddinAccess_activeProcessDef = mMDI.activeProcessDef
+End Property
+
+Public Sub IAddinAccess_refreshProcessDisplay()
+    mMDI.refreshActiveProcess
+End Sub
+
+Private Property Get IAddinAccess_TemplatePath() As String
+    IAddinAccess_TemplatePath = validatepath(Left$(mMDI.getTemplatePath(), InStr(mMDI.getTemplatePath(), "\Templates")))
+End Property
+
+--- NEW FILE: Dialog.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Dialog"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+
+Implements IDialog
+Private dlg As MSComDlg.CommonDialog
+Public Sub init(frm As frmMDI)
+    Set dlg = frm.dlg
+End Sub
+
+Private Property Let IDialog_dialogTitle(RHS As String)
+    dlg.DialogTitle = RHS
+End Property
+
+Private Property Get IDialog_dialogTitle() As String
+    IDialog_dialogTitle = dlg.DialogTitle
+End Property
+
+Private Property Let IDialog_fileName(RHS As String)
+    dlg.fileName = RHS
+End Property
+
+Private Property Get IDialog_fileName() As String
+    IDialog_fileName = dlg.fileName
+End Property
+
+Private Property Let IDialog_filter(RHS As String)
+    dlg.Filter = RHS
+End Property
+
+Private Property Get IDialog_filter() As String
+    IDialog_filter = dlg.Filter
+End Property
+
+Private Property Let IDialog_filterIndex(RHS As Integer)
+    dlg.FilterIndex = RHS
+End Property
+
+Private Property Get IDialog_filterIndex() As Integer
+    IDialog_filterIndex = dlg.FilterIndex
+End Property
+
+Private Function IDialog_ShowSave() As Boolean
+    On Error Resume Next
+    dlg.Flags = cdlOFNOverwritePrompt
+    dlg.ShowSave
+    IDialog_ShowSave = Err.Number = 0
+End Function
+
+--- NEW FILE: DocFlow.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "DocFlow"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+
+'// documents a workflow as an html page
+
+Public Sub DocProcess(oProcessDef As ProcessDef, fileName As String, showLocked As Boolean)
+    Dim html As MSXML2.IXMLDOMNode
+    Set html = XMLDoc("html")
+    
+    docProcessDef createBody(html, oProcessDef), oProcessDef, showLocked
+    saveDoc html.ownerDocument, fileName
+End Sub
+Private Function createBody(html As IXMLDOMNode, oProcessDef As ProcessDef) As IXMLDOMNode
+    Dim nHead As IXMLDOMNode
+    Set nHead = XMLNode(html, "head")
+    Dim nStyle As IXMLDOMNode
+    Set nStyle = XMLNode(nHead, "style")
+    XMLAttr nStyle, "type", "text/css"
+    nStyle.Text = "* {font-family:verdana;} td,table {border-style:solid;border-width:1px;margin:0px;padding:2px;border-spacing:0px;border-collapse:collapse;}"
+    XMLNode nHead, "title", "Documentation for Process """ & speech(oProcessDef.Name) & """"
+    Set createBody = XMLNode(html, "body")
+End Function
+Private Function docProcessDef(doc As IXMLDOMNode, oProcessDef As ProcessDef, showLocked As Boolean)
+    Dim nTable As IXMLDOMNode
+    Set nTable = XMLNode(doc, "table")
+    Dim nRow As IXMLDOMNode
+    Set nRow = XMLNode(nTable, "tr")
+    Dim nCell As IXMLDOMNode
+    Set nCell = XMLNode(nRow, "td", "Process")
+    XMLAttr nCell, "colspan", 3
+    docPropGroups nTable, oProcessDef.PropertyGroup, showLocked
+    docTasks doc, oProcessDef.Tasks, showLocked
+End Function
+Private Sub saveDoc(doc As MSXML2.DOMDocument, fileName As String)
+    If Dir$(fileName) > "" Then
+        Kill fileName
+    End If
+    doc.save fileName
+End Sub
+Private Sub docTasks(doc As MSXML2.IXMLDOMNode, oTasks As Tasks, showLocked As Boolean)
+    Dim oTaskDef As TaskDef
+    Dim nTable As IXMLDOMNode
+    Set nTable = XMLNode(doc, "table")
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    For Each oTaskDef In oTasks
+        Set nRow = XMLNode(nTable, "tr")
+        Set nCell = XMLNode(nRow, "td")
+        docTask nCell, oTaskDef, showLocked
+    Next
+End Sub
+Private Sub docTask(doc As MSXML2.IXMLDOMNode, oTaskDef As TaskDef, showLocked As Boolean)
+    Dim nTable As IXMLDOMNode
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    Set nTable = XMLNode(doc, "table")
+    Set nRow = XMLNode(nTable, "tr")
+    Set nCell = XMLNode(nRow, "td", "Task")
+    XMLAttr nCell, "colspan", 3
+    docPropGroups nTable, oTaskDef.PropertyGroup, showLocked
+    
+    docTaskRoutings nTable, oTaskDef, showLocked
+End Sub
+Private Sub docTaskRoutings(doc As MSXML2.IXMLDOMNode, oTaskDef As TaskDef, showLocked As Boolean)
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    Dim oRouting As RoutingDef
+    If oTaskDef.RoutingOut.Count > 0 Then
+        Set nRow = XMLNode(doc, "tr")
+        Set nCell = XMLNode(nRow, "td", "Routing Out")
+        XMLAttr nCell, "colspan", 3
+        For Each oRouting In oTaskDef.RoutingOut
+            docRouting doc, oRouting, oRouting.TaskDest, showLocked
+        Next
+    End If
+    If oTaskDef.RoutingIn.Count > 0 Then
+        Set nRow = XMLNode(doc, "tr")
+        Set nCell = XMLNode(nRow, "td", "Routing In")
+        XMLAttr nCell, "colspan", 3
+        For Each oRouting In oTaskDef.RoutingIn
+            docRouting doc, oRouting, oRouting.TaskOrg, showLocked
+        Next
+    End If
+End Sub
+Private Sub docRouting(doc As MSXML2.IXMLDOMNode, oRouting As RoutingDef, oTaskDef As TaskDef, showLocked As Boolean)
+    Dim nRow As IXMLDOMNode
+    Set nRow = XMLNode(doc, "tr")
+    XMLAttr XMLNode(nRow, "td", oTaskDef.Name), "colspan", 3
+    docPropGroups doc, oRouting.PropertyGroup, showLocked
+End Sub
+Private Sub docPropGroups(doc As MSXML2.IXMLDOMNode, oPropGroup As PropertyGroup, showLocked As Boolean)
+    Dim oProperties As Properties
+    
+    For Each oProperties In oPropGroup
+        docProps doc, oProperties, showLocked
+    Next
+End Sub
+
+Private Sub docProps(doc As MSXML2.IXMLDOMNode, oProps As Properties, showLocked As Boolean)
+    If oProps.Count = 0 Then Exit Sub
+    Dim oProp As Property
+    Dim fDoProps As Boolean
+    For Each oProp In oProps
+        If Len(oProp.Value) > 0 Then
+            If Not (showLocked = False And oProp.Locked = True) Then
+                fDoProps = True
+                Exit For
+            End If
+        End If
+    Next
+    If Not fDoProps Then Exit Sub
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    Set nRow = XMLNode(doc, "tr")
+    Set nCell = XMLNode(nRow, "td", oProps.Name)
+    Dim iPropCount As Integer
+    Dim nCurrent As IXMLDOMNode
+    Set nCurrent = nRow
+    For Each oProp In oProps
+        If docProp(nCurrent, oProp, showLocked) Then
+            iPropCount = iPropCount + 1
+            Set nCurrent = XMLNode(doc, "tr")
+        End If
+        
+    Next
+    If iPropCount > 1 Then
+        XMLAttr nCell, "rowspan", iPropCount
+    End If
+End Sub
+
+Private Function docProp(doc As MSXML2.IXMLDOMNode, oProp As Property, showLocked As Boolean) As Boolean
+    docProp = False
+    If Len(oProp.Value) = 0 Or (showLocked = False And oProp.Locked) Then Exit Function
+    XMLNode doc, "td", oProp.Name
+    XMLNode doc, "td", oProp.Value
+    docProp = True
+End Function
+
+
+--- NEW FILE: frmTextPopup.frm ---
+VERSION 5.00
+Begin VB.Form frmTextPopup 
+   BorderStyle     =   3  'Fixed Dialog
+   Caption         =   "Editing Property..."
+   ClientHeight    =   3195
+   ClientLeft      =   45
+   ClientTop       =   330
+   ClientWidth     =   4680
+   ControlBox      =   0   'False
+   BeginProperty Font 
+      Name            =   "Tahoma"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   3195
+   ScaleWidth      =   4680
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton cmdCancel 
+      Cancel          =   -1  'True
+      Caption         =   "Cancel"
+      Height          =   495
+      Left            =   3300
+      TabIndex        =   2
+      Top             =   2580
+      Width           =   1215
+   End
+   Begin VB.CommandButton cmdOK 
+      Caption         =   "OK"
+      Height          =   495
+      Left            =   120
+      TabIndex        =   1
+      Top             =   2580
+      Width           =   1215
+   End
+   Begin VB.TextBox txt 
+      Height          =   2355
+      Left            =   120
+      MultiLine       =   -1  'True
+      TabIndex        =   0
+      Text            =   "frmTextPopup.frx":0000
+      Top             =   120
+      Width           =   4395
+   End
+End
+Attribute VB_Name = "frmTextPopup"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Private mfCancel As Boolean
+Public Property Get Text() As String
+    Text = txt.Text
+End Property
+Public Function doTextPopup(oProperty As Property) As Boolean
+    txt.Text = oProperty.Value
+    txt.SelStart = 0
+    txt.SelLength = Len(txt.Text)
+    Me.Caption = "Editing " & oProperty.Name
+    Me.Show vbModal, frmMDI
+    doTextPopup = Not mfCancel
+End Function
+
+Private Sub cmdCancel_Click()
+    mfCancel = True
+    Me.Hide
+End Sub
+
+Private Sub cmdOK_Click()
+    mfCancel = False
+    Me.Hide
+End Sub
+
+
+--- NEW FILE: frmTextPopup.frx ---
+(This appears to be a binary file; contents omitted.)
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:40:47 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:40:47 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProperties ACGProperties.vbw,
+	1.5, 1.6
+Message-ID: <20071031124047.B8C7B44B2E@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProperties
+In directory sheep:/tmp/cvs-serv18403/src/vbcode/ACGProperties
+
+Modified Files:
+	ACGProperties.vbw 
+Log Message:
+
+
+Index: ACGProperties.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProperties/ACGProperties.vbw,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ACGProperties.vbw	31 Oct 2007 12:36:33 -0000	1.5
+--- ACGProperties.vbw	31 Oct 2007 12:39:57 -0000	1.6
+***************
+*** 1,3 ****
+! PropertyGroup = 66, 66, 696, 468, 
+  basProperties = 110, 110, 740, 512, C
+  GPropertyHelper = 0, 0, 630, 402, C
+--- 1,3 ----
+! PropertyGroup = 66, 66, 696, 468, Z
+  basProperties = 110, 110, 740, 512, C
+  GPropertyHelper = 0, 0, 630, 402, C
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:40:47 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:40:47 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGPropertyGrid
+	PropertyGridControl.vbw, 1.4, 1.5
+Message-ID: <20071031124047.F075A44B2F@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid
+In directory sheep:/tmp/cvs-serv18403/src/vbcode/ACGPropertyGrid
+
+Modified Files:
+	PropertyGridControl.vbw 
+Log Message:
+
+
+Index: PropertyGridControl.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid/PropertyGridControl.vbw,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** PropertyGridControl.vbw	31 Oct 2007 12:36:33 -0000	1.4
+--- PropertyGridControl.vbw	31 Oct 2007 12:39:57 -0000	1.5
+***************
+*** 1 ****
+! PropertyGrid = 22, 22, 652, 424, , 44, 44, 674, 446, C
+--- 1 ----
+! PropertyGrid = 22, 22, 652, 424, Z, 44, 44, 674, 446, C
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:40:48 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:40:48 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbw,1.10,1.11
+Message-ID: <20071031124048.2C14A44B31@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv18403/src/vbcode/ACGWFD
+
+Modified Files:
+	ACGWFD.vbw 
+Log Message:
+
+
+Index: ACGWFD.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbw,v
+retrieving revision 1.10
+retrieving revision 1.11
+diff -C2 -d -r1.10 -r1.11
+*** ACGWFD.vbw	31 Oct 2007 12:36:34 -0000	1.10
+--- ACGWFD.vbw	31 Oct 2007 12:39:57 -0000	1.11
+***************
+*** 8,12 ****
+  frmMDI = 88, 164, 808, 619, , -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, , 88, 88, 674, 553, C
+  frmPropList = 154, 154, 874, 612, , 110, 110, 696, 575, C
+  basMain = 22, 22, 608, 487, C
+--- 8,12 ----
+  frmMDI = 88, 164, 808, 619, , -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, Z, 88, 88, 674, 553, C
+  frmPropList = 154, 154, 874, 612, , 110, 110, 696, 575, C
+  basMain = 22, 22, 608, 487, C
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 13:40:47 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 13:40:47 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGProcessDefs ACGProcessDefs.vbw,
+	1.6, 1.7
+Message-ID: <20071031124047.83F1C44B25@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGProcessDefs
+In directory sheep:/tmp/cvs-serv18403/src/vbcode/ACGProcessDefs
+
+Modified Files:
+	ACGProcessDefs.vbw 
+Log Message:
+
+
+Index: ACGProcessDefs.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGProcessDefs/ACGProcessDefs.vbw,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** ACGProcessDefs.vbw	31 Oct 2007 12:36:32 -0000	1.6
+--- ACGProcessDefs.vbw	31 Oct 2007 12:39:56 -0000	1.7
+***************
+*** 3,7 ****
+  RoutingDef = 154, 154, 784, 556, 
+  Routings = 176, 176, 806, 578, 
+! Tasks = 176, 176, 806, 578, 
+  RoutingList = 0, 0, 630, 402, 
+  TaskTemplate = 0, 0, 630, 402, C
+--- 3,7 ----
+  RoutingDef = 154, 154, 784, 556, 
+  Routings = 176, 176, 806, 578, 
+! Tasks = 176, 176, 806, 578, Z
+  RoutingList = 0, 0, 630, 402, 
+  TaskTemplate = 0, 0, 630, 402, C
+
+
+
+From nobody at sheep.berlios.de  Wed Oct 31 17:47:51 2007
+From: nobody at sheep.berlios.de (mpn_uk)
+Date: Wed, 31 Oct 2007 17:47:51 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/vbcode/ACGWFD frmFlow.frm,1.9,1.10
+Message-ID: <20071031164751.EF1C2110B52@mail.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv6674/ACGWFD
+
+Modified Files:
+	frmFlow.frm 
+Log Message:
+
+
+Index: frmFlow.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmFlow.frm,v
+retrieving revision 1.9
+retrieving revision 1.10
+diff -C2 -d -r1.9 -r1.10
+*** frmFlow.frm	31 Oct 2007 12:36:34 -0000	1.9
+--- frmFlow.frm	31 Oct 2007 16:47:01 -0000	1.10
+***************
+*** 1086,1089 ****
+--- 1086,1090 ----
+          Set oTaskOrg = oNewProcess.Tasks(oLink.Org.key)
+          On Error GoTo Err_Handler
++         '/ we only copy the routing into the clipboard IF the source and dest tasks have also been selected
+          If Not (oTaskOrg Is Nothing) Then
+              On Error Resume Next
+***************
+*** 1092,1097 ****
+              On Error GoTo Err_Handler
+              If Not (oTaskDest Is Nothing) Then
+!                 '# all present and correct
+!                 Set oNewRouting = oNewProcess.Routings.Add(oTaskOrg, oTaskDest, oRoutingDef.Guid)
+                  oNewRouting.ClearPoints
+                  For Each oPT In oLink.ExtraPoints
+--- 1093,1098 ----
+              On Error GoTo Err_Handler
+              If Not (oTaskDest Is Nothing) Then
+!                 ' all present and correct, make new GUID for routing to prevent paste errors
+!                 Set oNewRouting = oNewProcess.Routings.Add(oTaskOrg, oTaskDest, CreateGUID)
+                  oNewRouting.ClearPoints
+                  For Each oPT In oLink.ExtraPoints
+
+
+

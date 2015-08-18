@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20TimedTaskRunnerImpl.java%2C1.2%2C1.3&In-Reply-To=%3C200605301044.k4UAioT26685%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000375.html">
+   <LINK REL="Next"  HREF="000377.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.2,1.3</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20TimedTaskRunnerImpl.java%2C1.2%2C1.3&In-Reply-To=%3C200605301044.k4UAioT26685%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue May 30 12:44:50 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000375.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api TimedTaskRunner.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000377.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/job - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#376">[ date ]</a>
+              <a href="thread.html#376">[ thread ]</a>
+              <a href="subject.html#376">[ subject ]</a>
+              <a href="author.html#376">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv11467/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	TimedTaskRunnerImpl.java 
+Log Message:
+
+
+Index: TimedTaskRunnerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/TimedTaskRunnerImpl.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** TimedTaskRunnerImpl.java	26 May 2006 16:07:20 -0000	1.2
+--- TimedTaskRunnerImpl.java	30 May 2006 10:44:47 -0000	1.3
+***************
+*** 25,28 ****
+--- 25,29 ----
+  import com.anite.zebra.hivemind.api.TimedTaskRunner;
+  import com.anite.zebra.hivemind.manager.FiredTimedTaskManager;
++ import com.anite.zebra.hivemind.manager.TimeManager;
+  import com.anite.zebra.hivemind.manager.TimedTaskManager;
+  import com.anite.zebra.hivemind.om.state.ZebraTaskInstance;
+***************
+*** 30,34 ****
+--- 31,41 ----
+  import com.anite.zebra.hivemind.om.timedtask.Time;
+  import com.anite.zebra.hivemind.om.timedtask.TimedTask;
++ import com.sun.msv.datatype.xsd.TimeType;
+  
++ /**
++  * 
++  * @author Mike Jones
++  *
++  */
+  public class TimedTaskRunnerImpl implements TimedTaskRunner {
+  
+***************
+*** 37,40 ****
+--- 44,49 ----
+  	private FiredTimedTaskManager firedTimedTaskManager;
+  
++ 	private TimeManager timeManager;
++ 
+  	private Log log;
+  
+***************
+*** 88,94 ****
+  		TimedTask timedTask = new TimedTask();
+  		timedTask.setZebraTaskInstanceId(zti.getTaskInstanceId());
+! 		// create time
+! 		// add to timed task
+! 
+  	}
+  
+--- 97,102 ----
+  		TimedTask timedTask = new TimedTask();
+  		timedTask.setZebraTaskInstanceId(zti.getTaskInstanceId());
+! 		timedTask.setTime(getTimeManager().createOrFetchTime(hours, mins));
+! 		getTimedTaskManager().saveOrUpdate(timedTask);
+  	}
+  
+***************
+*** 112,118 ****
+  
+  			zebra.transitionTask(zti);
+! 
+! 			// set all the properties on the fired timed task
+! 
+  		} catch (TransitionException e) {
+  			log.error(e);
+--- 120,124 ----
+  
+  			zebra.transitionTask(zti);
+! 			firedTimedTask.setFailed(false);
+  		} catch (TransitionException e) {
+  			log.error(e);
+***************
+*** 129,132 ****
+--- 135,154 ----
+  		}
+  
++ 	}
++ 
++ 	public TimeManager getTimeManager() {
++ 		return timeManager;
++ 	}
++ 
++ 	public void setTimeManager(TimeManager timeManager) {
++ 		this.timeManager = timeManager;
++ 	}
++ 
++ 	public FiredTimedTaskManager getFiredTimedTaskManager() {
++ 		return firedTimedTaskManager;
++ 	}
++ 
++ 	public TimedTaskManager getTimedTaskManager() {
++ 		return timedTaskManager;
+  	}
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000375.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api TimedTaskRunner.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000377.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/job - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#376">[ date ]</a>
+              <a href="thread.html#376">[ thread ]</a>
+              <a href="subject.html#376">[ subject ]</a>
+              <a href="author.html#376">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

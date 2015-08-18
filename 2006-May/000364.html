@@ -1,0 +1,409 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,1.1,1.2 TimedTaskRunnerImpl.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryImpl.java%2C1.1%2C1.2%20TimedTaskRunnerImpl.java%2C1.1%2C1.2&In-Reply-To=%3C200605261602.k4QG2IT24381%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000363.html">
+   <LINK REL="Next"  HREF="000365.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,1.1,1.2 TimedTaskRunnerImpl.java,1.1,1.2</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryImpl.java%2C1.1%2C1.2%20TimedTaskRunnerImpl.java%2C1.1%2C1.2&In-Reply-To=%3C200605261602.k4QG2IT24381%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,1.1,1.2 TimedTaskRunnerImpl.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Fri May 26 18:02:18 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000363.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/timedtask AbstractTimedTask.java,NONE,1.1 TimedTask.java,1.1,1.2 FiredTimedTask.java,1.1,1.2 Time.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000365.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraStateFactory.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#364">[ date ]</a>
+              <a href="thread.html#364">[ thread ]</a>
+              <a href="subject.html#364">[ subject ]</a>
+              <a href="author.html#364">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv30903/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraStateFactoryImpl.java TimedTaskRunnerImpl.java 
+Log Message:
+
+
+Index: ZebraStateFactoryImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/ZebraStateFactoryImpl.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** ZebraStateFactoryImpl.java	15 Mar 2006 17:14:23 -0000	1.1
+--- ZebraStateFactoryImpl.java	26 May 2006 16:07:20 -0000	1.2
+***************
+*** 64,67 ****
+--- 64,69 ----
+      private List&lt;StateFactoryListener&gt; listeners = new ArrayList&lt;StateFactoryListener&gt;();
+      
++     private Session session;
++     
+  	/**
+  	 * This should be manually injected by hivemind
+***************
+*** 90,97 ****
+  			throws StateFailureException {
+  
+- 		Session s;
+  		try {
+- 			s = RegistryHelper.getInstance().getSession();
+- 
+  			if (stateObject instanceof ZebraTaskInstance) {
+  
+--- 92,96 ----
+***************
+*** 108,112 ****
+  				antelopeTaskInstanceHistory.setShowInHistory(new Boolean(
+  						taskDefinition.getShowInHistory()));
+! 				s.save(antelopeTaskInstanceHistory);
+  
+  				// Tidy up process reference
+--- 107,111 ----
+  				antelopeTaskInstanceHistory.setShowInHistory(new Boolean(
+  						taskDefinition.getShowInHistory()));
+! 				getSession().save(antelopeTaskInstanceHistory);
+  
+  				// Tidy up process reference
+***************
+*** 121,128 ****
+  				antelopeTaskInstanceHistory.setProcessInstance(processInstance);
+  
+!                 s.save(processInstance);
+                  
+  			}
+! 			s.delete(stateObject);
+  		} catch (Exception e) {
+  			this.log.error(&quot;Failed to delete:&quot; + stateObject.toString(), e);
+--- 120,127 ----
+  				antelopeTaskInstanceHistory.setProcessInstance(processInstance);
+  
+! 				getSession().save(processInstance);
+                  
+  			}
+! 			getSession().delete(stateObject);
+  		} catch (Exception e) {
+  			this.log.error(&quot;Failed to delete:&quot; + stateObject.toString(), e);
+***************
+*** 209,214 ****
+  	public ITransaction beginTransaction() throws StateFailureException {
+  
+! 		return new HibernateTransaction(RegistryHelper.getInstance()
+! 				.getSession());
+  
+  	}
+--- 208,212 ----
+  	public ITransaction beginTransaction() throws StateFailureException {
+  
+! 		return new HibernateTransaction(getSession());
+  
+  	}
+***************
+*** 218,222 ****
+       */
+  	public void saveObject(IStateObject object) throws StateFailureException {
+! 		RegistryHelper.getInstance().getSession().saveOrUpdate(object);
+  
+  	}
+--- 216,220 ----
+       */
+  	public void saveObject(IStateObject object) throws StateFailureException {
+! 		getSession().saveOrUpdate(object);
+  
+  	}
+***************
+*** 228,233 ****
+  			throws LockException {
+  
+! 		this.lockManager.aquireLock(processInstance, RegistryHelper
+! 				.getInstance().getSession());
+  
+  	}
+--- 226,230 ----
+  			throws LockException {
+  
+! 		this.lockManager.aquireLock(processInstance, getSession());
+  
+  	}
+***************
+*** 239,244 ****
+  			throws LockException {
+  
+! 		this.lockManager.releaseLock(processInstance, RegistryHelper
+! 				.getInstance().getSession());
+  	}
+  
+--- 236,240 ----
+  			throws LockException {
+  
+! 		this.lockManager.releaseLock(processInstance, getSession());
+  	}
+  
+***************
+*** 292,295 ****
+--- 288,303 ----
+          listeners.remove(listener);
+      }
++ 
++ 	public ZebraTaskInstance loadTaskInstance(Long taskInstanceId) {
++ 		return (ZebraTaskInstance) getSession().load(ZebraTaskInstance.class, taskInstanceId);
++ 	}
++ 
++ 	public Session getSession() {
++ 		return session;
++ 	}
++ 
++ 	public void setSession(Session session) {
++ 		this.session = session;
++ 	}
+  
+  }
+
+Index: TimedTaskRunnerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/TimedTaskRunnerImpl.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** TimedTaskRunnerImpl.java	26 May 2006 15:30:29 -0000	1.1
+--- TimedTaskRunnerImpl.java	26 May 2006 16:07:20 -0000	1.2
+***************
+*** 33,124 ****
+  public class TimedTaskRunnerImpl implements TimedTaskRunner {
+  
+!     private TimedTaskManager timedTaskManager;
+! 
+!     private FiredTimedTaskManager firedTimedTaskManager;
+  
+!     private Log log;
+  
+!     private Zebra zebra;
+  
+!     public void setZebra(Zebra zebra) {
+!         this.zebra = zebra;
+!     }
+  
+!     /*
+!      * method for injection
+!      */
+!     public void setFiredTimedTaskManager(FiredTimedTaskManager firedTimedTaskManager) {
+!         this.firedTimedTaskManager = firedTimedTaskManager;
+!     }
+  
+!     /*
+!      * Method for injection
+!      */
+!     public void setLog(Log log) {
+!         this.log = log;
+!     }
+  
+!     /*
+!      * Method for injection
+!      */
+!     public void setTimedTaskManager(TimedTaskManager timedTaskManager) {
+!         this.timedTaskManager = timedTaskManager;
+!     }
+  
+!     /*
+!      * (non-Javadoc)
+!      * @see com.anite.zebra.hivemind.api.TimedTaskRunner#runTasksForTime(com.anite.zebra.hivemind.om.timedtask.Time)
+!      */
+!     public void runTasksForTime(Time time) {
+  
+!         List&lt;TimedTask&gt; timedTasks = timedTaskManager.getTasksForTime(time);
+  
+!         for (TimedTask timedTask : timedTasks) {
+  
+!             runTask(timedTask);
+  
+!         }
+  
+!     }
+  
+!     public void scheduleTimedTask(ZebraTaskInstance zti, int hours, int mins) {
+  
+!         TimedTask timedTask = new TimedTask();
+!         timedTask.setZebraTaskInstance(zti);
+!         // create time 
+!         // add to timed task
+  
+!     }
+  
+!     /**
+!      * Runt the timed task by retrieving the associated zebra task instance and transtioningit it
+!      * 
+!      * @param timedTask
+!      */
+!     protected void runTask(TimedTask timedTask) {
+  
+!         FiredTimedTask firedTimedTask = new FiredTimedTask(timedTask);
+  
+!         ZebraTaskInstance zti = timedTask.getZebraTaskInstance();
+  
+!         zti.setOutcome(&quot;Done&quot;);
+!         zti.setState(ITaskInstance.STATE_AWAITINGCOMPLETE);
+  
+!         try {
+  
+!             zebra.transitionTask(zti);
+  
+!             // set all the properties on the fired timed task
+  
+!         } catch (TransitionException e) {
+!             // log the execption also?
+!             firedTimedTask.setExceptionText(e.getMessage());
+!             firedTimedTask.setFailed(true);
+  
+!         } finally {
+!             firedTimedTaskManager.saveOrUpdate(firedTimedTask);
+!         }
+  
+!     }
+  
+  }
+--- 33,133 ----
+  public class TimedTaskRunnerImpl implements TimedTaskRunner {
+  
+! 	private TimedTaskManager timedTaskManager;
+  
+! 	private FiredTimedTaskManager firedTimedTaskManager;
+  
+! 	private Log log;
+  
+! 	private Zebra zebra;
+  
+! 	public void setZebra(Zebra zebra) {
+! 		this.zebra = zebra;
+! 	}
+  
+! 	/*
+! 	 * method for injection
+! 	 */
+! 	public void setFiredTimedTaskManager(
+! 			FiredTimedTaskManager firedTimedTaskManager) {
+! 		this.firedTimedTaskManager = firedTimedTaskManager;
+! 	}
+  
+! 	/*
+! 	 * Method for injection
+! 	 */
+! 	public void setLog(Log log) {
+! 		this.log = log;
+! 	}
+  
+! 	/*
+! 	 * Method for injection
+! 	 */
+! 	public void setTimedTaskManager(TimedTaskManager timedTaskManager) {
+! 		this.timedTaskManager = timedTaskManager;
+! 	}
+  
+! 	/*
+! 	 * (non-Javadoc)
+! 	 * 
+! 	 * @see com.anite.zebra.hivemind.api.TimedTaskRunner#runTasksForTime(com.anite.zebra.hivemind.om.timedtask.Time)
+! 	 */
+! 	public void runTasksForTime(Time time) {
+  
+! 		List&lt;TimedTask&gt; timedTasks = timedTaskManager.getTasksForTime(time);
+  
+! 		for (TimedTask timedTask : timedTasks) {
+  
+! 			runTask(timedTask);
+  
+! 		}
+  
+! 	}
+  
+! 	public void scheduleTimedTask(ZebraTaskInstance zti, int hours, int mins) {
+  
+! 		TimedTask timedTask = new TimedTask();
+! 		timedTask.setZebraTaskInstanceId(zti.getTaskInstanceId());
+! 		// create time
+! 		// add to timed task
+  
+! 	}
+  
+! 	/**
+! 	 * Runt the timed task by retrieving the associated zebra task instance and
+! 	 * transtioningit it
+! 	 * 
+! 	 * @param timedTask
+! 	 */
+! 	protected void runTask(TimedTask timedTask) {
+  
+! 		FiredTimedTask firedTimedTask = new FiredTimedTask(timedTask);
+  
+! 		ZebraTaskInstance zti = zebra.getStateFactory().loadTaskInstance(
+! 				timedTask.getZebraTaskInstanceId());
+  
+! 		zti.setOutcome(&quot;Done&quot;);
+! 		zti.setState(ITaskInstance.STATE_AWAITINGCOMPLETE);
+  
+! 		try {
+  
+! 			zebra.transitionTask(zti);
+  
+! 			// set all the properties on the fired timed task
+  
+! 		} catch (TransitionException e) {
+! 			log.error(e);
+! 			firedTimedTask.setExceptionText(&quot;Failed to transition task: &quot;
+! 					+ e.getMessage());
+! 			firedTimedTask.setFailed(true);
+! 		} catch (Throwable e) {
+! 			log.error(e);
+! 			firedTimedTask.setExceptionText(&quot;Throwable: &quot; + e.getMessage());
+! 			firedTimedTask.setFailed(true);
+! 		} finally {
+! 			firedTimedTaskManager.saveOrUpdate(firedTimedTask);
+! 			timedTaskManager.delete(timedTask);
+! 		}
+  
+! 	}
+  
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000363.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/timedtask AbstractTimedTask.java,NONE,1.1 TimedTask.java,1.1,1.2 FiredTimedTask.java,1.1,1.2 Time.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000365.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraStateFactory.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#364">[ date ]</a>
+              <a href="thread.html#364">[ thread ]</a>
+              <a href="subject.html#364">[ subject ]</a>
+              <a href="author.html#364">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

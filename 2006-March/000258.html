@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.25,1.26 surefire-system.properties,1.1,NONE
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind%20pom.xml%2C1.25%2C1.26%20surefire-system.properties%2C1.1%2CNONE&In-Reply-To=%3C200603091608.k29G8Vb19191%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000257.html">
+   <LINK REL="Next"  HREF="000259.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.25,1.26 surefire-system.properties,1.1,NONE</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind%20pom.xml%2C1.25%2C1.26%20surefire-system.properties%2C1.1%2CNONE&In-Reply-To=%3C200603091608.k29G8Vb19191%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.25,1.26 surefire-system.properties,1.1,NONE">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Mar  9 17:08:31 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000257.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.1,1.2 Zebra.java,1.7,1.8
+</A></li>
+        <LI>Next message: <A HREF="000259.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#258">[ date ]</a>
+              <a href="thread.html#258">[ thread ]</a>
+              <a href="subject.html#258">[ subject ]</a>
+              <a href="author.html#258">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv32483
+
+Modified Files:
+	pom.xml 
+Removed Files:
+	surefire-system.properties 
+Log Message:
+
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.25
+retrieving revision 1.26
+diff -C2 -d -r1.25 -r1.26
+*** pom.xml	8 Mar 2006 16:52:53 -0000	1.25
+--- pom.xml	9 Mar 2006 15:09:51 -0000	1.26
+***************
+*** 6,10 ****
+      &lt;artifactId&gt;zebra-hivemind&lt;/artifactId&gt;
+      &lt;packaging&gt;jar&lt;/packaging&gt;
+!     &lt;version&gt;1.15&lt;/version&gt;
+      &lt;name&gt;Zebra Hivemind Layer&lt;/name&gt;
+      &lt;url&gt;<A HREF="http://zebra.berlios.de/&lt;/url">http://zebra.berlios.de/&lt;/url</A>&gt;
+--- 6,10 ----
+      &lt;artifactId&gt;zebra-hivemind&lt;/artifactId&gt;
+      &lt;packaging&gt;jar&lt;/packaging&gt;
+!     &lt;version&gt;2.0&lt;/version&gt;
+      &lt;name&gt;Zebra Hivemind Layer&lt;/name&gt;
+      &lt;url&gt;<A HREF="http://zebra.berlios.de/&lt;/url">http://zebra.berlios.de/&lt;/url</A>&gt;
+***************
+*** 20,24 ****
+      &lt;/developers&gt;
+      &lt;scm&gt;
+!         &lt;connection&gt;scm:cvs:pserver:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">anonymous at cvs.zebra.berlios.de</A>:/cvsroot/zebra:zebra/src/java/zebra-hivemind&lt;/connection&gt;
+      &lt;/scm&gt;
+      &lt;build&gt;
+--- 20,24 ----
+      &lt;/developers&gt;
+      &lt;scm&gt;
+!         &lt;connection&gt;scm:cvs:pserver:anonymous:@cvs.zebra.berlios.de:/cvsroot/zebra:zebra/src/java/zebra-hivemind&lt;/connection&gt;
+      &lt;/scm&gt;
+      &lt;build&gt;
+***************
+*** 185,201 ****
+                  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                  &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+!             &lt;/plugin&gt;
+!            &lt;!-- &lt;plugin&gt;
+!                 &lt;groupId&gt;fulcrum-hivemind&lt;/groupId&gt;
+!                 &lt;artifactId&gt;hivedoc-maven-plugin&lt;/artifactId&gt;
+!                 &lt;version&gt;0.2&lt;/version&gt;
+!                 &lt;configuration&gt;
+!                     &lt;ignoredJars&gt;
+!                         &lt;ignoredJar&gt;hivemind-1.1.jar&lt;/ignoredJar&gt;
+!                         &lt;ignoredJar&gt;hivemind-lib-1.1.jar&lt;/ignoredJar&gt;
+!                         &lt;ignoredJar&gt;tapestry-contrib-4.0.jar&lt;/ignoredJar&gt;
+!                     &lt;/ignoredJars&gt;
+!                 &lt;/configuration&gt;
+!             &lt;/plugin&gt;--&gt;
+          &lt;/plugins&gt;
+      &lt;/reporting&gt;
+--- 185,189 ----
+                  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                  &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+!             &lt;/plugin&gt;        
+          &lt;/plugins&gt;
+      &lt;/reporting&gt;
+
+--- surefire-system.properties DELETED ---
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000257.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.1,1.2 Zebra.java,1.7,1.8
+</A></li>
+	<LI>Next message: <A HREF="000259.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#258">[ date ]</a>
+              <a href="thread.html#258">[ thread ]</a>
+              <a href="subject.html#258">[ subject ]</a>
+              <a href="author.html#258">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

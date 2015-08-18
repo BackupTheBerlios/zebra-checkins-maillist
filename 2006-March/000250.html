@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSecurityManagerTest.java,1.5,1.6 ZebraRunWorkflowTest.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraSecurityManagerTest.java%2C1.5%2C1.6%20ZebraRunWorkflowTest.java%2C1.2%2C1.3&In-Reply-To=%3C200603081751.k28HpXb29814%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000251.html">
+   <LINK REL="Next"  HREF="000252.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSecurityManagerTest.java,1.5,1.6 ZebraRunWorkflowTest.java,1.2,1.3</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraSecurityManagerTest.java%2C1.5%2C1.6%20ZebraRunWorkflowTest.java%2C1.2%2C1.3&In-Reply-To=%3C200603081751.k28HpXb29814%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSecurityManagerTest.java,1.5,1.6 ZebraRunWorkflowTest.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Mar  8 18:51:33 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000251.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.8,1.9 AbstractZebraTaskInstance.java,1.6,1.7
+</A></li>
+        <LI>Next message: <A HREF="000252.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction QuartzServiceTaskAction.java,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#250">[ date ]</a>
+              <a href="thread.html#250">[ thread ]</a>
+              <a href="subject.html#250">[ subject ]</a>
+              <a href="author.html#250">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv4384/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraSecurityManagerTest.java ZebraRunWorkflowTest.java 
+Log Message:
+
+
+Index: ZebraSecurityManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraSecurityManagerTest.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ZebraSecurityManagerTest.java	16 Feb 2006 08:54:31 -0000	1.5
+--- ZebraSecurityManagerTest.java	8 Mar 2006 16:52:53 -0000	1.6
+***************
+*** 39,42 ****
+--- 39,43 ----
+  import org.apache.hivemind.util.ClasspathResource;
+  
++ import com.anite.zebra.core.exceptions.DefinitionNotFoundException;
+  import com.anite.zebra.core.exceptions.TransitionException;
+  import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+***************
+*** 217,221 ****
+      }
+  
+!     private boolean checkIfInTaskList(List&lt;ZebraTaskInstance&gt; taskList, String taskName) {
+          boolean inTaskList = false;
+          for (ZebraTaskInstance instance : taskList) {
+--- 218,222 ----
+      }
+  
+!     private boolean checkIfInTaskList(List&lt;ZebraTaskInstance&gt; taskList, String taskName) throws DefinitionNotFoundException {
+          boolean inTaskList = false;
+          for (ZebraTaskInstance instance : taskList) {
+
+Index: ZebraRunWorkflowTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraRunWorkflowTest.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ZebraRunWorkflowTest.java	16 Feb 2006 08:54:31 -0000	1.2
+--- ZebraRunWorkflowTest.java	8 Mar 2006 16:52:53 -0000	1.3
+***************
+*** 29,32 ****
+--- 29,33 ----
+  import org.apache.hivemind.util.ClasspathResource;
+  
++ import com.anite.zebra.core.exceptions.DefinitionNotFoundException;
+  import com.anite.zebra.core.exceptions.TransitionException;
+  import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+***************
+*** 184,187 ****
+--- 185,189 ----
+       * @param test
+       * @throws TransitionException
++      * @throws DefinitionNotFoundException 
+       * @throws ComponentException
+       * 
+***************
+*** 189,193 ****
+       */
+      private void testTaskDef(String taskName, String test, ZebraProcessInstance processInstance)
+!             throws TransitionException {
+          log.debug(&quot;testing task&quot;);
+          //get process
+--- 191,195 ----
+       */
+      private void testTaskDef(String taskName, String test, ZebraProcessInstance processInstance)
+!             throws TransitionException, DefinitionNotFoundException {
+          log.debug(&quot;testing task&quot;);
+          //get process
+***************
+*** 208,211 ****
+--- 210,214 ----
+       * @param taskName
+       * @throws TransitionException
++      * @throws DefinitionNotFoundException 
+       * @throws ComponentException
+       * 
+***************
+*** 213,217 ****
+       */
+      private void testDualTaskDef(String taskName, String otherTaskName, ZebraProcessInstance processInstance)
+!             throws TransitionException  {
+          log.debug(&quot;testing 2 parallel tasks&quot;);
+          //get process
+--- 216,220 ----
+       */
+      private void testDualTaskDef(String taskName, String otherTaskName, ZebraProcessInstance processInstance)
+!             throws TransitionException, DefinitionNotFoundException  {
+          log.debug(&quot;testing 2 parallel tasks&quot;);
+          //get process
+***************
+*** 262,265 ****
+--- 265,269 ----
+      /**
+       * @param taskName
++      * @throws DefinitionNotFoundException 
+       * @throws TransitionException
+       * @throws ComponentException
+***************
+*** 268,272 ****
+       */
+      private void testTripleTaskDef(String taskName, String otherTaskName,
+!             String thirdTaskName, ZebraProcessInstance processInstance) {
+          log.debug(&quot;testing 3 parallel tasks&quot;);
+          //get process
+--- 272,276 ----
+       */
+      private void testTripleTaskDef(String taskName, String otherTaskName,
+!             String thirdTaskName, ZebraProcessInstance processInstance) throws DefinitionNotFoundException {
+          log.debug(&quot;testing 3 parallel tasks&quot;);
+          //get process
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000251.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.8,1.9 AbstractZebraTaskInstance.java,1.6,1.7
+</A></li>
+	<LI>Next message: <A HREF="000252.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction QuartzServiceTaskAction.java,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#250">[ date ]</a>
+              <a href="thread.html#250">[ thread ]</a>
+              <a href="subject.html#250">[ subject ]</a>
+              <a href="author.html#250">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

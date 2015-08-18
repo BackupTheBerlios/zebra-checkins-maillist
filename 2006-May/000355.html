@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl HibernateTimeManager.java,NONE,1.1 HibernateManager.java,NONE,1.1 HibernateTimedTaskManager.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl%20HibernateTimeManager.java%2CNONE%2C1.1%20HibernateManager.java%2CNONE%2C1.1%20HibernateTimedTaskManager.java%2CNONE%2C1.1&In-Reply-To=%3C200605261525.k4QFPST22197%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000354.html">
+   <LINK REL="Next"  HREF="000357.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl HibernateTimeManager.java,NONE,1.1 HibernateManager.java,NONE,1.1 HibernateTimedTaskManager.java,NONE,1.1</H1>
+    <B>mik3_jon3s</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl%20HibernateTimeManager.java%2CNONE%2C1.1%20HibernateManager.java%2CNONE%2C1.1%20HibernateTimedTaskManager.java%2CNONE%2C1.1&In-Reply-To=%3C200605261525.k4QFPST22197%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl HibernateTimeManager.java,NONE,1.1 HibernateManager.java,NONE,1.1 HibernateTimedTaskManager.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Fri May 26 17:25:28 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000354.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction QuartzServiceTaskAction.java,1.5,1.6
+</A></li>
+        <LI>Next message: <A HREF="000357.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#355">[ date ]</a>
+              <a href="thread.html#355">[ thread ]</a>
+              <a href="subject.html#355">[ subject ]</a>
+              <a href="author.html#355">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl
+In directory sheep:/tmp/cvs-serv26649/src/main/java/com/anite/zebra/hivemind/manager/impl
+
+Added Files:
+	HibernateTimeManager.java HibernateManager.java 
+	HibernateTimedTaskManager.java 
+Log Message:
+checked in implementation for fix for quartz
+
+--- NEW FILE: HibernateTimeManager.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.manager.impl;
+
+import com.anite.zebra.hivemind.om.timedtask.Time;
+
+public class HibernateTimeManager extends HibernateManager&lt;Time&gt; {
+
+
+}
+
+--- NEW FILE: HibernateManager.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.manager.impl;
+
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.anite.zebra.hivemind.manager.BaseManager;
+
+public abstract class HibernateManager&lt;T&gt; implements BaseManager&lt;T&gt; {
+
+    private Session session;
+
+   
+
+    protected Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    public void delete(T object) {
+
+        Transaction tx = session.beginTransaction();
+        session.delete(object);
+        tx.commit();
+
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public T get(Long id) {
+        return (T) session.load(getParameterClazz(), id);
+    }
+
+    public List&lt;T&gt; getAll() {
+       return (List&lt;T&gt;) session.createQuery(&quot;from &quot; + getParameterClazz());
+    }
+
+    public void saveOrUpdate(T object) {
+        Transaction tx = session.beginTransaction();
+        session.saveOrUpdate(object);
+        tx.commit();
+    }
+
+    private Class getParameterClazz() {
+        ParameterizedType ptype = (ParameterizedType) this.getClass().getGenericSuperclass();
+        return (Class) ptype.getActualTypeArguments()[0];
+    }
+
+}
+--- NEW FILE: HibernateTimedTaskManager.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.manager.impl;
+
+import java.util.List;
+
+import com.anite.zebra.hivemind.manager.TimedTaskManager;
+import com.anite.zebra.hivemind.om.timedtask.Time;
+import com.anite.zebra.hivemind.om.timedtask.TimedTask;
+
+public class HibernateTimedTaskManager extends HibernateManager&lt;TimedTask&gt; implements TimedTaskManager {
+
+    public List&lt;TimedTask&gt; getTasksForTime(Time time) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+
+}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000354.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction QuartzServiceTaskAction.java,1.5,1.6
+</A></li>
+	<LI>Next message: <A HREF="000357.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#355">[ date ]</a>
+              <a href="thread.html#355">[ thread ]</a>
+              <a href="subject.html#355">[ subject ]</a>
+              <a href="author.html#355">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

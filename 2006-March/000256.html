@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.4,1.5 ZebraDefinitionsFactoryTest.java,1.5,1.6 LockMangerTest.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.4%2C1.5%20ZebraDefinitionsFactoryTest.java%2C1.5%2C1.6%20LockMangerTest.java%2C1.3%2C1.4&In-Reply-To=%3C200603091113.k29BD0b02590%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000255.html">
+   <LINK REL="Next"  HREF="000257.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.4,1.5 ZebraDefinitionsFactoryTest.java,1.5,1.6 LockMangerTest.java,1.3,1.4</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.4%2C1.5%20ZebraDefinitionsFactoryTest.java%2C1.5%2C1.6%20LockMangerTest.java%2C1.3%2C1.4&In-Reply-To=%3C200603091113.k29BD0b02590%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.4,1.5 ZebraDefinitionsFactoryTest.java,1.5,1.6 LockMangerTest.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Mar  9 12:13:00 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000255.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.13,1.14
+</A></li>
+        <LI>Next message: <A HREF="000257.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.1,1.2 Zebra.java,1.7,1.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#256">[ date ]</a>
+              <a href="thread.html#256">[ thread ]</a>
+              <a href="subject.html#256">[ subject ]</a>
+              <a href="author.html#256">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv953/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraStateFactoryTest.java ZebraDefinitionsFactoryTest.java 
+	LockMangerTest.java 
+Log Message:
+Added code to ensure non-cached processDefs and taskDefs are retrieved
+
+Index: ZebraStateFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraStateFactoryTest.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** ZebraStateFactoryTest.java	13 Feb 2006 16:11:16 -0000	1.4
+--- ZebraStateFactoryTest.java	9 Mar 2006 10:14:17 -0000	1.5
+***************
+*** 18,23 ****
+  package com.anite.zebra.hivemind.impl;
+  
+- import java.util.Iterator;
+- 
+  import junit.framework.TestCase;
+  
+--- 18,21 ----
+***************
+*** 46,49 ****
+--- 44,48 ----
+   */
+  public class ZebraStateFactoryTest extends TestCase {
++ 	private static final String SIMPLEWORKFLOW = &quot;SimpleWorkflow&quot;;
+  
+      private IStateFactory stateFactory;
+***************
+*** 118,125 ****
+          // Load the first process definition it has (e.g. we don't care which
+          // process)
+!         Iterator processDefinitions = this.definitionsFactory.getAllProcessDefinitionsById().keySet().iterator();
+!         ZebraProcessDefinition processDefinition = this.definitionsFactory.getAllProcessDefinitionsById().get(
+!                 processDefinitions.next());
+!         return processDefinition;
+      }
+  
+--- 117,121 ----
+          // Load the first process definition it has (e.g. we don't care which
+          // process)
+!         return this.definitionsFactory.getProcessDefinitionByName(SIMPLEWORKFLOW);
+      }
+  
+
+Index: ZebraDefinitionsFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraDefinitionsFactoryTest.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ZebraDefinitionsFactoryTest.java	12 Dec 2005 09:43:47 -0000	1.5
+--- ZebraDefinitionsFactoryTest.java	9 Mar 2006 10:14:17 -0000	1.6
+***************
+*** 75,81 ****
+  	 */
+  	public void testStartUp() {
+! 		assertTrue(this.zebraDefinitionFactory.getAllProcessDefinitionsByName()
+! 				.size() &gt; 0);
+! 
+  	}
+  
+--- 75,79 ----
+  	 */
+  	public void testStartUp() {
+! 		assertNotNull(this.zebraDefinitionFactory.getProcessDefinitionByName(SIMPLEWORKFLOW));
+  	}
+  
+***************
+*** 86,90 ****
+  	public void testSimpleWorkflow() {
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getAllProcessDefinitionsByName().get(SIMPLEWORKFLOW);
+  		assertNotNull(processDefinition);
+  		assertEquals(SIMPLEWORKFLOW, processDefinition.getName());
+--- 84,88 ----
+  	public void testSimpleWorkflow() {
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getProcessDefinitionByName(SIMPLEWORKFLOW);
+  		assertNotNull(processDefinition);
+  		assertEquals(SIMPLEWORKFLOW, processDefinition.getName());
+***************
+*** 154,158 ****
+  	public void testSplitWorkflow(){
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getAllProcessDefinitionsByName().get(SPLIT);
+  		assertNotNull(processDefinition);
+  		assertEquals(SPLIT, processDefinition.getName());
+--- 152,156 ----
+  	public void testSplitWorkflow(){
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getProcessDefinitionByName(SPLIT);
+  		assertNotNull(processDefinition);
+  		assertEquals(SPLIT, processDefinition.getName());
+***************
+*** 245,249 ****
+  			{
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getAllProcessDefinitionsByName().get(SIMPLEWORKFLOW);
+  		assertNotNull(processDefinition);
+  		assertEquals(SIMPLEWORKFLOW, processDefinition.getName());
+--- 243,247 ----
+  			{
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getProcessDefinitionByName(SIMPLEWORKFLOW);
+  		assertNotNull(processDefinition);
+  		assertEquals(SIMPLEWORKFLOW, processDefinition.getName());
+***************
+*** 253,259 ****
+  	public void testGetProcessDefinitionByID() {
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getAllProcessDefinitionsByName().get(SIMPLEWORKFLOW);
+  		ZebraProcessDefinition processDefinitionById = this.zebraDefinitionFactory
+! 				.getAllProcessDefinitionsById().get(processDefinition.getId());
+  
+  		assertEquals(processDefinition, processDefinitionById);
+--- 251,257 ----
+  	public void testGetProcessDefinitionByID() {
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getProcessDefinitionByName(SIMPLEWORKFLOW);
+  		ZebraProcessDefinition processDefinitionById = this.zebraDefinitionFactory
+! 				.getProcessDefinitionById(processDefinition.getId());
+  
+  		assertEquals(processDefinition, processDefinitionById);
+***************
+*** 270,274 ****
+  		Long taskID = null;
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getAllProcessDefinitionsByName().get(SIMPLEWORKFLOW);
+  		assertNotNull(processDefinition);
+  		assertEquals(SIMPLEWORKFLOW, processDefinition.getName());
+--- 268,272 ----
+  		Long taskID = null;
+  		ZebraProcessDefinition processDefinition = this.zebraDefinitionFactory
+! 				.getProcessDefinitionByName(SIMPLEWORKFLOW);
+  		assertNotNull(processDefinition);
+  		assertEquals(SIMPLEWORKFLOW, processDefinition.getName());
+
+Index: LockMangerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/LockMangerTest.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** LockMangerTest.java	12 Dec 2005 09:43:48 -0000	1.3
+--- LockMangerTest.java	9 Mar 2006 10:14:17 -0000	1.4
+***************
+*** 19,23 ****
+  import java.util.Calendar;
+  import java.util.Date;
+- import java.util.Iterator;
+  
+  import junit.framework.TestCase;
+--- 19,22 ----
+***************
+*** 36,39 ****
+--- 35,39 ----
+  
+  public class LockMangerTest extends TestCase {
++ 	private static final String SIMPLEWORKFLOW = &quot;SimpleWorkflow&quot;;
+  
+      public void setUp() {
+***************
+*** 59,66 ****
+          // Load the first process definition it has (e.g. we don't care which
+          // process)
+!         Iterator processDefinitions = this.definitionsFactory.getAllProcessDefinitionsById().keySet().iterator();
+!         ZebraProcessDefinition processDefinition = this.definitionsFactory.getAllProcessDefinitionsById().get(
+!                 processDefinitions.next());
+!         return processDefinition;
+      }
+  
+--- 59,63 ----
+          // Load the first process definition it has (e.g. we don't care which
+          // process)
+!         return this.definitionsFactory.getProcessDefinitionByName(SIMPLEWORKFLOW);
+      }
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000255.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.13,1.14
+</A></li>
+	<LI>Next message: <A HREF="000257.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.1,1.2 Zebra.java,1.7,1.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#256">[ date ]</a>
+              <a href="thread.html#256">[ thread ]</a>
+              <a href="subject.html#256">[ subject ]</a>
+              <a href="author.html#256">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

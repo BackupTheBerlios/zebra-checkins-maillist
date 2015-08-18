@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/vbcode/ACGPropertyGrid PropertyGrid.ctl,	1.3, 1.4 PropertyGridControl.vbw, 1.3, 1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGPropertyGrid%20PropertyGrid.ctl%2C%0A%091.3%2C%201.4%20PropertyGridControl.vbw%2C%201.3%2C%201.4&In-Reply-To=%3C20071031123724.8A53844AA1%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000435.html">
+   <LINK REL="Next"  HREF="000437.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/vbcode/ACGPropertyGrid PropertyGrid.ctl,	1.3, 1.4 PropertyGridControl.vbw, 1.3, 1.4</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGPropertyGrid%20PropertyGrid.ctl%2C%0A%091.3%2C%201.4%20PropertyGridControl.vbw%2C%201.3%2C%201.4&In-Reply-To=%3C20071031123724.8A53844AA1%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/vbcode/ACGPropertyGrid PropertyGrid.ctl,	1.3, 1.4 PropertyGridControl.vbw, 1.3, 1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Oct 31 13:37:24 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000435.html">[Zebra-checkins] zebra/src/vbcode/ACGProperties ACGProperties.vbw,	1.4, 1.5
+</A></li>
+        <LI>Next message: <A HREF="000437.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDHelper GXMLHelper.cls, 1.2,	1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#436">[ date ]</a>
+              <a href="thread.html#436">[ thread ]</a>
+              <a href="subject.html#436">[ subject ]</a>
+              <a href="author.html#436">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGPropertyGrid
+
+Modified Files:
+	PropertyGrid.ctl PropertyGridControl.vbw 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: PropertyGrid.ctl
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid/PropertyGrid.ctl,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** PropertyGrid.ctl	7 Dec 2005 12:49:40 -0000	1.3
+--- PropertyGrid.ctl	31 Oct 2007 12:36:33 -0000	1.4
+***************
+*** 143,146 ****
+--- 143,147 ----
+  Event PropChanged(ByRef oProperty As Property)
+  Event PropRemoved(ByRef oProperty As Property)
++ Event TextPopup(ByRef oProperty As Property, ByRef Cancel As Boolean)
+  Event FileBrowse(ByRef oProperty As Property, ByRef FileName As String, ByRef Cancel As Boolean)
+  Event ContextClick(ByRef oProperty As Property, X As Single, Y As Single)
+***************
+*** 201,204 ****
+--- 202,207 ----
+  End Sub
+  
++ 
++ 
+  Private Sub UserControl_Initialize()
+      ' initialize control
+***************
+*** 375,378 ****
+--- 378,385 ----
+              fg.CellButtonPicture = imgFile
+           
++         Case ptString
++             fg.ComboList = &quot;...&quot;
++             fg.CellButtonPicture = imgFile
++         
+          Case ptBoolean
+              fg.ComboList = &quot;Yes|No&quot;
+***************
+*** 410,429 ****
+      Dim oProp As Property
+      Set oProp = fg.RowData(Row)
+!     Dim strFileName As String
+!     Dim fCancel As Boolean
+!     mfDontRefresh = True
+!     mfRefreshRequest = False
+!     
+!     Select Case oProp.PropertyType
+!         Case ptFile
+!             On Error Resume Next
+!             RaiseEvent FileBrowse(oProp, strFileName, fCancel)
+!             If Not (fCancel = True Or Err.Number &lt;&gt; 0) Then
+!                 fg.TextMatrix(Row, fg.Cols - 1) = strFileName
+!             End If
+!             
+!     End Select
+!     mfDontRefresh = False
+!     If mfRefreshRequest Then Refresh
+  End Sub
+  
+--- 417,445 ----
+      Dim oProp As Property
+      Set oProp = fg.RowData(Row)
+!     If oProp.PropertyType = ptFile Then
+!         Dim strFileName As String
+!         Dim fCancel As Boolean
+!         mfDontRefresh = True
+!         mfRefreshRequest = False
+!         
+!         Select Case oProp.PropertyType
+!             Case ptFile
+!                 On Error Resume Next
+!                 RaiseEvent FileBrowse(oProp, strFileName, fCancel)
+!                 If Not (fCancel = True Or Err.Number &lt;&gt; 0) Then
+!                     fg.TextMatrix(Row, fg.Cols - 1) = strFileName
+!                 End If
+!                 
+!         End Select
+!         mfDontRefresh = False
+!         If mfRefreshRequest Then Refresh
+!     ElseIf oProp.PropertyType = ptString Then
+!         Dim strText As String
+!         strText = oProp.Value
+!         RaiseEvent TextPopup(oProp, fCancel)
+!         If Not (fCancel = True Or Err.Number &lt;&gt; 0) Then
+!             fg.TextMatrix(Row, fg.Cols - 1) = oProp.Value
+!         End If
+!     End If
+  End Sub
+  
+
+Index: PropertyGridControl.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGPropertyGrid/PropertyGridControl.vbw,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** PropertyGridControl.vbw	7 Dec 2005 12:49:40 -0000	1.3
+--- PropertyGridControl.vbw	31 Oct 2007 12:36:33 -0000	1.4
+***************
+*** 1 ****
+! PropertyGrid = 22, 22, 652, 424, C, 44, 44, 674, 446, C
+--- 1 ----
+! PropertyGrid = 22, 22, 652, 424, , 44, 44, 674, 446, C
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000435.html">[Zebra-checkins] zebra/src/vbcode/ACGProperties ACGProperties.vbw,	1.4, 1.5
+</A></li>
+	<LI>Next message: <A HREF="000437.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDHelper GXMLHelper.cls, 1.2,	1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#436">[ date ]</a>
+              <a href="thread.html#436">[ thread ]</a>
+              <a href="subject.html#436">[ subject ]</a>
+              <a href="author.html#436">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

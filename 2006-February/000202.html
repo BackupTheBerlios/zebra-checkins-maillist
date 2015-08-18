@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.4,1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2C1.4%2C1.5&In-Reply-To=%3C200602081719.k18HJ2E09506%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000201.html">
+   <LINK REL="Next"  HREF="000203.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.4,1.5</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2C1.4%2C1.5&In-Reply-To=%3C200602081719.k18HJ2E09506%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.4,1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Feb  8 18:19:02 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000201.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/site site.xml,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000203.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraPropertySetEntry.java,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#202">[ date ]</a>
+              <a href="thread.html#202">[ thread ]</a>
+              <a href="subject.html#202">[ subject ]</a>
+              <a href="author.html#202">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory
+In directory sheep:/tmp/cvs-serv31021/src/main/java/org/apache/fulcrum/quartz/factory
+
+Modified Files:
+	QuartzSchedulerFactory.java 
+Log Message:
+Preped for SchemeManagementFlow
+
+Index: QuartzSchedulerFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory/QuartzSchedulerFactory.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** QuartzSchedulerFactory.java	6 Feb 2006 16:49:26 -0000	1.4
+--- QuartzSchedulerFactory.java	8 Feb 2006 17:19:00 -0000	1.5
+***************
+*** 86,92 ****
+  					.getHibernateProperties();
+  			String driver = hibernateProperties.getProperty(HIBERNATE_DRIVER_KEY);
+! 			//System.out.println(&quot;url:&quot; +hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+! 			//System.out.println(&quot;username:&quot; +hibernateProperties.getProperty(HIBERNATE_USERNAME_KEY));
+! 			//System.out.println(&quot;password:&quot; +hibernateProperties.getProperty(HIBERNATE_PASSWORD_KEY));
+  			checkTables(driver);
+  			Properties defaults = new Properties();
+--- 86,92 ----
+  					.getHibernateProperties();
+  			String driver = hibernateProperties.getProperty(HIBERNATE_DRIVER_KEY);
+! 			log.debug(&quot;url:&quot; +hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+!             log.debug(&quot;username:&quot; +hibernateProperties.getProperty(HIBERNATE_USERNAME_KEY));
+!             log.debug(&quot;password:&quot; +hibernateProperties.getProperty(HIBERNATE_PASSWORD_KEY));
+  			checkTables(driver);
+  			Properties defaults = new Properties();
+***************
+*** 103,107 ****
+  			defaults.put(&quot;org.quartz.dataSource.quartzDS.maxConnections&quot;,
+  					DEFAULT_MAX_CONNECTIONS);
+! 			System.out.println(defaults.toString());
+  			SchedulerFactory schedulerFactory = new StdSchedulerFactory(
+  					defaults);
+--- 103,107 ----
+  			defaults.put(&quot;org.quartz.dataSource.quartzDS.maxConnections&quot;,
+  					DEFAULT_MAX_CONNECTIONS);
+! 			log.info(defaults.toString());
+  			SchedulerFactory schedulerFactory = new StdSchedulerFactory(
+  					defaults);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000201.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/site site.xml,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000203.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraPropertySetEntry.java,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#202">[ date ]</a>
+              <a href="thread.html#202">[ thread ]</a>
+              <a href="subject.html#202">[ subject ]</a>
+              <a href="author.html#202">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

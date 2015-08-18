@@ -1,0 +1,414 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs ZebraPropertyGroups.java,1.3,1.4 ZebraRoutingDefinition.java,1.2,1.3 ZebraProcessDefinition.java,1.3,1.4 ZebraPropertyElement.java,1.1,1.2 ZebraTaskDefinition.java,1.5,1.6 ZebraProcessVersions.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs%20ZebraPropertyGroups.java%2C1.3%2C1.4%20ZebraRoutingDefinition.java%2C1.2%2C1.3%20ZebraProcessDefinition.java%2C1.3%2C1.4%20ZebraPropertyElement.java%2C1.1%2C1.2%20ZebraTaskDefinition.java%2C1.5%2C1.6%20ZebraProcessVersions.java%2C1.3%2C1.4&In-Reply-To=%3C200602160854.k1G8sXE12705%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000214.html">
+   <LINK REL="Next"  HREF="000217.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs ZebraPropertyGroups.java,1.3,1.4 ZebraRoutingDefinition.java,1.2,1.3 ZebraProcessDefinition.java,1.3,1.4 ZebraPropertyElement.java,1.1,1.2 ZebraTaskDefinition.java,1.5,1.6 ZebraProcessVersions.java,1.3,1.4</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs%20ZebraPropertyGroups.java%2C1.3%2C1.4%20ZebraRoutingDefinition.java%2C1.2%2C1.3%20ZebraProcessDefinition.java%2C1.3%2C1.4%20ZebraPropertyElement.java%2C1.1%2C1.2%20ZebraTaskDefinition.java%2C1.5%2C1.6%20ZebraProcessVersions.java%2C1.3%2C1.4&In-Reply-To=%3C200602160854.k1G8sXE12705%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs ZebraPropertyGroups.java,1.3,1.4 ZebraRoutingDefinition.java,1.2,1.3 ZebraProcessDefinition.java,1.3,1.4 ZebraPropertyElement.java,1.1,1.2 ZebraTaskDefinition.java,1.5,1.6 ZebraProcessVersions.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Feb 16 09:54:33 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000214.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.4,1.5
+</A></li>
+        <LI>Next message: <A HREF="000217.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#215">[ date ]</a>
+              <a href="thread.html#215">[ thread ]</a>
+              <a href="subject.html#215">[ subject ]</a>
+              <a href="author.html#215">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs
+In directory sheep:/tmp/cvs-serv995/src/main/java/com/anite/zebra/hivemind/om/defs
+
+Modified Files:
+	ZebraPropertyGroups.java ZebraRoutingDefinition.java 
+	ZebraProcessDefinition.java ZebraPropertyElement.java 
+	ZebraTaskDefinition.java ZebraProcessVersions.java 
+Log Message:
+Updated annotations for hibernate-annotations beta8
+
+Index: ZebraPropertyGroups.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs/ZebraPropertyGroups.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ZebraPropertyGroups.java	4 Jan 2006 15:55:31 -0000	1.3
+--- ZebraPropertyGroups.java	16 Feb 2006 08:54:30 -0000	1.4
+***************
+*** 22,31 ****
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+- import javax.persistence.JoinColumn;
+- import javax.persistence.JoinTable;
+  import javax.persistence.OneToMany;
+- import javax.persistence.Table;
+  
+  import com.anite.zebra.ext.definitions.impl.PropertyGroups;
+--- 22,28 ----
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.OneToMany;
+  
+  import com.anite.zebra.ext.definitions.impl.PropertyGroups;
+***************
+*** 48,52 ****
+       * @hibernate.id generator-class=&quot;native&quot;
+       */
+! 	@Id(generate=GeneratorType.AUTO)
+      public Long getId() {
+          return super.getId();
+--- 45,49 ----
+       * @hibernate.id generator-class=&quot;native&quot;
+       */
+! 	@Id @GeneratedValue
+      public Long getId() {
+          return super.getId();
+
+Index: ZebraRoutingDefinition.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs/ZebraRoutingDefinition.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ZebraRoutingDefinition.java	5 Dec 2005 09:52:37 -0000	1.2
+--- ZebraRoutingDefinition.java	16 Feb 2006 08:54:30 -0000	1.3
+***************
+*** 20,24 ****
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+--- 20,24 ----
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+***************
+*** 56,60 ****
+      }
+  
+!     @Id(generate = GeneratorType.AUTO)
+      public Long getId() {
+          return super.getId();
+--- 56,60 ----
+      }
+  
+!     @Id @GeneratedValue
+      public Long getId() {
+          return super.getId();
+
+Index: ZebraProcessDefinition.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs/ZebraProcessDefinition.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ZebraProcessDefinition.java	13 Dec 2005 09:55:59 -0000	1.3
+--- ZebraProcessDefinition.java	16 Feb 2006 08:54:30 -0000	1.4
+***************
+*** 23,27 ****
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+--- 23,27 ----
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+***************
+*** 29,33 ****
+  import javax.persistence.ManyToOne;
+  import javax.persistence.OneToMany;
+- import javax.persistence.Table;
+  import javax.persistence.Transient;
+  
+--- 29,32 ----
+***************
+*** 81,85 ****
+      private Long id;
+  
+!     private Set taskDefinitions = new HashSet();
+  
+      private Set routingDefinitions = new HashSet();
+--- 80,84 ----
+      private Long id;
+  
+!     private Set&lt;ITaskDefinition&gt; taskDefinitions = new HashSet&lt;ITaskDefinition&gt;();
+  
+      private Set routingDefinitions = new HashSet();
+***************
+*** 97,101 ****
+      private IProcessVersions processVersions;
+  
+!     @Id(generate = GeneratorType.AUTO)
+      public Long getId() {
+          return this.id;
+--- 96,100 ----
+      private IProcessVersions processVersions;
+  
+!     @Id @GeneratedValue
+      public Long getId() {
+          return this.id;
+***************
+*** 107,111 ****
+  
+      @OneToMany(targetEntity = ZebraTaskDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(table = @Table(name = &quot;processTaskDefinitions&quot;), joinColumns = { @JoinColumn(name = &quot;processDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;taskDefinitionId&quot;))
+      public Set getTaskDefinitions() {
+          return this.taskDefinitions;
+--- 106,110 ----
+  
+      @OneToMany(targetEntity = ZebraTaskDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(name = &quot;processTaskDefinitions&quot;, joinColumns = { @JoinColumn(name = &quot;processDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;taskDefinitionId&quot;))
+      public Set getTaskDefinitions() {
+          return this.taskDefinitions;
+***************
+*** 115,119 ****
+       * @param taskDefinitions The taskDefinitions to set.
+       */
+!     public void setTaskDefinitions(Set taskDefinitions) {
+          this.taskDefinitions = taskDefinitions;
+      }
+--- 114,118 ----
+       * @param taskDefinitions The taskDefinitions to set.
+       */
+!     public void setTaskDefinitions(Set&lt;ITaskDefinition&gt; taskDefinitions) {
+          this.taskDefinitions = taskDefinitions;
+      }
+***************
+*** 163,167 ****
+  
+      @OneToMany(targetEntity = ZebraRoutingDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(table = @Table(name = &quot;processDefinitionRoutings&quot;), joinColumns = { @JoinColumn(name = &quot;processDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;routingDefinitionId&quot;))
+      public Set getRoutingDefinitions() {
+          return this.routingDefinitions;
+--- 162,166 ----
+  
+      @OneToMany(targetEntity = ZebraRoutingDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(name = &quot;processDefinitionRoutings&quot;, joinColumns = { @JoinColumn(name = &quot;processDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;routingDefinitionId&quot;))
+      public Set getRoutingDefinitions() {
+          return this.routingDefinitions;
+
+Index: ZebraPropertyElement.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs/ZebraPropertyElement.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** ZebraPropertyElement.java	25 Nov 2005 10:32:02 -0000	1.1
+--- ZebraPropertyElement.java	16 Feb 2006 08:54:30 -0000	1.2
+***************
+*** 20,24 ****
+  import javax.persistence.Column;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  
+--- 20,24 ----
+  import javax.persistence.Column;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  
+***************
+*** 46,50 ****
+  	 * @return Returns the id.
+  	 */
+! 	@Id(generate = GeneratorType.AUTO)
+  	public Long getId() {
+  		return super.getId();
+--- 46,50 ----
+  	 * @return Returns the id.
+  	 */
+! 	@Id @GeneratedValue
+  	public Long getId() {
+  		return super.getId();
+
+Index: ZebraTaskDefinition.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs/ZebraTaskDefinition.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ZebraTaskDefinition.java	13 Dec 2005 09:55:59 -0000	1.5
+--- ZebraTaskDefinition.java	16 Feb 2006 08:54:30 -0000	1.6
+***************
+*** 22,26 ****
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+--- 22,26 ----
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+***************
+*** 28,32 ****
+  import javax.persistence.ManyToOne;
+  import javax.persistence.OneToMany;
+- import javax.persistence.Table;
+  import javax.persistence.Transient;
+  
+--- 28,31 ----
+***************
+*** 101,105 ****
+       * @return Returns the id.
+       */
+!     @Id(generate = GeneratorType.AUTO)
+      public Long getId() {
+          return super.getId();
+--- 100,104 ----
+       * @return Returns the id.
+       */
+!     @Id @GeneratedValue
+      public Long getId() {
+          return super.getId();
+***************
+*** 144,148 ****
+       */
+      @OneToMany(targetEntity = ZebraRoutingDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(table = @Table(name = &quot;taskDefinitionRoutingIn&quot;), joinColumns = { @JoinColumn(name = &quot;taskDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;routingDefinitionId&quot;))
+      public Set getRoutingIn() {
+          return super.getRoutingIn();
+--- 143,147 ----
+       */
+      @OneToMany(targetEntity = ZebraRoutingDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(name = &quot;taskDefinitionRoutingIn&quot;, joinColumns = { @JoinColumn(name = &quot;taskDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;routingDefinitionId&quot;))
+      public Set getRoutingIn() {
+          return super.getRoutingIn();
+***************
+*** 153,157 ****
+       */
+      @OneToMany(targetEntity = ZebraRoutingDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(table = @Table(name = &quot;taskDefinitionRoutingOut&quot;), joinColumns = { @JoinColumn(name = &quot;taskDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;routingDefinitionId&quot;))
+      public Set getRoutingOut() {
+          return super.getRoutingOut();
+--- 152,156 ----
+       */
+      @OneToMany(targetEntity = ZebraRoutingDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(name = &quot;taskDefinitionRoutingOut&quot;, joinColumns = { @JoinColumn(name = &quot;taskDefinitionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;routingDefinitionId&quot;))
+      public Set getRoutingOut() {
+          return super.getRoutingOut();
+
+Index: ZebraProcessVersions.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs/ZebraProcessVersions.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ZebraProcessVersions.java	5 Dec 2005 09:52:37 -0000	1.3
+--- ZebraProcessVersions.java	16 Feb 2006 08:54:30 -0000	1.4
+***************
+*** 23,32 ****
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+  import javax.persistence.JoinTable;
+  import javax.persistence.OneToMany;
+- import javax.persistence.Table;
+  import javax.persistence.Transient;
+  
+--- 23,31 ----
+  import javax.persistence.CascadeType;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+  import javax.persistence.JoinTable;
+  import javax.persistence.OneToMany;
+  import javax.persistence.Transient;
+  
+***************
+*** 48,57 ****
+      private String name;
+  
+!     private Set&lt;IProcessVersion&gt; processVersions = new HashSet();
+  
+      /**
+       * @return Returns the id. 
+       */
+!     @Id(generate = GeneratorType.AUTO)
+      public Long getId() {
+          return id;
+--- 47,56 ----
+      private String name;
+  
+!     private Set&lt;IProcessVersion&gt; processVersions = new HashSet&lt;IProcessVersion&gt;();
+  
+      /**
+       * @return Returns the id. 
+       */
+!     @Id @GeneratedValue
+      public Long getId() {
+          return id;
+***************
+*** 89,93 ****
+  
+      @OneToMany(targetEntity = ZebraProcessDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(table = @Table(name = &quot;processVersionProcesses&quot;), joinColumns = { @JoinColumn(name = &quot;processVersionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;processDefinitionId&quot;))
+      public Set&lt;IProcessVersion&gt; getProcessVersions() {
+          return processVersions;
+--- 88,92 ----
+  
+      @OneToMany(targetEntity = ZebraProcessDefinition.class, cascade = CascadeType.ALL)
+!     @JoinTable(name = &quot;processVersionProcesses&quot;, joinColumns = { @JoinColumn(name = &quot;processVersionId&quot;) }, inverseJoinColumns = @JoinColumn(name = &quot;processDefinitionId&quot;))
+      public Set&lt;IProcessVersion&gt; getProcessVersions() {
+          return processVersions;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000214.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.4,1.5
+</A></li>
+	<LI>Next message: <A HREF="000217.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#215">[ date ]</a>
+              <a href="thread.html#215">[ thread ]</a>
+              <a href="subject.html#215">[ subject ]</a>
+              <a href="author.html#215">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

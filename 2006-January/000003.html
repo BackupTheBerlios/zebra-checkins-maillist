@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraSecurity.java,1.3,1.4 Zebra.java,1.6,1.7
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraSecurity.java%2C1.3%2C1.4%20Zebra.java%2C1.6%2C1.7&In-Reply-To=%3C200601030748.k037mXH00611%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000004.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraSecurity.java,1.3,1.4 Zebra.java,1.6,1.7</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraSecurity.java%2C1.3%2C1.4%20Zebra.java%2C1.6%2C1.7&In-Reply-To=%3C200601030748.k037mXH00611%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraSecurity.java,1.3,1.4 Zebra.java,1.6,1.7">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan  3 08:48:33 CET 2006</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000004.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.7,1.8 AbstractZebraTaskInstance.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#3">[ date ]</a>
+              <a href="thread.html#3">[ thread ]</a>
+              <a href="subject.html#3">[ subject ]</a>
+              <a href="author.html#3">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv7171/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraSecurity.java Zebra.java 
+Log Message:
+1.2 Release with Hibernate 3.1 release
+
+Index: ZebraSecurity.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/ZebraSecurity.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ZebraSecurity.java	13 Dec 2005 09:55:53 -0000	1.3
+--- ZebraSecurity.java	3 Jan 2006 07:48:31 -0000	1.4
+***************
+*** 12,15 ****
+--- 12,16 ----
+  import org.apache.fulcrum.security.UserManager;
+  import org.apache.fulcrum.security.entity.Permission;
++ import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.model.dynamic.DynamicAccessControlList;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+***************
+*** 174,182 ****
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyOwnedTaskList(DynamicUser user) {
+          throw new NotImplementedException(&quot;See Antelope for how to implement&quot;);
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyDelegatedTaskList(DynamicUser user) {
+          throw new NotImplementedException(&quot;See Antelope for how to implement&quot;);
+      }
+--- 175,183 ----
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyOwnedTaskList(HibernateDynamicUser user) {
+          throw new NotImplementedException(&quot;See Antelope for how to implement&quot;);
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyDelegatedTaskList(HibernateDynamicUser user) {
+          throw new NotImplementedException(&quot;See Antelope for how to implement&quot;);
+      }
+
+Index: Zebra.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/Zebra.java,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** Zebra.java	5 Dec 2005 16:32:02 -0000	1.6
+--- Zebra.java	3 Jan 2006 07:48:31 -0000	1.7
+***************
+*** 22,25 ****
+--- 22,26 ----
+  import java.util.Set;
+  
++ import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+  
+***************
+*** 102,111 ****
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyOwnedTaskList(DynamicUser user) {
+          
+          return zebraSecurity.getOnlyOwnedTaskList(user);
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyDelegatedTaskList(DynamicUser user) {
+          
+          return zebraSecurity.getOnlyDelegatedTaskList(user);
+--- 103,112 ----
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyOwnedTaskList(HibernateDynamicUser user) {
+          
+          return zebraSecurity.getOnlyOwnedTaskList(user);
+      }
+  
+!     public List&lt;ZebraTaskInstance&gt; getOnlyDelegatedTaskList(HibernateDynamicUser user) {
+          
+          return zebraSecurity.getOnlyDelegatedTaskList(user);
+***************
+*** 136,140 ****
+       * 
+       */
+!     public void killProcess(ZebraProcessInstance processInstance, DynamicUser owner) throws StateFailureException,
+              DestructException {
+  
+--- 137,141 ----
+       * 
+       */
+!     public void killProcess(ZebraProcessInstance processInstance, HibernateDynamicUser owner) throws StateFailureException,
+              DestructException {
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000004.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.7,1.8 AbstractZebraTaskInstance.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#3">[ date ]</a>
+              <a href="thread.html#3">[ thread ]</a>
+              <a href="subject.html#3">[ subject ]</a>
+              <a href="author.html#3">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

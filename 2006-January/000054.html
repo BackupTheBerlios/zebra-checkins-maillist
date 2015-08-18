@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory HibernateConnectionProviderDataSource.java,NONE,1.1 HibernateSessionFactory.java,1.4,1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory%20HibernateConnectionProviderDataSource.java%2CNONE%2C1.1%20HibernateSessionFactory.java%2C1.4%2C1.5&In-Reply-To=%3C200601051032.k05AWpH28419%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000053.html">
+   <LINK REL="Next"  HREF="000055.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory HibernateConnectionProviderDataSource.java,NONE,1.1 HibernateSessionFactory.java,1.4,1.5</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory%20HibernateConnectionProviderDataSource.java%2CNONE%2C1.1%20HibernateSessionFactory.java%2C1.4%2C1.5&In-Reply-To=%3C200601051032.k05AWpH28419%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory HibernateConnectionProviderDataSource.java,NONE,1.1 HibernateSessionFactory.java,1.4,1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Jan  5 11:32:51 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000053.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources Log4j.properties,1.3,NONE
+</A></li>
+        <LI>Next message: <A HREF="000055.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate/src/test/java/org/apache/fulcrum/hibernate/factory HibernateSessionFactoryTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#54">[ date ]</a>
+              <a href="thread.html#54">[ thread ]</a>
+              <a href="subject.html#54">[ subject ]</a>
+              <a href="author.html#54">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory
+In directory sheep:/tmp/cvs-serv22775/src/main/java/org/apache/fulcrum/hibernate/factory
+
+Modified Files:
+	HibernateSessionFactory.java 
+Added Files:
+	HibernateConnectionProviderDataSource.java 
+Log Message:
+Add datasource and properties attributes.
+
+--- NEW FILE: HibernateConnectionProviderDataSource.java ---
+package org.apache.fulcrum.hibernate.factory;
+
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.connection.ConnectionProvider;
+
+public class HibernateConnectionProviderDataSource implements DataSource {
+
+	private ConnectionProvider connectionProvider = null;
+	
+	private static final Log log = LogFactory.getLog(HibernateConnectionProviderDataSource.class);
+	
+	public HibernateConnectionProviderDataSource(ConnectionProvider cp)
+	{
+		this.connectionProvider = cp;
+	}
+	
+	public Connection getConnection() throws SQLException {
+		return connectionProvider.getConnection();
+	}
+
+	public Connection getConnection(String username, String password) throws SQLException {
+		log.warn(&quot;Not implemented by ConnectionProvider. Username/password ignored. getConnection() called.&quot;);
+		return this.connectionProvider.getConnection();
+	}
+
+	public PrintWriter getLogWriter() throws SQLException {
+		throw new NotImplementedException(&quot;getLogWriter() is not implemented by this DataSource.&quot;);
+	}
+
+	public void setLogWriter(PrintWriter out) throws SQLException {
+		throw new NotImplementedException(&quot;setLogWriter() is not implemented by this DataSource.&quot;);
+		
+	}
+
+	public void setLoginTimeout(int seconds) throws SQLException {
+		throw new NotImplementedException(&quot;setLoginTimeout is not implemented by this DataSource.&quot;);
+		
+	}
+
+	public int getLoginTimeout() throws SQLException {
+		throw new NotImplementedException(&quot;getLoginTimeout() is not implemented by this DataSource.&quot;);
+	}
+
+}
+
+Index: HibernateSessionFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory/HibernateSessionFactory.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** HibernateSessionFactory.java	24 Nov 2005 10:38:04 -0000	1.4
+--- HibernateSessionFactory.java	5 Jan 2006 10:32:49 -0000	1.5
+***************
+*** 4,7 ****
+--- 4,11 ----
+  package org.apache.fulcrum.hibernate.factory;
+  
++ import java.util.Properties;
++ 
++ import javax.sql.DataSource;
++ 
+  import org.apache.commons.lang.exception.NestableRuntimeException;
+  import org.apache.hivemind.ServiceImplementationFactory;
+***************
+*** 15,18 ****
+--- 19,23 ----
+  import org.hibernate.cfg.AnnotationConfiguration;
+  import org.hibernate.cfg.Configuration;
++ import org.hibernate.connection.ConnectionProvider;
+  import org.hibernate.tool.hbm2ddl.SchemaExport;
+  import org.hibernate.tool.hbm2ddl.SchemaUpdate;
+***************
+*** 35,38 ****
+--- 40,47 ----
+      private boolean updateSchema = false;
+      private boolean createSchema = false;
++     
++     private DataSource connectionProviderDataSource = null;
++     
++     private Properties hibernateProperties = null;
+  
+      /**
+***************
+*** 44,48 ****
+              Configuration config = new AnnotationConfiguration();
+              config.configure();
+! 
+              if (createSchema){ 
+                  SchemaExport export = new SchemaExport(config);
+--- 53,57 ----
+              Configuration config = new AnnotationConfiguration();
+              config.configure();
+!             hibernateProperties = config.getProperties();
+              if (createSchema){ 
+                  SchemaExport export = new SchemaExport(config);
+***************
+*** 54,59 ****
+              }
+              sessionFactory = config.buildSessionFactory();
+! 
+          } catch (HibernateException e) {
+              throw new NestableRuntimeException(e);
+          }
+--- 63,71 ----
+              }
+              sessionFactory = config.buildSessionFactory();
+!             ConnectionProvider connectionProvider = config.buildSettings().getConnectionProvider();
+!             connectionProviderDataSource = 
+!             	new HibernateConnectionProviderDataSource(connectionProvider);
+          } catch (HibernateException e) {
++         	e.printStackTrace();
+              throw new NestableRuntimeException(e);
+          }
+***************
+*** 120,122 ****
+--- 132,143 ----
+      }
+  
++     public DataSource getConnectionProviderDataSource()
++     {
++     	return this.connectionProviderDataSource;
++     }
++     
++     public Properties getHibernateProperties()
++     {
++     	return this.hibernateProperties;
++     }
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000053.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources Log4j.properties,1.3,NONE
+</A></li>
+	<LI>Next message: <A HREF="000055.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate/src/test/java/org/apache/fulcrum/hibernate/factory HibernateSessionFactoryTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#54">[ date ]</a>
+              <a href="thread.html#54">[ thread ]</a>
+              <a href="subject.html#54">[ subject ]</a>
+              <a href="author.html#54">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

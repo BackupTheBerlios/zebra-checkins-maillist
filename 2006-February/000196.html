@@ -1,0 +1,891 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-xmlloader/src/main/java/com/anite/zebra/ext/xmlloader BadXMLException.java,NONE,1.1 XMLLoadProcess.java,NONE,1.1 LoadFromFile.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-xmlloader/src/main/java/com/anite/zebra/ext/xmlloader%20BadXMLException.java%2CNONE%2C1.1%20XMLLoadProcess.java%2CNONE%2C1.1%20LoadFromFile.java%2CNONE%2C1.1&In-Reply-To=%3C200602071729.k17HT6E09706%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000193.html">
+   <LINK REL="Next"  HREF="000185.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/main/java/com/anite/zebra/ext/xmlloader BadXMLException.java,NONE,1.1 XMLLoadProcess.java,NONE,1.1 LoadFromFile.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-xmlloader/src/main/java/com/anite/zebra/ext/xmlloader%20BadXMLException.java%2CNONE%2C1.1%20XMLLoadProcess.java%2CNONE%2C1.1%20LoadFromFile.java%2CNONE%2C1.1&In-Reply-To=%3C200602071729.k17HT6E09706%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/main/java/com/anite/zebra/ext/xmlloader BadXMLException.java,NONE,1.1 XMLLoadProcess.java,NONE,1.1 LoadFromFile.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Feb  7 18:29:06 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000193.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/resources/processes prettyprinted.acgwfd.xml,NONE,1.1 nowhitespace.acgwfd.xml,NONE,1.1 digester.acgwfd.xml,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000185.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test log4j.properties,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#196">[ date ]</a>
+              <a href="thread.html#196">[ thread ]</a>
+              <a href="subject.html#196">[ subject ]</a>
+              <a href="author.html#196">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-xmlloader/src/main/java/com/anite/zebra/ext/xmlloader
+In directory sheep:/tmp/cvs-serv22646/src/main/java/com/anite/zebra/ext/xmlloader
+
+Added Files:
+	BadXMLException.java XMLLoadProcess.java LoadFromFile.java 
+Log Message:
+
+
+--- NEW FILE: BadXMLException.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.xmlloader;
+
+import com.anite.zebra.core.exceptions.BaseZebraException;
+
+
+/**
+ * @author Matthew.Norris
+ */
+public class BadXMLException extends BaseZebraException {
+
+
+	/**
+	 * @author matt
+	 * Created on 16-Sep-2005
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @param message
+	 */
+	public BadXMLException(String message) {
+		super(message);
+	}
+
+	/**
+	 * @param message
+	 * @param nestedException
+	 */
+	public BadXMLException(String message, Throwable nestedException) {
+		super(message, nestedException);
+	}
+
+	/**
+	 * @param nestedException
+	 */
+	public BadXMLException(Throwable nestedException) {
+		super(nestedException);
+	}
+
+}
+
+--- NEW FILE: XMLLoadProcess.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.xmlloader;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.Iterator;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.DOMWriter;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
+import com.anite.zebra.core.definitions.api.IProcessDefinition;
+import com.anite.zebra.core.definitions.api.IRoutingDefinition;
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+import com.anite.zebra.ext.definitions.api.AbstractProcessDefinition;
+import com.anite.zebra.ext.definitions.api.IProcessVersion;
+import com.anite.zebra.ext.definitions.api.IProcessVersions;
+import com.anite.zebra.ext.definitions.api.IPropertyGroupsAware;
+import com.anite.zebra.ext.definitions.impl.PropertyElement;
+import com.anite.zebra.ext.definitions.impl.PropertyGroups;
+import com.anite.zebra.ext.definitions.impl.RoutingDefinition;
+import com.anite.zebra.ext.definitions.impl.TaskDefinition;
+
+/**
+ * @author matt
+ * @author Eric.Pugh
+ */
+public class XMLLoadProcess {
+    private static final Log log = LogFactory.getLog(XMLLoadProcess.class);
+
+    private static final String XMLNODE_TYPE = &quot;ACGWFDNative&quot;;
+
+    private static final String XMLATTR_VERSION = &quot;Version&quot;;
+
+    private static final String XMLNODE_VERSIONS = &quot;ProcessVersions&quot;;
+
+    private static final String XMLNODE_PROVER = &quot;ProcessVersion&quot;;
+
+    private static final String XMLATTR_PROVER = &quot;VersionID&quot;;
+
+    private static final String VERSIONLOAD = &quot;3.0&quot;;
+
+    private static final String XMLNODE_PROCESSDEF = &quot;ProcessDef&quot;;
+
+    private static final String XMLNODE_PROPS = &quot;properties&quot;;
+
+    private static final String XMLATTR_NAME = &quot;name&quot;;
+
+    private static final String XMLATTR_VALUE = &quot;value&quot;;
+
+    private static final String PROP_SYS = &quot;(General)&quot;;
+
+    private static final String XMLNODE_TASKDEFS = &quot;TaskDefs&quot;;
+
+    private static final String XMLNODE_TASKDEF = &quot;TaskDef&quot;;
+
+    private static final String XMLNODE_ROUTINGDEFS = &quot;RoutingDefs&quot;;
+
+    private static final String XMLNODE_ROUTINGDEF = &quot;RoutingDef&quot;;
+
+    private static final String XMLATTR_GUID = &quot;GUID&quot;;
+
+    private static final String PROP_SYNCHRONISE = &quot;Synchronise&quot;;
+
+    private static final String PROP_AUTO = &quot;Auto&quot;;
+
+    private static final String PROP_CLASSNAME = &quot;Class Name&quot;;
+
+    private static final String PROP_NAME = &quot;Name&quot;;
+
+    private static final String XMLATTR_TASKORGGUID = &quot;TaskOrgGUID&quot;;
+
+    private static final String XMLATTR_TASKDESTGUID = &quot;TaskDestGUID&quot;;
+
+    private static final String PROP_PARALLEL = &quot;Parallel&quot;;
+
+    private static final String PROP_CONSTRUCT = &quot;Class Construct&quot;;
+
+    private static final String PROP_DESTRUCT = &quot;Class Destruct&quot;;
+
+    private static final String PROP_CONDITIONCLASS = &quot;Condition Class&quot;;
+
+    private static final String XMLATTR_FIRSTTASK = &quot;FirstTask&quot;;
+
+    private Class processDefinitionClass;
+
+    private Class taskDefinitionClass;
+
+    private Class processVersionsClass;
+
+    private Class propertyElementClass;
+
+    private Class propertyGroupsClass;
+
+    private Class routingDefinitionClass;
+
+    /**
+     * loads an XML process definition
+     * 
+     * @param xmlFile
+     *            xml file to load
+     * @param processDefClass
+     *            class to use for ProcessDefinition (IProcessDef)
+     * @param taskDefClass
+     *            class to use for TaskDefinition (ITaskDef)
+     * @return an instance of the processDefClass with all the Process information loaded into it
+     * @throws Exception
+     */
+    public IProcessVersions loadFromFile(File xmlFile) throws Exception {
+        log.debug(&quot;Processing XML in &quot; + xmlFile.getName());
+
+        checkProperties();
+
+        Document doc = readDocument(xmlFile);
+        Node root = doc.getFirstChild();
+
+        try {
+            return processHeader(root);
+        } catch (Exception e) {
+            log.error(e);
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    protected void checkProperties() throws Exception {
+        if (processDefinitionClass == null) {
+            throw new Exception(&quot;processDefinitionClass missing&quot;);
+        } else if (taskDefinitionClass == null) {
+            throw new Exception(&quot;taskDefinitionClass missing&quot;);
+        } else if (processVersionsClass == null) {
+            throw new Exception(&quot;processVersionsClass missing&quot;);
+        } else if (propertyElementClass == null) {
+            throw new Exception(&quot;propertyElementClass missing&quot;);
+        } else if (propertyGroupsClass == null) {
+            throw new Exception(&quot;propertyGroupsClass missing&quot;);
+        } else if (routingDefinitionClass == null) {
+            throw new Exception(&quot;routingDefinitionClass missing&quot;);
+        }
+    }
+
+    /**
+     * Read in a file of XML, strip out the pretty printing via some juggling of objects and then return a
+     * org.w3.document DOM object.
+     * 
+     * @param xmlFile
+     *            The file to be read in.
+     * @return A ready to use org.w3.Document with pretty printing stripped out.
+     * @throws DocumentException
+     * @throws MalformedURLException
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
+    private Document readDocument(File xmlFile) throws DocumentException, MalformedURLException,
+            UnsupportedEncodingException, IOException {
+        SAXReader xmlReader = new SAXReader();
+        xmlReader.setStripWhitespaceText(true);
+
+        org.dom4j.Document dom4jDocument = xmlReader.read(xmlFile);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        OutputFormat format = OutputFormat.createCompactFormat();
+        XMLWriter writer = new XMLWriter(baos, format);
+
+        writer.write(dom4jDocument);
+
+        dom4jDocument = DocumentHelper.parseText(baos.toString());
+
+        DOMWriter domWriter = new DOMWriter();
+        Document doc = domWriter.write(dom4jDocument);
+        return doc;
+    }
+
+    private IProcessVersions processHeader(Node root) throws Exception {
+        IProcessVersions processVersions = (IProcessVersions) processVersionsClass.newInstance();
+        log.debug(&quot;processHeader &quot; + root);
+        if (root.getNodeName().compareTo(XMLNODE_TYPE) != 0) {
+            throw new BadXMLException(&quot;Not a Process Def&quot;);
+        }
+
+        if (!compareNodeAttr(root, XMLATTR_VERSION, VERSIONLOAD)) {
+            throw new Exception(&quot;Unable to load Process Def with Version &quot; + getAttr(root, XMLATTR_VERSION));
+        }
+
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (node.getNodeName().compareTo(XMLNODE_VERSIONS) == 0) {
+                loadProcessVersion(node, processVersions);
+            }
+        }
+        return processVersions;
+    }
+
+    private void loadProcessVersion(Node root, IProcessVersions processVersions) throws Exception {
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (node.getNodeName().compareTo(XMLNODE_PROVER) == 0) {
+                IProcessVersion pv;
+                try {
+                    pv = iterateProcessNodes(node.getFirstChild(), new Long(getAttr(node, XMLATTR_PROVER)),
+                            processVersions);
+                    processVersions.addProcessVersion(pv);
+                } catch (NumberFormatException e) {
+                    log.info(
+                            &quot;Unable to interate over a version - will continue with other versions - this one will be ingnored:&quot;
+                                    + processVersions.getName(), e);
+                } catch (Exception e) {
+                    if (i == 0) {
+                        log
+                                .debug(&quot;Unable to interate over a version - this is normal if it is the first version in a file:&quot;
+                                        + processVersions.getName());
+                    } else {
+                        log.info(
+                                &quot;Unable to interate over a version - will continue with other versions - this one will be ingnored:&quot;
+                                        + processVersions.getName(), e);
+                    }
+                }
+            }
+        }
+    }
+
+    public IProcessVersion iterateProcessNodes(Node root, Long version, IProcessVersions processVersions)
+            throws Exception {
+
+        log.debug(&quot;iterateProcessNodes &quot; + root);
+        if (root.getNodeName().compareTo(XMLNODE_PROCESSDEF) != 0) {
+            throw new BadXMLException(&quot;Expected node &quot; + XMLNODE_PROCESSDEF);
+        }
+
+        AbstractProcessDefinition pd = (AbstractProcessDefinition) processDefinitionClass.newInstance();
+
+        pd.setVersion(version);
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+
+            if (node.getNodeName().compareTo(XMLNODE_PROPS) == 0) {
+                // property group
+                processPDPropGroup(node, pd, processVersions);
+            } else if (node.getNodeName().compareTo(XMLNODE_TASKDEFS) == 0) {
+                // TasksDefs
+                processTaskDefs(node, pd);
+            } else if (node.getNodeName().compareTo(XMLNODE_ROUTINGDEFS) == 0) {
+                // RoutingDefs
+                processRoutingDefs(node, pd);
+            }
+        }
+
+        createRoutingLinks(pd);
+
+        // this bit here may throw an exception if the First Task is not set in
+        // the process definition
+        pd.setFirstTask((TaskDefinition) pd.getTaskDefs().getTaskDef(new Long(getAttr(root, XMLATTR_FIRSTTASK))));
+
+        //pd.setId(makeLongGuid(getAttr(root,XMLATTR_GUID)));
+        return pd;
+    }
+
+    /**
+     * turns a string representation of a guid into a Long
+     * 
+     * @param guid
+     * @return
+     */
+    private Long makeLongGuid(String guid) {
+        return new Long(guid);
+    }
+
+    private void createRoutingLinks(IProcessDefinition pd) {
+        // now add outbound routings to each taskdef
+        if (log.isDebugEnabled()) {
+            log.debug(&quot;createRoutingLinks &quot;);
+        }
+
+        for (Iterator it = pd.getRoutingDefs().iterator(); it.hasNext();) {
+            IRoutingDefinition rd = (IRoutingDefinition) it.next();
+            ITaskDefinition td = rd.getOriginatingTaskDefinition();
+            td.getRoutingOut().add(rd);
+            td = rd.getDestinationTaskDefinition();
+            td.getRoutingIn().add(rd);
+        }
+    }
+
+    private void processRoutingDefs(Node root, AbstractProcessDefinition pd) throws Exception {
+        log.debug(&quot;processRoutingDefs&quot;);
+
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (node.getNodeName().compareTo(XMLNODE_ROUTINGDEF) != 0) {
+                throw new BadXMLException(&quot;Expected node &quot; + XMLNODE_ROUTINGDEF);
+            }
+            IRoutingDefinition rd = iterateRoutingDefNodes(node, pd);
+            pd.getRoutingDefinitions().add(rd);
+        }
+    }
+
+    private IRoutingDefinition iterateRoutingDefNodes(Node root, AbstractProcessDefinition pdd) throws Exception {
+        RoutingDefinition rd = (RoutingDefinition) routingDefinitionClass.newInstance();
+        rd.setId(makeLongGuid(getAttr(root, XMLATTR_GUID)));
+        Long origTDId = makeLongGuid(getAttr(root, XMLATTR_TASKORGGUID));
+        Long destTDId = makeLongGuid(getAttr(root, XMLATTR_TASKDESTGUID));
+        rd.setOriginatingTaskDefinition(pdd.getTaskDefs().getTaskDef(origTDId));
+        rd.setDestinationTaskDefinition(pdd.getTaskDefs().getTaskDef(destTDId));
+
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (node.getNodeName().compareTo(XMLNODE_PROPS) == 0) {
+                // property group
+                processRDPropGroup(node, rd);
+            }
+        }
+        return rd;
+    }
+
+    private void processRDPropGroup(Node root, RoutingDefinition rd) throws Exception {
+        log.debug(&quot;processRDPropGroup &quot; + root);
+        if (compareNodeAttr(root, XMLATTR_NAME, PROP_SYS)) {
+            // system property
+            processRDSysProps(root, rd);
+        } else {
+            // other property group
+
+            processPropertyGroup(root, rd);
+
+        }
+    }
+
+    private void processPropertyGroup(Node root, IPropertyGroupsAware ipga) throws Exception {
+
+        createPropertyGroupsIfRequired(ipga);
+
+        String groupName = getAttr(root, XMLATTR_NAME);
+
+        log.debug(&quot;processPropertyGroup &quot; + groupName);
+
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            String key = getAttr(node, XMLATTR_NAME);
+            String value = getAttr(node, XMLATTR_VALUE);
+            PropertyElement pe = (PropertyElement) propertyElementClass.newInstance();
+            pe.setGroup(groupName);
+            pe.setKey(key);
+            pe.setValue(value);
+            ((PropertyGroups) ipga.getPropertyGroups()).addPropertyElement(pe);
+
+        }
+    }
+
+    private void processRDSysProps(Node root, RoutingDefinition rd) throws Exception {
+        log.debug(&quot;processRDSysProps&quot; + root);
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (isNamedProp(node, PROP_NAME)) {
+                rd.setName(getAttr(node, XMLATTR_VALUE));
+            } else if (isNamedProp(node, PROP_PARALLEL)) {
+                rd.setParallel(getLenientBoolean(getAttr(node, XMLATTR_VALUE)).booleanValue());
+            } else if (isNamedProp(node, PROP_CONDITIONCLASS)) {
+                rd.setConditionClass(getAttr(node, XMLATTR_VALUE));
+            }
+        }
+    }
+
+    private void processTaskDefs(Node root, AbstractProcessDefinition pd) throws Exception {
+        log.debug(&quot;processTaskDefs &quot;);
+
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (node.getNodeName().compareTo(XMLNODE_TASKDEF) != 0) {
+                throw new BadXMLException(&quot;Expected node &quot; + XMLNODE_TASKDEF);
+            }
+            TaskDefinition td = iterateTaskDefNodes(node);
+            pd.getTaskDefinitions().add(td);
+        }
+    }
+
+    private TaskDefinition iterateTaskDefNodes(Node root) throws Exception {
+        TaskDefinition td = (TaskDefinition) taskDefinitionClass.newInstance();
+
+        td.setId(makeLongGuid(getAttr(root, XMLATTR_GUID)));
+
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (node.getNodeName().compareTo(XMLNODE_PROPS) == 0) {
+                // property group
+                processTDPropGroup(node, td);
+            }
+        }
+        return td;
+    }
+
+    private void processTDPropGroup(Node root, TaskDefinition td) throws Exception {
+        log.debug(&quot;processTDPropGroup&quot; + root);
+        if (compareNodeAttr(root, XMLATTR_NAME, PROP_SYS)) {
+            // system property
+            processTDSysProps(root, td);
+        } else {
+            // other propertygroup
+
+            processPropertyGroup(root, td);
+
+        }
+    }
+
+    private void processTDSysProps(Node root, TaskDefinition td) throws Exception {
+        log.debug(&quot;processTDSysProps&quot; + root);
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (isNamedProp(node, PROP_NAME)) {
+                td.setName(getAttr(node, XMLATTR_VALUE));
+            } else if (isNamedProp(node, PROP_SYNCHRONISE)) {
+                td.setSynchronise(getLenientBoolean(getAttr(node, XMLATTR_VALUE)).booleanValue());
+            } else if (isNamedProp(node, PROP_AUTO)) {
+                td.setAuto(getLenientBoolean(getAttr(node, XMLATTR_VALUE)));
+            } else if (isNamedProp(node, PROP_CLASSNAME)) {
+                td.setClassName(getAttr(node, XMLATTR_VALUE));
+            } else if (isNamedProp(node, PROP_CONSTRUCT)) {
+                td.setClassConstruct(getAttr(node, XMLATTR_VALUE));
+            } else if (isNamedProp(node, PROP_DESTRUCT)) {
+                td.setClassDestruct(getAttr(node, XMLATTR_VALUE));
+            }
+        }
+    }
+
+    private void processPDPropGroup(Node root, AbstractProcessDefinition pd, IProcessVersions processVersions)
+            throws Exception {
+        log.debug(&quot;processPDPropGroup&quot; + root);
+        if (compareNodeAttr(root, XMLATTR_NAME, PROP_SYS)) {
+            // system property
+            processPDSysProps(root, pd, processVersions);
+        } else {
+            // other property group
+
+            processPropertyGroup(root, pd);
+        }
+    }
+
+    private void createPropertyGroupsIfRequired(IPropertyGroupsAware ipga) throws Exception {
+        if (ipga.getPropertyGroups() == null) {
+            PropertyGroups pg = (PropertyGroups) propertyGroupsClass.newInstance();
+            ipga.setPropertyGroups(pg);
+        }
+
+    }
+
+    private void processPDSysProps(Node root, AbstractProcessDefinition pd, IProcessVersions processVersions)
+            throws Exception {
+        log.debug(&quot;processPDSysProps&quot; + root);
+        for (int i = 0; i &lt; root.getChildNodes().getLength(); i++) {
+            Node node = root.getChildNodes().item(i);
+            if (isNamedProp(node, PROP_NAME)) {
+                processVersions.setName(getAttr(node, XMLATTR_VALUE));
+            } else if (isNamedProp(node, PROP_CONSTRUCT)) {
+                pd.setClassConstruct(getAttr(node, XMLATTR_VALUE));
+            } else if (isNamedProp(node, PROP_DESTRUCT)) {
+                pd.setClassDestruct(getAttr(node, XMLATTR_VALUE));
+            }
+        }
+    }
+
+    private boolean isNamedProp(Node node, String value) throws Exception {
+        return (getAttr(node, XMLATTR_NAME).equalsIgnoreCase(value));
+    }
+
+    private boolean compareNodeAttr(Node node, String attrName, String value) throws Exception {
+        return (getAttr(node, attrName).compareTo(value) == 0);
+    }
+
+    private String getAttr(Node node, String name) throws Exception {
+        String nodeValue = node.getAttributes().getNamedItem(name).getNodeValue();
+        if (StringUtils.isEmpty(nodeValue)) {
+            return null;
+        } else {
+            return nodeValue;
+        }
+    }
+
+    private Boolean getLenientBoolean(String bool) {
+
+        if (bool != null
+                &amp;&amp; (bool.equalsIgnoreCase(&quot;yes&quot;) || bool.equalsIgnoreCase(&quot;true&quot;) || bool.equalsIgnoreCase(&quot;on&quot;)
+                        || bool.equalsIgnoreCase(&quot;1&quot;) || bool.equalsIgnoreCase(&quot;-1&quot;))) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+    }
+
+    /**
+     * @param propertyElementClass
+     *            The propertyElementClass to set.
+     */
+    public void setPropertyElementClass(Class propertyElementClass) {
+        this.propertyElementClass = propertyElementClass;
+    }
+
+    /**
+     * @param propertyGroupsClass
+     *            The propertyGroupsClass to set.
+     */
+    public void setPropertyGroupsClass(Class propertyGroupsClass) {
+        this.propertyGroupsClass = propertyGroupsClass;
+    }
+
+    /**
+     * @param routingDefinitionClass
+     *            The routingDefinitionClass to set.
+     */
+    public void setRoutingDefinitionClass(Class routingDefinitionClass) {
+        this.routingDefinitionClass = routingDefinitionClass;
+    }
+
+    /**
+     * @param taskDefinitionClass
+     *            The taskDefinitionClass to set.
+     */
+    public void setTaskDefinitionClass(Class taskDefinitionClass) {
+        this.taskDefinitionClass = taskDefinitionClass;
+    }
+
+    /**
+     * @param processDefinitionClass
+     *            The processDefinitionClass to set.
+     */
+    public void setProcessDefinitionClass(Class processDefinitionClass) {
+        this.processDefinitionClass = processDefinitionClass;
+    }
+
+    /**
+     * @param processVersionsClass
+     *            The processVersionsClass to set.
+     */
+    public void setProcessVersionsClass(Class processVersionsClass) {
+        this.processVersionsClass = processVersionsClass;
+    }
+}
+--- NEW FILE: LoadFromFile.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.xmlloader;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.anite.zebra.ext.definitions.api.IProcessVersions;
+
+/**
+ * @author matt
+ */
+public class LoadFromFile {
+
+	private static final Log log = LogFactory.getLog(LoadFromFile.class);
+
+	private Set allProcessVersions = new HashSet();
+
+	private static final String PROCESSDEF_EXTENSION = &quot;.acgwfd.xml&quot;;
+
+	private Class processDefinitionClass;
+
+	private Class taskDefinitionClass;
+
+	private Class processVersionsClass;
+
+	private Class propertyElementClass;
+
+	private Class propertyGroupsClass;
+
+	private Class routingDefinitionClass;
+
+	public void loadProcessDef(File file) throws Exception {
+
+		log.info(&quot;Reading Process Definition from:&quot; + file.getAbsolutePath());
+		processFile(file);
+	}
+
+	public void loadProcessDefs(String pathToScan) throws Exception {
+
+		log.debug(&quot;finding processDefClass&quot;);
+		File scanpath = new File(pathToScan);
+
+		log.info(&quot;Reading Process Definitions from:&quot;
+				+ scanpath.getAbsolutePath());
+
+		String[] subitems = scanpath.list();
+		if (subitems != null) {
+			for (int i = 0; i &lt; subitems.length; i++) {
+				File subitem = new File(scanpath, subitems[i]);
+				if (subitem.isDirectory()) {
+					try {
+						processFolder(subitem);
+					} catch (Exception e) {
+						//ignore an error thrown by this, just log it
+						log.debug(e);
+						log.error(&quot;Failure processing folder &quot; + subitem, e);
+					}
+				} else if (subitem.isFile()) {
+					try {
+						processFile(subitem);
+					} catch (Exception e) {
+						// ignore an error thrown by this, just log it
+						log.debug(e);
+						log.error(&quot;Failure processing file &quot; + subitem, e);
+					}
+				}
+			}
+		} else {
+			log.info(&quot;No Process Definitions in directory:&quot; + pathToScan);
+		}
+	}
+
+	/**
+	 * @param string
+	 *            The Folder to process
+	 */
+	private void processFolder(File folder) throws Exception {
+
+		String[] subItems = folder.list();
+
+		for (int i = 0; i &lt; subItems.length; i++) {
+			File subitem = new File(folder, subItems[i]);
+			if (subitem.isDirectory()) {
+				processFolder(subitem);
+			} else {
+				try {
+					processFile(subitem);
+				} catch (Exception e) {
+					// ignore an error thrown by this, just log it
+					log.debug(e);
+					log.error(&quot;Failure processing file &quot; + subitem, e);
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param subitem
+	 *            a file to process
+	 */
+	private void processFile(File subitem) throws Exception {
+		log.debug(&quot;Processing: &quot; + subitem.getName());
+		XMLLoadProcess xmlLoadProcess = new XMLLoadProcess();
+		if (subitem.getName().endsWith(PROCESSDEF_EXTENSION)) {
+			xmlLoadProcess.setProcessDefinitionClass(processDefinitionClass);
+			xmlLoadProcess.setTaskDefinitionClass(taskDefinitionClass);
+			xmlLoadProcess.setProcessVersionsClass(processVersionsClass);
+			xmlLoadProcess.setPropertyElementClass(propertyElementClass);
+			xmlLoadProcess.setPropertyGroupsClass(propertyGroupsClass);
+			xmlLoadProcess.setRoutingDefinitionClass(routingDefinitionClass);
+			IProcessVersions processVersions = xmlLoadProcess
+					.loadFromFile(subitem);
+			// TODO dirty - needs to be fixed
+			// iterate through and just keep latest version
+			if (processVersions.getProcessVersions().size() &gt; 0) {
+				allProcessVersions.add(processVersions);
+			}
+
+		}
+
+	}
+
+	/**
+	 * returns a full list of all processdefs
+	 * 
+	 * @return
+	 */
+	public Set getAllProcessVersions() {
+		return this.allProcessVersions;
+	}
+
+	/**
+	 * @param processDefinitionClass
+	 *            The processDefinitionClass to set.
+	 */
+	public void setProcessDefinitionClass(Class processDefinitionClass) {
+		this.processDefinitionClass = processDefinitionClass;
+	}
+
+	/**
+	 * @param processVersionsClass
+	 *            The processVersionsClass to set.
+	 */
+	public void setProcessVersionsClass(Class processVersionsClass) {
+		this.processVersionsClass = processVersionsClass;
+	}
+
+	/**
+	 * @param propertyElementClass
+	 *            The propertyElementClass to set.
+	 */
+	public void setPropertyElementClass(Class propertyElementClass) {
+		this.propertyElementClass = propertyElementClass;
+	}
+
+	/**
+	 * @param propertyGroupsClass
+	 *            The propertyGroupsClass to set.
+	 */
+	public void setPropertyGroupsClass(Class propertyGroupsClass) {
+		this.propertyGroupsClass = propertyGroupsClass;
+	}
+
+	/**
+	 * @param routingDefinitionClass
+	 *            The routingDefinitionClass to set.
+	 */
+	public void setRoutingDefinitionClass(Class routingDefinitionClass) {
+		this.routingDefinitionClass = routingDefinitionClass;
+	}
+
+	/**
+	 * @param taskDefinitionClass
+	 *            The taskDefinitionClass to set.
+	 */
+	public void setTaskDefinitionClass(Class taskDefinitionClass) {
+		this.taskDefinitionClass = taskDefinitionClass;
+	}
+}
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000193.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/resources/processes prettyprinted.acgwfd.xml,NONE,1.1 nowhitespace.acgwfd.xml,NONE,1.1 digester.acgwfd.xml,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000185.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test log4j.properties,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#196">[ date ]</a>
+              <a href="thread.html#196">[ thread ]</a>
+              <a href="subject.html#196">[ subject ]</a>
+              <a href="author.html#196">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

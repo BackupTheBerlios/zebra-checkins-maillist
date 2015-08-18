@@ -1,0 +1,1583 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util	UserSet.java, 1.2, 1.3 RoleSet.java, 1.2, 1.3 GroupSet.java,	1.2, 1.3 SecuritySet.java, 1.2, 1.3 PermissionSet.java, 1.2, 1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-July/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util%0A%09UserSet.java%2C%201.2%2C%201.3%20RoleSet.java%2C%201.2%2C%201.3%20GroupSet.java%2C%0A%091.2%2C%201.3%20SecuritySet.java%2C%201.2%2C%201.3%20PermissionSet.java%2C%201.2%2C%201.3&In-Reply-To=%3C20060719091522.2C07F5AE2F%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000401.html">
+   <LINK REL="Next"  HREF="000403.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util	UserSet.java, 1.2, 1.3 RoleSet.java, 1.2, 1.3 GroupSet.java,	1.2, 1.3 SecuritySet.java, 1.2, 1.3 PermissionSet.java, 1.2, 1.3</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util%0A%09UserSet.java%2C%201.2%2C%201.3%20RoleSet.java%2C%201.2%2C%201.3%20GroupSet.java%2C%0A%091.2%2C%201.3%20SecuritySet.java%2C%201.2%2C%201.3%20PermissionSet.java%2C%201.2%2C%201.3&In-Reply-To=%3C20060719091522.2C07F5AE2F%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util	UserSet.java, 1.2, 1.3 RoleSet.java, 1.2, 1.3 GroupSet.java,	1.2, 1.3 SecuritySet.java, 1.2, 1.3 PermissionSet.java, 1.2, 1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jul 19 11:15:22 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000401.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.40,1.41
+</A></li>
+        <LI>Next message: <A HREF="000403.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity	DynamicRole.java, 1.2, 1.3 DynamicUser.java, 1.4,	1.5 DynamicGroup.java, 1.2, 1.3 DynamicPermission.java, 1.2, 1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#402">[ date ]</a>
+              <a href="thread.html#402">[ thread ]</a>
+              <a href="subject.html#402">[ subject ]</a>
+              <a href="author.html#402">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util
+In directory sheep:/tmp/cvs-serv32558/src/main/java/org/apache/fulcrum/security/util
+
+Modified Files:
+	UserSet.java RoleSet.java GroupSet.java SecuritySet.java 
+	PermissionSet.java 
+Log Message:
+Set of fixed for bug 9944.
+
+The security sets were confusing hibernate and causing unecessary DB access.
+
+They have been simplified to resovle. This may introduce other performance hits but initial tests suggest this is better on average.
+
+Index: UserSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/UserSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** UserSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- UserSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.User;
+***************
+*** 51,58 ****
+       * @param users A collection of users to be contained in the set.
+       */
+!     public UserSet(Collection users)
+      {
+!         super();
+!         add(users);
+      }
+  
+--- 52,58 ----
+       * @param users A collection of users to be contained in the set.
+       */
+!     public UserSet(Set users)
+      {
+!     	this.wrappedSet = users;
+      }
+  
+***************
+*** 67,77 ****
+  	public boolean add(User user)
+      {
+!         if (contains(user)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(user.getId(), user);
+!             return true;
+!         }
+      }
+      
+--- 67,71 ----
+  	public boolean add(User user)
+      {
+!     	return wrappedSet.add(user);
+      }
+      
+***************
+*** 139,146 ****
+      public boolean remove(User user)
+      {
+!         boolean res = contains(user);
+!        // nameMap.remove(user.getName());
+!         idMap.remove(user.getId());
+!         return res;
+      }
+  
+--- 133,138 ----
+      public boolean remove(User user)
+      {
+!     	return wrappedSet.remove(user);
+!     	
+      }
+  
+***************
+*** 188,192 ****
+      {
+          return (userId != null) 
+!                 ? (User) idMap.get(userId) : null;
+      }
+  
+--- 180,184 ----
+      {
+          return (userId != null) 
+!                 ? (User) super.getById(userId) : null;
+      }
+  
+
+Index: RoleSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/RoleSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** RoleSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- RoleSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.Role;
+***************
+*** 55,62 ****
+       * @param roles A collection of roles to be contained in the set.
+       */
+!     public RoleSet(Collection roles)
+      {
+!         super();
+!         add(roles);
+      }
+  
+--- 56,62 ----
+       * @param roles A collection of roles to be contained in the set.
+       */
+!     public RoleSet(Set roles)
+      {
+!         this.wrappedSet = roles;
+      }
+  
+***************
+*** 71,81 ****
+  	public boolean add(Role role)
+      {
+!         if (contains(role)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(role.getId(), role);
+!             return true;
+!         }
+      }
+      
+--- 71,75 ----
+  	public boolean add(Role role)
+      {
+!     	return wrappedSet.add(role);
+      }
+      
+***************
+*** 143,150 ****
+      public boolean remove(Role role)
+      {
+!         boolean res = contains(role);
+!       //  nameMap.remove(role.getName());
+!         idMap.remove(role.getId());
+!         return res;
+      }
+  
+--- 137,141 ----
+      public boolean remove(Role role)
+      {
+!     	return wrappedSet.remove(role);
+      }
+  
+***************
+*** 172,179 ****
+      public Role getRoleByName(String roleName)
+      {
+! 		return (Role)getByName(roleName);
+! 		/*roleName=roleName.toLowerCase();
+!         return (StringUtils.isNotEmpty(roleName))
+!                 ? (Role) nameMap.get(roleName) : null;*/
+      }
+  
+--- 163,167 ----
+      public Role getRoleByName(String roleName)
+      {
+! 		return (Role)getByName(roleName);	
+      }
+  
+***************
+*** 189,193 ****
+      {
+          return (roleId != null) 
+!                 ? (Role) idMap.get(roleId) : null;
+      }
+  
+--- 177,181 ----
+      {
+          return (roleId != null) 
+!                 ? (Role) super.getById(roleId) : null;
+      }
+  
+
+Index: GroupSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/GroupSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** GroupSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- GroupSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.Group;
+***************
+*** 24,31 ****
+  /**
+   * This class represents a set of Groups. It's useful for building
+!  * administration UI.  It enforces that only
+!  * Group objects are allowed in the set and only relevant methods
+!  * are available.
+!  *
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">john.mcnally at clearink.com</A>&quot;&gt;John D. McNally&lt;/a&gt;
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">bmclaugh at algx.net</A>&quot;&gt;Brett McLaughlin&lt;/a&gt;
+--- 25,31 ----
+  /**
+   * This class represents a set of Groups. It's useful for building
+!  * administration UI. It enforces that only Group objects are allowed in the set
+!  * and only relevant methods are available.
+!  * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">john.mcnally at clearink.com</A>&quot;&gt;John D. McNally&lt;/a&gt;
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">bmclaugh at algx.net</A>&quot;&gt;Brett McLaughlin&lt;/a&gt;
+***************
+*** 34,236 ****
+   * @version $Id$
+   */
+! public class GroupSet
+!         extends SecuritySet
+! {
+  	private static final long serialVersionUID = 6882240173053961011L;
+  
+  	/**
+!      * Constructs an empty GroupSet
+!      */
+!     public GroupSet()
+!     {
+!         super();
+!     }
+  
+!     /**
+!      * Constructs a new GroupSet with specified contents.
+!      *
+!      * If the given collection contains multiple objects that are
+!      * identical WRT equals() method, some objects will be overwritten.
+!      *
+!      * @param groups A collection of groups to be contained in the set.
+!      */
+!     public GroupSet(Collection groups)
+!     {
+!         super();
+!         add(groups);
+!     }
+  
+!     /**
+!      * Adds a Group to this GroupSet.
+!      *
+!      * @param group A Group.
+!      * @return True if Group was added; false if GroupSet
+!      * already contained the Group.
+!      */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(Group group)
+!     {
+!         if (contains(group)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(group.getId(), group);
+!             return true;
+!         }
+!     }
+!     
+!     /**
+!      * Adds a Group to this GroupSet.
+!      *
+!      * @param obj A Group.
+!      * @return True if Group was added; false if GroupSet already
+!      * contained the Group.
+!      */
+!     public boolean add(Object obj) {
+!         if(obj instanceof Group){
+!             return add((Group)obj);
+!         }
+!         else {
+!             throw new ClassCastException(&quot;Object passed to add to GroupSet is not of type Group&quot;);
+!         }
+!     }    
+! 		
+!     /**
+!      * Adds the Groups in a Collection to this GroupSet.
+!      *
+!      * @param groups A Collection of Groups.
+!      * @return True if this GroupSet changed as a result; false
+!      * if no change to this GroupSet occurred (this GroupSet
+!      * already contained all members of the added GroupSet).
+!      */
+!     public boolean add(Collection groups)
+!     {
+!         boolean res = false;
+!         for (Iterator it = groups.iterator(); it.hasNext();)
+!         {
+!             Group g = (Group) it.next();
+!             res |= add(g);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Adds the Groups in another GroupSet to this GroupSet.
+!      *
+!      * @param groupSet A GroupSet.
+!      * @return True if this GroupSet changed as a result; false
+!      * if no change to this GroupSet occurred (this GroupSet
+!      * already contained all members of the added GroupSet).
+!      */
+!     public boolean add(GroupSet groupSet)
+!     {
+!         boolean res = false;
+!         for( Iterator it = groupSet.iterator(); it.hasNext();)
+!         {
+!             Group g = (Group) it.next();
+!             res |= add(g);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Removes a Group from this GroupSet.
+!      *
+!      * @param group A Group.
+!      * @return True if this GroupSet contained the Group
+!      * before it was removed.
+!      */
+!     public boolean remove(Group group)
+!     {
+!         boolean res = contains(group);
+!         //nameMap.remove(group.getName());
+!         idMap.remove(group.getId());
+!         return res;
+!     }
+  
+!     /**
+!      * Checks whether this GroupSet contains a Group.
+!      *
+!      * @param group A Group.
+!      * @return True if this GroupSet contains the Group,
+!      * false otherwise.
+!      */
+!     public boolean contains(Group group)
+!     {
+!         return super.contains(group);
+!     }
+  
+  
+  
+!     /**
+!      * Returns a Group with the given name, if it is contained in
+!      * this GroupSet.
+!      *
+!      * @param groupName Name of Group.
+!      * @return Group if argument matched a Group in this
+!      * GroupSet; null if no match.
+!      */
+!     public Group getGroupByName(String groupName)
+!     {
+!     	/*groupName=groupName.toLowerCase();
+!         return (StringUtils.isNotEmpty(groupName))
+!                 ? (Group) nameMap.get(groupName) : null;
+!                 */
+! 		return (Group)getByName(groupName);
+!     }
+  
+!     /**
+!      * Returns a Group with the given id, if it is contained in
+!      * this GroupSet.
+!      *
+!      * @param groupId Id of the group
+!      * @return Group if argument matched a Group in this
+!      * GroupSet; null if no match.
+!      */
+!     public Group getGroupById(Object groupId)
+!     {
+!         return (groupId != null)
+!                 ? (Group) idMap.get(groupId) : null;
+!     }
+  
+!     /**
+!      * Returns an Array of Groups in this GroupSet.
+!      *
+!      * @return An Array of Group objects.
+!      */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Group[] getGroupsArray()
+!     {
+!         return (Group[]) getSet().toArray(new Group[0]);
+!     }
+  
+!     /**
+!      * Print out a GroupSet as a String
+!      *
+!      * @returns The Group Set as String
+!      *
+!      */
+!     public String toString()
+!     {
+!         StringBuffer sb = new StringBuffer();
+!         sb.append(&quot;GroupSet: &quot;);
+  
+!         for(Iterator it = iterator(); it.hasNext();)
+!         {
+!             Group g = (Group) it.next();
+!             sb.append('[');
+!             sb.append(g.getName());
+!             sb.append(&quot; -&gt; &quot;);
+!             sb.append(g.getId());
+!             sb.append(']');
+!             if (it.hasNext())
+!             {
+!                 sb.append(&quot;, &quot;);
+!             }
+!         }
+  
+-         return sb.toString();
+-     }
+-     
+-   
+  }
+--- 34,207 ----
+   * @version $Id$
+   */
+! public class GroupSet extends SecuritySet {
+  	private static final long serialVersionUID = 6882240173053961011L;
+  
+  	/**
+! 	 * Constructs an empty GroupSet
+! 	 */
+! 	public GroupSet() {
+! 		super();
+! 	}
+  
+! 	/**
+! 	 * Constructs a new GroupSet with specified contents.
+! 	 * 
+! 	 * If the given collection contains multiple objects that are identical WRT
+! 	 * equals() method, some objects will be overwritten.
+! 	 * 
+! 	 * @param groups
+! 	 *            A collection of groups to be contained in the set.
+! 	 */
+! 	public GroupSet(Set groups) {
+! 		this.wrappedSet=groups;
+! 	}
+  
+! 	/**
+! 	 * Adds a Group to this GroupSet.
+! 	 * 
+! 	 * @param group
+! 	 *            A Group.
+! 	 * @return True if Group was added; false if GroupSet already contained the
+! 	 *         Group.
+! 	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(Group group) {
+! 		return wrappedSet.add(group);
+  
+! 	}
+  
+! 	/**
+! 	 * Adds a Group to this GroupSet.
+! 	 * 
+! 	 * @param obj
+! 	 *            A Group.
+! 	 * @return True if Group was added; false if GroupSet already contained the
+! 	 *         Group.
+! 	 */
+! 	public boolean add(Object obj) {
+! 		if (obj instanceof Group) {
+! 			return add((Group) obj);
+! 		} else {
+! 			throw new ClassCastException(
+! 					&quot;Object passed to add to GroupSet is not of type Group&quot;);
+! 		}
+! 	}
+  
+! 	/**
+! 	 * Adds the Groups in a Collection to this GroupSet.
+! 	 * 
+! 	 * @param groups
+! 	 *            A Collection of Groups.
+! 	 * @return True if this GroupSet changed as a result; false if no change to
+! 	 *         this GroupSet occurred (this GroupSet already contained all
+! 	 *         members of the added GroupSet).
+! 	 */
+! 	public boolean add(Collection groups) {
+! 		boolean res = false;
+! 		for (Iterator it = groups.iterator(); it.hasNext();) {
+! 			Group g = (Group) it.next();
+! 			res |= add(g);
+! 		}
+! 		return res;
+! 	}
+  
++ 	/**
++ 	 * Adds the Groups in another GroupSet to this GroupSet.
++ 	 * 
++ 	 * @param groupSet
++ 	 *            A GroupSet.
++ 	 * @return True if this GroupSet changed as a result; false if no change to
++ 	 *         this GroupSet occurred (this GroupSet already contained all
++ 	 *         members of the added GroupSet).
++ 	 */
++ 	public boolean add(GroupSet groupSet) {
++ 		boolean res = false;
++ 		for (Iterator it = groupSet.iterator(); it.hasNext();) {
++ 			Group g = (Group) it.next();
++ 			res |= add(g);
++ 		}
++ 		return res;
++ 	}
+  
++ 	/**
++ 	 * Removes a Group from this GroupSet.
++ 	 * 
++ 	 * @param group
++ 	 *            A Group.
++ 	 * @return True if this GroupSet contained the Group before it was removed.
++ 	 */
++ 	public boolean remove(Group group) {
++ 		return super.remove(group);
++ 	}
+  
+! 	/**
+! 	 * Checks whether this GroupSet contains a Group.
+! 	 * 
+! 	 * @param group
+! 	 *            A Group.
+! 	 * @return True if this GroupSet contains the Group, false otherwise.
+! 	 */
+! 	public boolean contains(Group group) {
+! 		return super.contains(group);
+! 	}
+  
+! 	/**
+! 	 * Returns a Group with the given name, if it is contained in this GroupSet.
+! 	 * 
+! 	 * @param groupName
+! 	 *            Name of Group.
+! 	 * @return Group if argument matched a Group in this GroupSet; null if no
+! 	 *         match.
+! 	 */
+! 	public Group getGroupByName(String groupName) {
+! 		return (Group) getByName(groupName);
+! 	}
+  
+! 	/**
+! 	 * Returns a Group with the given id, if it is contained in this GroupSet.
+! 	 * 
+! 	 * @param groupId
+! 	 *            Id of the group
+! 	 * @return Group if argument matched a Group in this GroupSet; null if no
+! 	 *         match.
+! 	 */
+! 	public Group getGroupById(Object groupId) {
+! 		return (Group) ((groupId != null) ? super.getById(groupId) : null);
+! 	}
+  
+! 	/**
+! 	 * Returns an Array of Groups in this GroupSet.
+! 	 * 
+! 	 * @return An Array of Group objects.
+! 	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public Group[] getGroupsArray() {
+! 		return (Group[]) getSet().toArray(new Group[0]);
+! 	}
+  
+! 	/**
+! 	 * Print out a GroupSet as a String
+! 	 * 
+! 	 * @returns The Group Set as String
+! 	 * 
+! 	 */
+! 	public String toString() {
+! 		StringBuffer sb = new StringBuffer();
+! 		sb.append(&quot;GroupSet: &quot;);
+! 
+! 		for (Iterator it = iterator(); it.hasNext();) {
+! 			Group g = (Group) it.next();
+! 			sb.append('[');
+! 			sb.append(g.getName());
+! 			sb.append(&quot; -&gt; &quot;);
+! 			sb.append(g.getId());
+! 			sb.append(']');
+! 			if (it.hasNext()) {
+! 				sb.append(&quot;, &quot;);
+! 			}
+! 		}
+! 
+! 		return sb.toString();
+! 	}
+  
+  }
+
+Index: SecuritySet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/SecuritySet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** SecuritySet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- SecuritySet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 26,36 ****
+  import org.apache.commons.lang.StringUtils;
+  import org.apache.fulcrum.security.entity.SecurityEntity;
+  /**
+!  * This class represents a set of Security Entities. It makes it easy to build
+!  * a UI. It wraps a TreeSet object to enforce that only relevant methods are
+   * available. TreeSet's contain only unique Objects (no duplicates) based on the
+!  * ID.  They may or may not have a name, that depends on the implementation.
+!  * Want to get away frm requiring an ID and a name... Nothing should force 
+!  * Name to be unique in the basic architecture of Fulcrum Security.
+   * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+--- 26,40 ----
+  import org.apache.commons.lang.StringUtils;
+  import org.apache.fulcrum.security.entity.SecurityEntity;
++ 
+  /**
+!  * This class represents a set of Security Entities. It makes it easy to build a
+!  * UI. It wraps a TreeSet object to enforce that only relevant methods are
+   * available. TreeSet's contain only unique Objects (no duplicates) based on the
+!  * ID. They may or may not have a name, that depends on the implementation. Want
+!  * to get away frm requiring an ID and a name... Nothing should force Name to be
+!  * unique in the basic architecture of Fulcrum Security.
+!  * 
+!  * I have reimplemented this as a quick fix to the hibernate issues this causes.
+!  * This now wraps the set looking up everything at run time.
+   * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+***************
+*** 41,277 ****
+   * @version $Id$
+   */
+! public abstract class SecuritySet implements Serializable, Set
+! {
+!     /** Map for &quot;name&quot; -&gt; &quot;security object&quot; */
+!   //  protected Map nameMap = null;
+!     /** Map for &quot;id&quot; -&gt; &quot;security object&quot; */
+!     protected Map idMap = null;
+!     /**
+! 	 * Constructs an empty Set
+! 	 */
+!     public SecuritySet()
+!     {
+!         //nameMap = new TreeMap();
+!         idMap = new TreeMap();
+!     }
+!     
+!     /*
+! 	 * To enable the typesafe handling, make this abstract
+! 	 * and rely on the implementing classes like RoleSet to
+! 	 * properly cast the Object type.
+  	 * 
+  	 * @see java.util.Collection#add(java.lang.Object)
+  	 */
+!     public abstract boolean add(Object o);    
+!     /**
+  	 * Returns a set of security objects in this object.
+  	 * 
+  	 * @return A Set Object
+! 	 *  
+  	 */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Set getSet()
+!     {
+!         return new HashSet(idMap.values());
+!     }
+!     /**
+  	 * Returns a set of Names in this Object.
+  	 * 
+  	 * @return The Set of Names in this Object, backed by the actual data.
+  	 */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Set getNames()
+!     {
+!         Set names = new HashSet();
+!         for (Iterator i = getSet().iterator();i.hasNext();){
+!             SecurityEntity se = (SecurityEntity)i.next();
+!             names.add(se.getName());
+!         }
+!         return names;
+!         //return nameMap.keySet();
+!     }
+!     /**
+  	 * Returns a set of Id values in this Object.
+  	 * 
+  	 * @return The Set of Ids in this Object, backed by the actual data.
+  	 */
+!     public Set getIds()
+!     {
+!         return idMap.keySet();
+!     }
+!     /**
+  	 * Removes all Objects from this Set.
+  	 */
+!     public void clear()
+!     {
+!       //  nameMap.clear();
+!         idMap.clear();
+!     }
+!     /**
+  	 * Searches if an Object with a given name is in the Set
+  	 * 
+! 	 * @param roleName Name of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+!     public boolean containsName(String name)
+!     {        
+!         
+! 		return (StringUtils.isNotEmpty(name))
+! 				   ? getNames().contains(name.toLowerCase())
+! 				   : false;        
+!         /*
+!         return (StringUtils.isNotEmpty(name))
+!             ? nameMap.containsKey(name.toLowerCase())
+!             : false;
+!             */
+!     }
+!     /**
+  	 * Searches if an Object with a given Id is in the Set
+  	 * 
+! 	 * @param id Id of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+!     public boolean containsId(Object id)
+!     {
+!         return (id == null) ? false : idMap.containsKey(id);
+!     }
+!     /**
+  	 * Returns an Iterator for Objects in this Set.
+  	 * 
+  	 * @return An iterator for the Set
+  	 */
+!     public Iterator iterator()
+!     {
+!         return idMap.values().iterator();
+!     }
+!     /**
+  	 * Returns size (cardinality) of this set.
+  	 * 
+  	 * @return The cardinality of this Set.
+  	 */
+!     public int size()
+!     {
+!         return idMap.size();
+!     }
+!     /**
+  	 * list of role names in this set
+  	 * 
+  	 * @return The string representation of this Set.
+  	 */
+!     public String toString()
+!     {
+!         StringBuffer sbuf = new StringBuffer(12 * size());
+!         for (Iterator it = idMap.keySet().iterator(); it.hasNext();)
+!         {
+!             sbuf.append((String) it.next());
+!             if (it.hasNext())
+!             {
+!                 sbuf.append(&quot;, &quot;);
+!             }
+!         }
+!         return sbuf.toString();
+!     }
+!     // methods from Set
+!     public boolean addAll(Collection collection)
+!     {
+!         return add((Collection) collection);
+!     }
+!     public boolean isEmpty()
+!     {
+!         return idMap.isEmpty();
+!     }
+!     public boolean containsAll(Collection collection)
+!     {
+!         for (Iterator i = collection.iterator(); i.hasNext();)
+!         {
+!             Object object = i.next();
+!             if (!contains(object))
+!             {
+!                 return false;
+!             }
+!         }
+!         return true;
+!     }
+!     public boolean removeAll(Collection collection)
+!     {
+!         boolean changed = false;
+!         for (Iterator i = collection.iterator(); i.hasNext();)
+!         {
+!             Object object = i.next();
+!             boolean result = remove(object);
+!             if (result)
+!             {
+!                 changed = true;
+!             }
+!         }
+!         return changed;
+!     }
+!     public boolean retainAll(Collection collection)
+!     {
+!         throw new RuntimeException(&quot;not implemented&quot;);
+!     }
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray()
+  	 */
+!     public Object[] toArray()
+!     {
+!         return getSet().toArray();
+!     }
+!     
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#contains(java.lang.Object)
+  	 */
+!     public boolean contains(Object o)
+!     {
+!         if (o == null)
+!         {
+!             return false;
+!         }
+!         else
+!         {
+!             return containsName(((SecurityEntity) o).getName());
+!         }
+!     }
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#remove(java.lang.Object)
+  	 */
+!     public boolean remove(Object o)
+!     {
+!         SecurityEntity se = (SecurityEntity)o;
+! 		boolean res = contains(se);
+! 		idMap.remove(se.getId());
+! 		return res;
+!     }
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray(java.lang.Object[])
+  	 */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Object[] toArray(Object[] a)
+!     {
+!         return getSet().toArray(a);
+!     }
+!     
+!     public SecurityEntity getByName(String name){
+!         SecurityEntity securityEntity = null;
+!         for (Iterator i = getSet().iterator();i.hasNext();){
+!             SecurityEntity se = (SecurityEntity)i.next();
+!             if(se.getName().equalsIgnoreCase(name)){
+!                 securityEntity = se;
+!                 break;
+!             }
+!         }
+!         return securityEntity;
+!     
+!     
+!     }
+  }
+--- 45,253 ----
+   * @version $Id$
+   */
+! public abstract class SecuritySet implements Serializable, Set {
+! 	protected Set wrappedSet;
+! 
+! 	/*
+! 	 * To enable the typesafe handling, make this abstract and rely on the
+! 	 * implementing classes like RoleSet to properly cast the Object type.
+  	 * 
+  	 * @see java.util.Collection#add(java.lang.Object)
+  	 */
+! 	public abstract boolean add(Object o);
+! 
+! 	
+! 	public SecuritySet(){
+! 		this.wrappedSet = new HashSet();
+! 	}
+! 	
+! 	/**
+  	 * Returns a set of security objects in this object.
+  	 * 
+  	 * @return A Set Object
+! 	 * 
+  	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public Set getSet() {
+! 		return wrappedSet;
+! 	}
+! 
+! 	/**
+  	 * Returns a set of Names in this Object.
+  	 * 
+  	 * @return The Set of Names in this Object, backed by the actual data.
+  	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public Set getNames() {
+! 		Set names = new HashSet();
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			names.add(se.getName());
+! 		}
+! 		return names;
+! 	}
+! 
+! 	/**
+  	 * Returns a set of Id values in this Object.
+  	 * 
+  	 * @return The Set of Ids in this Object, backed by the actual data.
+  	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public Set getIds() {
+! 		Set ids = new HashSet();
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			ids.add(se.getId());
+! 		}
+! 		return ids;
+! 	}
+! 
+! 	/**
+  	 * Removes all Objects from this Set.
+  	 */
+! 	public void clear() {
+! 		wrappedSet.clear();
+! 	}
+! 
+! 	/**
+  	 * Searches if an Object with a given name is in the Set
+  	 * 
+! 	 * @param roleName
+! 	 *            Name of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+! 	public boolean containsName(String name) {
+! 
+! 		return (StringUtils.isNotEmpty(name)) ? getNames().contains(
+! 				name.toLowerCase()) : false;
+! 
+! 	}
+! 
+! 	/**
+  	 * Searches if an Object with a given Id is in the Set
+  	 * 
+! 	 * @param id
+! 	 *            Id of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+! 	public boolean containsId(Object id) {
+! 		return (id == null) ? false : getIds().contains(id);
+! 	}
+! 
+! 	/**
+  	 * Returns an Iterator for Objects in this Set.
+  	 * 
+  	 * @return An iterator for the Set
+  	 */
+! 	public Iterator iterator() {
+! 		return wrappedSet.iterator();
+! 	}
+! 
+! 	/**
+  	 * Returns size (cardinality) of this set.
+  	 * 
+  	 * @return The cardinality of this Set.
+  	 */
+! 	public int size() {
+! 		return wrappedSet.size();
+! 	}
+! 
+! 	/**
+  	 * list of role names in this set
+  	 * 
+  	 * @return The string representation of this Set.
+  	 */
+! 	public String toString() {
+! 
+! 		return wrappedSet.toString();
+! 	}
+! 
+! 	// methods from Set
+! 	public boolean addAll(Collection collection) {
+! 		return add((Collection) collection);
+! 	}
+! 
+! 	public boolean isEmpty() {
+! 		return wrappedSet.isEmpty();
+! 	}
+! 
+! 	public boolean containsAll(Collection collection) {
+! 
+! 		return wrappedSet.containsAll(collection);
+! 	}
+! 
+! 	public boolean removeAll(Collection collection) {
+! 		return wrappedSet.removeAll(collection);
+! 	}
+! 
+! 	public boolean retainAll(Collection collection) {
+! 		return wrappedSet.retainAll(collection);
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray()
+  	 */
+! 	public Object[] toArray() {
+! 		return wrappedSet.toArray();
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#contains(java.lang.Object)
+  	 */
+! 	public boolean contains(Object o) {
+! 		if (o == null) {
+! 			return false;
+! 		} else {
+! 			return containsName(((SecurityEntity) o).getName());
+! 		}
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#remove(java.lang.Object)
+  	 */
+! 	public boolean remove(Object o) {
+! 		return wrappedSet.remove(o);
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray(java.lang.Object[])
+  	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public Object[] toArray(Object[] a) {
+! 		return wrappedSet.toArray(a);
+! 	}
+! 
+! 	public SecurityEntity getByName(String name) {
+! 		SecurityEntity securityEntity = null;
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			if (se.getName().equalsIgnoreCase(name)) {
+! 				securityEntity = se;
+! 				break;
+! 			}
+! 		}
+! 		return securityEntity;
+! 
+! 	}
+! 
+! 	public SecurityEntity getById(Object id) {
+! 		SecurityEntity securityEntity = null;
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			if (se.getId().equals(id)) {
+! 				securityEntity = se;
+! 				break;
+! 			}
+! 		}
+! 		return securityEntity;
+! 	}
+  }
+
+Index: PermissionSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/PermissionSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** PermissionSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- PermissionSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 18,31 ****
+  import java.util.Collection;
+  import java.util.Iterator;
+  
+  import org.apache.fulcrum.security.entity.Permission;
+  
+  /**
+!  * This class represents a set of Permissions.  It makes it easy to
+!  * build a UI that would allow someone to add a group of Permissions
+!  * to a Role.  It enforces that only
+!  * Permission objects are allowed in the set and only relevant methods
+   * are available.
+!  *
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">john.mcnally at clearink.com</A>&quot;&gt;John D. McNally&lt;/a&gt;
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">bmclaugh at algx.net</A>&quot;&gt;Brett McLaughlin&lt;/a&gt;
+--- 18,31 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.Permission;
+  
+  /**
+!  * This class represents a set of Permissions. It makes it easy to build a UI
+!  * that would allow someone to add a group of Permissions to a Role. It enforces
+!  * that only Permission objects are allowed in the set and only relevant methods
+   * are available.
+!  * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">john.mcnally at clearink.com</A>&quot;&gt;John D. McNally&lt;/a&gt;
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">bmclaugh at algx.net</A>&quot;&gt;Brett McLaughlin&lt;/a&gt;
+***************
+*** 34,234 ****
+   * @version $Id$
+   */
+! public class PermissionSet
+!     extends SecuritySet
+! {
+  	private static final long serialVersionUID = 4532868341893924965L;
+  
+  	/**
+!      * Constructs an empty PermissionSet
+!      */
+!     public PermissionSet()
+!     {
+!         super();
+!     }
+! 
+!     /**
+!      * Constructs a new PermissionSet with specified contents.
+!      *
+!      * If the given collection contains multiple objects that are
+!      * identical WRT equals() method, some objects will be overwritten.
+!      *
+!      * @param permissions A collection of permissions to be contained in the set.
+!      */
+!     public PermissionSet(Collection permissions)
+!     {
+!         super();
+!         add(permissions);
+!     }
+  
+!     /**
+!      * Adds a Permission to this PermissionSet.
+!      *
+!      * @param permission A Permission.
+!      * @return True if Permission was added; false if PermissionSet
+!      * already contained the Permission.
+!      */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(Permission permission)
+!     {
+!         if (contains(permission)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(permission.getId(), permission);
+!             return true;
+!         }
+!     }
+!     
+!     /**
+!      * Adds a Permission to this PermissionSet.
+!      *
+!      * @param obj A Permission.
+!      * @return True if Permission was added; false if PermissionSet already
+!      * contained the Permission.
+!      */
+!     public boolean add(Object obj) {
+!         if(obj instanceof Permission){
+!             return add((Permission)obj);
+!         }
+!         else {
+!             throw new ClassCastException(&quot;Object passed to add to PermissionSet is not of type Permission&quot;);
+!         }
+!     }      
+  
+!     /**
+!      * Adds the Permissions in a Collection to this PermissionSet.
+!      *
+!      * @param permissions A Collection of Permissions.
+!      * @return True if this PermissionSet changed as a result; false
+!      * if no change to this PermissionSet occurred (this PermissionSet
+!      * already contained all members of the added PermissionSet).
+!      */
+!     public boolean add(Collection permissions)
+!     {
+!         boolean res = false;
+!         for (Iterator it = permissions.iterator(); it.hasNext();)
+!         {
+!             Permission p = (Permission) it.next();
+!             res |= add(p);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Adds the Permissions in another PermissionSet to this
+!      * PermissionSet.
+!      *
+!      * @param permissionSet A PermissionSet.
+!      * @return True if this PermissionSet changed as a result; false
+!      * if no change to this PermissionSet occurred (this PermissionSet
+!      * already contained all members of the added PermissionSet).
+!      */
+!     public boolean add(PermissionSet permissionSet)
+!     {
+!         boolean res = false;
+!         for( Iterator it = permissionSet.iterator(); it.hasNext();)
+!         {
+!             Permission p = (Permission) it.next();
+!             res |= add(p);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Removes a Permission from this PermissionSet.
+!      *
+!      * @param permission A Permission.
+!      * @return True if this PermissionSet contained the Permission
+!      * before it was removed.
+!      */
+!     public boolean remove(Permission permission)
+!     {
+!         boolean res = contains(permission);
+!         //nameMap.remove(permission.getName());
+!         idMap.remove(permission.getId());
+!         return res;
+!     }
+  
+!     /**
+!      * Checks whether this PermissionSet contains a Permission.
+!      *
+!      * @param permission A Permission.
+!      * @return True if this PermissionSet contains the Permission,
+!      * false otherwise.
+!      */
+!     public boolean contains(Permission permission)
+!     {
+! 		return super.contains(permission);
+!     }
+  
+  
+  
+!     /**
+!      * Returns a Permission with the given name, if it is contained in
+!      * this PermissionSet.
+!      *
+!      * @param permissionName Name of Permission.
+!      * @return Permission if argument matched a Permission in this
+!      * PermissionSet; null if no match.
+!      */
+!     public Permission getPermissionByName(String permissionName)
+!     {
+! 		return (Permission)getByName(permissionName);
+! 		//permissionName=permissionName.toLowerCase();
+!         //return (StringUtils.isNotEmpty(permissionName))
+!          //       ? (Permission) nameMap.get(permissionName) : null;
+!     }
+  
+!     /**
+!      * Returns a Permission with the given id, if it is contained in
+!      * this PermissionSet.
+!      *
+!      * @param permissionId Id of the Permission.
+!      * @return Permission if argument matched a Permission in this
+!      * PermissionSet; null if no match.
+!      */
+!     public Permission getPermissionById(Object permissionId)
+!     {
+!         return (permissionId != null) 
+!                 ? (Permission) idMap.get(permissionId) : null;
+!     }
+  
+!     /**
+!      * Returns an Array of Permissions in this PermissionSet.
+!      *
+!      * @return An Array of Permission Objects.
+!      */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Permission[] getPermissionsArray()
+!     {
+!         return (Permission[]) getSet().toArray(new Permission[0]);
+!     }
+  
+!     /**
+!      * Print out a PermissionSet as a String
+!      *
+!      * @returns The Permission Set as String
+!      *
+!      */
+!     public String toString()
+!     {
+!         StringBuffer sb = new StringBuffer();
+!         sb.append(&quot;PermissionSet: &quot;);
+  
+!         for(Iterator it = iterator(); it.hasNext();)
+!         {
+!             Permission p = (Permission) it.next();
+!             sb.append('[');
+!             sb.append(p.getName());
+!             sb.append(&quot; -&gt; &quot;);
+!             sb.append(p.getId());
+!             sb.append(']');
+!             if (it.hasNext())
+!             {
+!                 sb.append(&quot;, &quot;);
+!             }
+!         }
+  
+!         return sb.toString();
+!     }
+  }
+--- 34,213 ----
+   * @version $Id$
+   */
+! public class PermissionSet extends SecuritySet {
+  	private static final long serialVersionUID = 4532868341893924965L;
+  
+  	/**
+! 	 * Constructs an empty PermissionSet
+! 	 */
+! 	public PermissionSet() {
+! 		super();
+! 	}
+  
+! 	/**
+! 	 * Constructs a new PermissionSet with specified contents.
+! 	 * 
+! 	 * If the given collection contains multiple objects that are identical WRT
+! 	 * equals() method, some objects will be overwritten.
+! 	 * 
+! 	 * @param permissions
+! 	 *            A collection of permissions to be contained in the set.
+! 	 */
+! 	public PermissionSet(Set permissions) {
+! 		this.wrappedSet = permissions;
+! 	}
+  
+! 	/**
+! 	 * Adds a Permission to this PermissionSet.
+! 	 * 
+! 	 * @param permission
+! 	 *            A Permission.
+! 	 * @return True if Permission was added; false if PermissionSet already
+! 	 *         contained the Permission.
+! 	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(Permission permission) {
+! 		return wrappedSet.add(permission);
+! 	}
+  
+! 	/**
+! 	 * Adds a Permission to this PermissionSet.
+! 	 * 
+! 	 * @param obj
+! 	 *            A Permission.
+! 	 * @return True if Permission was added; false if PermissionSet already
+! 	 *         contained the Permission.
+! 	 */
+! 	public boolean add(Object obj) {
+! 		if (obj instanceof Permission) {
+! 			return add((Permission) obj);
+! 		} else {
+! 			throw new ClassCastException(
+! 					&quot;Object passed to add to PermissionSet is not of type Permission&quot;);
+! 		}
+! 	}
+  
+! 	/**
+! 	 * Adds the Permissions in a Collection to this PermissionSet.
+! 	 * 
+! 	 * @param permissions
+! 	 *            A Collection of Permissions.
+! 	 * @return True if this PermissionSet changed as a result; false if no
+! 	 *         change to this PermissionSet occurred (this PermissionSet already
+! 	 *         contained all members of the added PermissionSet).
+! 	 */
+! 	public boolean add(Collection permissions) {
+! 		boolean res = false;
+! 		for (Iterator it = permissions.iterator(); it.hasNext();) {
+! 			Permission p = (Permission) it.next();
+! 			res |= add(p);
+! 		}
+! 		return res;
+! 	}
+  
+! 	/**
+! 	 * Adds the Permissions in another PermissionSet to this PermissionSet.
+! 	 * 
+! 	 * @param permissionSet
+! 	 *            A PermissionSet.
+! 	 * @return True if this PermissionSet changed as a result; false if no
+! 	 *         change to this PermissionSet occurred (this PermissionSet already
+! 	 *         contained all members of the added PermissionSet).
+! 	 */
+! 	public boolean add(PermissionSet permissionSet) {
+! 		boolean res = false;
+! 		for (Iterator it = permissionSet.iterator(); it.hasNext();) {
+! 			Permission p = (Permission) it.next();
+! 			res |= add(p);
+! 		}
+! 		return res;
+! 	}
+  
++ 	/**
++ 	 * Removes a Permission from this PermissionSet.
++ 	 * 
++ 	 * @param permission
++ 	 *            A Permission.
++ 	 * @return True if this PermissionSet contained the Permission before it was
++ 	 *         removed.
++ 	 */
++ 	public boolean remove(Permission permission) {
++ 		return wrappedSet.remove(permission);
++ 	}
+  
++ 	/**
++ 	 * Checks whether this PermissionSet contains a Permission.
++ 	 * 
++ 	 * @param permission
++ 	 *            A Permission.
++ 	 * @return True if this PermissionSet contains the Permission, false
++ 	 *         otherwise.
++ 	 */
++ 	public boolean contains(Permission permission) {
++ 		return super.contains(permission);
++ 	}
+  
+! 	/**
+! 	 * Returns a Permission with the given name, if it is contained in this
+! 	 * PermissionSet.
+! 	 * 
+! 	 * @param permissionName
+! 	 *            Name of Permission.
+! 	 * @return Permission if argument matched a Permission in this
+! 	 *         PermissionSet; null if no match.
+! 	 */
+! 	public Permission getPermissionByName(String permissionName) {
+! 		return (Permission) getByName(permissionName);
+! 		// permissionName=permissionName.toLowerCase();
+! 		// return (StringUtils.isNotEmpty(permissionName))
+! 		// ? (Permission) nameMap.get(permissionName) : null;
+! 	}
+  
+! 	/**
+! 	 * Returns a Permission with the given id, if it is contained in this
+! 	 * PermissionSet.
+! 	 * 
+! 	 * @param permissionId
+! 	 *            Id of the Permission.
+! 	 * @return Permission if argument matched a Permission in this
+! 	 *         PermissionSet; null if no match.
+! 	 */
+! 	public Permission getPermissionById(Object permissionId) {
+! 		return (permissionId != null) ? (Permission) super
+! 				.getById(permissionId) : null;
+! 	}
+  
+! 	/**
+! 	 * Returns an Array of Permissions in this PermissionSet.
+! 	 * 
+! 	 * @return An Array of Permission Objects.
+! 	 */
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	public Permission[] getPermissionsArray() {
+! 		return (Permission[]) getSet().toArray(new Permission[0]);
+! 	}
+  
+! 	/**
+! 	 * Print out a PermissionSet as a String
+! 	 * 
+! 	 * @returns The Permission Set as String
+! 	 * 
+! 	 */
+! 	public String toString() {
+! 		StringBuffer sb = new StringBuffer();
+! 		sb.append(&quot;PermissionSet: &quot;);
+  
+! 		for (Iterator it = iterator(); it.hasNext();) {
+! 			Permission p = (Permission) it.next();
+! 			sb.append('[');
+! 			sb.append(p.getName());
+! 			sb.append(&quot; -&gt; &quot;);
+! 			sb.append(p.getId());
+! 			sb.append(']');
+! 			if (it.hasNext()) {
+! 				sb.append(&quot;, &quot;);
+! 			}
+! 		}
+  
+! 		return sb.toString();
+! 	}
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000401.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.40,1.41
+</A></li>
+	<LI>Next message: <A HREF="000403.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity	DynamicRole.java, 1.2, 1.3 DynamicUser.java, 1.4,	1.5 DynamicGroup.java, 1.2, 1.3 DynamicPermission.java, 1.2, 1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#402">[ date ]</a>
+              <a href="thread.html#402">[ thread ]</a>
+              <a href="subject.html#402">[ subject ]</a>
+              <a href="author.html#402">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

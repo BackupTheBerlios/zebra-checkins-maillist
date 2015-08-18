@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.6,1.7
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate%20pom.xml%2C1.6%2C1.7&In-Reply-To=%3C200601241157.k0OBvwx06672%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000092.html">
+   <LINK REL="Next"  HREF="000098.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.6,1.7</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate%20pom.xml%2C1.6%2C1.7&In-Reply-To=%3C200601241157.k0OBvwx06672%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.6,1.7">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 24 12:57:58 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000092.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test - New directory
+</A></li>
+        <LI>Next message: <A HREF="000098.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF hivemodule.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#95">[ date ]</a>
+              <a href="thread.html#95">[ thread ]</a>
+              <a href="subject.html#95">[ subject ]</a>
+              <a href="author.html#95">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate
+In directory sheep:/tmp/cvs-serv14042
+
+Modified Files:
+	pom.xml 
+Log Message:
+Fixed issues with user modification not writing thru to database
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/pom.xml,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** pom.xml	17 Jan 2006 11:42:13 -0000	1.6
+--- pom.xml	24 Jan 2006 11:57:56 -0000	1.7
+***************
+*** 6,10 ****
+      &lt;artifactId&gt;fulcrum-security-hibernate&lt;/artifactId&gt;
+      &lt;packaging&gt;jar&lt;/packaging&gt;
+!     &lt;version&gt;1.8&lt;/version&gt;
+      &lt;name&gt;fulcrum-hibernate-security- Fuclrum Security Hibernate layer for Hivemind&lt;/name&gt;
+      &lt;url&gt;<A HREF="http://gnasher.aniteps.com/docs/&lt;/url">http://gnasher.aniteps.com/docs/&lt;/url</A>&gt;
+--- 6,10 ----
+      &lt;artifactId&gt;fulcrum-security-hibernate&lt;/artifactId&gt;
+      &lt;packaging&gt;jar&lt;/packaging&gt;
+! 	&lt;version&gt;1.9&lt;/version&gt;
+      &lt;name&gt;fulcrum-hibernate-security- Fuclrum Security Hibernate layer for Hivemind&lt;/name&gt;
+      &lt;url&gt;<A HREF="http://gnasher.aniteps.com/docs/&lt;/url">http://gnasher.aniteps.com/docs/&lt;/url</A>&gt;
+***************
+*** 82,86 ****
+              &lt;groupId&gt;fulcrum-hivemind&lt;/groupId&gt;
+              &lt;artifactId&gt;fulcrum-hibernate&lt;/artifactId&gt;
+!             &lt;version&gt;1.7&lt;/version&gt;
+          &lt;/dependency&gt;
+      &lt;/dependencies&gt;
+--- 82,86 ----
+              &lt;groupId&gt;fulcrum-hivemind&lt;/groupId&gt;
+              &lt;artifactId&gt;fulcrum-hibernate&lt;/artifactId&gt;
+!             &lt;version&gt;1.8&lt;/version&gt;
+          &lt;/dependency&gt;
+      &lt;/dependencies&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000092.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test - New directory
+</A></li>
+	<LI>Next message: <A HREF="000098.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF hivemodule.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#95">[ date ]</a>
+              <a href="thread.html#95">[ thread ]</a>
+              <a href="subject.html#95">[ subject ]</a>
+              <a href="author.html#95">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

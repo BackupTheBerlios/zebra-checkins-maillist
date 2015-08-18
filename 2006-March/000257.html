@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.1,1.2 Zebra.java,1.7,1.8
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraDefinitionFactory.java%2C1.1%2C1.2%20Zebra.java%2C1.7%2C1.8&In-Reply-To=%3C200603091113.k29BD0b02595%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000256.html">
+   <LINK REL="Next"  HREF="000258.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.1,1.2 Zebra.java,1.7,1.8</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraDefinitionFactory.java%2C1.1%2C1.2%20Zebra.java%2C1.7%2C1.8&In-Reply-To=%3C200603091113.k29BD0b02595%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.1,1.2 Zebra.java,1.7,1.8">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Mar  9 12:13:00 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000256.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.4,1.5 ZebraDefinitionsFactoryTest.java,1.5,1.6 LockMangerTest.java,1.3,1.4
+</A></li>
+        <LI>Next message: <A HREF="000258.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.25,1.26 surefire-system.properties,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#257">[ date ]</a>
+              <a href="thread.html#257">[ thread ]</a>
+              <a href="subject.html#257">[ subject ]</a>
+              <a href="author.html#257">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv953/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraDefinitionFactory.java Zebra.java 
+Log Message:
+Added code to ensure non-cached processDefs and taskDefs are retrieved
+
+Index: ZebraDefinitionFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/ZebraDefinitionFactory.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** ZebraDefinitionFactory.java	25 Nov 2005 10:32:02 -0000	1.1
+--- ZebraDefinitionFactory.java	9 Mar 2006 10:14:17 -0000	1.2
+***************
+*** 13,16 ****
+--- 13,17 ----
+  import org.apache.commons.logging.LogFactory;
+  import org.hibernate.HibernateException;
++ import org.hibernate.LockMode;
+  import org.hibernate.Query;
+  import org.hibernate.Session;
+***************
+*** 257,270 ****
+  	}
+  
+! 	public Map&lt;Long, ZebraProcessDefinition&gt; getAllProcessDefinitionsById() {
+! 		return this.allProcessDefinitionsById;
+  	}
+  
+! 	public Map&lt;String, ZebraProcessDefinition&gt; getAllProcessDefinitionsByName() {
+! 		return this.allProcessDefinitionsByName;
+  	}
+  
+! 	public Map&lt;Long, ZebraTaskDefinition&gt; getAllTaskDefinitionsById() {
+! 		return this.latestTaskDefinitionsById;
+  	}
+  
+--- 258,277 ----
+  	}
+  
+! 	public ZebraProcessDefinition getProcessDefinitionById(Long id) {
+! 		ZebraProcessDefinition processDef = allProcessDefinitionsById.get(id);
+! 		session.lock(processDef, LockMode.NONE);
+! 		return processDef;
+  	}
+  
+! 	public ZebraProcessDefinition getProcessDefinitionByName(String name) {
+! 		ZebraProcessDefinition processDef = allProcessDefinitionsByName.get(name);
+! 		session.lock(processDef, LockMode.NONE);
+! 		return processDef;
+  	}
+  
+! 	public ZebraTaskDefinition getTaskDefinitionById(Long id) {
+! 		ZebraTaskDefinition taskDef = latestTaskDefinitionsById.get(id);
+! 		session.lock(taskDef, LockMode.NONE);
+! 		return taskDef;
+  	}
+  
+
+Index: Zebra.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/Zebra.java,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** Zebra.java	3 Jan 2006 07:48:31 -0000	1.7
+--- Zebra.java	9 Mar 2006 10:14:17 -0000	1.8
+***************
+*** 19,27 ****
+  import java.util.Iterator;
+  import java.util.List;
+- import java.util.Map;
+  import java.util.Set;
+  
+  import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+  
+  import com.anite.zebra.core.Engine;
+--- 19,27 ----
+  import java.util.Iterator;
+  import java.util.List;
+  import java.util.Set;
+  
+  import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
++ import org.hibernate.LockMode;
+  
+  import com.anite.zebra.core.Engine;
+***************
+*** 65,70 ****
+      }
+  
+!     public Map&lt;String, ZebraProcessDefinition&gt; getAllProcessDefinitions() {
+!         return this.definitionFactory.getAllProcessDefinitionsByName();
+      }
+  
+--- 65,70 ----
+      }
+  
+!     public ZebraProcessDefinition getProcessDefinition(String processName) {
+!         return this.definitionFactory.getProcessDefinitionByName(processName);
+      }
+  
+***************
+*** 76,80 ****
+       */
+      public ZebraProcessInstance createProcessPaused(String processName) throws CreateProcessException {
+!         return createProcessPaused(this.getAllProcessDefinitions().get(processName));
+  
+      }
+--- 76,80 ----
+       */
+      public ZebraProcessInstance createProcessPaused(String processName) throws CreateProcessException {
+!         return createProcessPaused(this.getProcessDefinition(processName));
+  
+      }
+***************
+*** 87,91 ****
+       */
+      public ZebraProcessInstance createProcessPaused(ZebraProcessDefinition process) throws CreateProcessException {
+- 
+          return (ZebraProcessInstance) engine.createProcess(process);
+  
+--- 87,90 ----
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000256.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.4,1.5 ZebraDefinitionsFactoryTest.java,1.5,1.6 LockMangerTest.java,1.3,1.4
+</A></li>
+	<LI>Next message: <A HREF="000258.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.25,1.26 surefire-system.properties,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#257">[ date ]</a>
+              <a href="thread.html#257">[ thread ]</a>
+              <a href="subject.html#257">[ subject ]</a>
+              <a href="author.html#257">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

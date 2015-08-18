@@ -1,0 +1,338 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.5,1.6 DatabaseLock.java,1.2,1.3 ZebraProcessInstance.java,1.9,1.10 ZebraPropertySetEntry.java,1.7,1.8 ZebraFOE.java,1.4,1.5 AbstractZebraTaskInstance.java,1.5,1.6 Priority.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraTaskInstance.java%2C1.5%2C1.6%20DatabaseLock.java%2C1.2%2C1.3%20ZebraProcessInstance.java%2C1.9%2C1.10%20ZebraPropertySetEntry.java%2C1.7%2C1.8%20ZebraFOE.java%2C1.4%2C1.5%20AbstractZebraTaskInstance.java%2C1.5%2C1.6%20Priority.java%2C1.2%2C1.3&In-Reply-To=%3C200602160855.k1G8t2E12763%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000216.html">
+   <LINK REL="Next"  HREF="000221.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.5,1.6 DatabaseLock.java,1.2,1.3 ZebraProcessInstance.java,1.9,1.10 ZebraPropertySetEntry.java,1.7,1.8 ZebraFOE.java,1.4,1.5 AbstractZebraTaskInstance.java,1.5,1.6 Priority.java,1.2,1.3</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraTaskInstance.java%2C1.5%2C1.6%20DatabaseLock.java%2C1.2%2C1.3%20ZebraProcessInstance.java%2C1.9%2C1.10%20ZebraPropertySetEntry.java%2C1.7%2C1.8%20ZebraFOE.java%2C1.4%2C1.5%20AbstractZebraTaskInstance.java%2C1.5%2C1.6%20Priority.java%2C1.2%2C1.3&In-Reply-To=%3C200602160855.k1G8t2E12763%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.5,1.6 DatabaseLock.java,1.2,1.3 ZebraProcessInstance.java,1.9,1.10 ZebraPropertySetEntry.java,1.7,1.8 ZebraFOE.java,1.4,1.5 AbstractZebraTaskInstance.java,1.5,1.6 Priority.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Feb 16 09:55:02 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000216.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/lifecycle ProcessDestruct.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000221.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.20,1.21
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#220">[ date ]</a>
+              <a href="thread.html#220">[ thread ]</a>
+              <a href="subject.html#220">[ subject ]</a>
+              <a href="author.html#220">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state
+In directory sheep:/tmp/cvs-serv995/src/main/java/com/anite/zebra/hivemind/om/state
+
+Modified Files:
+	ZebraTaskInstance.java DatabaseLock.java 
+	ZebraProcessInstance.java ZebraPropertySetEntry.java 
+	ZebraFOE.java AbstractZebraTaskInstance.java Priority.java 
+Log Message:
+Updated annotations for hibernate-annotations beta8
+
+Index: ZebraTaskInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraTaskInstance.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ZebraTaskInstance.java	4 Jan 2006 15:55:32 -0000	1.5
+--- ZebraTaskInstance.java	16 Feb 2006 08:54:29 -0000	1.6
+***************
+*** 24,28 ****
+  import javax.persistence.Entity;
+  import javax.persistence.FetchType;
+- import javax.persistence.JoinColumn;
+  import javax.persistence.MapKey;
+  import javax.persistence.OneToMany;
+--- 24,27 ----
+***************
+*** 77,81 ****
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@MapKey(name=&quot;key&quot;)
+! 	@JoinColumn
+  	public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+  		return this.propertySet;
+--- 76,80 ----
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@MapKey(name=&quot;key&quot;)
+! 	//@JoinColumn
+  	public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+  		return this.propertySet;
+
+Index: DatabaseLock.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/DatabaseLock.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DatabaseLock.java	1 Dec 2005 14:54:18 -0000	1.2
+--- DatabaseLock.java	16 Feb 2006 08:54:29 -0000	1.3
+***************
+*** 19,23 ****
+  
+  import javax.persistence.Entity;
+- import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  
+--- 19,22 ----
+***************
+*** 54,58 ****
+       * @return Returns the processInstanceId.
+       */
+!     @Id(generate=GeneratorType.NONE)
+      public Long getProcessInstanceId() {
+          return this.processInstanceId;
+--- 53,57 ----
+       * @return Returns the processInstanceId.
+       */
+!     @Id
+      public Long getProcessInstanceId() {
+          return this.processInstanceId;
+
+Index: ZebraProcessInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraProcessInstance.java,v
+retrieving revision 1.9
+retrieving revision 1.10
+diff -C2 -d -r1.9 -r1.10
+*** ZebraProcessInstance.java	13 Feb 2006 16:10:20 -0000	1.9
+--- ZebraProcessInstance.java	16 Feb 2006 08:54:29 -0000	1.10
+***************
+*** 31,35 ****
+  import javax.persistence.Entity;
+  import javax.persistence.FetchType;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+--- 31,35 ----
+  import javax.persistence.Entity;
+  import javax.persistence.FetchType;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+***************
+*** 267,271 ****
+       * 
+       */
+!     @Id(generate = GeneratorType.AUTO)
+      public Long getProcessInstanceId() {
+          return this.processInstanceId;
+--- 267,271 ----
+       * 
+       */
+!     @Id @GeneratedValue
+      public Long getProcessInstanceId() {
+          return this.processInstanceId;
+***************
+*** 343,347 ****
+      @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+      @MapKey(name=&quot;key&quot;)
+!     @JoinColumn
+      public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+          return this.propertySet;
+--- 343,347 ----
+      @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+      @MapKey(name=&quot;key&quot;)
+!     //@JoinColumn
+      public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+          return this.propertySet;
+
+Index: ZebraPropertySetEntry.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraPropertySetEntry.java,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** ZebraPropertySetEntry.java	9 Feb 2006 14:28:13 -0000	1.7
+--- ZebraPropertySetEntry.java	16 Feb 2006 08:54:29 -0000	1.8
+***************
+*** 23,27 ****
+  import javax.persistence.Column;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  
+--- 23,27 ----
+  import javax.persistence.Column;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  
+***************
+*** 109,113 ****
+      }
+  
+!     @Id(generate = GeneratorType.AUTO)
+      public Integer getPropertySetId() {
+  		return propertySetId;
+--- 109,113 ----
+      }
+  
+!     @Id @GeneratedValue
+      public Integer getPropertySetId() {
+  		return propertySetId;
+
+Index: ZebraFOE.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraFOE.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** ZebraFOE.java	5 Dec 2005 09:52:36 -0000	1.4
+--- ZebraFOE.java	16 Feb 2006 08:54:29 -0000	1.5
+***************
+*** 19,23 ****
+  
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToOne;
+--- 19,23 ----
+  
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToOne;
+***************
+*** 64,68 ****
+       * @return Returns the antelopeFoeID.
+       */
+!     @Id(generate = GeneratorType.AUTO)
+      public Integer getId() {
+          return this.id;
+--- 64,68 ----
+       * @return Returns the antelopeFoeID.
+       */
+!     @Id @GeneratedValue
+      public Integer getId() {
+          return this.id;
+
+Index: AbstractZebraTaskInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/AbstractZebraTaskInstance.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** AbstractZebraTaskInstance.java	3 Jan 2006 07:48:31 -0000	1.5
+--- AbstractZebraTaskInstance.java	16 Feb 2006 08:54:29 -0000	1.6
+***************
+*** 25,32 ****
+  import javax.persistence.CascadeType;
+  import javax.persistence.Column;
+! import javax.persistence.EmbeddableSuperclass;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToOne;
+  import javax.persistence.Transient;
+  
+--- 25,32 ----
+  import javax.persistence.CascadeType;
+  import javax.persistence.Column;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToOne;
++ import javax.persistence.MappedSuperclass;
+  import javax.persistence.Transient;
+  
+***************
+*** 49,53 ****
+   * @author Ben Gidley
+   */
+! @EmbeddableSuperclass
+  public abstract class AbstractZebraTaskInstance implements ITaskInstance {
+  
+--- 49,53 ----
+   * @author Ben Gidley
+   */
+! @MappedSuperclass
+  public abstract class AbstractZebraTaskInstance implements ITaskInstance {
+  
+***************
+*** 141,145 ****
+  	 * @return Returns the taskInstanceId.
+  	 */
+! 	@Id(generate = GeneratorType.AUTO)
+  	public Long getTaskInstanceId() {
+  		return this.taskInstanceId;
+--- 141,145 ----
+  	 * @return Returns the taskInstanceId.
+  	 */
+! 	@Id @GeneratedValue
+  	public Long getTaskInstanceId() {
+  		return this.taskInstanceId;
+
+Index: Priority.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/Priority.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** Priority.java	26 Nov 2005 12:51:12 -0000	1.2
+--- Priority.java	16 Feb 2006 08:54:29 -0000	1.3
+***************
+*** 18,22 ****
+  
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  
+--- 18,22 ----
+  
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  
+***************
+*** 63,67 ****
+  	 * @return Returns the priorityId.
+  	 */
+! 	@Id(generate = GeneratorType.AUTO)
+  	public Long getPriorityId() {
+  		return this.priorityId;
+--- 63,67 ----
+  	 * @return Returns the priorityId.
+  	 */
+! 	@Id @GeneratedValue
+  	public Long getPriorityId() {
+  		return this.priorityId;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000216.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/lifecycle ProcessDestruct.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000221.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.20,1.21
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#220">[ date ]</a>
+              <a href="thread.html#220">[ thread ]</a>
+              <a href="subject.html#220">[ subject ]</a>
+              <a href="author.html#220">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

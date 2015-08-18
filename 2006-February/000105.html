@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreateTables.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables%20CreateTables.java%2C1.3%2C1.4&In-Reply-To=%3C200602061649.k16GnSE03424%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000104.html">
+   <LINK REL="Next"  HREF="000106.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreateTables.java,1.3,1.4</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables%20CreateTables.java%2C1.3%2C1.4&In-Reply-To=%3C200602061649.k16GnSE03424%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreateTables.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Mon Feb  6 17:49:28 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000104.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.3,1.4
+</A></li>
+        <LI>Next message: <A HREF="000106.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#105">[ date ]</a>
+              <a href="thread.html#105">[ thread ]</a>
+              <a href="subject.html#105">[ subject ]</a>
+              <a href="author.html#105">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables
+In directory sheep:/tmp/cvs-serv26925/src/main/java/org/apache/fulcrum/quartz/tables
+
+Modified Files:
+	CreateTables.java 
+Log Message:
+
+
+Index: CreateTables.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables/CreateTables.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** CreateTables.java	4 Jan 2006 15:33:45 -0000	1.3
+--- CreateTables.java	6 Feb 2006 16:49:26 -0000	1.4
+***************
+*** 39,43 ****
+  				Statement stmt = conn.createStatement();
+  				String q = itr.next();
+! 				System.out.println(q);
+  				conn.setAutoCommit(true);
+  				stmt.execute(q);
+--- 39,43 ----
+  				Statement stmt = conn.createStatement();
+  				String q = itr.next();
+! 				//System.out.println(q);
+  				conn.setAutoCommit(true);
+  				stmt.execute(q);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000104.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.3,1.4
+</A></li>
+	<LI>Next message: <A HREF="000106.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#105">[ date ]</a>
+              <a href="thread.html#105">[ thread ]</a>
+              <a href="subject.html#105">[ subject ]</a>
+              <a href="author.html#105">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

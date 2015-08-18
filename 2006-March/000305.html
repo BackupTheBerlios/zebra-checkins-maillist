@@ -1,0 +1,374 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractGroupManagerTest.java,1.1,1.2 AbstractRoleManagerTest.java,1.1,1.2 AbstractPermissionManagerTest.java,1.1,1.2 AbstractUserManagerTest.java,1.5,1.6
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test%20AbstractGroupManagerTest.java%2C1.1%2C1.2%20AbstractRoleManagerTest.java%2C1.1%2C1.2%20AbstractPermissionManagerTest.java%2C1.1%2C1.2%20AbstractUserManagerTest.java%2C1.5%2C1.6&In-Reply-To=%3C200603181718.k2IHIkb18144%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000304.html">
+   <LINK REL="Next"  HREF="000306.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractGroupManagerTest.java,1.1,1.2 AbstractRoleManagerTest.java,1.1,1.2 AbstractPermissionManagerTest.java,1.1,1.2 AbstractUserManagerTest.java,1.5,1.6</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test%20AbstractGroupManagerTest.java%2C1.1%2C1.2%20AbstractRoleManagerTest.java%2C1.1%2C1.2%20AbstractPermissionManagerTest.java%2C1.1%2C1.2%20AbstractUserManagerTest.java%2C1.5%2C1.6&In-Reply-To=%3C200603181718.k2IHIkb18144%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractGroupManagerTest.java,1.1,1.2 AbstractRoleManagerTest.java,1.1,1.2 AbstractPermissionManagerTest.java,1.1,1.2 AbstractUserManagerTest.java,1.5,1.6">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Mar 18 18:18:46 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000304.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util EntityDisabledException.java,NONE,1.1 UnknownEntityException.java,1.1,1.2 PasswordMismatchException.java,1.1,1.2 DataBackendException.java,1.1,1.2 PermissionSet.java,1.1,1.2 RoleSet.java,1.1,1.2 SecuritySet.java,1.1,1.2 UserLockedException.java,1.1,1.2 UserSet.java,1.1,1.2 PasswordHistoryException.java,1.1,1.2 TurbineSecurityException.java,1.1,1.2 PasswordExpiredException.java,1.1,1.2 GroupSet.java,1.1,1.2 EntityExistsException.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000306.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/entity SecurityEntity.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#305">[ date ]</a>
+              <a href="thread.html#305">[ thread ]</a>
+              <a href="subject.html#305">[ subject ]</a>
+              <a href="author.html#305">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test
+In directory sheep:/tmp/cvs-serv18372/src/main/java/org/apache/fulcrum/security/model/test
+
+Modified Files:
+	AbstractGroupManagerTest.java AbstractRoleManagerTest.java 
+	AbstractPermissionManagerTest.java 
+	AbstractUserManagerTest.java 
+Log Message:
+Added functionality to disable users
+
+Index: AbstractGroupManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test/AbstractGroupManagerTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** AbstractGroupManagerTest.java	14 Nov 2005 18:20:50 -0000	1.1
+--- AbstractGroupManagerTest.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import org.apache.fulcrum.security.entity.Group;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicGroup;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.GroupSet;
+***************
+*** 29,38 ****
+  public abstract class AbstractGroupManagerTest extends AbstractSecurityServiceTest
+  {
+-     
+-     
+      public void setUp() throws Exception{
+          super.setUp();
+      }
+-     
+   
+      /*
+--- 30,36 ----
+***************
+*** 45,48 ****
+--- 43,47 ----
+          assertTrue(group.getName() == null);
+      }
++     
+      /*
+       * Class to test for Group getGroupInstance(String)
+***************
+*** 53,56 ****
+--- 52,56 ----
+          assertEquals(&quot;DOG_CATCHER&quot;.toLowerCase(), group.getName());
+      }
++     
+      public void testGetGroup() throws Exception
+      {
+***************
+*** 60,63 ****
+--- 60,64 ----
+          assertEquals(group.getName(), group2.getName());
+      }
++     
+      public void testGetGroupByName() throws Exception
+      {
+***************
+*** 69,72 ****
+--- 70,74 ----
+          assertEquals(group.getName(), group2.getName());
+      }
++     
+      public void testGetGroupById() throws Exception
+      {
+***************
+*** 76,79 ****
+--- 78,82 ----
+          assertEquals(group.getName(), group2.getName());
+      }
++     
+      public void testGetAllGroups() throws Exception
+      {
+***************
+*** 84,87 ****
+--- 87,91 ----
+          assertEquals(size + 1, groupSet.size());
+      }
++     
+      public void testRemoveGroup() throws Exception
+      {
+***************
+*** 97,101 ****
+          try
+          {
+!             Group group2 = getGroupManager().getGroupById(group.getId());
+              fail(&quot;Should have thrown UEE&quot;);
+          }
+--- 101,105 ----
+          try
+          {
+!             getGroupManager().getGroupById(group.getId());
+              fail(&quot;Should have thrown UEE&quot;);
+          }
+***************
+*** 106,109 ****
+--- 110,133 ----
+          assertEquals(size - 1, getGroupManager().getAllGroups().size());
+      }
++     
++ 	public void testDisableGroup() throws Exception {
++         Group group = getGroupManager().getGroupInstance(&quot;CLEAN_KENNEL_L&quot;);
++         getGroupManager().addGroup(group);
++ 		getGroupManager().disableGroup(group);
++ 		try {
++ 			getGroupManager().getGroupByName(group.getName());
++ 			fail(&quot;Should have thrown EntityDisabledException&quot;);
++ 		} catch (EntityDisabledException ede) {
++ 			// brilliant!
++ 		}
++ 		
++ 		try {
++ 			getGroupManager().addGroup(group);
++ 			fail(&quot;Should have thrown EntityExistsException&quot;);
++ 		} catch (EntityExistsException eee) {
++ 			// brilliant!
++ 		}
++ 	}
++     
+      public void testRenameGroup() throws Exception
+      {
+***************
+*** 116,119 ****
+--- 140,144 ----
+          assertEquals(size, getGroupManager().getAllGroups().size());
+      }
++     
+      public void testCheckExists() throws Exception
+      {
+***************
+*** 149,153 ****
+              //good
+          }
+!     }     
+      public void testAddGroup() throws Exception
+      {
+--- 174,179 ----
+              //good
+          }
+!     }  
+!     
+      public void testAddGroup() throws Exception
+      {
+
+Index: AbstractRoleManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test/AbstractRoleManagerTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** AbstractRoleManagerTest.java	14 Nov 2005 18:20:50 -0000	1.1
+--- AbstractRoleManagerTest.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import org.apache.fulcrum.security.AbstractSecurityServiceTest;
+  import org.apache.fulcrum.security.entity.Role;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.RoleSet;
+***************
+*** 94,98 ****
+          getRoleManager().removeRole(role);
+          try {
+!             Role role2 = getRoleManager().getRoleById(role.getId());
+              fail(&quot;Should have thrown UEE&quot;);
+          } catch (UnknownEntityException uee) {
+--- 95,99 ----
+          getRoleManager().removeRole(role);
+          try {
+!             getRoleManager().getRoleById(role.getId());
+              fail(&quot;Should have thrown UEE&quot;);
+          } catch (UnknownEntityException uee) {
+***************
+*** 102,105 ****
+--- 103,125 ----
+      }
+  
++ 	public void testDisableRole() throws Exception {
++         Role role = getRoleManager().getRoleInstance(&quot;CLEAN_KENNEL_L&quot;);
++         getRoleManager().addRole(role);
++         getRoleManager().disableRole(role);
++ 		try {
++ 			getRoleManager().getRoleByName(role.getName());
++ 			fail(&quot;Should have thrown EntityDisabledException&quot;);
++ 		} catch (EntityDisabledException ede) {
++ 			// brilliant!
++ 		}
++ 		
++ 		try {
++ 			getRoleManager().addRole(role);
++ 			fail(&quot;Should have thrown EntityExistsException&quot;);
++ 		} catch (EntityExistsException eee) {
++ 			// brilliant!
++ 		}
++ 	}
++     
+      public void testCheckExists() throws Exception {
+          Role role = getRoleManager().getRoleInstance(&quot;GREET_PEOPLE&quot;);
+
+Index: AbstractPermissionManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test/AbstractPermissionManagerTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** AbstractPermissionManagerTest.java	14 Nov 2005 18:20:50 -0000	1.1
+--- AbstractPermissionManagerTest.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 22,25 ****
+--- 22,26 ----
+  import org.apache.fulcrum.security.model.dynamic.DynamicModelManager;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicRole;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.PermissionSet;
+***************
+*** 94,97 ****
+--- 95,117 ----
+          }
+      }
++     
++ 	public void testDisablePermission() throws Exception {
++         Permission permission = getPermissionManager().getPermissionInstance(&quot;CLEAN_KENNEL_L&quot;);
++         getPermissionManager().addPermission(permission);
++         getPermissionManager().disablePermission(permission);
++ 		try {
++ 			getPermissionManager().getPermissionByName(permission.getName());
++ 			fail(&quot;Should have thrown EntityDisabledException&quot;);
++ 		} catch (EntityDisabledException ede) {
++ 			// brilliant!
++ 		}
++ 		
++ 		try {
++ 			getPermissionManager().addPermission(permission);
++ 			fail(&quot;Should have thrown EntityExistsException&quot;);
++ 		} catch (EntityExistsException eee) {
++ 			// brilliant!
++ 		}
++ 	}
+  
+      public void testAddPermission() throws Exception {
+
+Index: AbstractUserManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test/AbstractUserManagerTest.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** AbstractUserManagerTest.java	24 Jan 2006 11:38:54 -0000	1.5
+--- AbstractUserManagerTest.java	18 Mar 2006 16:19:36 -0000	1.6
+***************
+*** 23,26 ****
+--- 23,27 ----
+  import org.apache.fulcrum.security.acl.AccessControlList;
+  import org.apache.fulcrum.security.entity.User;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.PasswordExpiredException;
+***************
+*** 153,156 ****
+--- 154,158 ----
+  	}
+  
++ 	@SuppressWarnings(&quot;unchecked&quot;)
+  	public void testChangePassword() throws Exception {
+  		User user = getUserManager().getUserInstance(&quot;Jonathan&quot;);
+***************
+*** 235,238 ****
+--- 237,259 ----
+  	}
+  
++ 	public void testDisableUser() throws Exception {
++ 		User user = getUserManager().getUserInstance(&quot;Dave&quot;);
++ 		getUserManager().addUser(user, &quot;scottysaywhat&quot;);
++ 		getUserManager().disableUser(user);
++ 		try {
++ 			getUserManager().getUser(user.getName());
++ 			fail(&quot;Should have thrown EntityDisabledException&quot;);
++ 		} catch (EntityDisabledException ede) {
++ 			// brilliant!
++ 		}
++ 		
++ 		try {
++ 			getUserManager().addUser(user, &quot;scottyzip&quot;);
++ 			fail(&quot;Should have thrown EntityExistsException&quot;);
++ 		} catch (EntityExistsException eee) {
++ 			// brilliant!
++ 		}
++ 	}
++ 	
+  	public void testRemoveUser() throws Exception {
+  		User user = getUserManager().getUserInstance(&quot;Rick&quot;);
+***************
+*** 240,244 ****
+  		getUserManager().removeUser(user);
+  		try {
+! 			User user2 = getUserManager().getUser(user.getName());
+  			fail(&quot;Should have thrown UEE&quot;);
+  		} catch (UnknownEntityException uee) {
+--- 261,265 ----
+  		getUserManager().removeUser(user);
+  		try {
+! 			getUserManager().getUser(user.getName());
+  			fail(&quot;Should have thrown UEE&quot;);
+  		} catch (UnknownEntityException uee) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000304.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util EntityDisabledException.java,NONE,1.1 UnknownEntityException.java,1.1,1.2 PasswordMismatchException.java,1.1,1.2 DataBackendException.java,1.1,1.2 PermissionSet.java,1.1,1.2 RoleSet.java,1.1,1.2 SecuritySet.java,1.1,1.2 UserLockedException.java,1.1,1.2 UserSet.java,1.1,1.2 PasswordHistoryException.java,1.1,1.2 TurbineSecurityException.java,1.1,1.2 PasswordExpiredException.java,1.1,1.2 GroupSet.java,1.1,1.2 EntityExistsException.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000306.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/entity SecurityEntity.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#305">[ date ]</a>
+              <a href="thread.html#305">[ thread ]</a>
+              <a href="subject.html#305">[ subject ]</a>
+              <a href="author.html#305">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

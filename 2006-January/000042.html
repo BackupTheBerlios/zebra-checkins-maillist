@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2C1.2%2C1.3&In-Reply-To=%3C200601041533.k04FXmH16265%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000040.html">
+   <LINK REL="Next"  HREF="000043.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.2,1.3</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2C1.2%2C1.3&In-Reply-To=%3C200601041533.k04FXmH16265%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 16:33:48 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000040.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources log4j.properties,1.1,1.2 hibernate.cfg.xml,1.1,1.2 mcKoi.conf,1.1,NONE
+</A></li>
+        <LI>Next message: <A HREF="000043.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.4,1.5 ZebraPropertySetEntry.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory
+In directory sheep:/tmp/cvs-serv4274/src/main/java/org/apache/fulcrum/quartz/factory
+
+Modified Files:
+	QuartzSchedulerFactory.java 
+Log Message:
+McKoi is not supported by Quartz. Removed McKoi as a test db.
+
+Index: QuartzSchedulerFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory/QuartzSchedulerFactory.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** QuartzSchedulerFactory.java	4 Jan 2006 12:59:10 -0000	1.2
+--- QuartzSchedulerFactory.java	4 Jan 2006 15:33:46 -0000	1.3
+***************
+*** 27,31 ****
+  import org.apache.commons.logging.LogFactory;
+  import org.apache.fulcrum.hibernate.factory.HibernateSessionFactory;
+- import org.apache.fulcrum.quartz.tables.CreateMcKoiTables;
+  import org.apache.fulcrum.quartz.tables.CreatePostgresTables;
+  import org.apache.hivemind.ServiceImplementationFactory;
+--- 27,30 ----
+***************
+*** 58,65 ****
+  	 * This class only supports use of the following databases/drivers
+  	 * to support a new db, create a new class to create the tables using
+! 	 * the McKoi or Postgres ones as an example and add the appropriate 
+  	 * block into the createTables method.
+  	 */
+- 	private static final String MCKOI = &quot;com.mckoi.JDBCDriver&quot;;
+  	private static final String POSTGRESQL = &quot;org.postgresql.Driver&quot;;
+  	
+--- 57,63 ----
+  	 * This class only supports use of the following databases/drivers
+  	 * to support a new db, create a new class to create the tables using
+! 	 * Postgres ones as an example and add the appropriate 
+  	 * block into the createTables method.
+  	 */
+  	private static final String POSTGRESQL = &quot;org.postgresql.Driver&quot;;
+  	
+***************
+*** 160,169 ****
+  	private void createTables(Connection conn, String driver) throws SQLException
+  	{
+- 		if (MCKOI.equalsIgnoreCase(driver))
+- 		{
+- 			CreateMcKoiTables tableCreator = new CreateMcKoiTables();
+- 			tableCreator.createTables(conn);
+- 			return;
+- 		}
+  		if (POSTGRESQL.equalsIgnoreCase(driver))
+  		{
+--- 158,161 ----
+***************
+*** 172,176 ****
+  			return;
+  		}
+! 		throw new RuntimeException(&quot;Driver not recognised as either McKoi or Postgres:&quot; + driver);
+  	}
+  	
+--- 164,168 ----
+  			return;
+  		}
+! 		throw new RuntimeException(&quot;Driver not recognised as Postgres:&quot; + driver);
+  	}
+  	
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000040.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources log4j.properties,1.1,1.2 hibernate.cfg.xml,1.1,1.2 mcKoi.conf,1.1,NONE
+</A></li>
+	<LI>Next message: <A HREF="000043.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.4,1.5 ZebraPropertySetEntry.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#42">[ date ]</a>
+              <a href="thread.html#42">[ thread ]</a>
+              <a href="subject.html#42">[ subject ]</a>
+              <a href="author.html#42">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

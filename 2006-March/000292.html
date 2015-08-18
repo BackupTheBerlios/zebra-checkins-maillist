@@ -1,0 +1,840 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelper.java,1.1,1.2 PersistenceHelperHivemindImplementation.java,1.2,1.3 HibernateRoleManagerImpl.java,1.1,1.2 HibernatePermissionManagerImpl.java,1.1,1.2 HibernateGroupManagerImpl.java,1.1,1.2 HibernateUserManagerImpl.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate%20PersistenceHelper.java%2C1.1%2C1.2%20PersistenceHelperHivemindImplementation.java%2C1.2%2C1.3%20HibernateRoleManagerImpl.java%2C1.1%2C1.2%20HibernatePermissionManagerImpl.java%2C1.1%2C1.2%20HibernateGroupManagerImpl.java%2C1.1%2C1.2%20HibernateUserManagerImpl.java%2C1.2%2C1.3&In-Reply-To=%3C200603181717.k2IHH1b18015%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000290.html">
+   <LINK REL="Next"  HREF="000294.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelper.java,1.1,1.2 PersistenceHelperHivemindImplementation.java,1.2,1.3 HibernateRoleManagerImpl.java,1.1,1.2 HibernatePermissionManagerImpl.java,1.1,1.2 HibernateGroupManagerImpl.java,1.1,1.2 HibernateUserManagerImpl.java,1.2,1.3</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate%20PersistenceHelper.java%2C1.1%2C1.2%20PersistenceHelperHivemindImplementation.java%2C1.2%2C1.3%20HibernateRoleManagerImpl.java%2C1.1%2C1.2%20HibernatePermissionManagerImpl.java%2C1.1%2C1.2%20HibernateGroupManagerImpl.java%2C1.1%2C1.2%20HibernateUserManagerImpl.java%2C1.2%2C1.3&In-Reply-To=%3C200603181717.k2IHH1b18015%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelper.java,1.1,1.2 PersistenceHelperHivemindImplementation.java,1.2,1.3 HibernateRoleManagerImpl.java,1.1,1.2 HibernatePermissionManagerImpl.java,1.1,1.2 HibernateGroupManagerImpl.java,1.1,1.2 HibernateUserManagerImpl.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Mar 18 18:17:01 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000290.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.12,1.13
+</A></li>
+        <LI>Next message: <A HREF="000294.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractRoleManager.java,1.1,1.2 AbstractGroupManager.java,1.1,1.2 AbstractPermissionManager.java,1.1,1.2 AbstractUserManager.java,1.7,1.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#292">[ date ]</a>
+              <a href="thread.html#292">[ thread ]</a>
+              <a href="subject.html#292">[ subject ]</a>
+              <a href="author.html#292">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate
+In directory sheep:/tmp/cvs-serv18167/src/main/java/org/apache/fulcrum/security/hibernate
+
+Modified Files:
+	PersistenceHelper.java 
+	PersistenceHelperHivemindImplementation.java 
+	HibernateRoleManagerImpl.java 
+	HibernatePermissionManagerImpl.java 
+	HibernateGroupManagerImpl.java HibernateUserManagerImpl.java 
+Log Message:
+Added functionality to disable users
+
+Index: PersistenceHelper.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/PersistenceHelper.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** PersistenceHelper.java	25 Nov 2005 08:50:12 -0000	1.1
+--- PersistenceHelper.java	18 Mar 2006 16:18:21 -0000	1.2
+***************
+*** 33,36 ****
+--- 33,38 ----
+  	public void updateEntity(SecurityEntity entity) throws DataBackendException;
+  	
++ 	public void disableEntity(SecurityEntity entity) throws DataBackendException;
++ 	
+  	public void addEntity(SecurityEntity entity) throws DataBackendException;
+  	
+
+Index: PersistenceHelperHivemindImplementation.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/PersistenceHelperHivemindImplementation.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** PersistenceHelperHivemindImplementation.java	24 Jan 2006 11:57:56 -0000	1.2
+--- PersistenceHelperHivemindImplementation.java	18 Mar 2006 16:18:21 -0000	1.3
+***************
+*** 31,35 ****
+              throw new DataBackendException(&quot;Problem removing entity:&quot; + he.getMessage(), he);
+          }
+! 
+      }
+  
+--- 31,39 ----
+              throw new DataBackendException(&quot;Problem removing entity:&quot; + he.getMessage(), he);
+          }
+!     }
+!     
+!     public void disableEntity(SecurityEntity entity) throws DataBackendException {
+!     	entity.setDisabled(true);
+!     	updateEntity(entity);
+      }
+  
+
+Index: HibernateRoleManagerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/HibernateRoleManagerImpl.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HibernateRoleManagerImpl.java	25 Nov 2005 08:50:12 -0000	1.1
+--- HibernateRoleManagerImpl.java	18 Mar 2006 16:18:21 -0000	1.2
+***************
+*** 18,23 ****
+  import java.util.List;
+  
+- import org.apache.commons.logging.Log;
+- import org.apache.commons.logging.LogFactory;
+  import org.apache.fulcrum.security.entity.Role;
+  import org.apache.fulcrum.security.spi.AbstractRoleManager;
+--- 18,21 ----
+***************
+*** 37,43 ****
+   */
+  public class HibernateRoleManagerImpl extends AbstractRoleManager {
+-     /** Logging */
+-     private static Log log = LogFactory.getLog(HibernateRoleManagerImpl.class);
+- 
+      private PersistenceHelper persistenceHelper;
+  
+--- 35,38 ----
+***************
+*** 111,114 ****
+--- 106,129 ----
+  
+      /**
++      * Retrieves all non-disabled roles defined in the system.
++      *
++      * @return the names of all non-disabled roles defined in the system.
++      * @throws DataBackendException if there was an error accessing the
++      *         data backend.
++      */
++     public RoleSet getRoles() throws DataBackendException {
++         RoleSet roleSet = new RoleSet();
++         try {
++             Query query = getPersistenceHelper().retrieveSession().createQuery(&quot;from &quot; + getClassName() + &quot; r where r.disabled = false&quot;);
++ 
++             List roles = query.list();
++             roleSet.add(roles);
++         } catch (HibernateException e) {
++             throw new DataBackendException(&quot;Error retriving role information&quot;, e);
++         }
++         return roleSet;
++     }
++ 
++     /**
+       * Creates a new role with specified attributes.
+       *
+***************
+*** 134,150 ****
+       */
+      public synchronized void removeRole(Role role) throws DataBackendException, UnknownEntityException {
+!         boolean roleExists = false;
+!         try {
+!             roleExists = checkExists(role);
+!             if (roleExists) {
+!                 getPersistenceHelper().removeEntity(role);
+!             } else {
+!                 throw new UnknownEntityException(&quot;Unknown role '&quot; + role + &quot;'&quot;);
+!             }
+!         } catch (Exception e) {
+!             log.error(&quot;Failed to delete a Role&quot;);
+!             log.error(e);
+!             throw new DataBackendException(&quot;removeRole(Role) failed&quot;, e);
+!         }
+      }
+  
+--- 149,165 ----
+       */
+      public synchronized void removeRole(Role role) throws DataBackendException, UnknownEntityException {
+!         getPersistenceHelper().removeEntity(role);
+!     }
+! 
+!     /**
+!      * Disables a Role (effectively rendering it as removed).
+!      *
+!      * @param role The object describing the role to be disabled.
+!      * @throws DataBackendException if there was an error accessing the data
+!      *         backend.
+!      * @throws UnknownEntityException if the role does not exist.
+!      */
+!     public synchronized void disableRole(Role role) throws DataBackendException, UnknownEntityException {
+!         getPersistenceHelper().disableEntity(role);
+      }
+  
+
+Index: HibernatePermissionManagerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/HibernatePermissionManagerImpl.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HibernatePermissionManagerImpl.java	25 Nov 2005 08:50:12 -0000	1.1
+--- HibernatePermissionManagerImpl.java	18 Mar 2006 16:18:21 -0000	1.2
+***************
+*** 58,61 ****
+--- 58,82 ----
+  
+      /**
++      * Retrieves all non-disabled permissions defined in the system.
++      *
++      * @return the names of all non-disabled roles defined in the system.
++      * @throws DataBackendException if there was an error accessing the
++      *         data backend.
++      */
++     public PermissionSet getPermissions() throws DataBackendException {
++         PermissionSet permissionSet = new PermissionSet();
++         try {
++             Query permissionQuery = getPersistenceHelper().retrieveSession().createQuery(
++                     &quot;from &quot; + getClassName() + &quot; p where p.disabled = false&quot;);
++             List permissions = permissionQuery.list();
++             permissionSet.add(permissions);
++ 
++         } catch (HibernateException e) {
++             throw new DataBackendException(&quot;Error retriving permission information&quot;, e);
++         }
++         return permissionSet;
++     }
++ 
++     /**
+       * Renames an existing Permission.
+       *
+***************
+*** 105,108 ****
+--- 126,141 ----
+  
+      /**
++      * Disables a Permission (effectively rendering it as removed).
++      *
++      * @param permission The object describing the permission to be removed.
++      * @throws DataBackendException if there was an error accessing the data
++      *         backend.
++      * @throws UnknownEntityException if the permission does not exist.
++      */
++     public synchronized void disablePermission(Permission permission) throws DataBackendException, UnknownEntityException {
++         getPersistenceHelper().disableEntity(permission);
++     }
++ 
++     /**
+       * Removes a Permission from the system.
+       *
+***************
+*** 112,124 ****
+       * @throws UnknownEntityException if the permission does not exist.
+       */
+!     public synchronized void removePermission(Permission permission) throws DataBackendException,
+!             UnknownEntityException {
+!         boolean permissionExists = false;
+!         permissionExists = checkExists(permission);
+!         if (permissionExists) {
+!             getPersistenceHelper().removeEntity(permission);
+!         } else {
+!             throw new UnknownEntityException(&quot;Unknown permission '&quot; + permission + &quot;'&quot;);
+!         }
+      }
+  
+--- 145,150 ----
+       * @throws UnknownEntityException if the permission does not exist.
+       */
+!     public synchronized void removePermission(Permission permission) throws DataBackendException, UnknownEntityException {
+!         getPersistenceHelper().removeEntity(permission);
+      }
+  
+
+Index: HibernateGroupManagerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/HibernateGroupManagerImpl.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HibernateGroupManagerImpl.java	25 Nov 2005 08:50:13 -0000	1.1
+--- HibernateGroupManagerImpl.java	18 Mar 2006 16:18:21 -0000	1.2
+***************
+*** 21,24 ****
+--- 21,25 ----
+  import org.apache.fulcrum.security.spi.AbstractGroupManager;
+  import org.apache.fulcrum.security.util.DataBackendException;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.GroupSet;
+***************
+*** 45,49 ****
+       * @throws UnknownEntityException if the group does not exist.
+       */
+!     public Group getGroupByName(String name) throws DataBackendException, UnknownEntityException {
+          Group group = null;
+          try {
+--- 46,50 ----
+       * @throws UnknownEntityException if the group does not exist.
+       */
+!     public Group getGroupByName(String name) throws DataBackendException, UnknownEntityException, EntityDisabledException {
+          Group group = null;
+          try {
+***************
+*** 58,63 ****
+              }
+              group = (Group) groups.get(0);
+!             //session.close();
+!         } catch (HibernateException e) {
+              throw new DataBackendException(&quot;Error retriving group information&quot;, e);
+          }
+--- 59,66 ----
+              }
+              group = (Group) groups.get(0);
+!             if (group.isDisabled()) {
+!             	throw new EntityDisabledException(&quot;Group is unavailable&quot;);
+!             }
+!      } catch (HibernateException e) {
+              throw new DataBackendException(&quot;Error retriving group information&quot;, e);
+          }
+***************
+*** 87,90 ****
+--- 90,114 ----
+  
+      /**
++      * Retrieves all non-disabled groups defined in the system.
++      *
++      * @return the names of all groups defined in the system.
++      * @throws DataBackendException if there was an error accessing the
++      *         data backend.
++      */
++     public GroupSet getGroups() throws DataBackendException {
++         GroupSet groupSet = new GroupSet();
++         try {
++ 
++             Query groupsQuery = getPersistenceHelper().retrieveSession().createQuery(
++                     &quot;from &quot; + getClassName() + &quot; g where g.disabled = false&quot;);
++             List groups = groupsQuery.list();
++             groupSet.add(groups);
++         } catch (HibernateException e) {
++             throw new DataBackendException(&quot;Error retriving group information&quot;, e);
++         }
++         return groupSet;
++     }
++ 
++     /**
+       * Removes a Group from the system.
+       *
+***************
+*** 97,100 ****
+--- 121,137 ----
+          getPersistenceHelper().removeEntity(group);
+      }
++     
++     /**
++      * Disables a Group (effectively rendering it as removed, but without actually removing it).
++      *
++      * @param group The object describing the group to be disabled.
++      * @throws DataBackendException if there was an error accessing the data
++      *         backend.
++      * @throws UnknownEntityException if the group does not exist.
++      */
++     public synchronized void disableGroup(Group group) throws DataBackendException, UnknownEntityException {
++         getPersistenceHelper().disableEntity(group);
++     }
++     
+  
+      /**
+***************
+*** 179,183 ****
+       *             if the group does not exist.
+       */
+! public Group getGroupById(Object id) throws DataBackendException, UnknownEntityException {
+  
+          Group group = null;
+--- 216,220 ----
+       *             if the group does not exist.
+       */
+! public Group getGroupById(Object id) throws DataBackendException, UnknownEntityException, EntityDisabledException {
+  
+          Group group = null;
+***************
+*** 195,199 ****
+                  }
+                  group = (Group) groups.get(0);
+! 
+              } catch (HibernateException e) {
+                  throw new DataBackendException(&quot;Error retriving group information&quot;, e);
+--- 232,239 ----
+                  }
+                  group = (Group) groups.get(0);
+!                 
+!                 if (group.isDisabled()) {
+!                 	throw new EntityDisabledException(&quot;Group is unavailable&quot;);
+!                 }
+              } catch (HibernateException e) {
+                  throw new DataBackendException(&quot;Error retriving group information&quot;, e);
+
+Index: HibernateUserManagerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/HibernateUserManagerImpl.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** HibernateUserManagerImpl.java	24 Jan 2006 11:57:56 -0000	1.2
+--- HibernateUserManagerImpl.java	18 Mar 2006 16:18:21 -0000	1.3
+***************
+*** 21,24 ****
+--- 21,25 ----
+  import org.apache.fulcrum.security.spi.AbstractUserManager;
+  import org.apache.fulcrum.security.util.DataBackendException;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+***************
+*** 29,201 ****
+  /**
+   * This implementation persists to a database via Hibernate.
+!  *
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+!  * @version $Id$
+   */
+  public class HibernateUserManagerImpl extends AbstractUserManager {
+  
+!     private PersistenceHelper persistenceHelper;
+  
+!     /**
+!      * Check whether a specified user's account exists.
+!      *
+!      * The login name is used for looking up the account.
+!      *
+!      * @param userName The name of the user to be checked.
+!      * @return true if the specified account exists
+!      * @throws DataBackendException if there was an error accessing
+!      *         the data backend.
+!      */
+!     public boolean checkExists(String userName) throws DataBackendException {
+!         List users = null;
+!         userName = userName.toLowerCase();
+!         try {
+!             Query query = getPersistenceHelper().retrieveSession().createQuery(
+!                     &quot;from &quot; + getClassName() + &quot; su where su.name=:name&quot;);
+!             query.setString(&quot;name&quot;, userName);
+  
+!             users = query.list();
+!         } catch (HibernateException e) {
+!             throw new DataBackendException(&quot;Error retriving user information&quot;, e);
+!         }
+!         if (users.size() &gt; 1) {
+!             throw new DataBackendException(&quot;Multiple Users with same username '&quot; + userName + &quot;'&quot;);
+!         }
+!         return (users.size() == 1);
+!     }
+  
+!     /**
+!      * Retrieve a user from persistent storage using username as the
+!      * key.
+!      *
+!      * @param userName the name of the user.
+!      * @return an User object.
+!      * @exception UnknownEntityException if the user's account does not
+!      *            exist in the database.
+!      * @exception DataBackendException if there is a problem accessing the
+!      *            storage.
+!      */
+!     public User getUser(String userName) throws UnknownEntityException, DataBackendException {
+!         List users = null;
+!         try {
+!             Query query = getPersistenceHelper().retrieveSession().createQuery(
+!                     &quot;from &quot; + getClassName() + &quot; su where su.name=:name&quot;);
+!             query.setString(&quot;name&quot;, userName.toLowerCase());
+  
+!             users = query.list();
+!         } catch (HibernateException e) {
+!             throw new DataBackendException(&quot;Error retriving user information&quot;, e);
+!         }
+!         if (users.size() &gt; 1) {
+!             throw new DataBackendException(&quot;Multiple Users with same username '&quot; + userName + &quot;'&quot;);
+!         }
+!         if (users.size() == 1) {
+!             return (User) users.get(0);
+!         }
+!         throw new UnknownEntityException(&quot;Unknown user '&quot; + userName + &quot;'&quot;);
+!     }
+  
+!     /**
+!      * Retrieves all users defined in the system.
+!      *
+!      * @return the names of all users defined in the system.
+!      * @throws DataBackendException if there was an error accessing the data
+!      *         backend.
+!      */
+!     public UserSet getAllUsers() throws DataBackendException {
+!         UserSet userSet = new UserSet();
+!         try {
+!             Query query = getPersistenceHelper().retrieveSession().createQuery(&quot;from &quot; + getClassName()+ &quot;&quot;);
+!             List users = query.list();
+!             userSet.add(users);
+!         } catch (HibernateException e) {
+!             throw new DataBackendException(&quot;Error retriving all users&quot;, e);
+!         }
+!         return userSet;
+  
+!     }
+  
+!     /**
+!      * Removes an user account from the system.
+!      *
+!      * @param user the object describing the account to be removed.
+!      * @throws DataBackendException if there was an error accessing the data
+!      *         backend.
+!      * @throws UnknownEntityException if the user account is not present.
+!      */
+!     public void removeUser(User user) throws DataBackendException, UnknownEntityException {
+!         getPersistenceHelper().removeEntity(user);
+!     }
+  
+!     /**
+!      * Creates new user account with specified attributes.
+!      *
+!      * @param user the object describing account to be created.
+!      *
+!      * @throws DataBackendException if there was an error accessing the
+!      *         data backend.
+!      * @throws EntityExistsException if the user account already exists.
+!      */
+!     public User persistNewUser(User user) throws DataBackendException {
+  
+!         getPersistenceHelper().addEntity(user);
+!         return user;
+!     }
+  
+!     /**
+!      * Stores User attributes. The User is required to exist in the system.
+!      *
+!      * @param role The User to be stored.
+!      * @throws DataBackendException if there was an error accessing the data
+!      *         backend.
+!      * @throws UnknownEntityException if the role does not exist.
+!      */
+!     public void saveUser(User user) throws DataBackendException {
+!             getPersistenceHelper().updateEntity(user);
+!     }
+  
+!     /**
+!      * @return Returns the persistenceHelper.
+!      */
+!     public PersistenceHelper getPersistenceHelper() throws DataBackendException {
+  
+!         return persistenceHelper;
+!     }
+  
+!     /**
+!      * Retrieve a User object with specified id.
+!      * 
+!      * @param id
+!      *            the id of the User.
+!      * @return an object representing the User with specified id.
+!      * @throws DataBackendException
+!      *             if there was an error accessing the data backend.
+!      * @throws UnknownEntityException
+!      *             if the user does not exist.
+!      */
+!     public User getUserById(Object id) throws DataBackendException, UnknownEntityException {
+  
+!         User user = null;
+  
+!         if (id != null)
+!             try {
+!                 Query query = getPersistenceHelper().retrieveSession().createQuery(
+!                         &quot;from &quot; + getClassName() + &quot; su where su.id=:id&quot;);
+!                 query.setLong(&quot;id&quot;, (Long) id);
+!                 List users = query.list();
+!                 if (users.size() == 0) {
+!                     throw new UnknownEntityException(&quot;Could not find user by id &quot; + id);
+!                 }
+!                 user = (User) users.get(0);
+!                 //session.close();
+!             } catch (HibernateException e) {
+!                 throw new DataBackendException(&quot;Error retriving user information&quot;, e);
+!             }
+  
+!         return user;
+!     }
+  
+!     public void setPersistenceHelper(PersistenceHelper persistenceHelper) {
+!         this.persistenceHelper = persistenceHelper;
+!     }
+  }
+--- 30,265 ----
+  /**
+   * This implementation persists to a database via Hibernate.
+!  * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+!  * @version $Id: HibernateUserManagerImpl.java,v 1.2 2006/01/24 11:57:56
+!  *          biggus_richus Exp $
+   */
+  public class HibernateUserManagerImpl extends AbstractUserManager {
+  
+! 	private PersistenceHelper persistenceHelper;
+  
+! 	/**
+! 	 * Check whether a specified user's account exists.
+! 	 * 
+! 	 * The login name is used for looking up the account.
+! 	 * 
+! 	 * @param userName
+! 	 *            The name of the user to be checked.
+! 	 * @return true if the specified account exists
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 */
+! 	public boolean checkExists(String userName) throws DataBackendException {
+! 		List users = null;
+! 		userName = userName.toLowerCase();
+! 		try {
+! 			Query query = getPersistenceHelper().retrieveSession().createQuery(
+! 					&quot;from &quot; + getClassName() + &quot; su where su.name=:name&quot;);
+! 			query.setString(&quot;name&quot;, userName);
+  
+! 			users = query.list();
+! 		} catch (HibernateException e) {
+! 			throw new DataBackendException(&quot;Error retriving user information&quot;,
+! 					e);
+! 		}
+! 		if (users.size() &gt; 1) {
+! 			throw new DataBackendException(
+! 					&quot;Multiple Users with same username '&quot; + userName + &quot;'&quot;);
+! 		}
+! 		return (users.size() == 1);
+! 	}
+  
+! 	/**
+! 	 * Retrieve a user from persistent storage using username as the key.
+! 	 * 
+! 	 * @param userName
+! 	 *            the name of the user.
+! 	 * @return an User object.
+! 	 * @exception UnknownEntityException
+! 	 *                if the user's account does not exist in the database.
+! 	 * @exception DataBackendException
+! 	 *                if there is a problem accessing the storage.
+! 	 */
+! 	public User getUser(String userName) throws UnknownEntityException,
+! 			DataBackendException, EntityDisabledException {
+! 		List users = null;
+! 		try {
+! 			Query query = getPersistenceHelper().retrieveSession().createQuery(
+! 					&quot;from &quot; + getClassName() + &quot; su where su.name=:name&quot;);
+! 			query.setString(&quot;name&quot;, userName.toLowerCase());
+  
+! 			users = query.list();
+! 		} catch (HibernateException e) {
+! 			throw new DataBackendException(&quot;Error retriving user information&quot;,
+! 					e);
+! 		}
+! 		if (users.size() &gt; 1) {
+! 			throw new DataBackendException(
+! 					&quot;Multiple Users with same username '&quot; + userName + &quot;'&quot;);
+! 		}
+! 		if (users.size() == 1) {
+! 			User user = (User) users.get(0);
+  
+! 			if (user.isDisabled()) {
+! 				throw new EntityDisabledException(&quot;User is unavailable&quot;);
+! 			}
+! 			return user;
+! 		}
+! 		throw new UnknownEntityException(&quot;Unknown user '&quot; + userName + &quot;'&quot;);
+! 	}
+  
+! 	/**
+! 	 * Retrieves all users defined in the system.
+! 	 * 
+! 	 * @return the names of all users defined in the system.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 */
+! 	public UserSet getAllUsers() throws DataBackendException {
+! 		UserSet userSet = new UserSet();
+! 		try {
+! 			Query query = getPersistenceHelper().retrieveSession().createQuery(
+! 					&quot;from &quot; + getClassName() + &quot;&quot;);
+! 			List users = query.list();
+! 			userSet.add(users);
+! 		} catch (HibernateException e) {
+! 			throw new DataBackendException(&quot;Error retriving all users&quot;, e);
+! 		}
+! 		return userSet;
+! 	}
+  
+! 	/**
+! 	 * Retrieves all non-disabled users defined in the system.
+! 	 * 
+! 	 * @return the names of all non-disabled users defined in the system.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 */
+! 	public UserSet getUsers() throws DataBackendException {
+! 		UserSet userSet = new UserSet();
+! 		try {
+! 			Query query = getPersistenceHelper().retrieveSession().createQuery(
+! 					&quot;from &quot; + getClassName() + &quot; u where u.disabled = false&quot;);
+! 			List users = query.list();
+! 			userSet.add(users);
+! 		} catch (HibernateException e) {
+! 			throw new DataBackendException(&quot;Error retriving users&quot;, e);
+! 		}
+! 		return userSet;
+! 	}
+  
+! 	/**
+! 	 * Removes a user account from the system.
+! 	 * 
+! 	 * @param user
+! 	 *            the object describing the account to be removed.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws UnknownEntityException
+! 	 *             if the user account is not present.
+! 	 */
+! 	public void removeUser(User user) throws DataBackendException,
+! 			UnknownEntityException {
+! 		getPersistenceHelper().removeEntity(user);
+! 	}
+  
+! 	/**
+! 	 * Disables a user (effectively rendering it as removed but without actually
+! 	 * removing it).
+! 	 * 
+! 	 * @param user
+! 	 *            the object describing the account to be disabled.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws UnknownEntityException
+! 	 *             if the user account is not present.
+! 	 */
+! 	public void disableUser(User user) throws DataBackendException,
+! 			UnknownEntityException {
+! 		getPersistenceHelper().disableEntity(user);
+! 	}
+  
+! 	/**
+! 	 * Creates new user account with specified attributes.
+! 	 * 
+! 	 * @param user
+! 	 *            the object describing account to be created.
+! 	 * 
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws EntityExistsException
+! 	 *             if the user account already exists.
+! 	 */
+! 	public User persistNewUser(User user) throws DataBackendException {
+  
+! 		getPersistenceHelper().addEntity(user);
+! 		return user;
+! 	}
+  
+! 	/**
+! 	 * Stores User attributes. The User is required to exist in the system.
+! 	 * 
+! 	 * @param role
+! 	 *            The User to be stored.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws UnknownEntityException
+! 	 *             if the role does not exist.
+! 	 */
+! 	public void saveUser(User user) throws DataBackendException {
+! 		getPersistenceHelper().updateEntity(user);
+! 	}
+  
+! 	/**
+! 	 * @return Returns the persistenceHelper.
+! 	 */
+! 	public PersistenceHelper getPersistenceHelper() throws DataBackendException {
+  
+! 		return persistenceHelper;
+! 	}
+  
+! 	/**
+! 	 * Retrieve a User object with specified id.
+! 	 * 
+! 	 * @param id
+! 	 *            the id of the User.
+! 	 * @return an object representing the User with specified id.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws UnknownEntityException
+! 	 *             if the user does not exist.
+! 	 */
+! 	public User getUserById(Object id) throws DataBackendException,
+! 			UnknownEntityException, EntityDisabledException {
+  
+! 		User user = null;
+  
+! 		if (id != null) {
+! 			try {
+! 				Query query = getPersistenceHelper().retrieveSession()
+! 						.createQuery(
+! 								&quot;from &quot; + getClassName()
+! 										+ &quot; su where su.id=:id&quot;);
+! 				query.setLong(&quot;id&quot;, (Long) id);
+! 				List users = query.list();
+! 				if (users.size() == 0) {
+! 					throw new UnknownEntityException(
+! 							&quot;Could not find user by id &quot; + id);
+! 				}
+! 				user = (User) users.get(0);
+! 
+! 				if (user.isDisabled()) {
+! 					throw new EntityDisabledException(&quot;User is unavailable&quot;);
+! 				}
+! 			} catch (HibernateException e) {
+! 				throw new DataBackendException(
+! 						&quot;Error retriving user information&quot;, e);
+! 			}
+! 		}
+! 		return user;
+! 	}
+! 
+! 	public void setPersistenceHelper(PersistenceHelper persistenceHelper) {
+! 		this.persistenceHelper = persistenceHelper;
+! 	}
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000290.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.12,1.13
+</A></li>
+	<LI>Next message: <A HREF="000294.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractRoleManager.java,1.1,1.2 AbstractGroupManager.java,1.1,1.2 AbstractPermissionManager.java,1.1,1.2 AbstractUserManager.java,1.7,1.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#292">[ date ]</a>
+              <a href="thread.html#292">[ thread ]</a>
+              <a href="subject.html#292">[ subject ]</a>
+              <a href="author.html#292">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

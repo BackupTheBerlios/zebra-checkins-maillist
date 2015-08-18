@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-defs/src/test/java/com/anite/zebra/ext/definitions/impl IPropertyGroupsAwareTest.java,NONE,1.1 PropertiesTest.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-defs/src/test/java/com/anite/zebra/ext/definitions/impl%20IPropertyGroupsAwareTest.java%2CNONE%2C1.1%20PropertiesTest.java%2CNONE%2C1.1&In-Reply-To=%3C200602071728.k17HS0E09292%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000171.html">
+   <LINK REL="Next"  HREF="000160.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-defs/src/test/java/com/anite/zebra/ext/definitions/impl IPropertyGroupsAwareTest.java,NONE,1.1 PropertiesTest.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-defs/src/test/java/com/anite/zebra/ext/definitions/impl%20IPropertyGroupsAwareTest.java%2CNONE%2C1.1%20PropertiesTest.java%2CNONE%2C1.1&In-Reply-To=%3C200602071728.k17HS0E09292%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-defs/src/test/java/com/anite/zebra/ext/definitions/impl IPropertyGroupsAwareTest.java,NONE,1.1 PropertiesTest.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Feb  7 18:28:00 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000171.html">[Zebra-checkins] zebra/src/java/zebra-defs pom.xml,NONE,1.1 .wtpmodules,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000160.html">[Zebra-checkins] zebra/src/java/zebra-defs/.settings org.eclipse.jdt.core.prefs,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#174">[ date ]</a>
+              <a href="thread.html#174">[ thread ]</a>
+              <a href="subject.html#174">[ subject ]</a>
+              <a href="author.html#174">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-defs/src/test/java/com/anite/zebra/ext/definitions/impl
+In directory sheep:/tmp/cvs-serv22272/src/test/java/com/anite/zebra/ext/definitions/impl
+
+Added Files:
+	IPropertyGroupsAwareTest.java PropertiesTest.java 
+Log Message:
+Migrated to Maven 2
+Removed depenecy on commons-convert
+
+--- NEW FILE: IPropertyGroupsAwareTest.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+import com.anite.zebra.ext.definitions.api.IPropertyGroupsAware;
+
+/**
+ * @author Eric Pugh
+ * 
+ */
+public class IPropertyGroupsAwareTest extends TestCase {
+
+
+
+    public void testPropertyGroupsAware() {
+        RoutingDefinition rd = new RoutingDefinition();
+        ProcessDefinition pd = new ProcessDefinition();
+        TaskDefinition td = new TaskDefinition();
+        List l = new ArrayList();
+        l.add(rd);
+        l.add(pd);
+        l.add(td);
+        for (Iterator i = l.iterator();i.hasNext();){
+            IPropertyGroupsAware ipga = (IPropertyGroupsAware)i.next();
+            createPropertyGroups(ipga);
+        }
+        assertNotNull(rd.getPropertyGroups());
+        assertNotNull(pd.getPropertyGroups());
+        assertNotNull(td.getPropertyGroups());
+        
+    }
+    
+    protected void createPropertyGroups(IPropertyGroupsAware pgAware){
+        pgAware.setPropertyGroups(new PropertyGroups());
+    }
+
+
+}
+--- NEW FILE: PropertiesTest.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.Iterator;
+
+import junit.framework.TestCase;
+
+import com.anite.zebra.ext.definitions.impl.Properties;
+
+/**
+ * @author Eric Pugh
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
+ */
+public class PropertiesTest extends TestCase {
+
+    private Properties props = null;
+
+    public void setUp() {
+        props = new Properties();
+        props.put(&quot;bool&quot;, &quot;true&quot;);
+        props.put(&quot;long&quot;, &quot;12312&quot;);
+        props.put(&quot;string&quot;, &quot;Hi!&quot;);
+    }
+
+    public void testSetGetName() {
+        props.setName(&quot;name&quot;);
+        assertEquals(&quot;name&quot;, props.getName());
+    }
+
+    public void testGet() {
+        assertEquals(&quot;12312&quot;, props.get(&quot;long&quot;).toString());
+    }
+
+    public void testGetString() {
+        assertEquals(&quot;12312&quot;, props.getString(&quot;long&quot;));
+    }
+
+    public void testGetLongAsObj() {
+        assertEquals(new Long(12312), props.getLongAsObj(&quot;long&quot;));
+    }
+
+    public void testGetLong() {
+        assertEquals(12312, props.getLong(&quot;long&quot;));
+    }
+    
+    public void testGetIntegerAsObj() {
+        assertEquals(new Integer(12312), props.getIntegerAsObj(&quot;long&quot;));
+    }
+
+    public void testGetInteger() {
+        assertEquals(12312, props.getInteger(&quot;long&quot;));
+    }    
+
+    public void testGetBooleanAsObj() {
+        assertEquals(Boolean.TRUE, props.getBooleanAsObj(&quot;bool&quot;));
+
+    }
+
+    public void testGetBoolean() {
+        assertEquals(true, props.getBoolean(&quot;bool&quot;));
+    }
+
+    public void testContainsKey() {
+       
+        assertFalse(props.containsKey(&quot;theMissingBoolean&quot;));
+        assertTrue(props.containsKey(&quot;bool&quot;));
+       
+    }    
+    
+    public void testIteratorAsMapEntries() {
+        
+       Iterator i=props.keys();
+       assertTrue(i.hasNext());
+       while(i.hasNext()){
+           assertTrue(i.next() instanceof String);
+       }
+        
+     }     
+
+}
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000171.html">[Zebra-checkins] zebra/src/java/zebra-defs pom.xml,NONE,1.1 .wtpmodules,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000160.html">[Zebra-checkins] zebra/src/java/zebra-defs/.settings org.eclipse.jdt.core.prefs,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#174">[ date ]</a>
+              <a href="thread.html#174">[ thread ]</a>
+              <a href="subject.html#174">[ subject ]</a>
+              <a href="author.html#174">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

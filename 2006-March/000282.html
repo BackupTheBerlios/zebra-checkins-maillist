@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/test/java/org/apache/fulcrum/hivemind JmxManualT3st.java,NONE,1.1 IDummy.java,NONE,1.1 DummyService.java,NONE,1.1 RegistryManagerTest.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind/src/test/java/org/apache/fulcrum/hivemind%20JmxManualT3st.java%2CNONE%2C1.1%20IDummy.java%2CNONE%2C1.1%20DummyService.java%2CNONE%2C1.1%20RegistryManagerTest.java%2C1.1%2C1.2&In-Reply-To=%3C200603161251.k2GCpLb09665%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000281.html">
+   <LINK REL="Next"  HREF="000283.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/test/java/org/apache/fulcrum/hivemind JmxManualT3st.java,NONE,1.1 IDummy.java,NONE,1.1 DummyService.java,NONE,1.1 RegistryManagerTest.java,1.1,1.2</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind/src/test/java/org/apache/fulcrum/hivemind%20JmxManualT3st.java%2CNONE%2C1.1%20IDummy.java%2CNONE%2C1.1%20DummyService.java%2CNONE%2C1.1%20RegistryManagerTest.java%2C1.1%2C1.2&In-Reply-To=%3C200603161251.k2GCpLb09665%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/test/java/org/apache/fulcrum/hivemind JmxManualT3st.java,NONE,1.1 IDummy.java,NONE,1.1 DummyService.java,NONE,1.1 RegistryManagerTest.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Mar 16 13:51:21 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000281.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind RegistryManager.java,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000283.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind pom.xml,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#282">[ date ]</a>
+              <a href="thread.html#282">[ thread ]</a>
+              <a href="subject.html#282">[ subject ]</a>
+              <a href="author.html#282">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind/src/test/java/org/apache/fulcrum/hivemind
+In directory sheep:/tmp/cvs-serv31521/src/test/java/org/apache/fulcrum/hivemind
+
+Modified Files:
+	RegistryManagerTest.java 
+Added Files:
+	JmxManualT3st.java IDummy.java DummyService.java 
+Log Message:
+
+
+--- NEW FILE: JmxManualT3st.java ---
+package org.apache.fulcrum.hivemind;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import junit.framework.TestCase;
+
+import org.apache.hivemind.Resource;
+import org.apache.hivemind.impl.DefaultClassResolver;
+import org.apache.hivemind.util.ClasspathResource;
+
+/**
+ * A test to start JMX
+ * 
+ * This is run maunally
+ * 
+ * @author ben.gidley
+ *
+ */
+public class JmxManualT3st extends TestCase {
+
+    public void testManualConsoleConnect() throws IOException{
+        RegistryManager.getInstance().rebuildRegistry();
+        Resource resource = new ClasspathResource(new DefaultClassResolver(), &quot;META-INF/hivemodule_hivemindtest.xml&quot;);
+        RegistryManager.getInstance().getResources().add(resource);
+        resource = new ClasspathResource(new DefaultClassResolver(), &quot;META-INF/hivemodule_jmx.xml&quot;);
+        RegistryManager.getInstance().getResources().add(resource);
+
+        IDummy dummyService = (IDummy) RegistryManager.getInstance().getRegistry().getService(IDummy.class);
+        
+        assertNotNull(dummyService);
+        
+        System.out.print(&quot;Press enter when done&quot;);
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String inString = in.readLine();
+        assertNotNull(inString);
+      
+    }
+    
+}
+
+--- NEW FILE: IDummy.java ---
+package org.apache.fulcrum.hivemind;
+
+public interface IDummy {
+    public void logAtDebug(String message);
+}
+--- NEW FILE: DummyService.java ---
+package org.apache.fulcrum.hivemind;
+
+import org.apache.commons.logging.Log;
+
+public class DummyService implements IDummy {
+    private Log log;
+    
+    public Log getLog() {
+        return this.log;
+    }
+
+    public void setLog(Log log) {
+        this.log = log;
+    }
+
+    public void logAtDebug(String message){
+        log.debug(message);
+    }
+}
+
+Index: RegistryManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind/src/test/java/org/apache/fulcrum/hivemind/RegistryManagerTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** RegistryManagerTest.java	24 Nov 2005 15:09:40 -0000	1.1
+--- RegistryManagerTest.java	16 Mar 2006 11:52:41 -0000	1.2
+***************
+*** 1,9 ****
+  package org.apache.fulcrum.hivemind;
+  
+- 
+- 
+  import junit.framework.TestCase;
+  
+  import org.apache.hivemind.Registry;
+  
+  public class RegistryManagerTest extends TestCase {
+--- 1,11 ----
+  package org.apache.fulcrum.hivemind;
+  
+  import junit.framework.TestCase;
+  
++ import org.apache.hivemind.ApplicationRuntimeException;
+  import org.apache.hivemind.Registry;
++ import org.apache.hivemind.Resource;
++ import org.apache.hivemind.impl.DefaultClassResolver;
++ import org.apache.hivemind.util.ClasspathResource;
+  
+  public class RegistryManagerTest extends TestCase {
+***************
+*** 25,27 ****
+--- 27,48 ----
+      }
+  
++     public void testResourceLoading() {
++ 
++         RegistryManager.getInstance().rebuildRegistry();
++         Resource resource = new ClasspathResource(new DefaultClassResolver(), &quot;META-INF/hivemodule_hivemindtest.xml&quot;);
++         RegistryManager.getInstance().getResources().add(resource);
++ 
++         IDummy dummyService = (IDummy) RegistryManager.getInstance().getRegistry().getService(DummyService.class);
++         
++         assertNotNull(dummyService);
++         
++         RegistryManager.getInstance().rebuildRegistry();
++         try {
++             dummyService = (IDummy) RegistryManager.getInstance().getRegistry().getService(DummyService.class);
++         } catch (ApplicationRuntimeException e) {
++             return;
++         }
++         fail();
++         
++     }
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000281.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind RegistryManager.java,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000283.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind pom.xml,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#282">[ date ]</a>
+              <a href="thread.html#282">[ thread ]</a>
+              <a href="subject.html#282">[ subject ]</a>
+              <a href="author.html#282">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

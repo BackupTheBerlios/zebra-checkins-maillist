@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,1.1,1.2 PropertySetBehaviourTest.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraSubflowsTest.java%2C1.1%2C1.2%20PropertySetBehaviourTest.java%2C1.2%2C1.3&In-Reply-To=%3C200605301518.k4UFIuT09031%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000384.html">
+   <LINK REL="Next"  HREF="000387.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,1.1,1.2 PropertySetBehaviourTest.java,1.2,1.3</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraSubflowsTest.java%2C1.1%2C1.2%20PropertySetBehaviourTest.java%2C1.2%2C1.3&In-Reply-To=%3C200605301518.k4UFIuT09031%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,1.1,1.2 PropertySetBehaviourTest.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue May 30 17:18:56 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000384.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.3,1.4
+</A></li>
+        <LI>Next message: <A HREF="000387.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/processes TestTimedTaskRunner.acgwfd.xml,NONE,1.1 TestQuartzProcess.acgwfd.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#386">[ date ]</a>
+              <a href="thread.html#386">[ thread ]</a>
+              <a href="subject.html#386">[ subject ]</a>
+              <a href="author.html#386">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv13101/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraSubflowsTest.java PropertySetBehaviourTest.java 
+Log Message:
+
+
+Index: ZebraSubflowsTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraSubflowsTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** ZebraSubflowsTest.java	30 Apr 2006 12:57:01 -0000	1.1
+--- ZebraSubflowsTest.java	30 May 2006 15:18:53 -0000	1.2
+***************
+*** 39,51 ****
+      }
+      
+!     public void testSubflows() throws CreateProcessException, StartProcessException{
+!         
+!         ZebraProcessInstance zpi = zebra.createProcessPaused(&quot;SubProcessReturnTop&quot;);
+!         
+!         assertNotNull(zpi);
+!         zebra.startProcess(zpi);
+!         
+!         assertEquals(3,zpi.getHistoryInstances().size());
+!         
+!     }
+  }
+--- 39,51 ----
+      }
+      
+! //    public void testSubflows() throws CreateProcessException, StartProcessException{
+! //        
+! //        ZebraProcessInstance zpi = zebra.createProcessPaused(&quot;SubProcessReturnTop&quot;);
+! //        
+! //        assertNotNull(zpi);
+! //        zebra.startProcess(zpi);
+! //        
+! //        assertEquals(3,zpi.getHistoryInstances().size());
+! //        
+! //    }
+  }
+
+Index: PropertySetBehaviourTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/PropertySetBehaviourTest.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** PropertySetBehaviourTest.java	20 Feb 2006 15:52:30 -0000	1.2
+--- PropertySetBehaviourTest.java	30 May 2006 15:18:53 -0000	1.3
+***************
+*** 47,85 ****
+      }
+  
+!     public void testManualWorkflow() throws Exception {
+!         ZebraProcessInstance pi = zebra.createProcessPaused(&quot;TestPropertySetPersistence&quot;);
+! 
+!         zebra.startProcess(pi);
+!         // Should go to activity 1
+! 
+!         int i = 0;
+!         for (ZebraTaskInstance instance : pi.getTaskInstances()) {
+!             i++;
+!             zebra.transitionTask(instance);
+!         }
+!         assertEquals(1, NoopActivity1.executionCount);
+!         assertEquals(1, i);
+! 
+!         for (ZebraTaskInstance instance : pi.getTaskInstances()) {
+!             i++;
+!             zebra.transitionTask(instance);
+!         }
+!         assertEquals(2, NoopActivity1.executionCount);
+!         assertEquals(2, i);
+! 
+!         // Quartz task should wait 1 seconds        
+!         Thread.sleep(2000);
+! 
+!         // As this happend on another thread the test must load it from the db again.
+!         session.evict(pi);
+!         pi = (ZebraProcessInstance) session.load(ZebraProcessInstance.class, pi.getProcessInstanceId());
+! 
+!         for (ZebraTaskInstance instance : pi.getTaskInstances()) {
+!             i++;
+!             zebra.transitionTask(instance);
+!         }
+!         assertEquals(3, NoopActivity1.executionCount);
+!         assertEquals(3, i);
+!     }
+  
+      public void testPropertySet() throws Exception {
+--- 47,85 ----
+      }
+  
+! //    public void testManualWorkflow() throws Exception {
+! //        ZebraProcessInstance pi = zebra.createProcessPaused(&quot;TestPropertySetPersistence&quot;);
+! //
+! //        zebra.startProcess(pi);
+! //        // Should go to activity 1
+! //
+! //        int i = 0;
+! //        for (ZebraTaskInstance instance : pi.getTaskInstances()) {
+! //            i++;
+! //            zebra.transitionTask(instance);
+! //        }
+! //        assertEquals(1, NoopActivity1.executionCount);
+! //        assertEquals(1, i);
+! //
+! //        for (ZebraTaskInstance instance : pi.getTaskInstances()) {
+! //            i++;
+! //            zebra.transitionTask(instance);
+! //        }
+! //        assertEquals(2, NoopActivity1.executionCount);
+! //        assertEquals(2, i);
+! //
+! //        // Quartz task should wait 1 seconds        
+! //        Thread.sleep(2000);
+! //
+! //        // As this happend on another thread the test must load it from the db again.
+! //        session.evict(pi);
+! //        pi = (ZebraProcessInstance) session.load(ZebraProcessInstance.class, pi.getProcessInstanceId());
+! //
+! //        for (ZebraTaskInstance instance : pi.getTaskInstances()) {
+! //            i++;
+! //            zebra.transitionTask(instance);
+! //        }
+! //        assertEquals(3, NoopActivity1.executionCount);
+! //        assertEquals(3, i);
+! //    }
+  
+      public void testPropertySet() throws Exception {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000384.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.3,1.4
+</A></li>
+	<LI>Next message: <A HREF="000387.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/processes TestTimedTaskRunner.acgwfd.xml,NONE,1.1 TestQuartzProcess.acgwfd.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#386">[ date ]</a>
+              <a href="thread.html#386">[ thread ]</a>
+              <a href="subject.html#386">[ subject ]</a>
+              <a href="author.html#386">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

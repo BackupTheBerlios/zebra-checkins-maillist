@@ -1,0 +1,529 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util EntityDisabledException.java,NONE,1.1 UnknownEntityException.java,1.1,1.2 PasswordMismatchException.java,1.1,1.2 DataBackendException.java,1.1,1.2 PermissionSet.java,1.1,1.2 RoleSet.java,1.1,1.2 SecuritySet.java,1.1,1.2 UserLockedException.java,1.1,1.2 UserSet.java,1.1,1.2 PasswordHistoryException.java,1.1,1.2 TurbineSecurityException.java,1.1,1.2 PasswordExpiredException.java,1.1,1.2 GroupSet.java,1.1,1.2 EntityExistsException.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util%20EntityDisabledException.java%2CNONE%2C1.1%20UnknownEntityException.java%2C1.1%2C1.2%20PasswordMismatchException.java%2C1.1%2C1.2%20DataBackendException.java%2C1.1%2C1.2%20PermissionSet.java%2C1.1%2C1.2%20RoleSet.java%2C1.1%2C1.2%20SecuritySet.java%2C1.1%2C1.2%20UserLockedException.java%2C1.1%2C1.2%20UserSet.java%2C1.1%2C1.2%20PasswordHistoryException.java%2C1.1%2C1.2%20TurbineSecurityException.java%2C1.1%2C1.2%20PasswordExpiredException.java%2C1.1%2C1.2%20GroupSet.java%2C1.1%2C1.2%20EntityExistsException.java%2C1.1%2C1.2&In-Reply-To=%3C200603181718.k2IHIkb18143%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000302.html">
+   <LINK REL="Next"  HREF="000305.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util EntityDisabledException.java,NONE,1.1 UnknownEntityException.java,1.1,1.2 PasswordMismatchException.java,1.1,1.2 DataBackendException.java,1.1,1.2 PermissionSet.java,1.1,1.2 RoleSet.java,1.1,1.2 SecuritySet.java,1.1,1.2 UserLockedException.java,1.1,1.2 UserSet.java,1.1,1.2 PasswordHistoryException.java,1.1,1.2 TurbineSecurityException.java,1.1,1.2 PasswordExpiredException.java,1.1,1.2 GroupSet.java,1.1,1.2 EntityExistsException.java,1.1,1.2</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util%20EntityDisabledException.java%2CNONE%2C1.1%20UnknownEntityException.java%2C1.1%2C1.2%20PasswordMismatchException.java%2C1.1%2C1.2%20DataBackendException.java%2C1.1%2C1.2%20PermissionSet.java%2C1.1%2C1.2%20RoleSet.java%2C1.1%2C1.2%20SecuritySet.java%2C1.1%2C1.2%20UserLockedException.java%2C1.1%2C1.2%20UserSet.java%2C1.1%2C1.2%20PasswordHistoryException.java%2C1.1%2C1.2%20TurbineSecurityException.java%2C1.1%2C1.2%20PasswordExpiredException.java%2C1.1%2C1.2%20GroupSet.java%2C1.1%2C1.2%20EntityExistsException.java%2C1.1%2C1.2&In-Reply-To=%3C200603181718.k2IHIkb18143%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util EntityDisabledException.java,NONE,1.1 UnknownEntityException.java,1.1,1.2 PasswordMismatchException.java,1.1,1.2 DataBackendException.java,1.1,1.2 PermissionSet.java,1.1,1.2 RoleSet.java,1.1,1.2 SecuritySet.java,1.1,1.2 UserLockedException.java,1.1,1.2 UserSet.java,1.1,1.2 PasswordHistoryException.java,1.1,1.2 TurbineSecurityException.java,1.1,1.2 PasswordExpiredException.java,1.1,1.2 GroupSet.java,1.1,1.2 EntityExistsException.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Mar 18 18:18:46 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000302.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/acl AccessControlException.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000305.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractGroupManagerTest.java,1.1,1.2 AbstractRoleManagerTest.java,1.1,1.2 AbstractPermissionManagerTest.java,1.1,1.2 AbstractUserManagerTest.java,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#304">[ date ]</a>
+              <a href="thread.html#304">[ thread ]</a>
+              <a href="subject.html#304">[ subject ]</a>
+              <a href="author.html#304">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util
+In directory sheep:/tmp/cvs-serv18372/src/main/java/org/apache/fulcrum/security/util
+
+Modified Files:
+	UnknownEntityException.java PasswordMismatchException.java 
+	DataBackendException.java PermissionSet.java RoleSet.java 
+	SecuritySet.java UserLockedException.java UserSet.java 
+	PasswordHistoryException.java TurbineSecurityException.java 
+	PasswordExpiredException.java GroupSet.java 
+	EntityExistsException.java 
+Added Files:
+	EntityDisabledException.java 
+Log Message:
+Added functionality to disable users
+
+--- NEW FILE: EntityDisabledException.java ---
+package org.apache.fulcrum.security.util;
+
+/**
+ * Thrown when a locked user attempts to authenticate.
+ * 
+ * @author richard.brooks
+ * Created on Jan 13, 2006
+ */
+
+public class EntityDisabledException extends TurbineSecurityException {
+
+	private static final long serialVersionUID = 3325662922250048072L;
+
+	/**
+     * Construct a UserDisabledException with specified detail message.
+     * @param msg The detail message.
+     *
+     * @author richard.brooks
+     * Created on Mar 17, 2006
+     */
+	public EntityDisabledException(String msg)
+    {
+        super(msg);
+    }
+}
+
+Index: UnknownEntityException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/UnknownEntityException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** UnknownEntityException.java	14 Nov 2005 18:20:45 -0000	1.1
+--- UnknownEntityException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 27,31 ****
+      extends TurbineSecurityException
+  {
+!     /**
+       * Construct an UnknownEntityException with specified detail message.
+       *
+--- 27,33 ----
+      extends TurbineSecurityException
+  {
+! 	private static final long serialVersionUID = 6902116254535728203L;
+! 
+! 	/**
+       * Construct an UnknownEntityException with specified detail message.
+       *
+
+Index: PasswordMismatchException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/PasswordMismatchException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** PasswordMismatchException.java	14 Nov 2005 18:20:45 -0000	1.1
+--- PasswordMismatchException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 23,26 ****
+--- 23,27 ----
+   * @version $Id$
+   */
++ @SuppressWarnings(&quot;serial&quot;)
+  public class PasswordMismatchException
+      extends TurbineSecurityException
+
+Index: DataBackendException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/DataBackendException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** DataBackendException.java	14 Nov 2005 18:20:45 -0000	1.1
+--- DataBackendException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 27,31 ****
+      extends TurbineSecurityException
+  {
+!     /**
+       * Construct an DataBackendException with specified detail message.
+       *
+--- 27,33 ----
+      extends TurbineSecurityException
+  {
+! 	private static final long serialVersionUID = 4037968846303489743L;
+! 
+! 	/**
+       * Construct an DataBackendException with specified detail message.
+       *
+
+Index: PermissionSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/PermissionSet.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** PermissionSet.java	14 Nov 2005 18:20:45 -0000	1.1
+--- PermissionSet.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 37,41 ****
+      extends SecuritySet
+  {
+!     /**
+       * Constructs an empty PermissionSet
+       */
+--- 37,43 ----
+      extends SecuritySet
+  {
+! 	private static final long serialVersionUID = 4532868341893924965L;
+! 
+! 	/**
+       * Constructs an empty PermissionSet
+       */
+***************
+*** 66,70 ****
+       * already contained the Permission.
+       */
+!     public boolean add(Permission permission)
+      {
+          if (contains(permission)){
+--- 68,73 ----
+       * already contained the Permission.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(Permission permission)
+      {
+          if (contains(permission)){
+***************
+*** 196,200 ****
+       * @return An Array of Permission Objects.
+       */
+!     public Permission[] getPermissionsArray()
+      {
+          return (Permission[]) getSet().toArray(new Permission[0]);
+--- 199,204 ----
+       * @return An Array of Permission Objects.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Permission[] getPermissionsArray()
+      {
+          return (Permission[]) getSet().toArray(new Permission[0]);
+
+Index: RoleSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/RoleSet.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** RoleSet.java	14 Nov 2005 18:20:45 -0000	1.1
+--- RoleSet.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 37,41 ****
+          extends SecuritySet
+  {
+!     /**
+       * Constructs an empty RoleSet
+       */
+--- 37,43 ----
+          extends SecuritySet
+  {
+! 	private static final long serialVersionUID = -7878336668034575930L;
+! 
+! 	/**
+       * Constructs an empty RoleSet
+       */
+***************
+*** 66,70 ****
+       * contained the Role.
+       */
+!     public boolean add(Role role)
+      {
+          if (contains(role)){
+--- 68,73 ----
+       * contained the Role.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(Role role)
+      {
+          if (contains(role)){
+***************
+*** 194,198 ****
+       * @return An Array of Role objects.
+       */
+!     public Role[] getRolesArray()
+      {
+          return (Role[]) getSet().toArray(new Role[0]);
+--- 197,202 ----
+       * @return An Array of Role objects.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Role[] getRolesArray()
+      {
+          return (Role[]) getSet().toArray(new Role[0]);
+
+Index: SecuritySet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/SecuritySet.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** SecuritySet.java	14 Nov 2005 18:20:45 -0000	1.1
+--- SecuritySet.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 70,74 ****
+  	 *  
+  	 */
+!     public Set getSet()
+      {
+          return new HashSet(idMap.values());
+--- 70,75 ----
+  	 *  
+  	 */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Set getSet()
+      {
+          return new HashSet(idMap.values());
+***************
+*** 79,83 ****
+  	 * @return The Set of Names in this Object, backed by the actual data.
+  	 */
+!     public Set getNames()
+      {
+          Set names = new HashSet();
+--- 80,85 ----
+  	 * @return The Set of Names in this Object, backed by the actual data.
+  	 */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Set getNames()
+      {
+          Set names = new HashSet();
+***************
+*** 254,258 ****
+  	 * @see java.util.Collection#toArray(java.lang.Object[])
+  	 */
+!     public Object[] toArray(Object[] a)
+      {
+          return getSet().toArray(a);
+--- 256,261 ----
+  	 * @see java.util.Collection#toArray(java.lang.Object[])
+  	 */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Object[] toArray(Object[] a)
+      {
+          return getSet().toArray(a);
+
+Index: UserLockedException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/UserLockedException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** UserLockedException.java	17 Jan 2006 09:17:23 -0000	1.1
+--- UserLockedException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 10,13 ****
+--- 10,15 ----
+  public class UserLockedException extends TurbineSecurityException {
+  
++ 	private static final long serialVersionUID = 8284553869426136480L;
++ 
+  	/**
+       * Construct a UserLockedException with specified detail message.
+
+Index: UserSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/UserSet.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** UserSet.java	14 Nov 2005 18:20:45 -0000	1.1
+--- UserSet.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 33,37 ****
+          extends SecuritySet
+  {
+!     /**
+       * Constructs an empty UserSet
+       */
+--- 33,39 ----
+          extends SecuritySet
+  {
+! 	private static final long serialVersionUID = 4415634631270197073L;
+! 
+! 	/**
+       * Constructs an empty UserSet
+       */
+***************
+*** 62,66 ****
+       * contained the User.
+       */
+!     public boolean add(User user)
+      {
+          if (contains(user)){
+--- 64,69 ----
+       * contained the User.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(User user)
+      {
+          if (contains(user)){
+***************
+*** 193,197 ****
+       * @return An Array of User objects.
+       */
+!     public User[] getUsersArray()
+      {
+          return (User[]) getSet().toArray(new User[0]);
+--- 196,201 ----
+       * @return An Array of User objects.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public User[] getUsersArray()
+      {
+          return (User[]) getSet().toArray(new User[0]);
+
+Index: PasswordHistoryException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/PasswordHistoryException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** PasswordHistoryException.java	17 Jan 2006 09:17:23 -0000	1.1
+--- PasswordHistoryException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 10,13 ****
+--- 10,15 ----
+  public class PasswordHistoryException extends TurbineSecurityException {
+  
++ 	private static final long serialVersionUID = -6489327035014664329L;
++ 
+  	/**
+       * Construct a PasswordHistoryException with specified detail message.
+
+Index: TurbineSecurityException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/TurbineSecurityException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** TurbineSecurityException.java	14 Nov 2005 18:20:45 -0000	1.1
+--- TurbineSecurityException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 26,30 ****
+      extends Exception
+  {
+!     /**
+       * Construct an SecurityException with specified detail message.
+       *
+--- 26,32 ----
+      extends Exception
+  {
+! 	private static final long serialVersionUID = 1768881827472257142L;
+! 
+! 	/**
+       * Construct an SecurityException with specified detail message.
+       *
+
+Index: PasswordExpiredException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/PasswordExpiredException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** PasswordExpiredException.java	17 Jan 2006 09:17:23 -0000	1.1
+--- PasswordExpiredException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 9,12 ****
+--- 9,14 ----
+  
+  public class PasswordExpiredException extends TurbineSecurityException {
++ 	private static final long serialVersionUID = 7248522630844763772L;
++ 
+  	/**
+       * Construct a PasswordExpiredException with specified detail message.
+
+Index: GroupSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/GroupSet.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** GroupSet.java	14 Nov 2005 18:20:45 -0000	1.1
+--- GroupSet.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 37,41 ****
+          extends SecuritySet
+  {
+!     /**
+       * Constructs an empty GroupSet
+       */
+--- 37,43 ----
+          extends SecuritySet
+  {
+! 	private static final long serialVersionUID = 6882240173053961011L;
+! 
+! 	/**
+       * Constructs an empty GroupSet
+       */
+***************
+*** 66,70 ****
+       * already contained the Group.
+       */
+!     public boolean add(Group group)
+      {
+          if (contains(group)){
+--- 68,73 ----
+       * already contained the Group.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public boolean add(Group group)
+      {
+          if (contains(group)){
+***************
+*** 196,200 ****
+       * @return An Array of Group objects.
+       */
+!     public Group[] getGroupsArray()
+      {
+          return (Group[]) getSet().toArray(new Group[0]);
+--- 199,204 ----
+       * @return An Array of Group objects.
+       */
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	public Group[] getGroupsArray()
+      {
+          return (Group[]) getSet().toArray(new Group[0]);
+
+Index: EntityExistsException.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/EntityExistsException.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** EntityExistsException.java	14 Nov 2005 18:20:45 -0000	1.1
+--- EntityExistsException.java	18 Mar 2006 16:19:36 -0000	1.2
+***************
+*** 27,31 ****
+      extends TurbineSecurityException
+  {
+!     /**
+       * Construct an EntityExistsException with specified detail message.
+       *
+--- 27,33 ----
+      extends TurbineSecurityException
+  {
+! 	private static final long serialVersionUID = 7525944855557287853L;
+! 
+! 	/**
+       * Construct an EntityExistsException with specified detail message.
+       *
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000302.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/acl AccessControlException.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000305.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractGroupManagerTest.java,1.1,1.2 AbstractRoleManagerTest.java,1.1,1.2 AbstractPermissionManagerTest.java,1.1,1.2 AbstractUserManagerTest.java,1.5,1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#304">[ date ]</a>
+              <a href="thread.html#304">[ thread ]</a>
+              <a href="subject.html#304">[ subject ]</a>
+              <a href="author.html#304">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

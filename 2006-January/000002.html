@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSecurityManagerTest.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraSecurityManagerTest.java%2C1.3%2C1.4&In-Reply-To=%3C200601030748.k037mYH00619%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000001.html">
+   <LINK REL="Next"  HREF="000005.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSecurityManagerTest.java,1.3,1.4</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraSecurityManagerTest.java%2C1.3%2C1.4&In-Reply-To=%3C200601030748.k037mYH00619%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSecurityManagerTest.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan  3 08:48:34 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000001.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.10,1.11
+</A></li>
+        <LI>Next message: <A HREF="000005.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv7171/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraSecurityManagerTest.java 
+Log Message:
+1.2 Release with Hibernate 3.1 release
+
+Index: ZebraSecurityManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraSecurityManagerTest.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ZebraSecurityManagerTest.java	13 Dec 2005 09:55:58 -0000	1.3
+--- ZebraSecurityManagerTest.java	3 Jan 2006 07:48:32 -0000	1.4
+***************
+*** 30,33 ****
+--- 30,34 ----
+  import org.apache.fulcrum.security.entity.Permission;
+  import org.apache.fulcrum.security.entity.Role;
++ import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.model.dynamic.DynamicModelManager;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicGroup;
+***************
+*** 66,72 ****
+      private Zebra zebra;
+  
+!     DynamicUser adminUser;
+  
+!     DynamicUser user;
+  
+      /*
+--- 67,73 ----
+      private Zebra zebra;
+  
+!     HibernateDynamicUser adminUser;
+  
+!     HibernateDynamicUser user;
+  
+      /*
+***************
+*** 163,175 ****
+  
+          //create user
+!         DynamicUser adminUser;
+!         DynamicUser user;
+  
+          userManager = (UserManager) RegistryManager.getInstance().getRegistry().getService(
+                  &quot;fulcrum.security.hivemind.userManagerDynamic&quot;, org.apache.fulcrum.security.UserManager.class);
+  
+!         adminUser = (DynamicUser) userManager.getUserInstance(&quot;ZEBRA_ADMIN_USER&quot;);
+  
+!         user = (DynamicUser) userManager.getUserInstance(&quot;ZEBRA_USER&quot;);
+          // TODO add authentication stuff
+          userManager.addUser(user, &quot;password&quot;);
+--- 164,176 ----
+  
+          //create user
+!         HibernateDynamicUser adminUser;
+!         HibernateDynamicUser user;
+  
+          userManager = (UserManager) RegistryManager.getInstance().getRegistry().getService(
+                  &quot;fulcrum.security.hivemind.userManagerDynamic&quot;, org.apache.fulcrum.security.UserManager.class);
+  
+!         adminUser = (HibernateDynamicUser) userManager.getUserInstance(&quot;ZEBRA_ADMIN_USER&quot;);
+  
+!         user = (HibernateDynamicUser) userManager.getUserInstance(&quot;ZEBRA_USER&quot;);
+          // TODO add authentication stuff
+          userManager.addUser(user, &quot;password&quot;);
+***************
+*** 198,214 ****
+          zebra.startProcess(processInstance);
+  
+!         List&lt;ZebraTaskInstance&gt; taskList = zebra.getTaskList((DynamicUser) userManager.getUser(&quot;ZEBRA_ADMIN_USER&quot;));
+  
+          assertTrue(checkIfInTaskList(taskList, &quot;First Screen&quot;));
+  
+!         taskList = zebra.getTaskList((DynamicUser) userManager.getUser(&quot;ZEBRA_USER&quot;));
+          assertFalse(checkIfInTaskList(taskList, &quot;First Screen&quot;));
+          
+          testTaskDef(FIRST_SCREEN, processInstance);
+  
+!         taskList = zebra.getTaskList((DynamicUser) userManager.getUser(&quot;ZEBRA_ADMIN_USER&quot;));
+          assertTrue(checkIfInTaskList(taskList, &quot;Second Screen&quot;));
+          
+!         taskList = zebra.getTaskList((DynamicUser) userManager.getUser(&quot;ZEBRA_USER&quot;));
+          assertTrue(checkIfInTaskList(taskList, &quot;Second Screen&quot;));
+          
+--- 199,215 ----
+          zebra.startProcess(processInstance);
+  
+!         List&lt;ZebraTaskInstance&gt; taskList = zebra.getTaskList((HibernateDynamicUser) userManager.getUser(&quot;ZEBRA_ADMIN_USER&quot;));
+  
+          assertTrue(checkIfInTaskList(taskList, &quot;First Screen&quot;));
+  
+!         taskList = zebra.getTaskList((HibernateDynamicUser) userManager.getUser(&quot;ZEBRA_USER&quot;));
+          assertFalse(checkIfInTaskList(taskList, &quot;First Screen&quot;));
+          
+          testTaskDef(FIRST_SCREEN, processInstance);
+  
+!         taskList = zebra.getTaskList((HibernateDynamicUser) userManager.getUser(&quot;ZEBRA_ADMIN_USER&quot;));
+          assertTrue(checkIfInTaskList(taskList, &quot;Second Screen&quot;));
+          
+!         taskList = zebra.getTaskList((HibernateDynamicUser) userManager.getUser(&quot;ZEBRA_USER&quot;));
+          assertTrue(checkIfInTaskList(taskList, &quot;Second Screen&quot;));
+          
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000001.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.10,1.11
+</A></li>
+	<LI>Next message: <A HREF="000005.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

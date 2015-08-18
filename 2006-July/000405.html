@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate	HibernateUnecessaryDeletesTest.java, NONE, 1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-July/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate%0A%09HibernateUnecessaryDeletesTest.java%2C%20NONE%2C%201.1&In-Reply-To=%3C20060719091547.330745AE2F%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000404.html">
+   <LINK REL="Next"  HREF="000406.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate	HibernateUnecessaryDeletesTest.java, NONE, 1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate%0A%09HibernateUnecessaryDeletesTest.java%2C%20NONE%2C%201.1&In-Reply-To=%3C20060719091547.330745AE2F%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate	HibernateUnecessaryDeletesTest.java, NONE, 1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jul 19 11:15:47 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000404.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/resources	hibernate.cfg.xml, 1.2, 1.3
+</A></li>
+        <LI>Next message: <A HREF="000406.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,	1.17, 1.18
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#405">[ date ]</a>
+              <a href="thread.html#405">[ thread ]</a>
+              <a href="subject.html#405">[ subject ]</a>
+              <a href="author.html#405">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate
+In directory sheep:/tmp/cvs-serv32711/src/test/java/org/apache/fulcrum/security/hibernate
+
+Added Files:
+	HibernateUnecessaryDeletesTest.java 
+Log Message:
+
+
+--- NEW FILE: HibernateUnecessaryDeletesTest.java ---
+package org.apache.fulcrum.security.hibernate;
+
+import junit.framework.TestCase;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.fulcrum.hivemind.RegistryManager;
+import org.apache.fulcrum.security.GroupManager;
+import org.apache.fulcrum.security.ModelManager;
+import org.apache.fulcrum.security.UserManager;
+import org.apache.fulcrum.security.acl.AccessControlList;
+import org.apache.fulcrum.security.model.dynamic.DynamicModelManager;
+import org.apache.fulcrum.security.model.dynamic.entity.DynamicGroup;
+import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+import org.apache.fulcrum.security.util.DataBackendException;
+import org.apache.fulcrum.security.util.EntityDisabledException;
+import org.apache.fulcrum.security.util.EntityExistsException;
+import org.apache.fulcrum.security.util.UnknownEntityException;
+import org.apache.hivemind.Resource;
+import org.apache.hivemind.impl.DefaultClassResolver;
+import org.apache.hivemind.util.ClasspathResource;
+import org.hibernate.Session;
+
+public class HibernateUnecessaryDeletesTest extends TestCase {
+	private static final Log log = LogFactory
+			.getLog(HibernateUnecessaryDeletesTest.class);
+
+	public void setUp() throws Exception {
+		// Force Registry to have test configuration
+		Resource resource = new ClasspathResource(new DefaultClassResolver(),
+				&quot;META-INF/hivemodule_test.xml&quot;);
+		RegistryManager.getInstance().getResources().add(resource);
+		super.setUp();
+	}
+
+	public void testDuplicateSave() throws UnknownEntityException,
+			DataBackendException, EntityDisabledException,
+			EntityExistsException {
+
+		UserManager userManager = (UserManager) RegistryManager.getInstance()
+				.getRegistry().getService(UserManager.class);
+
+		GroupManager groupManager = (GroupManager) RegistryManager
+				.getInstance().getRegistry().getService(GroupManager.class);
+
+		DynamicModelManager modelManager = (DynamicModelManager) RegistryManager
+				.getInstance().getRegistry().getService(DynamicModelManager.class);
+
+		DynamicGroup group = (DynamicGroup) groupManager
+				.getGroupInstance(&quot;Bobbies&quot;);
+		groupManager.addGroup(group);
+
+		DynamicUser bobby = (DynamicUser) userManager.getUserInstance(&quot;bobby&quot;);
+		userManager.addUser(bobby, &quot;bobby&quot;);
+
+		modelManager.grant(bobby, group);
+		
+		AccessControlList acl = userManager.getACL(bobby);
+
+		Session session = (Session) RegistryManager.getInstance().getRegistry()
+				.getService(Session.class);
+		log.info(&quot;About to Flush, is dirty:&quot; + session.isDirty());
+		session.flush();
+		log.info(&quot;Flushed&quot;);
+		assertFalse(session.isDirty());
+
+		assertNotNull(acl);
+		log.info(&quot;Saving Bobby&quot;);
+		//userManager.saveUser(bobby);
+
+	}
+}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000404.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/resources	hibernate.cfg.xml, 1.2, 1.3
+</A></li>
+	<LI>Next message: <A HREF="000406.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,	1.17, 1.18
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#405">[ date ]</a>
+              <a href="thread.html#405">[ thread ]</a>
+              <a href="subject.html#405">[ subject ]</a>
+              <a href="author.html#405">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

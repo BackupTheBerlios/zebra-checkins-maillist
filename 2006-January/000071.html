@@ -1,0 +1,558 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractUserManagerTest.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test%20AbstractUserManagerTest.java%2C1.2%2C1.3&In-Reply-To=%3C200601170917.k0H9HSx27910%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000068.html">
+   <LINK REL="Next"  HREF="000072.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractUserManagerTest.java,1.2,1.3</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test%20AbstractUserManagerTest.java%2C1.2%2C1.3&In-Reply-To=%3C200601170917.k0H9HSx27910%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractUserManagerTest.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 17 10:17:28 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000068.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicUser.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000072.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/authenticator NoOpAuthenticatorTest.java,1.2,1.3 CryptoAuthenticatorTest.java,1.2,1.3 TextMatchAuthenticatorTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#71">[ date ]</a>
+              <a href="thread.html#71">[ thread ]</a>
+              <a href="subject.html#71">[ subject ]</a>
+              <a href="author.html#71">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test
+In directory sheep:/tmp/cvs-serv30075/src/main/java/org/apache/fulcrum/security/model/test
+
+Modified Files:
+	AbstractUserManagerTest.java 
+Log Message:
+1 - Make all methods pass passwords via crypto
+2 - Make the Authenticator available on API
+3 - Add Expiry Date
+4 - Add Use locking
+5 - Add Password History
+6 - Add Password Cycle Policy
+
+Index: AbstractUserManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test/AbstractUserManagerTest.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** AbstractUserManagerTest.java	15 Nov 2005 17:56:25 -0000	1.2
+--- AbstractUserManagerTest.java	17 Jan 2006 09:17:26 -0000	1.3
+***************
+*** 17,220 ****
+   */
+  
+  import org.apache.fulcrum.security.AbstractSecurityServiceTest;
+  import org.apache.fulcrum.security.acl.AccessControlList;
+  import org.apache.fulcrum.security.entity.User;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.PasswordMismatchException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+  import org.apache.fulcrum.security.util.UserSet;
+  
+  /**
+   * @author Eric Pugh
+!  *
+   * To change the template for this generated type comment go to
+   * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+   */
+! public abstract class AbstractUserManagerTest extends AbstractSecurityServiceTest {
+  
+!     public void testCheckExists() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Philipa&quot;);
+!         getUserManager().addUser(user, &quot;bobo&quot;);
+!         assertTrue(getUserManager().checkExists(&quot;philipa&quot;));
+!         assertTrue(getUserManager().checkExists(user));
+!         assertFalse(getUserManager().checkExists(&quot;ImaginaryFriend&quot;));
+!         user = getUserManager().getUserInstance(&quot;ImaginaryFriend&quot;);
+!         assertFalse(getUserManager().checkExists(user));
+!     }
+  
+!     public void testCheckExistsWithString() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Philip2&quot;);
+!         getUserManager().addUser(user, &quot;bobo&quot;);
+!         assertTrue(getUserManager().checkExists(&quot;philip2&quot;));
+!         assertTrue(getUserManager().checkExists(user.getName()));
+!         assertFalse(getUserManager().checkExists(&quot;ImaginaryFriend2&quot;));
+!         user = getUserManager().getUserInstance(&quot;ImaginaryFriend2&quot;);
+!         assertFalse(getUserManager().checkExists(user.getName()));
+!     }
+  
+!     /*
+!      * Class to test for User retrieve(String)
+!      */
+!     public void testGetUserString() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;QuietMike&quot;);
+!         getUserManager().addUser(user, &quot;bobo&quot;);
+!         user = getUserManager().getUser(&quot;QuietMike&quot;);
+!         assertNotNull(user);
+!     }
+  
+!     public void testGetUserById() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;QuietMike2&quot;);
+!         getUserManager().addUser(user, &quot;bobo&quot;);
+!         User user2 = getUserManager().getUserById(user.getId());
+!         assertEquals(user.getName(), user2.getName());
+!         assertEquals(user.getId(), user2.getId());
+!     }
+  
+!     /*
+!      * Class to test for User retrieve(String, String)
+!      */
+!     public void testGetUserStringString() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Richard&quot;);
+!         getUserManager().addUser(user, &quot;va&quot;);
+!         user = getUserManager().getUser(&quot;Richard&quot;, &quot;va&quot;);
+!         assertNotNull(user);
+!         user = getUserManager().getUser(&quot;richard&quot;, &quot;va&quot;);
+!         assertNotNull(user);
+!         try {
+!             user = getUserManager().getUser(&quot;richard&quot;, &quot;VA&quot;);
+!             fail(&quot;should have thrown PasswordMismatchException&quot;);
+!         } catch (PasswordMismatchException pme) {
+!             //good
+!         }
+!     }
+  
+!     public void testGetAllUsers() throws Exception {
+!         int size = getUserManager().getAllUsers().size();
+!         User user = getUserManager().getUserInstance(&quot;Bob&quot;);
+!         getUserManager().addUser(user, &quot;&quot;);
+!         UserSet userSet = getUserManager().getAllUsers();
+!         assertEquals(size + 1, userSet.size());
+!     }
+  
+!     public void testAuthenticate() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Kay&quot;);
+!         getUserManager().addUser(user, &quot;jc&quot;);
+!         getUserManager().authenticate(user, &quot;jc&quot;);
+!         try {
+!             getUserManager().authenticate(user, &quot;JC&quot;);
+!             fail(&quot;should have thrown PasswordMismatchException&quot;);
+!         } catch (PasswordMismatchException pme) {
+!             //good
+!         }
+!     }
+  
+!     public void testChangePassword() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Jonathan&quot;);
+!         getUserManager().addUser(user, &quot;jc&quot;);
+!         try {
+!             getUserManager().changePassword(user, &quot;WrongPWD&quot;, &quot;JC&quot;);
+!             fail(&quot;should have thrown PasswordMismatchException&quot;);
+!         } catch (PasswordMismatchException pme) {
+!             //good
+!         }
+!         getUserManager().changePassword(user, &quot;jc&quot;, &quot;JC&quot;);
+!         getUserManager().authenticate(user, &quot;JC&quot;);
+!     }
+  
+!     public void testForcePassword() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Connor&quot;);
+!         getUserManager().addUser(user, &quot;jc_subset&quot;);
+!         getUserManager().forcePassword(user, &quot;JC_SUBSET&quot;);
+!         getUserManager().authenticate(user, &quot;JC_SUBSET&quot;);
+!     }
+  
+!     /*
+!      * Class to test for User getUserInstance()
+!      */
+!     public void testGetUserInstance() throws Exception {
+!         User user = getUserManager().getUserInstance();
+!         assertNotNull(user);
+!         assertTrue(user.getName() == null);
+!     }
+  
+!     /*
+!      * Class to test for User getUserInstance(String)
+!      */
+!     public void testGetUserInstanceString() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Philip&quot;);
+!         assertEquals(&quot;philip&quot;, user.getName());
+!     }
+  
+!     /**
+!      * Need to figure out if save is something we want..
+!      * right now it just bloes up if you actually cahnge anything.
+!      * @todo figur out what to do here...
+!      * @throws Exception
+!      */
+!     public void testSaveUser() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Kate&quot;);
+!         getUserManager().addUser(user, &quot;katiedid&quot;);
+!         user = getUserManager().getUser(user.getName());
+!         // user.setName(&quot;Katherine&quot;);
+!         getUserManager().saveUser(user);
+!         assertEquals(&quot;kate&quot;, getUserManager().getUser(user.getName()).getName());
+!     }
+  
+!     public void testGetACL() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Tony&quot;);
+!         getUserManager().addUser(user, &quot;california&quot;);
+!         AccessControlList acl = getUserManager().getACL(user);
+!         assertNotNull(acl);
+!     }
+  
+!     public void testRemoveUser() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Rick&quot;);
+!         getUserManager().addUser(user, &quot;nb&quot;);
+!         getUserManager().removeUser(user);
+!         try {
+!             User user2 = getUserManager().getUser(user.getName());
+!             fail(&quot;Should have thrown UEE&quot;);
+!         } catch (UnknownEntityException uee) {
+!             //good
+!         }
+!     }
+  
+!     public void testAddUser() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;Joe1&quot;);
+!         assertNull(user.getId());
+!         getUserManager().addUser(user, &quot;mc&quot;);
+!         user = getUserManager().getUserInstance(&quot;Joe2&quot;);
+!         assertNull(user.getId());
+!         getUserManager().addUser(user, &quot;mc&quot;);
+!         assertNotNull(user.getId());
+!         assertNotNull(getUserManager().getUser(user.getName()));
+!     }
+  
+!     /*
+!      * Class to test for boolean checkExists(string)
+!      */
+!     public void testAddUserTwiceFails() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;EATLUNCH&quot;);
+!         getUserManager().addUser(user, &quot;bob&quot;);
+!         assertTrue(getUserManager().checkExists(user.getName()));
+!         User user2 = getUserManager().getUserInstance(&quot;EATLUNCH&quot;);
+!         try {
+!             getUserManager().addUser(user2, &quot;bob&quot;);
+!         } catch (EntityExistsException uee) {
+!             //good
+!         }
+!         try {
+!             getUserManager().addUser(user2, &quot;differentpassword&quot;);
+!         } catch (EntityExistsException uee) {
+!             //good
+!         }
+!     }
+  
+!     public void testCheckUserCaseSensitiveExists() throws Exception {
+!         User user = getUserManager().getUserInstance(&quot;borrisJohnson&quot;);
+!         getUserManager().addUser(user, &quot;bob&quot;);
+  
+!         assertTrue(getUserManager().checkExists(&quot;borrisJohnson&quot;));
+!     }
+  
+  }
+--- 17,284 ----
+   */
+  
++ import java.util.GregorianCalendar;
++ import java.util.List;
++ 
+  import org.apache.fulcrum.security.AbstractSecurityServiceTest;
+  import org.apache.fulcrum.security.acl.AccessControlList;
+  import org.apache.fulcrum.security.entity.User;
+  import org.apache.fulcrum.security.util.EntityExistsException;
++ import org.apache.fulcrum.security.util.PasswordExpiredException;
++ import org.apache.fulcrum.security.util.PasswordHistoryException;
+  import org.apache.fulcrum.security.util.PasswordMismatchException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
++ import org.apache.fulcrum.security.util.UserLockedException;
+  import org.apache.fulcrum.security.util.UserSet;
+  
+  /**
+   * @author Eric Pugh
+!  * 
+   * To change the template for this generated type comment go to
+   * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+   */
+! public abstract class AbstractUserManagerTest extends
+! 		AbstractSecurityServiceTest {
+  
+! 	public void testCheckExists() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Philipa&quot;);
+! 		getUserManager().addUser(user, &quot;bobo&quot;);
+! 		assertTrue(getUserManager().checkExists(&quot;philipa&quot;));
+! 		assertTrue(getUserManager().checkExists(user));
+! 		assertFalse(getUserManager().checkExists(&quot;ImaginaryFriend&quot;));
+! 		user = getUserManager().getUserInstance(&quot;ImaginaryFriend&quot;);
+! 		assertFalse(getUserManager().checkExists(user));
+! 	}
+  
+! 	public void testCheckExistsWithString() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Philip2&quot;);
+! 		getUserManager().addUser(user, &quot;bobo&quot;);
+! 		assertTrue(getUserManager().checkExists(&quot;philip2&quot;));
+! 		assertTrue(getUserManager().checkExists(user.getName()));
+! 		assertFalse(getUserManager().checkExists(&quot;ImaginaryFriend2&quot;));
+! 		user = getUserManager().getUserInstance(&quot;ImaginaryFriend2&quot;);
+! 		assertFalse(getUserManager().checkExists(user.getName()));
+! 	}
+  
+! 	/*
+! 	 * Class to test for User retrieve(String)
+! 	 */
+! 	public void testGetUserString() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;QuietMike&quot;);
+! 		getUserManager().addUser(user, &quot;bobo&quot;);
+! 		user = getUserManager().getUser(&quot;QuietMike&quot;);
+! 		assertNotNull(user);
+! 	}
+  
+! 	public void testGetUserById() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;QuietMike2&quot;);
+! 		getUserManager().addUser(user, &quot;bobo&quot;);
+! 		User user2 = getUserManager().getUserById(user.getId());
+! 		assertEquals(user.getName(), user2.getName());
+! 		assertEquals(user.getId(), user2.getId());
+! 	}
+  
+! 	/*
+! 	 * Class to test for User retrieve(String, String)
+! 	 */
+! 	public void testGetUserStringString() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Richard&quot;);
+! 		getUserManager().addUser(user, &quot;va&quot;);
+! 		user = getUserManager().getUser(&quot;Richard&quot;, &quot;va&quot;);
+! 		assertNotNull(user);
+! 		user = getUserManager().getUser(&quot;richard&quot;, &quot;va&quot;);
+! 		assertNotNull(user);
+! 		try {
+! 			user = getUserManager().getUser(&quot;richard&quot;, &quot;VA&quot;);
+! 			fail(&quot;should have thrown PasswordMismatchException&quot;);
+! 		} catch (PasswordMismatchException pme) {
+! 			// good
+! 		}
+! 	}
+  
+! 	public void testGetAllUsers() throws Exception {
+! 		int size = getUserManager().getAllUsers().size();
+! 		User user = getUserManager().getUserInstance(&quot;Bob&quot;);
+! 		getUserManager().addUser(user, &quot;&quot;);
+! 		UserSet userSet = getUserManager().getAllUsers();
+! 		assertEquals(size + 1, userSet.size());
+! 	}
+  
+! 	public void testAuthenticate() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Kay&quot;);
+! 		getUserManager().addUser(user, &quot;jc&quot;);
+! 		getUserManager().authenticate(user, &quot;jc&quot;);
+! 		try {
+! 			getUserManager().authenticate(user, &quot;JC&quot;);
+! 			fail(&quot;should have thrown PasswordMismatchException&quot;);
+! 		} catch (PasswordMismatchException pme) {
+! 			// good - first permitted attempt
+! 		}
+! 		
+! 		try {
+! 			getUserManager().authenticate(user, &quot;JC&quot;);
+! 			fail(&quot;should have thrown PasswordMismatchException&quot;);
+! 		} catch (PasswordMismatchException pme) {
+! 			// good - second permitted attempt
+! 		}
+  
+! 		try {
+! 			getUserManager().authenticate(user, &quot;JC&quot;);
+! 			fail(&quot;should have thrown PasswordMismatchException&quot;);
+! 		} catch (PasswordMismatchException pme) {
+! 			// good - third permitted attempt
+! 		}
+  
+! 		try {
+! 			getUserManager().authenticate(user, &quot;jc&quot;);
+! 			fail(&quot;Should have thrown UserLockedException&quot;);
+! 		} catch (UserLockedException ule) {
+! 			//good - user is now locked
+! 		}
+! 		
+! 		// Simulate enough time passing since user was locked
+! 		GregorianCalendar gc = new GregorianCalendar(1974, 4, 25);
+! 		user.setLockedDate(gc.getTime());
+! 		getUserManager().authenticate(user, &quot;jc&quot;);
+! 		
+! 		// Simulate password expiry
+! 		user.setPasswordExpiryDate(gc.getTime());
+! 		try {
+! 			getUserManager().authenticate(user, &quot;jc&quot;);
+! 			fail(&quot;Should have thrown PasswordExpiredException&quot;);
+! 		} catch (PasswordExpiredException ule) {
+! 			//good
+! 		}
+! 	}
+  
+! 	public void testChangePassword() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Jonathan&quot;);
+! 		getUserManager().addUser(user, &quot;one&quot;);
+! 		try {
+! 			getUserManager().changePassword(user, &quot;WrongPWD&quot;, &quot;two&quot;);
+! 			fail(&quot;should have thrown PasswordMismatchException&quot;);
+! 		} catch (PasswordMismatchException pme) {
+! 			// good
+! 		}
+! 		getUserManager().changePassword(user, &quot;one&quot;, &quot;six&quot;);
+! 		getUserManager().authenticate(user, &quot;six&quot;);
+! 		try {
+! 			getUserManager().changePassword(user, &quot;six&quot;, &quot;one&quot;);
+! 			fail(&quot;Should have thrown PasswordHistoryException&quot;);
+! 		} catch (PasswordHistoryException phe) {
+! 			// good
+! 		}
+  
+! 		List passwordHistory = user.getPasswordHistory();
+! 		passwordHistory.add(&quot;two&quot;);
+! 		passwordHistory.add(&quot;three&quot;);
+! 		passwordHistory.add(&quot;four&quot;);
+! 		passwordHistory.add(&quot;five&quot;);
+! 		try {
+! 			getUserManager().changePassword(user, &quot;six&quot;, &quot;one&quot;);
+! 			fail(&quot;Should have thrown PasswordHistoryException&quot;);
+! 		} catch (PasswordHistoryException phe) {
+! 			// good
+! 		}
+! 		getUserManager().changePassword(user, &quot;six&quot;, &quot;seven&quot;);
+! 		getUserManager().changePassword(user, &quot;seven&quot;, &quot;one&quot;);
+! 		getUserManager().authenticate(user, &quot;one&quot;);		
+! 	}
+  
+! 	public void testForcePassword() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Connor&quot;);
+! 		getUserManager().addUser(user, &quot;jc_subset&quot;);
+! 		getUserManager().forcePassword(user, &quot;JC_SUBSET&quot;);
+! 		getUserManager().authenticate(user, &quot;JC_SUBSET&quot;);
+! 	}
+  
+! 	/*
+! 	 * Class to test for User getUserInstance()
+! 	 */
+! 	public void testGetUserInstance() throws Exception {
+! 		User user = getUserManager().getUserInstance();
+! 		assertNotNull(user);
+! 		assertTrue(user.getName() == null);
+! 	}
+  
+! 	/*
+! 	 * Class to test for User getUserInstance(String)
+! 	 */
+! 	public void testGetUserInstanceString() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Philip&quot;);
+! 		assertEquals(&quot;philip&quot;, user.getName());
+! 	}
+  
+! 	/**
+! 	 * Need to figure out if save is something we want.. right now it just bloes
+! 	 * up if you actually cahnge anything.
+! 	 * 
+! 	 * @todo figur out what to do here...
+! 	 * @throws Exception
+! 	 */
+! 	public void testSaveUser() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Kate&quot;);
+! 		getUserManager().addUser(user, &quot;katiedid&quot;);
+! 		user = getUserManager().getUser(user.getName());
+! 		// user.setName(&quot;Katherine&quot;);
+! 		getUserManager().saveUser(user);
+! 		assertEquals(&quot;kate&quot;, getUserManager().getUser(user.getName()).getName());
+! 	}
+  
+! 	public void testGetACL() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Tony&quot;);
+! 		getUserManager().addUser(user, &quot;california&quot;);
+! 		AccessControlList acl = getUserManager().getACL(user);
+! 		assertNotNull(acl);
+! 	}
+  
+! 	public void testRemoveUser() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Rick&quot;);
+! 		getUserManager().addUser(user, &quot;nb&quot;);
+! 		getUserManager().removeUser(user);
+! 		try {
+! 			User user2 = getUserManager().getUser(user.getName());
+! 			fail(&quot;Should have thrown UEE&quot;);
+! 		} catch (UnknownEntityException uee) {
+! 			// good
+! 		}
+! 	}
+  
+! 	public void testAddUser() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;Joe1&quot;);
+! 		assertNull(user.getId());
+! 		getUserManager().addUser(user, &quot;mc&quot;);
+! 		user = getUserManager().getUserInstance(&quot;Joe2&quot;);
+! 		assertNull(user.getId());
+! 		getUserManager().addUser(user, &quot;mc&quot;);
+! 		assertNotNull(user.getId());
+! 		assertNotNull(getUserManager().getUser(user.getName()));
+! 	}
+! 
+! 	/*
+! 	 * Class to test for boolean checkExists(string)
+! 	 */
+! 	public void testAddUserTwiceFails() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;EATLUNCH&quot;);
+! 		getUserManager().addUser(user, &quot;bob&quot;);
+! 		assertTrue(getUserManager().checkExists(user.getName()));
+! 		User user2 = getUserManager().getUserInstance(&quot;EATLUNCH&quot;);
+! 		try {
+! 			getUserManager().addUser(user2, &quot;bob&quot;);
+! 		} catch (EntityExistsException uee) {
+! 			// good
+! 		}
+! 		try {
+! 			getUserManager().addUser(user2, &quot;differentpassword&quot;);
+! 		} catch (EntityExistsException uee) {
+! 			// good
+! 		}
+! 	}
+! 
+! 	public void testCheckUserCaseSensitiveExists() throws Exception {
+! 		User user = getUserManager().getUserInstance(&quot;borrisJohnson&quot;);
+! 		getUserManager().addUser(user, &quot;bob&quot;);
+! 
+! 		assertTrue(getUserManager().checkExists(&quot;borrisJohnson&quot;));
+! 	}
+  
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000068.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicUser.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000072.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/authenticator NoOpAuthenticatorTest.java,1.2,1.3 CryptoAuthenticatorTest.java,1.2,1.3 TextMatchAuthenticatorTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#71">[ date ]</a>
+              <a href="thread.html#71">[ thread ]</a>
+              <a href="subject.html#71">[ subject ]</a>
+              <a href="author.html#71">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

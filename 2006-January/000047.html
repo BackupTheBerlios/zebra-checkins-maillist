@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.2%2C1.3&In-Reply-To=%3C200601041555.k04FtaH17151%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000046.html">
+   <LINK REL="Next"  HREF="000048.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.2,1.3</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.2%2C1.3&In-Reply-To=%3C200601041555.k04FtaH17151%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 16:55:36 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000046.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.5,1.6
+</A></li>
+        <LI>Next message: <A HREF="000048.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources log4j.properties,NONE,1.1 hibernate.cfg.xml,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#47">[ date ]</a>
+              <a href="thread.html#47">[ thread ]</a>
+              <a href="subject.html#47">[ subject ]</a>
+              <a href="author.html#47">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv8139/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraStateFactoryTest.java 
+Log Message:
+Add Quartz scheduled delay task and test. 
+
+Index: ZebraStateFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraStateFactoryTest.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ZebraStateFactoryTest.java	5 Dec 2005 09:52:38 -0000	1.2
+--- ZebraStateFactoryTest.java	4 Jan 2006 15:55:34 -0000	1.3
+***************
+*** 39,42 ****
+--- 39,44 ----
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+  import com.anite.zebra.hivemind.om.state.ZebraProcessInstance;
++ import com.anite.zebra.hivemind.om.state.ZebraPropertySetEntry;
++ import com.anite.zebra.hivemind.om.state.ZebraTaskInstance;
+  
+  /**
+***************
+*** 147,150 ****
+--- 149,154 ----
+          assertNotNull(taskInstance);
+          assertEquals(processInstance, taskInstance.getProcessInstance());
++         ZebraTaskInstance zebraTaskInstance = (ZebraTaskInstance) taskInstance;
++         zebraTaskInstance.getPropertySet().put(&quot;bob&quot;, new ZebraPropertySetEntry(&quot;bob&quot;));
+          assertEquals(foe, taskInstance.getFOE());
+  
+***************
+*** 154,157 ****
+--- 158,167 ----
+  
+          assertTrue(taskInstance.getTaskInstanceId().longValue() &gt; 0);
++         
++         t = this.stateFactory.beginTransaction();
++         this.stateFactory.deleteObject(taskInstance);
++         t.commit();
++ 
++         
+      }
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000046.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.5,1.6
+</A></li>
+	<LI>Next message: <A HREF="000048.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources log4j.properties,NONE,1.1 hibernate.cfg.xml,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#47">[ date ]</a>
+              <a href="thread.html#47">[ thread ]</a>
+              <a href="subject.html#47">[ subject ]</a>
+              <a href="author.html#47">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

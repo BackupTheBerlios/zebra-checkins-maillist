@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager TimeManagerTest.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager%20TimeManagerTest.java%2C1.1%2C1.2&In-Reply-To=%3C200605301154.k4UBsvT31494%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000377.html">
+   <LINK REL="Next"  HREF="000383.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager TimeManagerTest.java,1.1,1.2</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager%20TimeManagerTest.java%2C1.1%2C1.2&In-Reply-To=%3C200605301154.k4UBsvT31494%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager TimeManagerTest.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue May 30 13:54:57 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000377.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/job - New directory
+</A></li>
+        <LI>Next message: <A HREF="000383.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction QuartzServiceTaskAction.java,1.6,1.7 ScheduledTaskTransitionJob.java,1.4,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#378">[ date ]</a>
+              <a href="thread.html#378">[ thread ]</a>
+              <a href="subject.html#378">[ subject ]</a>
+              <a href="author.html#378">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager
+In directory sheep:/tmp/cvs-serv12237/src/test/java/com/anite/zebra/hivemind/manager
+
+Modified Files:
+	TimeManagerTest.java 
+Log Message:
+
+
+Index: TimeManagerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager/TimeManagerTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** TimeManagerTest.java	30 May 2006 10:44:46 -0000	1.1
+--- TimeManagerTest.java	30 May 2006 11:54:55 -0000	1.2
+***************
+*** 19,34 ****
+  import com.anite.zebra.hivemind.om.timedtask.Time;
+  
+- 
+  public class TimeManagerTest extends BaseManagerTest&lt;TimeManager&gt; {
+! 	
+! 	public void testCreateOrFindTime(){
+! 		
+  		TimeManager timeManager = (TimeManager) manager;
+! 		
+  		Time time = timeManager.createOrFetchTime(0, 0);
+  		assertNotNull(time);
+! 		
+  		assertNotNull(time.getId());
+  		
+  	}
+  }
+--- 19,47 ----
+  import com.anite.zebra.hivemind.om.timedtask.Time;
+  
+  public class TimeManagerTest extends BaseManagerTest&lt;TimeManager&gt; {
+! 
+! 	public void testCreateOrFindTime() {
+! 
+  		TimeManager timeManager = (TimeManager) manager;
+! 
+  		Time time = timeManager.createOrFetchTime(0, 0);
+  		assertNotNull(time);
+! 
+  		assertNotNull(time.getId());
++ 
++ 	}
++ 
++ 	public void testTimeGetJobName() {
++ 
++ 		TimeManager timeManager = (TimeManager) manager;
++ 
++ 		Time time = timeManager.createOrFetchTime(0, 0);
++ 		assertEquals(time.getJobName(), &quot;00:00&quot;);
+  		
++ 		time = timeManager.createOrFetchTime(1, 11);
++ 		assertEquals(time.getJobName(), &quot;01:11&quot;);
++ 
++ 		time = timeManager.createOrFetchTime(11, 4);
++ 		assertEquals(time.getJobName(), &quot;11:04&quot;);
+  	}
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000377.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/job - New directory
+</A></li>
+	<LI>Next message: <A HREF="000383.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction QuartzServiceTaskAction.java,1.6,1.7 ScheduledTaskTransitionJob.java,1.4,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#378">[ date ]</a>
+              <a href="thread.html#378">[ thread ]</a>
+              <a href="subject.html#378">[ subject ]</a>
+              <a href="author.html#378">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

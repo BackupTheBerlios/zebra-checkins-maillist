@@ -1,0 +1,1122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl TaskDefinition.java,NONE,1.1 PropertyGroups.java,NONE,1.1 RoutingDefinition.java,NONE,1.1 ProcessVersions.java,NONE,1.1 PropertyElement.java,NONE,1.1 RoutingDefinitions.java,NONE,1.1 ProcessDefinition.java,NONE,1.1 Properties.java,NONE,1.1 TaskDefinitions.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl%20TaskDefinition.java%2CNONE%2C1.1%20PropertyGroups.java%2CNONE%2C1.1%20RoutingDefinition.java%2CNONE%2C1.1%20ProcessVersions.java%2CNONE%2C1.1%20PropertyElement.java%2CNONE%2C1.1%20RoutingDefinitions.java%2CNONE%2C1.1%20ProcessDefinition.java%2CNONE%2C1.1%20Properties.java%2CNONE%2C1.1%20TaskDefinitions.java%2CNONE%2C1.1&In-Reply-To=%3C200602071727.k17HRwE09258%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000170.html">
+   <LINK REL="Next"  HREF="000137.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl TaskDefinition.java,NONE,1.1 PropertyGroups.java,NONE,1.1 RoutingDefinition.java,NONE,1.1 ProcessVersions.java,NONE,1.1 PropertyElement.java,NONE,1.1 RoutingDefinitions.java,NONE,1.1 ProcessDefinition.java,NONE,1.1 Properties.java,NONE,1.1 TaskDefinitions.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl%20TaskDefinition.java%2CNONE%2C1.1%20PropertyGroups.java%2CNONE%2C1.1%20RoutingDefinition.java%2CNONE%2C1.1%20ProcessVersions.java%2CNONE%2C1.1%20PropertyElement.java%2CNONE%2C1.1%20RoutingDefinitions.java%2CNONE%2C1.1%20ProcessDefinition.java%2CNONE%2C1.1%20Properties.java%2CNONE%2C1.1%20TaskDefinitions.java%2CNONE%2C1.1&In-Reply-To=%3C200602071727.k17HRwE09258%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl TaskDefinition.java,NONE,1.1 PropertyGroups.java,NONE,1.1 RoutingDefinition.java,NONE,1.1 ProcessVersions.java,NONE,1.1 PropertyElement.java,NONE,1.1 RoutingDefinitions.java,NONE,1.1 ProcessDefinition.java,NONE,1.1 Properties.java,NONE,1.1 TaskDefinitions.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Feb  7 18:27:58 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000170.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api IPropertyGroupsAware.java,NONE,1.1 IPropertyGroups.java,NONE,1.1 IProcessVersion.java,NONE,1.1 IProcessVersions.java,NONE,1.1 AbstractProcessDefinition.java,NONE,1.1 IProperties.java,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000137.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/java/com/anite/zebra/ext/definitions/api AbstractProcessDefinition.java,1.1,NONE IProperties.java,1.2,NONE IPropertyGroupsAware.java,1.1,NONE IProcessVersions.java,1.3,NONE IProcessVersion.java,1.3,NONE IPropertyGroups.java,1.2,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl
+In directory sheep:/tmp/cvs-serv22272/src/main/java/com/anite/zebra/ext/definitions/impl
+
+Added Files:
+	TaskDefinition.java PropertyGroups.java RoutingDefinition.java 
+	ProcessVersions.java PropertyElement.java 
+	RoutingDefinitions.java ProcessDefinition.java Properties.java 
+	TaskDefinitions.java 
+Log Message:
+Migrated to Maven 2
+Removed depenecy on commons-convert
+
+--- NEW FILE: TaskDefinition.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+import com.anite.zebra.ext.definitions.api.IPropertyGroups;
+import com.anite.zebra.ext.definitions.api.IPropertyGroupsAware;
+
+/**
+ * @author Matthew.Norris
+ * 
+ * Default Task Definition (just to get you going!) Pass this class name to the
+ * loader in order to turn process XMLs into something the core engine can use
+ * @hibernate.class
+ */
+public class TaskDefinition implements ITaskDefinition, IPropertyGroupsAware {
+    private String name;
+
+    private Long id;
+
+    private boolean synchronise;
+    
+    private boolean auto;
+
+    private String className;
+
+    private String classDestruct = null;
+
+    private String classConstruct = null;
+
+    private IPropertyGroups propertyGroups;
+
+    private Set routingOut = new HashSet();
+
+    private Set routingIn = new HashSet();    
+    
+    public void setSynchronise(boolean synchronise){
+        this.synchronise=synchronise;
+    }
+
+    /**
+     * @param auto The auto to set.
+     */
+    protected void setAuto(boolean auto) {
+        this.auto = auto;
+    }
+    /**
+     * @param propertyGroups The propertyGroups to set.
+     */
+    public void setPropertyGroups(IPropertyGroups propertyGroups) {
+        this.propertyGroups = propertyGroups;
+    }
+    /**
+     * @param routingIn The routingIn to set.
+     */
+    protected void setRoutingIn(Set routingIn) {
+        this.routingIn = routingIn;
+    }
+    /**
+     * @param routingOut The routingOut to set.
+     */
+    protected void setRoutingOut(Set routingOut) {
+        this.routingOut = routingOut;
+    }
+
+    /**
+     * @return Returns the id.
+     * @hibernate.id generator-class=&quot;native&quot;
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     *            The id to set.
+     */
+    public void setId(Long guid) {
+        this.id = guid;
+    }
+
+    /**
+     * @return Returns the name.
+     * @hibernate.property
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name
+     *            The name to set.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    /**
+     * @param auto
+     *            The auto to set.
+     */
+    public void setAuto(Boolean auto) {
+        this.auto = auto.booleanValue();
+    }
+
+    /**
+     * Retunr the class name to use to instantiate a task
+     * 
+     * @return Returns the className.
+     * @hibernate.property
+     */
+    public String getClassName() {
+        return className;
+    }
+
+    /**
+     * @param className
+     *            The className to set.
+     */
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    /**
+     * @return Returns the propertyGroups.
+     * @hibernate.many-to-one column=&quot;propertyGroupsId&quot; not-null=&quot;false&quot;
+     *                        class=&quot;com.anite.zebra.ext.definitions.impl.PropertyGroups&quot;
+     *                        cascade=&quot;save-update&quot;
+     */
+    public IPropertyGroups getPropertyGroups() {
+        return propertyGroups;
+    }
+
+
+
+    
+
+    /**
+     * @hibernate.property
+     */
+    public String getClassConstruct() {
+        return this.classConstruct;
+    }
+
+    public void setClassConstruct(String className) {
+        this.classConstruct = className;
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public String getClassDestruct() {
+        return this.classDestruct;
+    }
+
+    public void setClassDestruct(String className) {
+        this.classDestruct = className;
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public boolean isAuto() {
+        return this.auto;
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public boolean getSynchronise() {
+        return this.synchronise;
+    }
+    
+    /**
+     */
+    public boolean isSynchronised() {
+        return this.synchronise;
+    }
+    /**
+     * @return Returns the routingIn.
+     * @hibernate.set cascade=&quot;all&quot; inverse=&quot;false&quot; lazy=&quot;true&quot;
+     * @hibernate.collection-key column=&quot;taskDefRoutingInId&quot;
+     * @hibernate.collection-one-to-many class=&quot;com.anite.zebra.ext.definitions.impl.RoutingDefinition&quot;
+     */
+    public Set getRoutingIn() {
+        return routingIn;
+    }
+    /**
+     * @return Returns the routingOut.
+     * @hibernate.set cascade=&quot;all&quot; inverse=&quot;false&quot; lazy=&quot;true&quot;
+     * @hibernate.collection-key column=&quot;taskDefRoutingOutId&quot;
+     * @hibernate.collection-one-to-many class=&quot;com.anite.zebra.ext.definitions.impl.RoutingDefinition&quot;
+     */
+    public Set getRoutingOut() {
+        return routingOut;
+    }
+}
+--- NEW FILE: PropertyGroups.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import com.anite.zebra.ext.definitions.api.IProperties;
+import com.anite.zebra.ext.definitions.api.IPropertyGroups;
+
+/**
+ * @author Eric Pugh
+ * @hibernate.class table=&quot;PropertyGroups&quot;
+ */
+
+public class PropertyGroups implements IPropertyGroups {
+    private Long id;
+
+    private Set propertyElements = new HashSet();
+
+    public IProperties getProperties(String name) {
+        Properties p = new Properties();
+        p.setName(name);
+        for (Iterator i = propertyElements.iterator(); i.hasNext();) {
+            PropertyElement pe = (PropertyElement) i.next();
+            if (pe.getGroup().equalsIgnoreCase(name)) {
+                p.put(pe.getKey(), pe.getValue());
+            }
+        }
+        return p;
+    }
+
+    /**
+     * @return Returns the id.
+     * @hibernate.id generator-class=&quot;native&quot;
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     *            The id to set.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void addPropertyElement(PropertyElement pe) {
+        propertyElements.add(pe);
+    }
+
+    /**
+     * @return Returns the process versions.
+     * @hibernate.set cascade=&quot;all&quot; inverse=&quot;false&quot; lazy=&quot;true&quot;
+     * @hibernate.collection-key column=&quot;propertyGroupId&quot;
+     * @hibernate.collection-one-to-many class=&quot;com.anite.zebra.ext.definitions.impl.PropertyElement&quot;
+     */  
+    protected Set getPropertyElements() {
+        return propertyElements;
+    }
+
+    protected void setPropertyElements(Set propertyElements) {
+        this.propertyElements = propertyElements;
+    }
+}
+--- NEW FILE: RoutingDefinition.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ * <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import com.anite.zebra.core.definitions.api.IRoutingDefinition;
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+import com.anite.zebra.ext.definitions.api.IPropertyGroups;
+import com.anite.zebra.ext.definitions.api.IPropertyGroupsAware;
+
+/**
+ * 
+ * @author Eric Pugh
+ * @hibernate.class
+ *
+ */
+public class RoutingDefinition implements IRoutingDefinition, IPropertyGroupsAware {
+
+    private Long id;
+
+    private ITaskDefinition originatingTaskDefinition;
+
+    private ITaskDefinition destinationTaskDefinition;
+
+    private String name;
+
+    private boolean parallel;
+
+    private String conditionClass;
+    
+    private IPropertyGroups propertyGroups;
+
+
+    /**
+     * @hibernate.id generator-class=&quot;native&quot;
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @return Returns the propertyGroups.
+     * @hibernate.many-to-one column=&quot;propertyGroupsId&quot; not-null=&quot;false&quot;
+     *                        class=&quot;com.anite.zebra.ext.definitions.impl.PropertyGroups&quot;
+     *                        cascade=&quot;save-update&quot;
+     */
+    public IPropertyGroups getPropertyGroups() {
+        return propertyGroups;
+    }
+    /**
+     * @param propertyGroups The propertyGroups to set.
+     */
+    public void setPropertyGroups(IPropertyGroups propertyGroups) {
+        this.propertyGroups = propertyGroups;
+    }
+    public void setId(Long guid) {
+        this.id = guid;
+    }
+       
+    
+    /**
+     * @hibernate.property
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public boolean getParallel() {
+        return this.parallel;
+    }
+
+    public void setParallel(boolean parallel) {
+        this.parallel = parallel;
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public String getConditionClass() {
+        return this.conditionClass;
+    }
+
+    public void setConditionClass(String conditionClass) {
+        this.conditionClass = conditionClass;
+    }
+
+    /**
+     * @hibernate.many-to-one column=&quot;destTaskDefId&quot; not-null=&quot;false&quot;
+     *                        class=&quot;com.anite.zebra.ext.definitions.impl.TaskDefinition&quot;
+     *                        cascade=&quot;all&quot; 
+     */    
+    public ITaskDefinition getDestinationTaskDefinition() {
+        return destinationTaskDefinition;
+    }
+    
+    public void setDestinationTaskDefinition(ITaskDefinition destinationTaskDefinition) {
+        this.destinationTaskDefinition = destinationTaskDefinition;
+    }
+
+    /**
+     * @hibernate.many-to-one column=&quot;origTaskDefId&quot; not-null=&quot;false&quot;
+     *                        class=&quot;com.anite.zebra.ext.definitions.impl.TaskDefinition&quot;
+     *                        cascade=&quot;all&quot; 
+     */
+    public ITaskDefinition getOriginatingTaskDefinition() {
+        return originatingTaskDefinition;
+    }
+
+    public void setOriginatingTaskDefinition(ITaskDefinition originatingTaskDefinition) {
+        this.originatingTaskDefinition = originatingTaskDefinition;
+    }
+
+}
+--- NEW FILE: ProcessVersions.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import com.anite.zebra.ext.definitions.api.IProcessVersion;
+import com.anite.zebra.ext.definitions.api.IProcessVersions;
+
+/**
+ * 
+ * @author Eric Pugh
+ * @hibernate.class
+ */
+public class ProcessVersions implements IProcessVersions {
+
+    private Long id;
+
+    private Set processVersions = new HashSet();
+    
+    private String name;
+
+    /**
+     * @return Returns the id.
+     * @hibernate.id generator-class=&quot;native&quot;
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     *            The id to set.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @param processVersions
+     *            The processVersions to set.
+     */
+    public void setProcessVersions(Set processVersions) {
+        this.processVersions = processVersions;
+    }
+
+    public IProcessVersion getLatestProcessVersion() {
+        IProcessVersion bestVersion = null;
+        for (Iterator it = processVersions.iterator(); it.hasNext();) {
+            IProcessVersion processVersion = (IProcessVersion) it.next();
+            if (bestVersion == null) {
+                bestVersion = processVersion;
+            } else if (processVersion.getVersion().longValue() &gt; bestVersion.getVersion().longValue()) {
+                bestVersion = processVersion;
+            }
+        }
+        return bestVersion;
+    }
+
+    public void addProcessVersion(IProcessVersion processVersion) {
+        processVersion.setProcessVersions(this);
+        processVersions.add(processVersion);
+
+    }
+    /**
+     * @return Returns the process versions.
+     * @hibernate.set cascade=&quot;all&quot; inverse=&quot;true&quot; lazy=&quot;true&quot;
+     * @hibernate.collection-key column=&quot;processVersionId&quot;
+     * @hibernate.collection-one-to-many class=&quot;com.anite.zebra.ext.definitions.impl.ProcessDefinition&quot;
+     */
+    public Set getProcessVersions() {
+        return processVersions;
+    }
+    /**
+     * @return Returns the name.
+     * @hibernate.property
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * @param name The name to set.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+--- NEW FILE: PropertyElement.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+
+/**
+ * 
+ * @author Eric Pugh
+ * @hibernate.class  
+ */
+
+public class PropertyElement {
+
+    private String key;
+    private String value;
+    private String group;
+    private Long id;
+
+    public PropertyElement(){
+        
+    }
+    public PropertyElement(String group, String key, String value){
+        setGroup(group);
+        setKey(key);
+        setValue(value);
+    }
+
+    /**
+     * @return Returns the group.
+     * @hibernate.property
+     */
+    public String getGroup() {
+        return group;
+    }
+    /**
+     * @param group The group to set.
+     */
+    public void setGroup(String group) {
+        this.group = group;
+    }
+    /**
+     * @return Returns the id.
+     * @hibernate.id generator-class=&quot;native&quot;
+     */
+    public Long getId() {
+        return id;
+    }
+    /**
+     * @param id The id to set.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return Returns the key.
+     * @hibernate.property column=&quot;keyCol&quot;
+     */
+    public String getKey() {
+        return key;
+    }
+
+    /**
+     * @return Returns the value.
+     * @hibernate.property
+     */
+    public String getValue() {
+        return value;
+    }
+    /**
+     * @param value The value to set.
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+    /**
+     * @param key
+     *            The key to set.
+     */
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+
+}
+--- NEW FILE: RoutingDefinitions.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ * <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import com.anite.zebra.core.definitions.api.IRoutingDefinitions;
+
+/**
+ * 
+ * @author Eric Pugh
+ * Routing definition is solely used to hide the set of routingDefintions from 
+ * the user.  They get a routingDefinition that wraps the set.
+ */
+public class RoutingDefinitions implements IRoutingDefinitions {
+
+    private Set routingDefinitions = null;
+
+    private RoutingDefinitions(){
+        
+    }
+    
+    public RoutingDefinitions(Set routingDefinitions){
+        this.routingDefinitions=routingDefinitions;
+    }
+  
+    public Iterator iterator() {
+        return routingDefinitions.iterator();
+    }
+}
+--- NEW FILE: ProcessDefinition.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import com.anite.zebra.core.definitions.api.IRoutingDefinitions;
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+import com.anite.zebra.core.definitions.api.ITaskDefinitions;
+import com.anite.zebra.ext.definitions.api.AbstractProcessDefinition;
+import com.anite.zebra.ext.definitions.api.IProcessVersions;
+import com.anite.zebra.ext.definitions.api.IPropertyGroups;
+
+
+/**
+ * @author Matthew.Norris
+ * Default Process Definition (just to get you going!)
+ * Pass this class name to the loader in order to turn process XMLs into 
+ * something the core engine can use
+ * @hibernate.class 
+ */
+public class ProcessDefinition extends AbstractProcessDefinition {
+    private Long id;
+
+
+    private Set taskDefinitions = new HashSet();
+    private Set routingDefinitions = new HashSet();
+
+    private ITaskDefinition firstTask = null;
+
+    private IPropertyGroups propertyGroups = null;
+
+    private String classConstruct = null;
+
+    private String classDestruct = null;
+
+    private Long version;
+    
+    private IProcessVersions processVersions;
+
+    /**
+     * @hibernate.property
+     */
+    public Long getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public void setFirstTask(ITaskDefinition taskDef) {
+        firstTask = taskDef;
+        taskDefinitions.add(taskDef);
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public String getClassConstruct() {
+        return this.classConstruct;
+    }
+
+    public void setClassConstruct(String className) {
+        this.classConstruct = className;
+    }
+
+    /**
+     * @hibernate.property
+     */
+    public String getClassDestruct() {
+        return this.classDestruct;
+    }
+
+    public void setClassDestruct(String className) {
+        this.classDestruct = className;
+    }
+
+    /**
+     * @hibernate.many-to-one column=&quot;firstTaskDefId&quot; not-null=&quot;false&quot;
+     *                        class=&quot;com.anite.zebra.ext.definitions.impl.TaskDefinition&quot;
+     *                        cascade=&quot;all&quot; 
+     */
+    public ITaskDefinition getFirstTask() {
+        return firstTask;
+    }
+
+    /**
+     * @return Returns the name.
+     */
+    public String getName() {
+        return getProcessVersions().getName();
+    }
+
+    /**
+     * @hibernate.id generator-class=&quot;native&quot;
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     *            The id to set.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return Returns the taskDefs.
+     */
+    public ITaskDefinitions getTaskDefs() {
+        return new TaskDefinitions(taskDefinitions);
+       
+    }
+
+    public IRoutingDefinitions getRoutingDefs() {
+        return new RoutingDefinitions(routingDefinitions);
+
+    }
+
+    /**
+     * @return Returns the propertyGroups.
+     * @hibernate.many-to-one column=&quot;propertyGroupsId&quot; not-null=&quot;true&quot;
+     *                        class=&quot;com.anite.zebra.ext.definitions.impl.PropertyGroups&quot;
+     *                        cascade=&quot;all&quot;
+     */
+    public IPropertyGroups getPropertyGroups() {
+        return propertyGroups;
+    }
+    /**
+     * @param propertyGroups The propertyGroups to set.
+     */
+    public void setPropertyGroups(IPropertyGroups propertyGroups) {
+        this.propertyGroups = propertyGroups;
+    }
+   
+
+    /**
+     * @return Returns the taskDefinitions.
+     * @hibernate.set cascade=&quot;all&quot; inverse=&quot;false&quot; lazy=&quot;true&quot;
+     * @hibernate.collection-key column=&quot;processDefId&quot;
+     * @hibernate.collection-one-to-many class=&quot;com.anite.zebra.ext.definitions.impl.TaskDefinition&quot;
+     */
+    public Set getTaskDefinitions() {
+        return taskDefinitions;
+    }
+    /**
+     * @param taskDefinitions The taskDefinitions to set.
+     */
+    public void setTaskDefinitions(Set taskDefinitions) {
+        this.taskDefinitions = taskDefinitions;
+    }
+    /**
+     * @return Returns the routingDefinitions.
+     * @hibernate.set cascade=&quot;all&quot; inverse=&quot;false&quot; lazy=&quot;true&quot;
+     * @hibernate.collection-key column=&quot;processDefId&quot;
+     * @hibernate.collection-one-to-many class=&quot;com.anite.zebra.ext.definitions.impl.RoutingDefinition&quot;
+     */
+    public Set getRoutingDefinitions() {
+        return routingDefinitions;
+    }
+    /**
+     * @param routingDefinitions The routingDefinitions to set.
+     */
+    public void setRoutingDefinitions(Set routingDefinitions) {
+        this.routingDefinitions = routingDefinitions;
+    }
+    /**
+     * @return Returns the processVersions.
+     * @hibernate.many-to-one column=&quot;processVersionsId&quot; not-null=&quot;true&quot;
+     *                        class=&quot;com.anite.zebra.ext.definitions.impl.ProcessVersions&quot;
+     *                        cascade=&quot;all&quot;
+     */
+    public IProcessVersions getProcessVersions() {
+        return processVersions;
+    }
+    /**
+     * @param processVersions The processVersions to set.
+     * 
+     */
+    public void setProcessVersions(IProcessVersions processVersions) {
+        this.processVersions = processVersions;
+    }
+}
+
+--- NEW FILE: Properties.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import com.anite.zebra.ext.definitions.api.IProperties;
+
+/**
+ * TODO This class is a mess and probably should be removed
+ * @author Eric Pugh 
+ */
+
+public class Properties implements IProperties {
+
+    private String name;
+
+    private Map&lt;String, String&gt; properties = new HashMap&lt;String, String&gt;();
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Object get(Object key) {
+        return properties.get(key);
+    }
+
+    public String getString(String key) {
+        return properties.get(key);
+    }
+
+    public Long getLongAsObj(String key) {
+        return new Long(properties.get(key));
+    }
+
+    public long getLong(String key) {
+        return Long.valueOf(properties.get(key));
+    }
+
+    public Integer getIntegerAsObj(String key) {
+        return Integer.valueOf(properties.get(key));
+        
+    }
+
+    public int getInteger(String key) {        
+        return Integer.valueOf(properties.get(key));
+    }
+
+    public Boolean getBooleanAsObj(String key) {
+        return convertStringToBoolean(properties.get(key));
+    }
+
+    public boolean getBoolean(String key) {
+        return convertStringToBoolean(properties.get(key));
+    }
+    
+    private Boolean convertStringToBoolean(String value){
+        if (value.equalsIgnoreCase(&quot;Yes&quot;) || value.equalsIgnoreCase(&quot;True&quot;)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void put(String key, String value) {
+        properties.put(key, value);
+    }
+
+    public boolean containsKey(String key) {       
+        return properties.containsKey(key);
+    }
+
+    public Iterator keys() {       
+        return properties.keySet().iterator();
+    }
+
+}
+--- NEW FILE: TaskDefinitions.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.impl;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+import com.anite.zebra.core.definitions.api.ITaskDefinitions;
+
+/**
+ * 
+ * @author Eric Pugh
+ */
+public class TaskDefinitions implements ITaskDefinitions {
+
+	private Set taskDefinitions = null;
+	private TaskDefinitions (){
+	    
+	}
+	public TaskDefinitions(Set taskDefinitions){
+	    this.taskDefinitions = taskDefinitions;
+	}
+	/**
+	 * @param key
+	 * @return
+	 */
+	public ITaskDefinition getTaskDef(Long id) {
+	    ITaskDefinition taskDef = null;
+		for (Iterator i = taskDefinitions.iterator();i.hasNext();){
+		    ITaskDefinition td = (ITaskDefinition)i.next();
+		    if(td.getId().equals(id)){
+		        taskDef = td;
+		        break;
+		    }
+		}
+		return taskDef;
+	}
+
+	public Iterator iterator(){
+	    return taskDefinitions.iterator();
+	}
+   
+}
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000170.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api IPropertyGroupsAware.java,NONE,1.1 IPropertyGroups.java,NONE,1.1 IProcessVersion.java,NONE,1.1 IProcessVersions.java,NONE,1.1 AbstractProcessDefinition.java,NONE,1.1 IProperties.java,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000137.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/java/com/anite/zebra/ext/definitions/api AbstractProcessDefinition.java,1.1,NONE IProperties.java,1.2,NONE IPropertyGroupsAware.java,1.1,NONE IProcessVersions.java,1.3,NONE IProcessVersion.java,1.3,NONE IPropertyGroups.java,1.2,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

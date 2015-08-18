@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicPermission.java,1.2,1.3 HibernateDynamicRole.java,1.2,1.3 HibernateDynamicGroup.java,1.2,1.3 HibernateDynamicUser.java,1.5,1.6
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model%20HibernateDynamicPermission.java%2C1.2%2C1.3%20HibernateDynamicRole.java%2C1.2%2C1.3%20HibernateDynamicGroup.java%2C1.2%2C1.3%20HibernateDynamicUser.java%2C1.5%2C1.6&In-Reply-To=%3C200603181717.k2IHH0b18003%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000289.html">
+   <LINK REL="Next"  HREF="000293.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicPermission.java,1.2,1.3 HibernateDynamicRole.java,1.2,1.3 HibernateDynamicGroup.java,1.2,1.3 HibernateDynamicUser.java,1.5,1.6</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model%20HibernateDynamicPermission.java%2C1.2%2C1.3%20HibernateDynamicRole.java%2C1.2%2C1.3%20HibernateDynamicGroup.java%2C1.2%2C1.3%20HibernateDynamicUser.java%2C1.5%2C1.6&In-Reply-To=%3C200603181717.k2IHH0b18003%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicPermission.java,1.2,1.3 HibernateDynamicRole.java,1.2,1.3 HibernateDynamicGroup.java,1.2,1.3 HibernateDynamicUser.java,1.5,1.6">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Mar 18 18:17:00 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000289.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.6,1.7
+</A></li>
+        <LI>Next message: <A HREF="000293.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/.settings .component,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#291">[ date ]</a>
+              <a href="thread.html#291">[ thread ]</a>
+              <a href="subject.html#291">[ subject ]</a>
+              <a href="author.html#291">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model
+In directory sheep:/tmp/cvs-serv18167/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model
+
+Modified Files:
+	HibernateDynamicPermission.java HibernateDynamicRole.java 
+	HibernateDynamicGroup.java HibernateDynamicUser.java 
+Log Message:
+Added functionality to disable users
+
+Index: HibernateDynamicPermission.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicPermission.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** HibernateDynamicPermission.java	16 Feb 2006 16:48:57 -0000	1.2
+--- HibernateDynamicPermission.java	18 Mar 2006 16:18:20 -0000	1.3
+***************
+*** 19,23 ****
+      @ManyToMany
+      public Set&lt;HibernateDynamicRole&gt; getRolesAsSet() {
+- 
+          return super.getRolesAsSet();
+      }
+--- 19,22 ----
+***************
+*** 36,39 ****
+      }
+      
+! 
+! }
+--- 35,42 ----
+      }
+      
+!     @Override
+!     @Basic
+!     public boolean isDisabled() {
+!     	return super.isDisabled();
+!     }
+! }
+\ No newline at end of file
+
+Index: HibernateDynamicRole.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicRole.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** HibernateDynamicRole.java	16 Feb 2006 16:48:57 -0000	1.2
+--- HibernateDynamicRole.java	18 Mar 2006 16:18:20 -0000	1.3
+***************
+*** 13,17 ****
+  
+  @Entity
+! public class HibernateDynamicRole extends DynamicRole{
+  
+      @SuppressWarnings(&quot;unchecked&quot;)
+--- 13,17 ----
+  
+  @Entity
+! public class HibernateDynamicRole extends DynamicRole {
+  
+      @SuppressWarnings(&quot;unchecked&quot;)
+***************
+*** 42,44 ****
+      }
+  
+! }
+--- 42,49 ----
+      }
+  
+!     @Override
+!     @Basic
+!     public boolean isDisabled() {
+!     	return super.isDisabled();
+!     }
+! }
+\ No newline at end of file
+
+Index: HibernateDynamicGroup.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicGroup.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** HibernateDynamicGroup.java	16 Feb 2006 16:48:57 -0000	1.2
+--- HibernateDynamicGroup.java	18 Mar 2006 16:18:20 -0000	1.3
+***************
+*** 13,17 ****
+  
+  @Entity
+! public class HibernateDynamicGroup extends DynamicGroup{
+  
+      @Override
+--- 13,17 ----
+  
+  @Entity
+! public class HibernateDynamicGroup extends DynamicGroup {
+  
+      @Override
+***************
+*** 40,48 ****
+      @ManyToMany
+      public Set&lt;HibernateDynamicUser&gt; getUsersAsSet() {
+- 
+          return super.getUsersAsSet();
+      }
+  
+!    
+! 
+! }
+--- 40,50 ----
+      @ManyToMany
+      public Set&lt;HibernateDynamicUser&gt; getUsersAsSet() {
+          return super.getUsersAsSet();
+      }
+  
+!     @Override
+!     @Basic
+!     public boolean isDisabled() {
+!     	return super.isDisabled();
+!     }
+! }
+\ No newline at end of file
+
+Index: HibernateDynamicUser.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicUser.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** HibernateDynamicUser.java	16 Feb 2006 16:48:57 -0000	1.5
+--- HibernateDynamicUser.java	18 Mar 2006 16:18:20 -0000	1.6
+***************
+*** 60,67 ****
+      @Basic
+      public String getName() {
+- 
+          return super.getName();
+      }
+  
+      @SuppressWarnings(&quot;unchecked&quot;)
+  	@Override
+--- 60,72 ----
+      @Basic
+      public String getName() {
+          return super.getName();
+      }
+  
++     @Override
++     @Basic
++     public boolean isDisabled() {
++     	return super.isDisabled();
++     }
++     
+      @SuppressWarnings(&quot;unchecked&quot;)
+  	@Override
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000289.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.6,1.7
+</A></li>
+	<LI>Next message: <A HREF="000293.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/.settings .component,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#291">[ date ]</a>
+              <a href="thread.html#291">[ thread ]</a>
+              <a href="subject.html#291">[ subject ]</a>
+              <a href="author.html#291">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins]	zebra/src/java/zebra-core/src/test/com/anite/zebra/core/test	SplitJoinTest.java, 1.2, 1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/zebra-core/src/test/com/anite/zebra/core/test%0A%09SplitJoinTest.java%2C%201.2%2C%201.3&In-Reply-To=%3C20070116103901.9451EA7142%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000418.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins]	zebra/src/java/zebra-core/src/test/com/anite/zebra/core/test	SplitJoinTest.java, 1.2, 1.3</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/zebra-core/src/test/com/anite/zebra/core/test%0A%09SplitJoinTest.java%2C%201.2%2C%201.3&In-Reply-To=%3C20070116103901.9451EA7142%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins]	zebra/src/java/zebra-core/src/test/com/anite/zebra/core/test	SplitJoinTest.java, 1.2, 1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 16 11:39:01 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000418.html">[Zebra-checkins]	zebra/src/java/zebra-core/src/java/com/anite/zebra/core	Engine.java, 1.8, 1.9
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#419">[ date ]</a>
+              <a href="thread.html#419">[ thread ]</a>
+              <a href="subject.html#419">[ subject ]</a>
+              <a href="author.html#419">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-core/src/test/com/anite/zebra/core/test
+In directory sheep:/tmp/cvs-serv6762/src/test/com/anite/zebra/core/test
+
+Modified Files:
+	SplitJoinTest.java 
+Log Message:
+Minor fix to synchronisation code. Problem where if an autorun task existed straight after a join task the engine could erroneously believe the join task never becomes unblocked.
+
+Revised the SplitJoinTest unit test to ensure that it tests for this scenario
+
+Index: SplitJoinTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-core/src/test/com/anite/zebra/core/test/SplitJoinTest.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** SplitJoinTest.java	25 Sep 2005 22:54:11 -0000	1.2
+--- SplitJoinTest.java	16 Jan 2007 10:37:38 -0000	1.3
+***************
+*** 16,19 ****
+--- 16,20 ----
+  import com.anite.zebra.core.definitions.taskdefs.SplitTaskDef;
+  import com.anite.zebra.core.factory.MockStateFactory;
++ import com.anite.zebra.core.state.MockTaskInstance;
+  import com.anite.zebra.core.state.api.IProcessInstance;
+  import com.anite.zebra.core.state.api.ITaskInstance;
+***************
+*** 39,42 ****
+--- 40,46 ----
+  		tdParallel2.addRoutingOut(tdJoin);
+  		
++ 		AutoRunTaskDef tdEndTask = new AutoRunTaskDef(pd,&quot;End Task&quot;);
++ 		tdJoin.addRoutingOut(tdEndTask);
++ 		
+  		MockStateFactory msf = new MockStateFactory();
+  		IEngine engine = new Engine(msf);
+***************
+*** 76,83 ****
+  		 * 1 x parallel 2
+  		 * 1 x join onwards
+! 		 *  = 10
+  		 */ 
+  		
+! 		assertEquals(10, msf.getAuditTrail().size());
+  		assertEquals(4,msf.countFOE(processInstance));
+  		// test to see all are marked as &quot;completed&quot; / &quot;deleted&quot; as appropriate
+--- 80,88 ----
+  		 * 1 x parallel 2
+  		 * 1 x join onwards
+! 		 * 1 x end task
+! 		 *  = 11
+  		 */ 
+  		
+! 		assertEquals(11, msf.getAuditTrail().size());
+  		assertEquals(4,msf.countFOE(processInstance));
+  		// test to see all are marked as &quot;completed&quot; / &quot;deleted&quot; as appropriate
+***************
+*** 88,92 ****
+--- 93,142 ----
+  		assertEquals(1,msf.countInstances(tdParallel2));
+  		assertEquals(1,msf.countInstances(tdJoin));
++ 		assertEquals(1,msf.countInstances(tdEndTask, MockTaskInstance.STATE_DELETED));
++ 		
++ 		tdEndTask.setAuto(false);
++ 		
++ 		// rerun the test
++ 		msf = new MockStateFactory();
++ 		engine = new Engine(msf);
++ 		processInstance = engine.createProcess(pd);
++ 		engine.startProcess(processInstance);
++ 		taskInstances = processInstance.getTaskInstances();
++ 		ti = (ITaskInstance) taskInstances.iterator().next();
++ 		assertEquals(tdStart, ti.getTaskDefinition());
++ 		log.info(&quot;Transitioning Task &quot; + ti.getTaskInstanceId());
++ 		engine.transitionTask(ti);
++ 		// test to see if we have the expected number of tasks - NONE
++ 		taskInstances = processInstance.getTaskInstances();
++ 		// just the &quot;end task&quot; should remain
++ 		assertEquals(1, taskInstances.size());
++ 		ti = (ITaskInstance) taskInstances.iterator().next();
++ 		engine.transitionTask(ti);
++ 		/* test to see if the audit log is the expected size -
++ 		 * 1 process
++ 		 * 1 start task
++ 		 * 1 split task
++ 		 * 2 parallel tasks
++ 		 * 1 join task
++ 		 *  = 6 objects
++ 		 * + 4 FOE
++ 		 * 1 x start to split
++ 		 * 1 x parallel 1
++ 		 * 1 x parallel 2
++ 		 * 1 x join onwards
++ 		 * 1 x end task 
++ 		 *  = 11
++ 		 */ 
+  		
++ 		assertEquals(11, msf.getAuditTrail().size());
++ 		assertEquals(4,msf.countFOE(processInstance));
++ 		// test to see all are marked as &quot;completed&quot; / &quot;deleted&quot; as appropriate
++ 		assertEquals(1,msf.countInstances(pd));
++ 		assertEquals(1,msf.countInstances(tdStart));
++ 		assertEquals(1,msf.countInstances(tdSplit));
++ 		assertEquals(1,msf.countInstances(tdParallel1));
++ 		assertEquals(1,msf.countInstances(tdParallel2));
++ 		assertEquals(1,msf.countInstances(tdJoin));
++ 		assertEquals(1,msf.countInstances(tdEndTask, MockTaskInstance.STATE_DELETED));
+  	}
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000418.html">[Zebra-checkins]	zebra/src/java/zebra-core/src/java/com/anite/zebra/core	Engine.java, 1.8, 1.9
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#419">[ date ]</a>
+              <a href="thread.html#419">[ thread ]</a>
+              <a href="subject.html#419">[ subject ]</a>
+              <a href="author.html#419">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

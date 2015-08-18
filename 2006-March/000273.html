@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.6,1.7
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.6%2C1.7&In-Reply-To=%3C200603160903.k2G93lb29706%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000272.html">
+   <LINK REL="Next"  HREF="000274.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.6,1.7</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.6%2C1.7&In-Reply-To=%3C200603160903.k2G93lb29706%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.6,1.7">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Mar 16 10:03:47 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000272.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/taskAction LogTaskActionTest.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000274.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.7,1.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#273">[ date ]</a>
+              <a href="thread.html#273">[ thread ]</a>
+              <a href="subject.html#273">[ subject ]</a>
+              <a href="author.html#273">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv21238/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraStateFactoryTest.java 
+Log Message:
+Added event listeners
+
+Index: ZebraStateFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraStateFactoryTest.java,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** ZebraStateFactoryTest.java	15 Mar 2006 17:14:23 -0000	1.6
+--- ZebraStateFactoryTest.java	16 Mar 2006 08:05:07 -0000	1.7
+***************
+*** 35,40 ****
+--- 35,42 ----
+  import com.anite.zebra.core.state.api.ITaskInstance;
+  import com.anite.zebra.core.state.api.ITransaction;
++ import com.anite.zebra.hivemind.api.StateFactoryEvent;
+  import com.anite.zebra.hivemind.api.StateFactoryListener;
+  import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
++ import com.anite.zebra.hivemind.api.ZebraStateFactory;
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+  import com.anite.zebra.hivemind.om.state.ZebraProcessInstance;
+***************
+*** 46,52 ****
+   */
+  public class ZebraStateFactoryTest extends TestCase {
+      private static final String SIMPLEWORKFLOW = &quot;SimpleWorkflow&quot;;
+  
+!     private IStateFactory stateFactory;
+  
+      private ZebraDefinitionFactory definitionsFactory;
+--- 48,64 ----
+   */
+  public class ZebraStateFactoryTest extends TestCase {
++     public class InnerStateListener implements StateFactoryListener {
++         public int count = 0;
++ 
++         public void createTaskInstance(StateFactoryEvent stateFactoryEvent) {
++             count++;
++ 
++         }
++ 
++     }
++ 
+      private static final String SIMPLEWORKFLOW = &quot;SimpleWorkflow&quot;;
+  
+!     private ZebraStateFactory stateFactory;
+  
+      private ZebraDefinitionFactory definitionsFactory;
+***************
+*** 58,63 ****
+          RegistryManager.getInstance().getResources().add(resource);
+  
+!         this.stateFactory = (IStateFactory) RegistryManager.getInstance().getRegistry().getService(&quot;zebra.zebraState&quot;,
+!                 IStateFactory.class);
+          this.definitionsFactory = (ZebraDefinitionFactory) RegistryManager.getInstance().getRegistry().getService(
+                  &quot;zebra.zebraDefinitionFactory&quot;, ZebraDefinitionFactory.class);
+--- 70,75 ----
+          RegistryManager.getInstance().getResources().add(resource);
+  
+!         this.stateFactory = (ZebraStateFactory) RegistryManager.getInstance().getRegistry().getService(
+!                 &quot;zebra.zebraState&quot;, ZebraStateFactory.class);
+          this.definitionsFactory = (ZebraDefinitionFactory) RegistryManager.getInstance().getRegistry().getService(
+                  &quot;zebra.zebraDefinitionFactory&quot;, ZebraDefinitionFactory.class);
+***************
+*** 172,182 ****
+      }
+  
+!     public void testEventFiring() throws Exception {
+!         
+!         StateFactoryListener stateFactoryListener = (StateFactoryListener) RegistryManager.getInstance().getRegistry().getService(StateFactoryListener.class);
+          stateFactoryListener.createTaskInstance(null);
+!         
+          int count = StateFactoryListenerService.count;
+!         
+          IProcessDefinition processDefinition = getProcessDefinition();
+  
+--- 184,199 ----
+      }
+  
+!     /**
+!      * Add a listener via a eager loaded service
+!      * @throws Exception
+!      */
+!     public void testServiceEventFiring() throws Exception {
+! 
+!         StateFactoryListener stateFactoryListener = (StateFactoryListener) RegistryManager.getInstance().getRegistry()
+!                 .getService(StateFactoryListener.class);
+          stateFactoryListener.createTaskInstance(null);
+! 
+          int count = StateFactoryListenerService.count;
+! 
+          IProcessDefinition processDefinition = getProcessDefinition();
+  
+***************
+*** 192,198 ****
+          ITaskInstance taskInstance = this.stateFactory.createTaskInstance(taskDefinition, processInstance, foe);
+          assertNotNull(taskInstance);
+!         
+!         assertEquals(count +1, StateFactoryListenerService.count);
+!         
+      }
+  
+--- 209,243 ----
+          ITaskInstance taskInstance = this.stateFactory.createTaskInstance(taskDefinition, processInstance, foe);
+          assertNotNull(taskInstance);
+! 
+!         assertEquals(count + 1, StateFactoryListenerService.count);
+! 
+!     }
+! 
+!     /**
+!      * Add a listener directly to the service
+!      * @throws Exception
+!      */
+!     public void testNonServiceEventFiring() throws Exception {
+!         StateFactoryListener listener = new InnerStateListener();
+! 
+!         stateFactory.addStateFactoryListener(listener);
+! 
+!         int count = ((InnerStateListener) listener).count;
+! 
+!         IProcessDefinition processDefinition = getProcessDefinition();
+!         IProcessInstance processInstance = this.stateFactory.createProcessInstance(processDefinition);
+! 
+!         ITransaction t = this.stateFactory.beginTransaction();
+!         this.stateFactory.saveObject(processInstance);
+!         t.commit();
+! 
+!         ITaskDefinition taskDefinition = processDefinition.getFirstTask();
+! 
+!         IFOE foe = this.stateFactory.createFOE(processInstance);
+!         ITaskInstance taskInstance = this.stateFactory.createTaskInstance(taskDefinition, processInstance, foe);
+!         assertNotNull(taskInstance);
+! 
+!         assertEquals(count + 1, ((InnerStateListener) listener).count);
+! 
+      }
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000272.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/taskAction LogTaskActionTest.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000274.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.7,1.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#273">[ date ]</a>
+              <a href="thread.html#273">[ thread ]</a>
+              <a href="subject.html#273">[ subject ]</a>
+              <a href="author.html#273">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

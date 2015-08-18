@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security%20UserManager.java%2C1.1%2C1.2&In-Reply-To=%3C200601170917.k0H9HSx27908%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000066.html">
+   <LINK REL="Next"  HREF="000068.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.1,1.2</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security%20UserManager.java%2C1.1%2C1.2&In-Reply-To=%3C200601170917.k0H9HSx27908%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 17 10:17:28 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000066.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/basic/test AbstractModelManagerTest.java,1.1,NONE
+</A></li>
+        <LI>Next message: <A HREF="000068.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicUser.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#67">[ date ]</a>
+              <a href="thread.html#67">[ thread ]</a>
+              <a href="subject.html#67">[ subject ]</a>
+              <a href="author.html#67">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security
+In directory sheep:/tmp/cvs-serv30075/src/main/java/org/apache/fulcrum/security
+
+Modified Files:
+	UserManager.java 
+Log Message:
+1 - Make all methods pass passwords via crypto
+2 - Make the Authenticator available on API
+3 - Add Expiry Date
+4 - Add Use locking
+5 - Add Password History
+6 - Add Password Cycle Policy
+
+Index: UserManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/UserManager.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** UserManager.java	14 Nov 2005 18:20:47 -0000	1.1
+--- UserManager.java	17 Jan 2006 09:17:25 -0000	1.2
+***************
+*** 16,24 ****
+--- 16,28 ----
+   */
+  import org.apache.fulcrum.security.acl.AccessControlList;
++ import org.apache.fulcrum.security.authenticator.Authenticator;
+  import org.apache.fulcrum.security.entity.User;
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
++ import org.apache.fulcrum.security.util.PasswordExpiredException;
++ import org.apache.fulcrum.security.util.PasswordHistoryException;
+  import org.apache.fulcrum.security.util.PasswordMismatchException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
++ import org.apache.fulcrum.security.util.UserLockedException;
+  import org.apache.fulcrum.security.util.UserSet;
+  /**
+***************
+*** 119,125 ****
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
+       */
+      User getUser(String username, String password)
+!         throws PasswordMismatchException, UnknownEntityException, DataBackendException;
+  
+  	/**
+--- 123,132 ----
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
++      * @throws UserLockedException 
++      * @throws PasswordExpiredException 
+       */
+      User getUser(String username, String password)
+!         throws PasswordMismatchException, UnknownEntityException,
+! 			DataBackendException, UserLockedException, PasswordExpiredException;
+  
+  	/**
+***************
+*** 154,160 ****
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
+       */
+      void authenticate(User user, String password)
+!         throws PasswordMismatchException, UnknownEntityException, DataBackendException;
+      /**
+       * Creates new user account with specified attributes.
+--- 161,169 ----
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
++      * @throws UserLockedException 
++      * @throws PasswordExpiredException 
+       */
+      void authenticate(User user, String password)
+!         throws PasswordMismatchException, UnknownEntityException, DataBackendException, UserLockedException, PasswordExpiredException;
+      /**
+       * Creates new user account with specified attributes.
+***************
+*** 187,193 ****
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
+       */
+      void changePassword(User user, String oldPassword, String newPassword)
+!         throws PasswordMismatchException, UnknownEntityException, DataBackendException;
+      /**
+       * Forcibly sets new password for an User.
+--- 196,206 ----
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
++      * @throws PasswordHistoryException 
++      * @throws UserLockedException 
++      * @throws PasswordExpiredException 
+       */
+      void changePassword(User user, String oldPassword, String newPassword)
+!         throws PasswordMismatchException, UnknownEntityException,
+! 			DataBackendException, PasswordHistoryException, UserLockedException, PasswordExpiredException;
+      /**
+       * Forcibly sets new password for an User.
+***************
+*** 204,209 ****
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
+       */
+!     void forcePassword(User user, String password) throws UnknownEntityException, DataBackendException;
+      
+      /**
+--- 217,223 ----
+       * @exception DataBackendException if there is a problem accessing the
+       *            storage.
++      * @throws PasswordHistoryException 
+       */
+!     void forcePassword(User user, String password) throws UnknownEntityException, DataBackendException, PasswordHistoryException;
+      
+      /**
+***************
+*** 217,221 ****
+--- 231,251 ----
+      public AccessControlList getACL(User user) throws UnknownEntityException;
+      
++     /**
++      * 
++      * @return
++      *
++      * @author richard.brooks
++      * Created on Jan 11, 2006
++      */
++ 	Authenticator getAuthenticator();
+  	
++ 	/**
++ 	 * 
++ 	 * @param authenticator
++ 	 *
++ 	 * @author richard.brooks
++ 	 * Created on Jan 11, 2006
++ 	 */
++ 	void setAuthenticator(Authenticator authenticator);
+  
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000066.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/basic/test AbstractModelManagerTest.java,1.1,NONE
+</A></li>
+	<LI>Next message: <A HREF="000068.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicUser.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#67">[ date ]</a>
+              <a href="thread.html#67">[ thread ]</a>
+              <a href="subject.html#67">[ subject ]</a>
+              <a href="author.html#67">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

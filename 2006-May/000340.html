@@ -1,0 +1,913 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc Dom4JRegistrySerializer.java,NONE,1.1 HivedocReport.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc%20Dom4JRegistrySerializer.java%2CNONE%2C1.1%20HivedocReport.java%2C1.1%2C1.2&In-Reply-To=%3C200605031435.k43EZpt03446%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000338.html">
+   <LINK REL="Next"  HREF="000333.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc Dom4JRegistrySerializer.java,NONE,1.1 HivedocReport.java,1.1,1.2</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc%20Dom4JRegistrySerializer.java%2CNONE%2C1.1%20HivedocReport.java%2C1.1%2C1.2&In-Reply-To=%3C200605031435.k43EZpt03446%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc Dom4JRegistrySerializer.java,NONE,1.1 HivedocReport.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed May  3 16:35:51 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000338.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries hivemoduleSoap.xml,NONE,1.1 hivemodule.xml,NONE,1.1 hivemoduleAuthentication.xml,NONE,1.1 configuration.xml,NONE,1.1 hivemoduleDataRetention.xml,NONE,1.1 hivemoduleZebra.xml,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000333.html">[Zebra-checkins] src/java/hivedoc-maven-plugin pom.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#340">[ date ]</a>
+              <a href="thread.html#340">[ thread ]</a>
+              <a href="subject.html#340">[ subject ]</a>
+              <a href="author.html#340">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc
+In directory sheep:/tmp/cvs-serv25781/src/main/java/com/anite/maven/plugin/hivedoc
+
+Modified Files:
+	HivedocReport.java 
+Added Files:
+	Dom4JRegistrySerializer.java 
+Log Message:
+
+
+--- NEW FILE: Dom4JRegistrySerializer.java ---
+// Copyright 2004, 2005 The Apache Software Foundation
+//
+// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+package com.anite.maven.plugin.hivedoc;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.hivemind.ApplicationRuntimeException;
+import org.apache.hivemind.Attribute;
+import org.apache.hivemind.ClassResolver;
+import org.apache.hivemind.ErrorHandler;
+import org.apache.hivemind.ModuleDescriptorProvider;
+import org.apache.hivemind.Occurances;
+import org.apache.hivemind.impl.DefaultClassResolver;
+import org.apache.hivemind.impl.DefaultErrorHandler;
+import org.apache.hivemind.impl.XmlModuleDescriptorProvider;
+import org.apache.hivemind.internal.Visibility;
+import org.apache.hivemind.parse.AttributeMappingDescriptor;
+import org.apache.hivemind.parse.ConfigurationPointDescriptor;
+import org.apache.hivemind.parse.ContributionDescriptor;
+import org.apache.hivemind.parse.ConversionDescriptor;
+import org.apache.hivemind.parse.CreateInstanceDescriptor;
+import org.apache.hivemind.parse.DependencyDescriptor;
+import org.apache.hivemind.parse.ImplementationDescriptor;
+import org.apache.hivemind.parse.InstanceBuilder;
+import org.apache.hivemind.parse.InterceptorDescriptor;
+import org.apache.hivemind.parse.InvokeFactoryDescriptor;
+import org.apache.hivemind.parse.ModuleDescriptor;
+import org.apache.hivemind.parse.ServicePointDescriptor;
+import org.apache.hivemind.parse.SubModuleDescriptor;
+import org.apache.hivemind.schema.AttributeModel;
+import org.apache.hivemind.schema.ElementModel;
+import org.apache.hivemind.schema.Rule;
+import org.apache.hivemind.schema.impl.SchemaImpl;
+import org.apache.hivemind.schema.rules.CreateObjectRule;
+import org.apache.hivemind.schema.rules.InvokeParentRule;
+import org.apache.hivemind.schema.rules.PushAttributeRule;
+import org.apache.hivemind.schema.rules.PushContentRule;
+import org.apache.hivemind.schema.rules.ReadAttributeRule;
+import org.apache.hivemind.schema.rules.ReadContentRule;
+import org.apache.hivemind.schema.rules.SetModuleRule;
+import org.apache.hivemind.schema.rules.SetParentRule;
+import org.apache.hivemind.schema.rules.SetPropertyRule;
+import org.apache.hivemind.util.IdUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+
+/**
+ * This is derived from the basic hivemind one but uses Dom4j
+ * 
+ * 
+ * This class serializes a set of {@link ModuleDescriptor module descriptors}
+ * into a {@link Document XML document}. The set of module descriptors to
+ * process is specified indirectly by supplying one or several
+ * {@link ModuleDescriptorProvider} (see
+ * {@link #addModuleDescriptorProvider(ModuleDescriptorProvider)}). In this
+ * respect this class is used the same way as
+ * {@link org.apache.hivemind.impl.RegistryBuilder}. There is even a
+ * corresponding {@link #createDefaultRegistryDocument() static method} to
+ * serialize the modules of the default registry.
+ * &lt;p&gt;
+ * The resulting XML file does not conform to the hivemind module deployment
+ * descriptor schema. The following changes occur:
+ * &lt;ul&gt;
+ * &lt;li&gt;The outermost element is &lt;registry&gt; (which contains a list of
+ * &lt;module&gt;)
+ * &lt;li&gt;A unique id (unique within the file) is assigned to each &lt;module&gt;,
+ * &lt;configuration-point&gt;, &lt;service-point&gt;, &lt;contribution&gt;,
+ * &tl;schema&gt; and &lt;implementation&gt; (this is to make it easier to
+ * generate links and anchors)
+ * &lt;li&gt;Unqualified ids are converted to qualified ids (whereever possible).
+ * &lt;/ul&gt;
+ * 
+ * @author Knut Wannheden
+ * @since 1.1
+ */
+public class Dom4JRegistrySerializer {
+	private Set _processedSchemas = new HashSet();
+
+	private List _providers = new ArrayList();
+
+	private ErrorHandler _handler;
+
+	private Document _document;
+
+	private ModuleDescriptor _md;
+
+	public Dom4JRegistrySerializer() {
+		_handler = new DefaultErrorHandler();
+	}
+
+	public void addModuleDescriptorProvider(ModuleDescriptorProvider provider) {
+		_providers.add(provider);
+	}
+
+	public Document createRegistryDocument() {
+
+		_document = DocumentHelper.createDocument();
+
+		Element registry = DocumentHelper.createElement(&quot;registry&quot;);
+		_document.add(registry);
+
+		for (Iterator i = _providers.iterator(); i.hasNext();) {
+			ModuleDescriptorProvider provider = (ModuleDescriptorProvider) i
+					.next();
+
+			processModuleDescriptorProvider(registry, provider);
+		}
+
+		return _document;
+	}
+
+	private void processModuleDescriptorProvider(Element registry,
+			ModuleDescriptorProvider provider) {
+		for (Iterator j = provider.getModuleDescriptors(_handler).iterator(); j
+				.hasNext();) {
+			_md = (ModuleDescriptor) j.next();
+
+			Element module = getModuleElement(_md);
+			registry.add(module);
+
+		}
+	}
+
+	private Element getModuleElement(ModuleDescriptor md) {
+		Element module = DocumentHelper.createElement(&quot;module&quot;);
+
+		module.addAttribute(&quot;id&quot;, md.getModuleId());
+		module.addAttribute(&quot;version&quot;, md.getVersion());
+		module.addAttribute(&quot;package&quot;, md.getPackageName());
+
+		if (md.getAnnotation() != null) {
+			module.addText(md.getAnnotation());
+		}
+
+		addDependencies(module);
+
+		addServicePoints(module);
+
+		addConfigurationPoints(module);
+
+		addContributions(module);
+
+		addImplementations(module);
+
+		addSchemas(module);
+
+		addSubModules(module);
+
+		return module;
+	}
+
+	private void addDependencies(Element module) {
+		List dependencies = _md.getDependencies();
+
+		if (dependencies != null) {
+			for (Iterator i = dependencies.iterator(); i.hasNext();) {
+				DependencyDescriptor dd = (DependencyDescriptor) i.next();
+
+				Element dependency = getDependencyElement(dd);
+
+				module.add(dependency);
+			}
+		}
+	}
+
+	private void addServicePoints(Element module) {
+		List servicePoints = _md.getServicePoints();
+
+		if (servicePoints != null) {
+			for (Iterator i = servicePoints.iterator(); i.hasNext();) {
+				ServicePointDescriptor spd = (ServicePointDescriptor) i.next();
+
+				Element servicePoint = getServicePointElement(spd);
+
+				module.add(servicePoint);
+
+				SchemaImpl s = (SchemaImpl) spd.getParametersSchema();
+
+				if (s != null &amp;&amp; s.getId() != null)
+					addSchema(module, s, &quot;schema&quot;);
+			}
+		}
+	}
+
+	private void addConfigurationPoints(Element module) {
+		List configurationPoints = _md.getConfigurationPoints();
+
+		if (configurationPoints != null) {
+			for (Iterator i = configurationPoints.iterator(); i.hasNext();) {
+				ConfigurationPointDescriptor cpd = (ConfigurationPointDescriptor) i
+						.next();
+
+				Element configurationPoint = getConfigurationPointElement(cpd);
+
+				module.add(configurationPoint);
+
+				SchemaImpl s = (SchemaImpl) cpd.getContributionsSchema();
+
+				if (s != null &amp;&amp; s.getId() != null)
+					addSchema(module, s, &quot;schema&quot;);
+			}
+		}
+	}
+
+	private void addContributions(Element module) {
+		List contributions = _md.getContributions();
+
+		if (contributions != null) {
+			for (Iterator i = contributions.iterator(); i.hasNext();) {
+				ContributionDescriptor cd = (ContributionDescriptor) i.next();
+
+				Element contribution = getContributionElement(cd);
+
+				module.add(contribution);
+			}
+		}
+	}
+
+	private void addImplementations(Element module) {
+		List implementations = _md.getImplementations();
+
+		if (implementations != null) {
+			for (Iterator i = implementations.iterator(); i.hasNext();) {
+				ImplementationDescriptor id = (ImplementationDescriptor) i
+						.next();
+
+				Element implementation = getImplementationElement(id);
+
+				module.add(implementation);
+			}
+		}
+	}
+
+	private void addSchemas(Element module) {
+		Collection schemas = _md.getSchemas();
+
+		for (Iterator i = schemas.iterator(); i.hasNext();) {
+			SchemaImpl s = (SchemaImpl) i.next();
+
+			addSchema(module, s, &quot;schema&quot;);
+		}
+	}
+
+	private void addSubModules(Element module) {
+		List subModules = _md.getSubModules();
+
+		if (subModules != null) {
+			for (Iterator i = subModules.iterator(); i.hasNext();) {
+				SubModuleDescriptor smd = (SubModuleDescriptor) i.next();
+
+				Element subModule = getSubModuleElement(smd);
+
+				module.add(subModule);
+			}
+		}
+	}
+
+	private Element getDependencyElement(DependencyDescriptor dd) {
+
+		Element dependency = DocumentHelper.createElement(&quot;dependency&quot;);
+
+		dependency.addAttribute(&quot;module-id&quot;, dd.getModuleId());
+		dependency.addAttribute(&quot;version&quot;, dd.getVersion());
+
+		return dependency;
+	}
+
+	private Element getServicePointElement(ServicePointDescriptor spd) {
+		Element servicePoint = DocumentHelper.createElement(&quot;service-point&quot;);
+
+		servicePoint.addAttribute(&quot;id&quot;, qualify(spd.getId()));
+		servicePoint.addAttribute(&quot;interface&quot;, spd.getInterfaceClassName());
+		if (spd.getVisibility() == Visibility.PRIVATE)
+			servicePoint.addAttribute(&quot;visibility&quot;, &quot;private&quot;);
+		if (spd.getParametersCount() != Occurances.REQUIRED)
+			servicePoint.addAttribute(&quot;parameters-occurs&quot;, spd
+					.getParametersCount().getName().toLowerCase());
+
+		if (spd.getAnnotation() != null) {
+			servicePoint.addText(spd.getAnnotation());
+		}
+
+		if (spd.getParametersSchema() != null)
+			addSchema(servicePoint, (SchemaImpl) spd.getParametersSchema(),
+					&quot;parameters-schema&quot;);
+		else if (spd.getParametersSchemaId() != null)
+			servicePoint.addAttribute(&quot;parameters-schema-id&quot;, qualify(spd
+					.getParametersSchemaId()));
+
+		InstanceBuilder ib = spd.getInstanceBuilder();
+
+		if (ib != null) {
+			Element instanceBuilder = getInstanceBuilderElement(ib);
+
+			servicePoint.add(instanceBuilder);
+		}
+
+		List interceptors = spd.getInterceptors();
+
+		if (interceptors != null) {
+			for (Iterator i = interceptors.iterator(); i.hasNext();) {
+				InterceptorDescriptor icd = (InterceptorDescriptor) i.next();
+
+				Element interceptor = getInterceptorElement(icd);
+
+				servicePoint.add(interceptor);
+			}
+		}
+
+		return servicePoint;
+	}
+
+	private Element getConfigurationPointElement(
+			ConfigurationPointDescriptor cpd) {
+		Element configurationPoint = DocumentHelper
+				.createElement(&quot;configuration-point&quot;);
+
+		configurationPoint.addAttribute(&quot;id&quot;, qualify(cpd.getId()));
+		if (cpd.getVisibility() == Visibility.PRIVATE)
+			configurationPoint.addAttribute(&quot;visibility&quot;, &quot;private&quot;);
+
+		if (cpd.getAnnotation() != null) {
+			configurationPoint.addText(cpd.getAnnotation());
+		}
+		if (cpd.getContributionsSchema() != null)
+			addSchema(configurationPoint, (SchemaImpl) cpd
+					.getContributionsSchema(), &quot;schema&quot;);
+		else if (cpd.getContributionsSchemaId() != null)
+			configurationPoint.addAttribute(&quot;schema-id&quot;, qualify(cpd
+					.getContributionsSchemaId()));
+
+		return configurationPoint;
+	}
+
+	private Element getContributionElement(ContributionDescriptor cd) {
+		Element contribution = DocumentHelper.createElement(&quot;contribution&quot;);
+
+		contribution.addAttribute(&quot;configuration-id&quot;, qualify(cd
+				.getConfigurationId()));
+
+		if (cd.getConditionalExpression() != null)
+			contribution.addAttribute(&quot;if&quot;, cd.getConditionalExpression());
+
+		List parameters = cd.getElements();
+
+		if (parameters != null) {
+			for (Iterator i = parameters.iterator(); i.hasNext();) {
+				org.apache.hivemind.Element parameter = (org.apache.hivemind.Element) i
+						.next();
+
+				Element element = getParamterElement(parameter);
+
+				contribution.add(element);
+			}
+		}
+
+		if (cd.getAnnotation() != null) {
+			contribution.addText(cd.getAnnotation());
+		}
+
+		return contribution;
+	}
+
+	private Element getImplementationElement(ImplementationDescriptor id) {
+		Element implementation = DocumentHelper.createElement(&quot;implementation&quot;);
+
+		implementation.addAttribute(&quot;service-id&quot;, qualify(id.getServiceId()));
+
+		if (id.getConditionalExpression() != null)
+			implementation.addAttribute(&quot;if&quot;, id.getConditionalExpression());
+
+		if (id.getAnnotation() != null) {
+			implementation.addText(id.getAnnotation());
+		}
+
+		InstanceBuilder ib = id.getInstanceBuilder();
+
+		if (ib != null) {
+			Element instanceBuilder = getInstanceBuilderElement(ib);
+
+			implementation.add(instanceBuilder);
+		}
+
+		List interceptors = id.getInterceptors();
+
+		if (interceptors != null) {
+			for (Iterator i = interceptors.iterator(); i.hasNext();) {
+				InterceptorDescriptor icd = (InterceptorDescriptor) i.next();
+
+				Element interceptor = getInterceptorElement(icd);
+
+				implementation.add(interceptor);
+			}
+		}
+
+		return implementation;
+	}
+
+	private Element getSubModuleElement(SubModuleDescriptor smd) {
+		Element subModule = DocumentHelper.createElement(&quot;sub-module&quot;);
+
+		subModule.addAttribute(&quot;descriptor&quot;, smd.getDescriptor().getPath());
+
+		return subModule;
+	}
+
+	private Element getInstanceBuilderElement(InstanceBuilder ib) {
+		Element instanceBuilder;
+
+		if (ib instanceof CreateInstanceDescriptor) {
+			CreateInstanceDescriptor cid = (CreateInstanceDescriptor) ib;
+			instanceBuilder = DocumentHelper.createElement(&quot;create-instance&quot;);
+
+			instanceBuilder.addAttribute(&quot;class&quot;, cid.getInstanceClassName());
+			if (!cid.getServiceModel().equals(&quot;singleton&quot;))
+				instanceBuilder.addAttribute(&quot;model&quot;, cid.getServiceModel());
+		} else {
+			InvokeFactoryDescriptor ifd = (InvokeFactoryDescriptor) ib;
+			instanceBuilder = DocumentHelper.createElement(&quot;invoke-factory&quot;);
+
+			if (!ifd.getFactoryServiceId().equals(&quot;hivemind.BuilderFactory&quot;))
+				instanceBuilder.addAttribute(&quot;service-id&quot;, qualify(ifd
+						.getFactoryServiceId()));
+			if (ifd.getServiceModel() != null)
+				instanceBuilder.addAttribute(&quot;model&quot;, ifd.getServiceModel());
+
+			List parameters = ifd.getParameters();
+
+			if (parameters != null) {
+				for (Iterator i = parameters.iterator(); i.hasNext();) {
+					org.apache.hivemind.Element parameter = (org.apache.hivemind.Element) i
+							.next();
+
+					Element element = getParamterElement(parameter);
+
+					instanceBuilder.add(element);
+				}
+			}
+		}
+
+		return instanceBuilder;
+	}
+
+	private Element getInterceptorElement(InterceptorDescriptor icd) {
+		Element interceptor = DocumentHelper.createElement(&quot;interceptor&quot;);
+
+		interceptor.addAttribute(&quot;service-id&quot;, qualify(icd
+				.getFactoryServiceId()));
+		if (icd.getBefore() != null)
+			interceptor.addAttribute(&quot;before&quot;, icd.getBefore());
+		if (icd.getAfter() != null)
+			interceptor.addAttribute(&quot;after&quot;, icd.getAfter());
+		return interceptor;
+	}
+
+	private Element getParamterElement(org.apache.hivemind.Element parameter) {
+		Element element = DocumentHelper.createElement(parameter
+				.getElementName());
+
+		List attributes = parameter.getAttributes();
+
+		for (Iterator i = attributes.iterator(); i.hasNext();) {
+			Attribute attribute = (Attribute) i.next();
+
+			element.addAttribute(attribute.getName(), attribute.getValue());
+		}
+
+		List elements = parameter.getElements();
+
+		for (Iterator i = elements.iterator(); i.hasNext();) {
+			org.apache.hivemind.Element nestedParameter = (org.apache.hivemind.Element) i
+					.next();
+
+			element.add(getParamterElement(nestedParameter));
+		}
+
+		return element;
+	}
+
+	private void addSchema(Element container, SchemaImpl s, String elementName) {
+		if (_processedSchemas.contains(s))
+			return;
+
+		Element schema = DocumentHelper.createElement(elementName);
+
+		if (s.getId() != null)
+			schema.addAttribute(&quot;id&quot;, qualify(s.getId()));
+
+		if (s.getVisibility() == Visibility.PRIVATE)
+			schema.addAttribute(&quot;visibility&quot;, &quot;private&quot;);
+
+		if (s.getAnnotation() != null) {
+			schema.addText(s.getAnnotation());
+		}
+
+		for (Iterator j = s.getElementModel().iterator(); j.hasNext();) {
+			ElementModel em = (ElementModel) j.next();
+
+			Element element = getElementElement(em);
+
+			schema.add(element);
+		}
+
+		container.add(schema);
+
+		_processedSchemas.add(s);
+	}
+
+	private Element getRulesElement(ElementModel em) {
+		Element rules = DocumentHelper.createElement(&quot;rules&quot;);
+
+		for (Iterator i = em.getRules().iterator(); i.hasNext();) {
+			Rule r = (Rule) i.next();
+
+			Element rule = null;
+
+			if (r instanceof CreateObjectRule) {
+				CreateObjectRule cor = (CreateObjectRule) r;
+				rule = DocumentHelper.createElement(&quot;create-object&quot;);
+
+				rule.addAttribute(&quot;class&quot;, cor.getClassName());
+			} else if (r instanceof InvokeParentRule) {
+				InvokeParentRule ipr = (InvokeParentRule) r;
+				rule = DocumentHelper.createElement(&quot;invoke-parent&quot;);
+
+				rule.addAttribute(&quot;method&quot;, ipr.getMethodName());
+				if (ipr.getDepth() != 1)
+					rule
+							.addAttribute(&quot;depth&quot;, Integer.toString(ipr
+									.getDepth()));
+			} else if (r instanceof PushAttributeRule) {
+				PushAttributeRule par = (PushAttributeRule) r;
+				rule = DocumentHelper.createElement(&quot;push-attribute&quot;);
+
+				rule.addAttribute(&quot;attribute&quot;, par.getAttributeName());
+			} else if (r instanceof PushContentRule) {
+				rule = DocumentHelper.createElement(&quot;push-content&quot;);
+			} else if (r instanceof ReadAttributeRule) {
+				ReadAttributeRule rar = (ReadAttributeRule) r;
+				rule = DocumentHelper.createElement(&quot;read-attribute&quot;);
+
+				rule.addAttribute(&quot;property&quot;, rar.getPropertyName());
+				rule.addAttribute(&quot;attribute&quot;, rar.getAttributeName());
+				if (!rar.getSkipIfNull())
+					rule.addAttribute(&quot;skip-if-null&quot;, &quot;false&quot;);
+				if (rar.getTranslator() != null)
+					rule.addAttribute(&quot;translator&quot;, rar.getTranslator());
+			} else if (r instanceof ReadContentRule) {
+				ReadContentRule rcr = (ReadContentRule) r;
+				rule = DocumentHelper.createElement(&quot;read-content&quot;);
+
+				rule.addAttribute(&quot;property&quot;, rcr.getPropertyName());
+			} else if (r instanceof SetModuleRule) {
+				SetModuleRule smr = (SetModuleRule) r;
+				rule = DocumentHelper.createElement(&quot;set-module&quot;);
+
+				rule.addAttribute(&quot;property&quot;, smr.getPropertyName());
+			} else if (r instanceof SetParentRule) {
+				SetParentRule spr = (SetParentRule) r;
+				rule = DocumentHelper.createElement(&quot;set-parent&quot;);
+
+				rule.addAttribute(&quot;property&quot;, spr.getPropertyName());
+			} else if (r instanceof SetPropertyRule) {
+				SetPropertyRule spr = (SetPropertyRule) r;
+				rule = DocumentHelper.createElement(&quot;set-property&quot;);
+
+				rule.addAttribute(&quot;property&quot;, spr.getPropertyName());
+				rule.addAttribute(&quot;value&quot;, spr.getValue());
+			} else if (r instanceof ConversionDescriptor) {
+				ConversionDescriptor cd = (ConversionDescriptor) r;
+				rule = DocumentHelper.createElement(&quot;conversion&quot;);
+
+				rule.addAttribute(&quot;class&quot;, cd.getClassName());
+				if (!cd.getParentMethodName().equals(&quot;addElement&quot;))
+					rule
+							.addAttribute(&quot;parent-method&quot;, cd
+									.getParentMethodName());
+
+				for (Iterator j = cd.getAttributeMappings().iterator(); j
+						.hasNext();) {
+					AttributeMappingDescriptor amd = (AttributeMappingDescriptor) j
+							.next();
+
+					Element map = DocumentHelper.createElement(&quot;map&quot;);
+
+					map.addAttribute(&quot;attribute&quot;, amd.getAttributeName());
+					map.addAttribute(&quot;property&quot;, amd.getPropertyName());
+
+					rule.add(map);
+				}
+			} else {
+				rule = DocumentHelper.createElement(&quot;custom&quot;);
+
+				rule.addAttribute(&quot;class&quot;, r.getClass().getName());
+			}
+
+			if (rule != null)
+				rules.add(rule);
+		}
+		return rules;
+	}
+
+	private Element getElementElement(ElementModel em) {
+		Element element = DocumentHelper.createElement(&quot;element&quot;);
+		element.addAttribute(&quot;name&quot;, em.getElementName());
+
+		if (em.getAnnotation() != null) {
+			element.addText(em.getAnnotation());
+		}
+
+		for (Iterator i = em.getAttributeModels().iterator(); i.hasNext();) {
+			AttributeModel am = (AttributeModel) i.next();
+
+			Element attribute = getAttributeElement(am);
+
+			element.add(attribute);
+		}
+
+		for (Iterator i = em.getElementModel().iterator(); i.hasNext();) {
+			ElementModel nestedEm = (ElementModel) i.next();
+
+			Element nestedElement = getElementElement(nestedEm);
+
+			element.add(nestedElement);
+		}
+
+		if (!em.getRules().isEmpty()) {
+			Element rules = getRulesElement(em);
+
+			element.add(rules);
+		}
+
+		return element;
+	}
+
+	private Element getAttributeElement(AttributeModel am) {
+		Element attribute = DocumentHelper.createElement(&quot;attribute&quot;);
+
+		attribute.addAttribute(&quot;name&quot;, am.getName());
+		if (am.isRequired())
+			attribute.addAttribute(&quot;required&quot;, &quot;true&quot;);
+		if (am.isUnique())
+			attribute.addAttribute(&quot;unique&quot;, &quot;true&quot;);
+		if (!am.getTranslator().equals(&quot;smart&quot;))
+			attribute.addAttribute(&quot;translator&quot;, am.getTranslator());
+
+		if (am.getAnnotation() != null) {
+			attribute.addText(am.getAnnotation());
+		}
+
+		return attribute;
+	}
+
+	private String qualify(String id) {
+		return IdUtils.qualify(_md.getModuleId(), id);
+	}
+
+	private DocumentBuilder getBuilder() {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		factory.setIgnoringComments(true);
+
+		try {
+			return factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			throw new ApplicationRuntimeException(e);
+		}
+	}
+
+	public static Document createDefaultRegistryDocument() {
+		ClassResolver resolver = new DefaultClassResolver();
+		ModuleDescriptorProvider provider = new XmlModuleDescriptorProvider(
+				resolver);
+
+		Dom4JRegistrySerializer serializer = new Dom4JRegistrySerializer();
+
+		serializer.addModuleDescriptorProvider(provider);
+
+		return serializer.createRegistryDocument();
+	}
+}
+
+Index: HivedocReport.java
+===================================================================
+RCS file: /cvsroot/zebra/src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc/HivedocReport.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HivedocReport.java	14 Dec 2005 08:57:56 -0000	1.1
+--- HivedocReport.java	3 May 2006 14:36:48 -0000	1.2
+***************
+*** 26,29 ****
+--- 26,31 ----
+  import java.net.URL;
+  import java.net.URLClassLoader;
++ import java.util.ArrayList;
++ import java.util.Iterator;
+  import java.util.List;
+  import java.util.Locale;
+***************
+*** 35,44 ****
+  import javax.xml.transform.TransformerException;
+  import javax.xml.transform.TransformerFactory;
+- import javax.xml.transform.dom.DOMSource;
+  import javax.xml.transform.stream.StreamResult;
+  import javax.xml.transform.stream.StreamSource;
+  
+  import org.apache.hivemind.ModuleDescriptorProvider;
+- import org.apache.hivemind.ant.RegistrySerializer;
+  import org.apache.hivemind.impl.DefaultClassResolver;
+  import org.apache.hivemind.impl.XmlModuleDescriptorProvider;
+--- 37,44 ----
+***************
+*** 51,58 ****
+  import org.apache.maven.reporting.MavenReportException;
+  import org.codehaus.doxia.sink.Sink;
+! import org.w3c.dom.Document;
+  
+  /**
+   * @goal hivedoc
+   * @description builds hivedoc for the current project
+   * @author ben.gidley
+--- 51,61 ----
+  import org.apache.maven.reporting.MavenReportException;
+  import org.codehaus.doxia.sink.Sink;
+! import org.dom4j.Document;
+! import org.dom4j.io.DocumentSource;
+! 
+  
+  /**
+   * @goal hivedoc
++  * @requiresDependencyResolution compile
+   * @description builds hivedoc for the current project
+   * @author ben.gidley
+***************
+*** 64,67 ****
+--- 67,75 ----
+  
+      /**
++      * @parameter
++      */
++     private List ignoredJars;
++     
++     /**
+       * @readonly
+       * @parameter expression=&quot;${project}&quot;
+***************
+*** 77,81 ****
+                      getClassLoader()));
+  
+!             RegistrySerializer serializer = new RegistrySerializer();
+              serializer.addModuleDescriptorProvider(provider);
+  
+--- 85,89 ----
+                      getClassLoader()));
+  
+!             Dom4JRegistrySerializer serializer = new Dom4JRegistrySerializer();
+              serializer.addModuleDescriptorProvider(provider);
+  
+***************
+*** 86,90 ****
+              outputFolder.mkdirs();
+              File outputFile = new File(outputFolder, &quot;index.html&quot;);
+!             Source registryDocument = new DOMSource(result);
+              Source xsltFile = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(XSLT_FILE));
+              Result output = new StreamResult(new FileOutputStream(outputFile));
+--- 94,98 ----
+              outputFolder.mkdirs();
+              File outputFile = new File(outputFolder, &quot;index.html&quot;);
+!             DocumentSource registryDocument = new DocumentSource(result);
+              Source xsltFile = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(XSLT_FILE));
+              Result output = new StreamResult(new FileOutputStream(outputFile));
+***************
+*** 155,161 ****
+       */
+      private String[] getClasspath() throws DependencyResolutionRequiredException {
+!         List paths = project.getRuntimeClasspathElements();
+          paths.add(new File(project.getBuild().getOutputDirectory()).getAbsolutePath() + &quot;/&quot;);
+  
+          return (String[]) paths.toArray(new String[0]);
+      }
+--- 163,186 ----
+       */
+      private String[] getClasspath() throws DependencyResolutionRequiredException {
+!     	List paths = project.getRuntimeClasspathElements();
+          paths.add(new File(project.getBuild().getOutputDirectory()).getAbsolutePath() + &quot;/&quot;);
+  
++         // Now remove hivemind itself and hivemind lib as they appear to have
++         // invalid hivemodules that break the xslt
++         for (int i = 0; i &lt; paths.size(); i++) {
++             String file = (String) paths.get(i);
++ 
++             if (this.ignoredJars != null) {
++                 for (Iterator iter = ignoredJars.iterator(); iter.hasNext();) {
++                     String name = (String) iter.next();
++                     if (file.endsWith(name)) {
++                         paths.remove(file);
++                         i--;
++                     }
++                 }
++ 
++             } 
++         }
++ 
+          return (String[]) paths.toArray(new String[0]);
+      }
+***************
+*** 215,219 ****
+      public void setReportOutputDirectory(File outputDirectory) {
+          //noop
+!         
+      }
+  
+--- 240,244 ----
+      public void setReportOutputDirectory(File outputDirectory) {
+          //noop
+! 
+      }
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000338.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries hivemoduleSoap.xml,NONE,1.1 hivemodule.xml,NONE,1.1 hivemoduleAuthentication.xml,NONE,1.1 configuration.xml,NONE,1.1 hivemoduleDataRetention.xml,NONE,1.1 hivemoduleZebra.xml,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000333.html">[Zebra-checkins] src/java/hivedoc-maven-plugin pom.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#340">[ date ]</a>
+              <a href="thread.html#340">[ thread ]</a>
+              <a href="subject.html#340">[ subject ]</a>
+              <a href="author.html#340">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

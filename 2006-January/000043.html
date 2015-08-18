@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.4,1.5 ZebraPropertySetEntry.java,1.4,1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraTaskInstance.java%2C1.4%2C1.5%20ZebraPropertySetEntry.java%2C1.4%2C1.5&In-Reply-To=%3C200601041555.k04FtYH17131%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000042.html">
+   <LINK REL="Next"  HREF="000044.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.4,1.5 ZebraPropertySetEntry.java,1.4,1.5</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraTaskInstance.java%2C1.4%2C1.5%20ZebraPropertySetEntry.java%2C1.4%2C1.5&In-Reply-To=%3C200601041555.k04FtYH17131%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.4,1.5 ZebraPropertySetEntry.java,1.4,1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 16:55:34 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000042.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000044.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/Templates/Tasks Quartz.xml,NONE,1.1 TestWithProperty.xml,NONE,1.1 Hivemind.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#43">[ date ]</a>
+              <a href="thread.html#43">[ thread ]</a>
+              <a href="subject.html#43">[ subject ]</a>
+              <a href="author.html#43">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state
+In directory sheep:/tmp/cvs-serv8139/src/main/java/com/anite/zebra/hivemind/om/state
+
+Modified Files:
+	ZebraTaskInstance.java ZebraPropertySetEntry.java 
+Log Message:
+Add Quartz scheduled delay task and test. 
+
+Index: ZebraTaskInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraTaskInstance.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** ZebraTaskInstance.java	5 Dec 2005 16:32:00 -0000	1.4
+--- ZebraTaskInstance.java	4 Jan 2006 15:55:32 -0000	1.5
+***************
+*** 24,27 ****
+--- 24,28 ----
+  import javax.persistence.Entity;
+  import javax.persistence.FetchType;
++ import javax.persistence.JoinColumn;
+  import javax.persistence.MapKey;
+  import javax.persistence.OneToMany;
+***************
+*** 75,79 ****
+  	 */
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+! 	@MapKey
+  	public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+  		return this.propertySet;
+--- 76,81 ----
+  	 */
+  	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+! 	@MapKey(name=&quot;key&quot;)
+! 	@JoinColumn
+  	public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+  		return this.propertySet;
+
+Index: ZebraPropertySetEntry.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraPropertySetEntry.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** ZebraPropertySetEntry.java	5 Dec 2005 09:52:35 -0000	1.4
+--- ZebraPropertySetEntry.java	4 Jan 2006 15:55:32 -0000	1.5
+***************
+*** 38,41 ****
+--- 38,43 ----
+      private String value = null;
+  
++     private String key = null;
++     
+      private Serializable object = null;
+  
+***************
+*** 63,77 ****
+      }
+  
+-     /**
+-      * 
+-      */
+-     @Id(generate = GeneratorType.AUTO)
+-     public Integer getId() {
+-         return this.propertySetId;
+-     }
+- 
+-     public void setId(Integer propertySetId) {
+-         this.propertySetId = propertySetId;
+-     }
+  
+      /**
+--- 65,68 ----
+***************
+*** 118,120 ****
+--- 109,129 ----
+          this.object = object;
+      }
++ 
++     @Id(generate = GeneratorType.AUTO)
++     public Integer getPropertySetId() {
++ 		return propertySetId;
++ 	}
++ 
++ 	public void setPropertySetId(Integer propertySetId) {
++ 		this.propertySetId = propertySetId;
++ 	}
++ 
++ 	
++ 	public String getKey() {
++ 		return key;
++ 	}
++ 
++ 	public void setKey(String key) {
++ 		this.key = key;
++ 	}
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000042.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000044.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/Templates/Tasks Quartz.xml,NONE,1.1 TestWithProperty.xml,NONE,1.1 Hivemind.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#43">[ date ]</a>
+              <a href="thread.html#43">[ thread ]</a>
+              <a href="subject.html#43">[ subject ]</a>
+              <a href="author.html#43">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

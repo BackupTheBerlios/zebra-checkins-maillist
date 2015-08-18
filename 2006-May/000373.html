@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api AllTimeTaskTests.java,NONE,1.1 TimedTaskRunnerTest.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api%20AllTimeTaskTests.java%2CNONE%2C1.1%20TimedTaskRunnerTest.java%2CNONE%2C1.1&In-Reply-To=%3C200605301044.k4UAimT26665%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000367.html">
+   <LINK REL="Next"  HREF="000374.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api AllTimeTaskTests.java,NONE,1.1 TimedTaskRunnerTest.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api%20AllTimeTaskTests.java%2CNONE%2C1.1%20TimedTaskRunnerTest.java%2CNONE%2C1.1&In-Reply-To=%3C200605301044.k4UAimT26665%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api AllTimeTaskTests.java,NONE,1.1 TimedTaskRunnerTest.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue May 30 12:44:48 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000367.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager - New directory
+</A></li>
+        <LI>Next message: <A HREF="000374.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager TimeManagerTest.java,NONE,1.1 TimedTaskManagerTest.java,NONE,1.1 BaseManagerTest.java,NONE,1.1 FiredTimedTaskManagerTest.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#373">[ date ]</a>
+              <a href="thread.html#373">[ thread ]</a>
+              <a href="subject.html#373">[ subject ]</a>
+              <a href="author.html#373">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api
+In directory sheep:/tmp/cvs-serv11467/src/test/java/com/anite/zebra/hivemind/api
+
+Added Files:
+	AllTimeTaskTests.java TimedTaskRunnerTest.java 
+Log Message:
+
+
+--- NEW FILE: AllTimeTaskTests.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.api;
+
+import com.anite.zebra.hivemind.manager.FiredTimedTaskManagerTest;
+import com.anite.zebra.hivemind.manager.TimeManagerTest;
+import com.anite.zebra.hivemind.manager.TimedTaskManagerTest;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+public class AllTimeTaskTests {
+
+	public static Test suite() {
+		TestSuite suite = new TestSuite(&quot;Test for com.anite.zebra.hivemind.api&quot;);
+		//$JUnit-BEGIN$
+		suite.addTestSuite(TimedTaskRunnerTest.class);
+		//$JUnit-END$
+		suite.addTestSuite(FiredTimedTaskManagerTest.class);
+		suite.addTestSuite(TimedTaskManagerTest.class);
+		suite.addTestSuite(TimeManagerTest.class);
+		return suite;
+	}
+
+}
+
+--- NEW FILE: TimedTaskRunnerTest.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.api;
+
+import junit.framework.TestCase;
+
+import org.apache.fulcrum.hivemind.RegistryManager;
+import org.apache.hivemind.Resource;
+import org.apache.hivemind.impl.DefaultClassResolver;
+import org.apache.hivemind.util.ClasspathResource;
+
+import com.anite.zebra.core.exceptions.CreateProcessException;
+import com.anite.zebra.core.exceptions.StartProcessException;
+import com.anite.zebra.hivemind.impl.Zebra;
+import com.anite.zebra.hivemind.manager.TimeManager;
+import com.anite.zebra.hivemind.om.defs.ZebraProcessVersions;
+import com.anite.zebra.hivemind.om.state.ZebraProcessInstance;
+import com.anite.zebra.hivemind.taskAction.NoopHiveMindTaskAction;
+
+public class TimedTaskRunnerTest extends TestCase {
+
+	public void testService() {
+		Resource resource = new ClasspathResource(new DefaultClassResolver(),
+				&quot;META-INF/hivemodule_zebradefinitions.xml&quot;);
+		RegistryManager.getInstance().getResources().add(resource);
+		TimedTaskRunner timedTaskRunner = (TimedTaskRunner) RegistryManager
+				.getInstance().getRegistry().getService(
+						&quot;zebra.TimedTaskRunner&quot;, TimedTaskRunner.class);
+		assertNotNull(timedTaskRunner);
+	}
+
+	public void testServiceContract() throws CreateProcessException,
+			StartProcessException {
+		Zebra zebra = (Zebra) RegistryManager.getInstance().getRegistry()
+				.getService(Zebra.class);
+		NoopHiveMindTaskAction.run = false;
+
+		ZebraProcessInstance zpi = zebra
+				.createProcessPaused(&quot;TestTimedTaskRunner&quot;);
+		zebra.startProcess(zpi);
+		// Should run up to manual activity.
+		assertEquals(1, zpi.getHistoryInstances().size());
+
+		TimedTaskRunner timedTaskRunner = (TimedTaskRunner) RegistryManager
+				.getInstance().getRegistry().getService(
+						&quot;zebra.TimedTaskRunner&quot;, TimedTaskRunner.class);
+		timedTaskRunner.scheduleTimedTask(zpi.getTaskInstances().iterator()
+				.next(), 1, 0);
+
+		TimeManager timeManager = (TimeManager) RegistryManager.getInstance()
+				.getRegistry().getService(TimeManager.class);
+		timedTaskRunner.runTasksForTime(timeManager.createOrFetchTime(1, 0));
+
+		// The task we just queued should be run. Then the noopTask
+		assertTrue(NoopHiveMindTaskAction.run);
+
+	}
+}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000367.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager - New directory
+</A></li>
+	<LI>Next message: <A HREF="000374.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/manager TimeManagerTest.java,NONE,1.1 TimedTaskManagerTest.java,NONE,1.1 BaseManagerTest.java,NONE,1.1 FiredTimedTaskManagerTest.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#373">[ date ]</a>
+              <a href="thread.html#373">[ thread ]</a>
+              <a href="subject.html#373">[ subject ]</a>
+              <a href="author.html#373">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

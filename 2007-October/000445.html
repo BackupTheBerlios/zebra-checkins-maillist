@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/vbcode/ACGWFD AddinAccess.cls, NONE,	1.1 Dialog.cls, NONE, 1.1 DocFlow.cls, NONE,	1.1 frmTextPopup.frm, NONE, 1.1 frmTextPopup.frx, NONE, 1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20AddinAccess.cls%2C%20NONE%2C%0A%091.1%20Dialog.cls%2C%20NONE%2C%201.1%20DocFlow.cls%2C%20NONE%2C%0A%091.1%20frmTextPopup.frm%2C%20NONE%2C%201.1%20frmTextPopup.frx%2C%20NONE%2C%201.1&In-Reply-To=%3C20071031123959.B2BE3396E9%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000444.html">
+   <LINK REL="Next"  HREF="000446.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/vbcode/ACGWFD AddinAccess.cls, NONE,	1.1 Dialog.cls, NONE, 1.1 DocFlow.cls, NONE,	1.1 frmTextPopup.frm, NONE, 1.1 frmTextPopup.frx, NONE, 1.1</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20AddinAccess.cls%2C%20NONE%2C%0A%091.1%20Dialog.cls%2C%20NONE%2C%201.1%20DocFlow.cls%2C%20NONE%2C%0A%091.1%20frmTextPopup.frm%2C%20NONE%2C%201.1%20frmTextPopup.frx%2C%20NONE%2C%201.1&In-Reply-To=%3C20071031123959.B2BE3396E9%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/vbcode/ACGWFD AddinAccess.cls, NONE,	1.1 Dialog.cls, NONE, 1.1 DocFlow.cls, NONE,	1.1 frmTextPopup.frm, NONE, 1.1 frmTextPopup.frx, NONE, 1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Oct 31 13:39:59 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000444.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDXML Addin.cls, NONE,	1.1 XMLAddinLoader.cls, NONE, 1.1
+</A></li>
+        <LI>Next message: <A HREF="000446.html">[Zebra-checkins] zebra/src/vbcode/ACGProperties ACGProperties.vbw,	1.5, 1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#445">[ date ]</a>
+              <a href="thread.html#445">[ thread ]</a>
+              <a href="subject.html#445">[ subject ]</a>
+              <a href="author.html#445">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv18114/src/vbcode/ACGWFD
+
+Added Files:
+	AddinAccess.cls Dialog.cls DocFlow.cls frmTextPopup.frm 
+	frmTextPopup.frx 
+Log Message:
+Addin feature plus basic documentation facility
+
+--- NEW FILE: AddinAccess.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = &quot;AddinAccess&quot;
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+Private mMDI As frmMDI
+Private mDialog As Dialog
+Implements IAddinAccess
+Public Sub init(frm As frmMDI)
+    Set mMDI = frm
+    Set mDialog = New Dialog
+    mDialog.init frm
+End Sub
+Public Property Get IAddinAccess_dialog() As IDialog
+    Set IAddinAccess_dialog = mDialog
+End Property
+
+Public Property Get IAddinAccess_activeProcessDef() As ProcessDef
+    Set IAddinAccess_activeProcessDef = mMDI.activeProcessDef
+End Property
+
+Public Sub IAddinAccess_refreshProcessDisplay()
+    mMDI.refreshActiveProcess
+End Sub
+
+Private Property Get IAddinAccess_TemplatePath() As String
+    IAddinAccess_TemplatePath = validatepath(Left$(mMDI.getTemplatePath(), InStr(mMDI.getTemplatePath(), &quot;\Templates&quot;)))
+End Property
+
+--- NEW FILE: Dialog.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = &quot;Dialog&quot;
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+
+Implements IDialog
+Private dlg As MSComDlg.CommonDialog
+Public Sub init(frm As frmMDI)
+    Set dlg = frm.dlg
+End Sub
+
+Private Property Let IDialog_dialogTitle(RHS As String)
+    dlg.DialogTitle = RHS
+End Property
+
+Private Property Get IDialog_dialogTitle() As String
+    IDialog_dialogTitle = dlg.DialogTitle
+End Property
+
+Private Property Let IDialog_fileName(RHS As String)
+    dlg.fileName = RHS
+End Property
+
+Private Property Get IDialog_fileName() As String
+    IDialog_fileName = dlg.fileName
+End Property
+
+Private Property Let IDialog_filter(RHS As String)
+    dlg.Filter = RHS
+End Property
+
+Private Property Get IDialog_filter() As String
+    IDialog_filter = dlg.Filter
+End Property
+
+Private Property Let IDialog_filterIndex(RHS As Integer)
+    dlg.FilterIndex = RHS
+End Property
+
+Private Property Get IDialog_filterIndex() As Integer
+    IDialog_filterIndex = dlg.FilterIndex
+End Property
+
+Private Function IDialog_ShowSave() As Boolean
+    On Error Resume Next
+    dlg.Flags = cdlOFNOverwritePrompt
+    dlg.ShowSave
+    IDialog_ShowSave = Err.Number = 0
+End Function
+
+--- NEW FILE: DocFlow.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = &quot;DocFlow&quot;
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Option Explicit
+
+'// documents a workflow as an html page
+
+Public Sub DocProcess(oProcessDef As ProcessDef, fileName As String, showLocked As Boolean)
+    Dim html As MSXML2.IXMLDOMNode
+    Set html = XMLDoc(&quot;html&quot;)
+    
+    docProcessDef createBody(html, oProcessDef), oProcessDef, showLocked
+    saveDoc html.ownerDocument, fileName
+End Sub
+Private Function createBody(html As IXMLDOMNode, oProcessDef As ProcessDef) As IXMLDOMNode
+    Dim nHead As IXMLDOMNode
+    Set nHead = XMLNode(html, &quot;head&quot;)
+    Dim nStyle As IXMLDOMNode
+    Set nStyle = XMLNode(nHead, &quot;style&quot;)
+    XMLAttr nStyle, &quot;type&quot;, &quot;text/css&quot;
+    nStyle.Text = &quot;* {font-family:verdana;} td,table {border-style:solid;border-width:1px;margin:0px;padding:2px;border-spacing:0px;border-collapse:collapse;}&quot;
+    XMLNode nHead, &quot;title&quot;, &quot;Documentation for Process &quot;&quot;&quot; &amp; speech(oProcessDef.Name) &amp; &quot;&quot;&quot;&quot;
+    Set createBody = XMLNode(html, &quot;body&quot;)
+End Function
+Private Function docProcessDef(doc As IXMLDOMNode, oProcessDef As ProcessDef, showLocked As Boolean)
+    Dim nTable As IXMLDOMNode
+    Set nTable = XMLNode(doc, &quot;table&quot;)
+    Dim nRow As IXMLDOMNode
+    Set nRow = XMLNode(nTable, &quot;tr&quot;)
+    Dim nCell As IXMLDOMNode
+    Set nCell = XMLNode(nRow, &quot;td&quot;, &quot;Process&quot;)
+    XMLAttr nCell, &quot;colspan&quot;, 3
+    docPropGroups nTable, oProcessDef.PropertyGroup, showLocked
+    docTasks doc, oProcessDef.Tasks, showLocked
+End Function
+Private Sub saveDoc(doc As MSXML2.DOMDocument, fileName As String)
+    If Dir$(fileName) &gt; &quot;&quot; Then
+        Kill fileName
+    End If
+    doc.save fileName
+End Sub
+Private Sub docTasks(doc As MSXML2.IXMLDOMNode, oTasks As Tasks, showLocked As Boolean)
+    Dim oTaskDef As TaskDef
+    Dim nTable As IXMLDOMNode
+    Set nTable = XMLNode(doc, &quot;table&quot;)
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    For Each oTaskDef In oTasks
+        Set nRow = XMLNode(nTable, &quot;tr&quot;)
+        Set nCell = XMLNode(nRow, &quot;td&quot;)
+        docTask nCell, oTaskDef, showLocked
+    Next
+End Sub
+Private Sub docTask(doc As MSXML2.IXMLDOMNode, oTaskDef As TaskDef, showLocked As Boolean)
+    Dim nTable As IXMLDOMNode
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    Set nTable = XMLNode(doc, &quot;table&quot;)
+    Set nRow = XMLNode(nTable, &quot;tr&quot;)
+    Set nCell = XMLNode(nRow, &quot;td&quot;, &quot;Task&quot;)
+    XMLAttr nCell, &quot;colspan&quot;, 3
+    docPropGroups nTable, oTaskDef.PropertyGroup, showLocked
+    
+    docTaskRoutings nTable, oTaskDef, showLocked
+End Sub
+Private Sub docTaskRoutings(doc As MSXML2.IXMLDOMNode, oTaskDef As TaskDef, showLocked As Boolean)
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    Dim oRouting As RoutingDef
+    If oTaskDef.RoutingOut.Count &gt; 0 Then
+        Set nRow = XMLNode(doc, &quot;tr&quot;)
+        Set nCell = XMLNode(nRow, &quot;td&quot;, &quot;Routing Out&quot;)
+        XMLAttr nCell, &quot;colspan&quot;, 3
+        For Each oRouting In oTaskDef.RoutingOut
+            docRouting doc, oRouting, oRouting.TaskDest, showLocked
+        Next
+    End If
+    If oTaskDef.RoutingIn.Count &gt; 0 Then
+        Set nRow = XMLNode(doc, &quot;tr&quot;)
+        Set nCell = XMLNode(nRow, &quot;td&quot;, &quot;Routing In&quot;)
+        XMLAttr nCell, &quot;colspan&quot;, 3
+        For Each oRouting In oTaskDef.RoutingIn
+            docRouting doc, oRouting, oRouting.TaskOrg, showLocked
+        Next
+    End If
+End Sub
+Private Sub docRouting(doc As MSXML2.IXMLDOMNode, oRouting As RoutingDef, oTaskDef As TaskDef, showLocked As Boolean)
+    Dim nRow As IXMLDOMNode
+    Set nRow = XMLNode(doc, &quot;tr&quot;)
+    XMLAttr XMLNode(nRow, &quot;td&quot;, oTaskDef.Name), &quot;colspan&quot;, 3
+    docPropGroups doc, oRouting.PropertyGroup, showLocked
+End Sub
+Private Sub docPropGroups(doc As MSXML2.IXMLDOMNode, oPropGroup As PropertyGroup, showLocked As Boolean)
+    Dim oProperties As Properties
+    
+    For Each oProperties In oPropGroup
+        docProps doc, oProperties, showLocked
+    Next
+End Sub
+
+Private Sub docProps(doc As MSXML2.IXMLDOMNode, oProps As Properties, showLocked As Boolean)
+    If oProps.Count = 0 Then Exit Sub
+    Dim oProp As Property
+    Dim fDoProps As Boolean
+    For Each oProp In oProps
+        If Len(oProp.Value) &gt; 0 Then
+            If Not (showLocked = False And oProp.Locked = True) Then
+                fDoProps = True
+                Exit For
+            End If
+        End If
+    Next
+    If Not fDoProps Then Exit Sub
+    Dim nRow As IXMLDOMNode
+    Dim nCell As IXMLDOMNode
+    Set nRow = XMLNode(doc, &quot;tr&quot;)
+    Set nCell = XMLNode(nRow, &quot;td&quot;, oProps.Name)
+    Dim iPropCount As Integer
+    Dim nCurrent As IXMLDOMNode
+    Set nCurrent = nRow
+    For Each oProp In oProps
+        If docProp(nCurrent, oProp, showLocked) Then
+            iPropCount = iPropCount + 1
+            Set nCurrent = XMLNode(doc, &quot;tr&quot;)
+        End If
+        
+    Next
+    If iPropCount &gt; 1 Then
+        XMLAttr nCell, &quot;rowspan&quot;, iPropCount
+    End If
+End Sub
+
+Private Function docProp(doc As MSXML2.IXMLDOMNode, oProp As Property, showLocked As Boolean) As Boolean
+    docProp = False
+    If Len(oProp.Value) = 0 Or (showLocked = False And oProp.Locked) Then Exit Function
+    XMLNode doc, &quot;td&quot;, oProp.Name
+    XMLNode doc, &quot;td&quot;, oProp.Value
+    docProp = True
+End Function
+
+
+--- NEW FILE: frmTextPopup.frm ---
+VERSION 5.00
+Begin VB.Form frmTextPopup 
+   BorderStyle     =   3  'Fixed Dialog
+   Caption         =   &quot;Editing Property...&quot;
+   ClientHeight    =   3195
+   ClientLeft      =   45
+   ClientTop       =   330
+   ClientWidth     =   4680
+   ControlBox      =   0   'False
+   BeginProperty Font 
+      Name            =   &quot;Tahoma&quot;
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   3195
+   ScaleWidth      =   4680
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  'CenterOwner
+   Begin VB.CommandButton cmdCancel 
+      Cancel          =   -1  'True
+      Caption         =   &quot;Cancel&quot;
+      Height          =   495
+      Left            =   3300
+      TabIndex        =   2
+      Top             =   2580
+      Width           =   1215
+   End
+   Begin VB.CommandButton cmdOK 
+      Caption         =   &quot;OK&quot;
+      Height          =   495
+      Left            =   120
+      TabIndex        =   1
+      Top             =   2580
+      Width           =   1215
+   End
+   Begin VB.TextBox txt 
+      Height          =   2355
+      Left            =   120
+      MultiLine       =   -1  'True
+      TabIndex        =   0
+      Text            =   &quot;frmTextPopup.frx&quot;:0000
+      Top             =   120
+      Width           =   4395
+   End
+End
+Attribute VB_Name = &quot;frmTextPopup&quot;
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Private mfCancel As Boolean
+Public Property Get Text() As String
+    Text = txt.Text
+End Property
+Public Function doTextPopup(oProperty As Property) As Boolean
+    txt.Text = oProperty.Value
+    txt.SelStart = 0
+    txt.SelLength = Len(txt.Text)
+    Me.Caption = &quot;Editing &quot; &amp; oProperty.Name
+    Me.Show vbModal, frmMDI
+    doTextPopup = Not mfCancel
+End Function
+
+Private Sub cmdCancel_Click()
+    mfCancel = True
+    Me.Hide
+End Sub
+
+Private Sub cmdOK_Click()
+    mfCancel = False
+    Me.Hide
+End Sub
+
+
+--- NEW FILE: frmTextPopup.frx ---
+(This appears to be a binary file; contents omitted.)
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000444.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDXML Addin.cls, NONE,	1.1 XMLAddinLoader.cls, NONE, 1.1
+</A></li>
+	<LI>Next message: <A HREF="000446.html">[Zebra-checkins] zebra/src/vbcode/ACGProperties ACGProperties.vbw,	1.5, 1.6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#445">[ date ]</a>
+              <a href="thread.html#445">[ thread ]</a>
+              <a href="subject.html#445">[ subject ]</a>
+              <a href="author.html#445">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

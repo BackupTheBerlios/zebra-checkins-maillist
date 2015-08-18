@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/vbcode/ACGWFD frmFlow.frm,1.9,1.10
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20frmFlow.frm%2C1.9%2C1.10&In-Reply-To=%3C20071031164751.EF1C2110B52%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000448.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/vbcode/ACGWFD frmFlow.frm,1.9,1.10</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20frmFlow.frm%2C1.9%2C1.10&In-Reply-To=%3C20071031164751.EF1C2110B52%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/vbcode/ACGWFD frmFlow.frm,1.9,1.10">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Oct 31 17:47:51 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000448.html">[Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbw,1.10,1.11
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#450">[ date ]</a>
+              <a href="thread.html#450">[ thread ]</a>
+              <a href="subject.html#450">[ subject ]</a>
+              <a href="author.html#450">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv6674/ACGWFD
+
+Modified Files:
+	frmFlow.frm 
+Log Message:
+
+
+Index: frmFlow.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmFlow.frm,v
+retrieving revision 1.9
+retrieving revision 1.10
+diff -C2 -d -r1.9 -r1.10
+*** frmFlow.frm	31 Oct 2007 12:36:34 -0000	1.9
+--- frmFlow.frm	31 Oct 2007 16:47:01 -0000	1.10
+***************
+*** 1086,1089 ****
+--- 1086,1090 ----
+          Set oTaskOrg = oNewProcess.Tasks(oLink.Org.key)
+          On Error GoTo Err_Handler
++         '/ we only copy the routing into the clipboard IF the source and dest tasks have also been selected
+          If Not (oTaskOrg Is Nothing) Then
+              On Error Resume Next
+***************
+*** 1092,1097 ****
+              On Error GoTo Err_Handler
+              If Not (oTaskDest Is Nothing) Then
+!                 '# all present and correct
+!                 Set oNewRouting = oNewProcess.Routings.Add(oTaskOrg, oTaskDest, oRoutingDef.Guid)
+                  oNewRouting.ClearPoints
+                  For Each oPT In oLink.ExtraPoints
+--- 1093,1098 ----
+              On Error GoTo Err_Handler
+              If Not (oTaskDest Is Nothing) Then
+!                 ' all present and correct, make new GUID for routing to prevent paste errors
+!                 Set oNewRouting = oNewProcess.Routings.Add(oTaskOrg, oTaskDest, CreateGUID)
+                  oNewRouting.ClearPoints
+                  For Each oPT In oLink.ExtraPoints
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000448.html">[Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbw,1.10,1.11
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#450">[ date ]</a>
+              <a href="thread.html#450">[ thread ]</a>
+              <a href="subject.html#450">[ subject ]</a>
+              <a href="author.html#450">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.6,1.7
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/resources/META-INF%20hivemodule.xml%2C1.6%2C1.7&In-Reply-To=%3C200603151813.k2FID4b26800%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000267.html">
+   <LINK REL="Next"  HREF="000269.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.6,1.7</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/resources/META-INF%20hivemodule.xml%2C1.6%2C1.7&In-Reply-To=%3C200603151813.k2FID4b26800%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.6,1.7">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Mar 15 19:13:04 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000267.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/META-INF hivemodule_zebradefinitions.xml,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000269.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/META-INF MANIFEST.MF,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#268">[ date ]</a>
+              <a href="thread.html#268">[ thread ]</a>
+              <a href="subject.html#268">[ subject ]</a>
+              <a href="author.html#268">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/resources/META-INF
+In directory sheep:/tmp/cvs-serv25789/src/main/resources/META-INF
+
+Modified Files:
+	hivemodule.xml 
+Log Message:
+Fixing the loading problems
+
+Index: hivemodule.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/resources/META-INF/hivemodule.xml,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** hivemodule.xml	4 Jan 2006 15:55:34 -0000	1.6
+--- hivemodule.xml	15 Mar 2006 17:14:24 -0000	1.7
+***************
+*** 7,13 ****
+      &lt;/service-point&gt;
+      &lt;service-point id=&quot;zebraDefinitionFactory&quot;
+!         interface=&quot;com.anite.zebra.hivemind.impl.ZebraDefinitionFactory&quot;&gt;
+          &lt;invoke-factory&gt;
+!             &lt;construct class=&quot;com.anite.zebra.hivemind.impl.ZebraDefinitionFactory&quot;&gt;
+                  &lt;set property=&quot;processesPath&quot; value=&quot;./WEB-INF/processes&quot;/&gt;
+                  &lt;set-service property=&quot;session&quot; service-id=&quot;fulcrum.hibernate.Session&quot;/&gt;
+--- 7,13 ----
+      &lt;/service-point&gt;
+      &lt;service-point id=&quot;zebraDefinitionFactory&quot;
+!         interface=&quot;com.anite.zebra.hivemind.api.ZebraDefinitionFactory&quot;&gt;
+          &lt;invoke-factory&gt;
+!             &lt;construct class=&quot;com.anite.zebra.hivemind.impl.ZebraDefinitionFactoryImpl&quot;&gt;
+                  &lt;set property=&quot;processesPath&quot; value=&quot;./WEB-INF/processes&quot;/&gt;
+                  &lt;set-service property=&quot;session&quot; service-id=&quot;fulcrum.hibernate.Session&quot;/&gt;
+***************
+*** 35,46 ****
+          &lt;/invoke-factory&gt;
+      &lt;/service-point&gt;
+!     &lt;service-point id=&quot;zebraState&quot; interface=&quot;com.anite.zebra.core.factory.api.IStateFactory&quot;&gt;
+          &lt;invoke-factory&gt;
+!             &lt;construct class=&quot;com.anite.zebra.hivemind.impl.ZebraStateFactory&quot;&gt; &lt;/construct&gt;
+          &lt;/invoke-factory&gt;
+      &lt;/service-point&gt;
+      &lt;service-point id=&quot;engine&quot; interface=&quot;com.anite.zebra.core.api.IEngine&quot;&gt;
+          &lt;invoke-factory&gt;
+!             &lt;construct class=&quot;com.anite.zebra.core.Engine&quot;&gt;&lt;/construct&gt;
+          &lt;/invoke-factory&gt;
+      &lt;/service-point&gt;
+--- 35,48 ----
+          &lt;/invoke-factory&gt;
+      &lt;/service-point&gt;
+!     &lt;service-point id=&quot;zebraState&quot; interface=&quot;com.anite.zebra.hivemind.api.ZebraStateFactory&quot;&gt;
+          &lt;invoke-factory&gt;
+!             &lt;construct class=&quot;com.anite.zebra.hivemind.impl.ZebraStateFactoryImpl&quot;&gt; &lt;/construct&gt;
+          &lt;/invoke-factory&gt;
+      &lt;/service-point&gt;
+      &lt;service-point id=&quot;engine&quot; interface=&quot;com.anite.zebra.core.api.IEngine&quot;&gt;
+          &lt;invoke-factory&gt;
+!             &lt;construct class=&quot;com.anite.zebra.core.Engine&quot;&gt;
+!                 &lt;service&gt;zebraState&lt;/service&gt;
+!             &lt;/construct&gt;
+          &lt;/invoke-factory&gt;
+      &lt;/service-point&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000267.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/META-INF hivemodule_zebradefinitions.xml,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000269.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/META-INF MANIFEST.MF,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#268">[ date ]</a>
+              <a href="thread.html#268">[ thread ]</a>
+              <a href="subject.html#268">[ subject ]</a>
+              <a href="author.html#268">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

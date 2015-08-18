@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraDefinitionFactory.java,NONE,1.1 StateFactoryEvent.java,NONE,1.1 ZebraStateFactory.java,NONE,1.1 StateFactoryListener.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api%20ZebraDefinitionFactory.java%2CNONE%2C1.1%20StateFactoryEvent.java%2CNONE%2C1.1%20ZebraStateFactory.java%2CNONE%2C1.1%20StateFactoryListener.java%2CNONE%2C1.1&In-Reply-To=%3C200603151813.k2FID2b26772%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000262.html">
+   <LINK REL="Next"  HREF="000270.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraDefinitionFactory.java,NONE,1.1 StateFactoryEvent.java,NONE,1.1 ZebraStateFactory.java,NONE,1.1 StateFactoryListener.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api%20ZebraDefinitionFactory.java%2CNONE%2C1.1%20StateFactoryEvent.java%2CNONE%2C1.1%20ZebraStateFactory.java%2CNONE%2C1.1%20StateFactoryListener.java%2CNONE%2C1.1&In-Reply-To=%3C200603151813.k2FID2b26772%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraDefinitionFactory.java,NONE,1.1 StateFactoryEvent.java,NONE,1.1 ZebraStateFactory.java,NONE,1.1 StateFactoryListener.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Mar 15 19:13:02 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000262.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.3,1.4 Zebra.java,1.8,1.9
+</A></li>
+        <LI>Next message: <A HREF="000270.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,NONE,1.1 ZebraDefinitionFactoryImpl.java,NONE,1.1 PriorityManager.java,1.1,1.2 Zebra.java,1.9,1.10 ZebraDefinitionFactory.java,1.4,NONE ZebraStateFactory.java,1.3,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#265">[ date ]</a>
+              <a href="thread.html#265">[ thread ]</a>
+              <a href="subject.html#265">[ subject ]</a>
+              <a href="author.html#265">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api
+In directory sheep:/tmp/cvs-serv25789/src/main/java/com/anite/zebra/hivemind/api
+
+Added Files:
+	ZebraDefinitionFactory.java StateFactoryEvent.java 
+	ZebraStateFactory.java StateFactoryListener.java 
+Log Message:
+Fixing the loading problems
+
+--- NEW FILE: ZebraDefinitionFactory.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.api;
+
+import java.util.List;
+
+import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+
+public interface ZebraDefinitionFactory {
+    public abstract ZebraTaskDefinition getTaskDefinition(Long id);
+
+    public abstract List&lt;Long&gt; getTaskDefinitionIds(String processName, String taskName);
+
+    public abstract ZebraProcessDefinition getProcessDefinitionById(Long id);
+
+    public abstract ZebraProcessDefinition getProcessDefinitionByName(String name);
+
+}
+
+--- NEW FILE: StateFactoryEvent.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.api;
+
+import java.util.EventObject;
+
+import com.anite.zebra.hivemind.om.state.ZebraTaskInstance;
+
+/**
+ * Event fired when state factory creates a task instance
+ * @author ben.gidley
+ *
+ */
+public class StateFactoryEvent extends EventObject {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8030993197997220325L;
+    private ZebraTaskInstance zebraTaskInstance;
+    
+    public ZebraTaskInstance getZebraTaskInstance() {
+        return zebraTaskInstance;
+    }
+
+    public StateFactoryEvent(Object source, ZebraTaskInstance zebraTaskInstance) {
+        super(source);
+        this.zebraTaskInstance = zebraTaskInstance;
+    }
+
+}
+
+--- NEW FILE: ZebraStateFactory.java ---
+package com.anite.zebra.hivemind.api;
+
+import com.anite.zebra.core.factory.api.IStateFactory;
+
+public interface ZebraStateFactory extends IStateFactory {
+    /**
+     * Event listener for events (e.g. taskInstanceCreated)
+     * @param listener
+     */
+    public abstract void addStateFactoryListener(StateFactoryListener listener);
+
+    public abstract void removeStateFactoryListener(StateFactoryListener listener);
+
+}
+--- NEW FILE: StateFactoryListener.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.api;
+
+import java.util.EventListener;
+
+/**
+ * The interface to listen to the statefactory
+ * @author ben.gidley
+ *
+ */
+public interface StateFactoryListener extends EventListener {
+
+        public void createTaskInstance(StateFactoryEvent stateFactoryEvent);
+}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000262.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.3,1.4 Zebra.java,1.8,1.9
+</A></li>
+	<LI>Next message: <A HREF="000270.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,NONE,1.1 ZebraDefinitionFactoryImpl.java,NONE,1.1 PriorityManager.java,1.1,1.2 Zebra.java,1.9,1.10 ZebraDefinitionFactory.java,1.4,NONE ZebraStateFactory.java,1.3,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#265">[ date ]</a>
+              <a href="thread.html#265">[ thread ]</a>
+              <a href="subject.html#265">[ subject ]</a>
+              <a href="author.html#265">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

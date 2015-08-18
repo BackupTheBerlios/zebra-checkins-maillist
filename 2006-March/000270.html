@@ -1,0 +1,841 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,NONE,1.1 ZebraDefinitionFactoryImpl.java,NONE,1.1 PriorityManager.java,1.1,1.2 Zebra.java,1.9,1.10 ZebraDefinitionFactory.java,1.4,NONE ZebraStateFactory.java,1.3,NONE
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryImpl.java%2CNONE%2C1.1%20ZebraDefinitionFactoryImpl.java%2CNONE%2C1.1%20PriorityManager.java%2C1.1%2C1.2%20Zebra.java%2C1.9%2C1.10%20ZebraDefinitionFactory.java%2C1.4%2CNONE%20ZebraStateFactory.java%2C1.3%2CNONE&In-Reply-To=%3C200603151813.k2FID2b26776%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000265.html">
+   <LINK REL="Next"  HREF="000263.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,NONE,1.1 ZebraDefinitionFactoryImpl.java,NONE,1.1 PriorityManager.java,1.1,1.2 Zebra.java,1.9,1.10 ZebraDefinitionFactory.java,1.4,NONE ZebraStateFactory.java,1.3,NONE</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryImpl.java%2CNONE%2C1.1%20ZebraDefinitionFactoryImpl.java%2CNONE%2C1.1%20PriorityManager.java%2C1.1%2C1.2%20Zebra.java%2C1.9%2C1.10%20ZebraDefinitionFactory.java%2C1.4%2CNONE%20ZebraStateFactory.java%2C1.3%2CNONE&In-Reply-To=%3C200603151813.k2FID2b26776%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraStateFactoryImpl.java,NONE,1.1 ZebraDefinitionFactoryImpl.java,NONE,1.1 PriorityManager.java,1.1,1.2 Zebra.java,1.9,1.10 ZebraDefinitionFactory.java,1.4,NONE ZebraStateFactory.java,1.3,NONE">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Mar 15 19:13:02 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000265.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraDefinitionFactory.java,NONE,1.1 StateFactoryEvent.java,NONE,1.1 ZebraStateFactory.java,NONE,1.1 StateFactoryListener.java,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000263.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources log4j.properties,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#270">[ date ]</a>
+              <a href="thread.html#270">[ thread ]</a>
+              <a href="subject.html#270">[ subject ]</a>
+              <a href="author.html#270">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv25789/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	PriorityManager.java Zebra.java 
+Added Files:
+	ZebraStateFactoryImpl.java ZebraDefinitionFactoryImpl.java 
+Removed Files:
+	ZebraDefinitionFactory.java ZebraStateFactory.java 
+Log Message:
+Fixing the loading problems
+
+--- NEW FILE: ZebraStateFactoryImpl.java ---
+/*
+ * Copyright 2004, 2005 Anite - Central Government Division
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.hivemind.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.hibernate.Session;
+
+import com.anite.zebra.core.api.IEngine;
+import com.anite.zebra.core.definitions.api.IProcessDefinition;
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+import com.anite.zebra.core.exceptions.DefinitionNotFoundException;
+import com.anite.zebra.core.exceptions.LockException;
+import com.anite.zebra.core.factory.api.IStateFactory;
+import com.anite.zebra.core.factory.exceptions.CreateObjectException;
+import com.anite.zebra.core.factory.exceptions.StateFailureException;
+import com.anite.zebra.core.state.api.IFOE;
+import com.anite.zebra.core.state.api.IProcessInstance;
+import com.anite.zebra.core.state.api.IStateObject;
+import com.anite.zebra.core.state.api.ITaskInstance;
+import com.anite.zebra.core.state.api.ITransaction;
+import com.anite.zebra.hivemind.api.LockManager;
+import com.anite.zebra.hivemind.api.StateFactoryEvent;
+import com.anite.zebra.hivemind.api.StateFactoryListener;
+import com.anite.zebra.hivemind.api.ZebraStateFactory;
+import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+import com.anite.zebra.hivemind.om.state.ZebraFOE;
+import com.anite.zebra.hivemind.om.state.ZebraProcessInstance;
+import com.anite.zebra.hivemind.om.state.ZebraTaskInstance;
+import com.anite.zebra.hivemind.om.state.ZebraTaskInstanceHistory;
+import com.anite.zebra.hivemind.util.RegistryHelper;
+
+/**
+ * Provides the state layer for the workflow engine
+ * 
+ * This does NOT inherit off the one in zebra-state as the one in state uses
+ * Hibernate 2.1
+ * 
+ * @author Matthew.Norris
+ * @author eric.pugh
+ * @author Ben Gidley
+ */
+public class ZebraStateFactoryImpl implements IStateFactory, ZebraStateFactory {
+
+    private List&lt;StateFactoryListener&gt; listeners = new ArrayList&lt;StateFactoryListener&gt;();
+    
+	/**
+	 * This should be manually injected by hivemind
+	 */
+	private LockManager lockManager;
+
+	/**
+	 * This should be automatically injected by hivemind
+	 */
+	private PriorityManager priorityManager;
+
+	private Log log;
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#createFOE(com.anite.zebra.core.state.api.IProcessInstance)
+     */
+	public IFOE createFOE(IProcessInstance processInstance)
+			throws CreateObjectException {
+		return new ZebraFOE(processInstance);
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#deleteObject(com.anite.zebra.core.state.api.IStateObject)
+     */
+	public void deleteObject(IStateObject stateObject)
+			throws StateFailureException {
+
+		Session s;
+		try {
+			s = RegistryHelper.getInstance().getSession();
+
+			if (stateObject instanceof ZebraTaskInstance) {
+
+				ZebraTaskInstance antelopeTaskInstance = (ZebraTaskInstance) stateObject;
+
+				if (this.log.isInfoEnabled()) {
+					produceDetailedDeleteLog(antelopeTaskInstance);
+				}
+				// Copy to history
+				ZebraTaskInstanceHistory antelopeTaskInstanceHistory = new ZebraTaskInstanceHistory(
+						antelopeTaskInstance);
+				ZebraTaskDefinition taskDefinition = (ZebraTaskDefinition) antelopeTaskInstance
+						.getTaskDefinition();
+				antelopeTaskInstanceHistory.setShowInHistory(new Boolean(
+						taskDefinition.getShowInHistory()));
+				s.save(antelopeTaskInstanceHistory);
+
+				// Tidy up process reference
+				ZebraProcessInstance processInstance = (ZebraProcessInstance) antelopeTaskInstance
+						.getProcessInstance();
+				processInstance.getTaskInstances().remove(antelopeTaskInstance);
+				antelopeTaskInstance.setProcessInstance(null);
+
+				// Add history to processInstance
+				processInstance.getHistoryInstances().add(
+						antelopeTaskInstanceHistory);
+				antelopeTaskInstanceHistory.setProcessInstance(processInstance);
+
+                s.save(processInstance);
+                
+			}
+			s.delete(stateObject);
+		} catch (Exception e) {
+			this.log.error(&quot;Failed to delete:&quot; + stateObject.toString(), e);
+			throw new StateFailureException(&quot;Failed to delete State Object&quot;, e);
+		}
+
+	}
+
+	/**
+	 * Helper to log a very detailed delete log for when things are acting oddly
+	 * 
+	 * @param antelopeTaskInstance
+	 * @throws DefinitionNotFoundException
+	 */
+	private void produceDetailedDeleteLog(ZebraTaskInstance antelopeTaskInstance)
+			throws DefinitionNotFoundException {
+		ZebraTaskDefinition taskDef = (ZebraTaskDefinition) antelopeTaskInstance
+				.getTaskDefinition();
+		ZebraProcessInstance cpi = (ZebraProcessInstance) antelopeTaskInstance
+				.getProcessInstance();
+		ZebraProcessDefinition antelopeProcessDefinition = (ZebraProcessDefinition) cpi
+				.getProcessDef();
+		this.log
+				.info(&quot;Creating history entry for task id &quot;
+						+ antelopeTaskInstance.getTaskInstanceId() + &quot; def &quot;
+						+ antelopeProcessDefinition.getName() + &quot;.&quot;
+						+ taskDef.getName());
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#createProcessInstance(com.anite.zebra.core.definitions.api.IProcessDefinition)
+     */
+	public IProcessInstance createProcessInstance(
+			IProcessDefinition processDefinition) throws CreateObjectException {
+
+		ZebraProcessInstance processInstance = new ZebraProcessInstance();
+		processInstance
+				.setProcessName(((ZebraProcessDefinition) processDefinition)
+						.getName());
+		processInstance
+				.setProcessDefinitionId(((ZebraProcessDefinition) processDefinition)
+						.getId());
+
+		return processInstance;
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#createTaskInstance(com.anite.zebra.core.definitions.api.ITaskDefinition, com.anite.zebra.core.state.api.IProcessInstance, com.anite.zebra.core.state.api.IFOE)
+     */
+	public ITaskInstance createTaskInstance(ITaskDefinition taskDefinition,
+			IProcessInstance processInstance, IFOE flowOfExecution)
+			throws CreateObjectException {
+
+		ZebraTaskInstance antelopeTaskInstance = new ZebraTaskInstance();
+		ZebraProcessInstance antelopeProcessInstance = (ZebraProcessInstance) processInstance;
+		ZebraTaskDefinition antelopeTaskDefinition = (ZebraTaskDefinition) taskDefinition;
+
+		antelopeTaskInstance.setFOE(flowOfExecution);
+		antelopeTaskInstance.setProcessInstance(antelopeProcessInstance);
+		antelopeTaskInstance.setTaskDefinition(antelopeTaskDefinition);
+
+		// Default values
+		antelopeTaskInstance.setDateCreated(new Date());
+
+		antelopeTaskInstance.setPriority(this.priorityManager
+				.getDefaultPriority());
+		antelopeTaskInstance.setCaption(antelopeTaskDefinition.getName());
+		antelopeTaskInstance.setShowInTaskList(antelopeTaskDefinition
+				.getShowInTaskList());
+		antelopeProcessInstance.getTaskInstances().add(antelopeTaskInstance);
+
+        // Fire event listeners
+        StateFactoryEvent stateFactoryEvent = new StateFactoryEvent(this, antelopeTaskInstance);
+        for (StateFactoryListener stateFactoryListener : listeners){
+            stateFactoryListener.createTaskInstance(stateFactoryEvent);
+        }
+        
+		return antelopeTaskInstance;
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#beginTransaction()
+     */
+	public ITransaction beginTransaction() throws StateFailureException {
+
+		return new HibernateTransaction(RegistryHelper.getInstance()
+				.getSession());
+
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#saveObject(com.anite.zebra.core.state.api.IStateObject)
+     */
+	public void saveObject(IStateObject object) throws StateFailureException {
+		RegistryHelper.getInstance().getSession().saveOrUpdate(object);
+
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#acquireLock(com.anite.zebra.core.state.api.IProcessInstance, com.anite.zebra.core.api.IEngine)
+     */
+	public void acquireLock(IProcessInstance processInstance, IEngine engine)
+			throws LockException {
+
+		this.lockManager.aquireLock(processInstance, RegistryHelper
+				.getInstance().getSession());
+
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#releaseLock(com.anite.zebra.core.state.api.IProcessInstance, com.anite.zebra.core.api.IEngine)
+     */
+	public void releaseLock(IProcessInstance processInstance, IEngine engine)
+			throws LockException {
+
+		this.lockManager.releaseLock(processInstance, RegistryHelper
+				.getInstance().getSession());
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#getLockManager()
+     */
+	public LockManager getLockManager() {
+		return this.lockManager;
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#setLockManager(com.anite.zebra.hivemind.api.LockManager)
+     */
+	public void setLockManager(LockManager lockManager) {
+		this.lockManager = lockManager;
+	}
+
+	public Log getLog() {
+		return this.log;
+	}
+
+	public void setLog(Log log) {
+		this.log = log;
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#getPriorityManager()
+     */
+	public PriorityManager getPriorityManager() {
+		return this.priorityManager;
+	}
+
+	/* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#setPriorityManager(com.anite.zebra.hivemind.impl.PriorityManager)
+     */
+	public void setPriorityManager(PriorityManager priorityManager) {
+		this.priorityManager = priorityManager;
+	}
+    
+    /* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#addStateFactoryListener(com.anite.zebra.hivemind.api.StateFactoryListener)
+     */
+    public void addStateFactoryListener(StateFactoryListener listener){
+        listeners.add(listener);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraStateFactory#removeStateFactoryListener(com.anite.zebra.hivemind.api.StateFactoryListener)
+     */
+    public void removeStateFactoryListener(StateFactoryListener listener){
+        listeners.remove(listener);
+    }
+
+}
+--- NEW FILE: ZebraDefinitionFactoryImpl.java ---
+package com.anite.zebra.hivemind.impl;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.PersistenceException;
+
+import org.apache.commons.lang.exception.NestableRuntimeException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
+import com.anite.zebra.ext.xmlloader.LoadFromFile;
+import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
+import com.anite.zebra.hivemind.om.defs.IXmlDefinition;
+import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+import com.anite.zebra.hivemind.om.defs.ZebraProcessVersions;
+import com.anite.zebra.hivemind.om.defs.ZebraPropertyElement;
+import com.anite.zebra.hivemind.om.defs.ZebraPropertyGroups;
+import com.anite.zebra.hivemind.om.defs.ZebraRoutingDefinition;
+import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+
+/**
+ * This is the definitions factory service.
+ * 
+ * This is a Singleton Hivemind Service.
+ * 
+ * @author ben.gidley
+ * 
+ */
+public class ZebraDefinitionFactoryImpl implements ZebraDefinitionFactory {
+    /** logging */
+    private static Log log = LogFactory.getLog(ZebraDefinitionFactoryImpl.class);
+
+    /* Variables for configuration */
+    private String processesPath;
+
+    /**
+     * Hibernate Session for loading definitions
+     */
+    private Session session;
+
+    /**
+     * All the process definitions
+     */
+    //private Map&lt;String, ZebraProcessDefinition&gt; allProcessDefinitionsByName = new HashMap&lt;String, ZebraProcessDefinition&gt;();
+    //	private Map&lt;Long, ZebraProcessDefinition&gt; allProcessDefinitionsById = new HashMap&lt;Long, ZebraProcessDefinition&gt;();
+    //private Map&lt;Long, ZebraTaskDefinition&gt; latestTaskDefinitionsById = new HashMap&lt;Long, ZebraTaskDefinition&gt;();
+    /* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraDefinitionFactory#getTaskDefinition(java.lang.Long)
+     */
+    public ZebraTaskDefinition getTaskDefinition(Long id) {
+        ZebraTaskDefinition taskDefinition;
+        taskDefinition = (ZebraTaskDefinition) this.session.get(ZebraTaskDefinition.class, id);
+        return taskDefinition;
+    }
+
+    /**
+     * Checks to see if given definition is in the database
+     * 
+     * @param definition
+     * @return
+     * @throws HibernateException
+     * @throws PersistenceException
+     */
+    protected boolean checkIfXmlProcessDefinitionInDatabase(ZebraProcessDefinition definition)
+            throws HibernateException {
+
+        Query query = this.session.createQuery(&quot;from &quot; + ZebraProcessDefinition.class.getName()
+                + &quot; cpd where cpd.processVersions.name=:name and cpd.version = :version&quot;);
+        query.setString(&quot;name&quot;, definition.getName());
+        query.setLong(&quot;version&quot;, definition.getVersion().longValue());
+
+        List q = query.list();
+        if (q.size() == 1) {
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * Save an XML process definition
+     * 
+     * @param processDefinition
+     * @throws HibernateException
+     * @throws PersistenceException
+     */
+    protected void saveXmlProcessDefinitionInDatabase(ZebraProcessDefinition processDefinition)
+            throws HibernateException {
+
+        Transaction t = this.session.beginTransaction();
+
+        initXmlSet(processDefinition.getRoutingDefinitions());
+
+        for (Iterator i = processDefinition.getTaskDefinitions().iterator(); i.hasNext();) {
+            ZebraTaskDefinition taskDefinition = (ZebraTaskDefinition) i.next();
+            initXmlId(taskDefinition);
+            initXmlSet(taskDefinition.getRoutingOut());
+            initXmlSet(taskDefinition.getRoutingIn());
+        }
+        ZebraProcessVersions processVersions = findOrCreateProcessVersion(processDefinition.getName());
+        processVersions.addProcessVersion(processDefinition);
+        this.session.saveOrUpdate(processDefinition);
+        t.commit();
+    }
+
+    /**
+     * Finds/Creates a process version
+     * 
+     * @param name
+     * @throws PersistenceException
+     * @throws HibernateException
+     */
+    protected ZebraProcessVersions findOrCreateProcessVersion(String name) throws HibernateException {
+
+        ZebraProcessVersions processVersions = null;
+        Query query = this.session
+                .createQuery(&quot;from &quot; + ZebraProcessVersions.class.getName() + &quot; apv where name=:name&quot;);
+        query.setString(&quot;name&quot;, name);
+        List q = query.list();
+        if (q.size() == 1) {
+            processVersions = (ZebraProcessVersions) q.get(0);
+        } else if (q.size() == 0) {
+            processVersions = new ZebraProcessVersions();
+            processVersions.setName(name);
+            this.session.save(processVersions);
+        } else {
+            // More than 1 process with this name (this is impossible!)
+            throw new NestableRuntimeException(&quot;There is more than one process with name:&quot; + name);
+        }
+        return processVersions;
+    }
+
+    private void initXmlId(IXmlDefinition xmlDefinition) {
+        xmlDefinition.setXmlId(xmlDefinition.getId());
+        xmlDefinition.setId(null);
+    }
+
+    private void initXmlSet(Set xmlSet) {
+        for (Iterator j = xmlSet.iterator(); j.hasNext();) {
+            IXmlDefinition xmlDefinition = (IXmlDefinition) j.next();
+            initXmlId(xmlDefinition);
+        }
+    }
+
+    //    /**
+    //     * Fetches the latest version of each process in a map
+    //     * 
+    //     * @return
+    //     * @throws Exception
+    //     */
+    //    protected void getDistinctLatestVersions() throws Exception {
+    //
+    //        Query q = this.session.createQuery(&quot;from ZebraProcessVersions&quot;);
+    //        List results = q.list();
+    //        for (Iterator i = results.iterator(); i.hasNext();) {
+    //            ZebraProcessVersions zebraProcessVersions = (ZebraProcessVersions) i.next();
+    //            ZebraProcessDefinition latestProcessDefinition = (ZebraProcessDefinition) zebraProcessVersions
+    //                    .getLatestProcessVersion();
+    //            this.allProcessDefinitionsByName.put(zebraProcessVersions.getName(), latestProcessDefinition);
+    //            this.allProcessDefinitionsById.put(latestProcessDefinition.getId(), latestProcessDefinition);
+    //
+    //            // Cache the last version's task defs only
+    //            Iterator tasks = latestProcessDefinition.getTaskDefinitions().iterator();
+    //            while (tasks.hasNext()) {
+    //                ZebraTaskDefinition taskDefinition = (ZebraTaskDefinition) tasks.next();
+    //                this.latestTaskDefinitionsById.put(taskDefinition.getId(), taskDefinition);
+    //            }
+    //        }
+    //    }
+
+    /**
+     * Initialize service
+     */
+    public void initializeService() throws Exception {
+
+        LoadFromFile loadFromFile = new LoadFromFile();
+        loadFromFile.setProcessDefinitionClass(ZebraProcessDefinition.class);
+        loadFromFile.setTaskDefinitionClass(ZebraTaskDefinition.class);
+        loadFromFile.setProcessVersionsClass(ZebraProcessVersions.class);
+        loadFromFile.setPropertyElementClass(ZebraPropertyElement.class);
+        loadFromFile.setPropertyGroupsClass(ZebraPropertyGroups.class);
+        loadFromFile.setRoutingDefinitionClass(ZebraRoutingDefinition.class);
+
+        loadFromFile.loadProcessDefs(this.processesPath);
+
+        for (Iterator i = loadFromFile.getAllProcessVersions().iterator(); i.hasNext();) {
+            try {
+                ZebraProcessVersions processVersions = (ZebraProcessVersions) i.next();
+                for (Iterator j = processVersions.getProcessVersions().iterator(); j.hasNext();) {
+                    ZebraProcessDefinition processDefinition = (ZebraProcessDefinition) j.next();
+                    if (!checkIfXmlProcessDefinitionInDatabase(processDefinition)) {
+                        saveXmlProcessDefinitionInDatabase(processDefinition);
+                    }
+                }
+            } catch (Exception e) {
+                log.error(e);
+                throw e;
+            }
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraDefinitionFactory#getTaskDefinitionIds(java.lang.String, java.lang.String)
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;Long&gt; getTaskDefinitionIds(String processName, String taskName) {
+        StringBuffer sql = new StringBuffer();
+        sql.append(&quot;SELECT td.id &quot;);
+        sql
+                .append(&quot;FROM ZebraProcessDefinition pd, processTaskDefinitions ptd, ZebraTaskDefinition td, ZebraProcessVersions pv &quot;);
+        sql.append(&quot;WHERE pd.id=ptd.processDefinitionId &quot;);
+        sql.append(&quot;AND pd.versionId=pv.id &quot;);
+        sql.append(&quot;AND pd.id=ptd.processDefinitionId &quot;);
+        sql.append(&quot;AND ptd.taskDefinitionId=td.id &quot;);
+        sql.append(&quot;AND pv.name=:processName &quot;);
+        sql.append(&quot;AND td.name=:taskName&quot;);
+
+        Query q = session.createSQLQuery(sql.toString());
+        q.setString(&quot;processName&quot;, processName);
+        q.setString(&quot;taskName&quot;, taskName);
+
+        // Query stupidly returns a list of BigIntegers. 
+        // Need to convert them into Longs. Yawn.
+        List&lt;BigInteger&gt; results = q.list();
+        List&lt;Long&gt; properResults = new ArrayList&lt;Long&gt;(results.size());
+        for (BigInteger i : results) {
+            properResults.add(i.longValue());
+        }
+
+        return properResults;
+    }
+
+    public Session getSession() {
+        return this.session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    /* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraDefinitionFactory#getProcessDefinitionById(java.lang.Long)
+     */
+    public ZebraProcessDefinition getProcessDefinitionById(Long id) {
+        return (ZebraProcessDefinition) session.load(ZebraProcessDefinition.class, id);
+    }
+
+    /* (non-Javadoc)
+     * @see com.anite.zebra.hivemind.impl.ZebraDefinitionFactory#getProcessDefinitionByName(java.lang.String)
+     */
+    public ZebraProcessDefinition getProcessDefinitionByName(String name) {
+        Criteria criteria = session.createCriteria(ZebraProcessVersions.class);
+        criteria.add(Restrictions.eq(&quot;name&quot;, name));
+        ZebraProcessVersions versions = (ZebraProcessVersions) criteria.uniqueResult();
+        return (ZebraProcessDefinition) versions.getLatestProcessVersion();
+        
+    }
+
+    /**
+     * Use getTaskDefinition instead
+     * @deprecated
+     * @param id
+     * @return
+     */
+    public ZebraTaskDefinition getTaskDefinitionById(Long id) {
+        return this.getTaskDefinition(id);
+    }
+
+    public String getProcessesPath() {
+        return this.processesPath;
+    }
+
+    public void setProcessesPath(String processesPath) {
+        this.processesPath = processesPath;
+    }
+
+}
+
+Index: PriorityManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/PriorityManager.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** PriorityManager.java	26 Nov 2005 12:51:12 -0000	1.1
+--- PriorityManager.java	15 Mar 2006 17:14:23 -0000	1.2
+***************
+*** 41,90 ****
+  
+  	private Long defaultPriorityId;
+  
+! 	/**
+! 	 * prevents instantiation
+! 	 */
+! 	public PriorityManager() {
+! 		// prevent creation
+! 		Session session = RegistryHelper.getInstance().getSession();
+! 		Query query = session.createQuery(&quot;from &quot; + Priority.class.getName()
+! 				+ &quot; where caption=:caption&quot;);
+  
+! 		// Find each value in the list
+! 		query.setString(&quot;caption&quot;, LOW);
+! 		List lowList = query.list();
+! 		if (lowList.size() != 1) {
+! 			Priority low = new Priority();
+! 			low.setCaption(LOW);
+! 			Transaction t = session.beginTransaction();
+! 			session.save(low);
+! 			t.commit();
+! 		}
+  
+! 		query.setString(&quot;caption&quot;, NORMAL);
+! 		List normalList = query.list();
+! 		if (normalList.size() != 1) {
+! 			Priority normal = new Priority();
+! 			normal.setCaption(NORMAL);
+! 			Transaction t = session.beginTransaction();
+! 			session.save(normal);
+! 			t.commit();
+! 			this.defaultPriorityId = normal.getPriorityId();
+! 		} else {
+! 			Priority normal = (Priority) normalList.get(0);
+! 			this.defaultPriorityId = normal.getPriorityId();
+! 		}
+! 			
+  
+! 		query.setString(&quot;caption&quot;, URGENT);
+! 		List urgentList = query.list();
+! 		if (urgentList.size() != 1) {
+! 			Priority urgent = new Priority();
+! 			urgent.setCaption(URGENT);
+! 			Transaction t = session.beginTransaction();
+! 			session.save(urgent);
+! 			t.commit();
+! 		}
+! 	}
+  
+  	/**
+--- 41,96 ----
+  
+  	private Long defaultPriorityId;
++     
++     private Session session;
+  
+!     
+!     public Session getSession() {
+!         return session;
+!     }
+  
+!     public void setSession(Session session) {
+!         this.session = session;
+!     }
+  
+!     public void initializeService(){
+!         Query query = session.createQuery(&quot;from &quot; + Priority.class.getName()
+!                 + &quot; where caption=:caption&quot;);
+  
+!         // Find each value in the list
+!         query.setString(&quot;caption&quot;, LOW);
+!         List lowList = query.list();
+!         if (lowList.size() != 1) {
+!             Priority low = new Priority();
+!             low.setCaption(LOW);
+!             Transaction t = session.beginTransaction();
+!             session.save(low);
+!             t.commit();
+!         }
+! 
+!         query.setString(&quot;caption&quot;, NORMAL);
+!         List normalList = query.list();
+!         if (normalList.size() != 1) {
+!             Priority normal = new Priority();
+!             normal.setCaption(NORMAL);
+!             Transaction t = session.beginTransaction();
+!             session.save(normal);
+!             t.commit();
+!             this.defaultPriorityId = normal.getPriorityId();
+!         } else {
+!             Priority normal = (Priority) normalList.get(0);
+!             this.defaultPriorityId = normal.getPriorityId();
+!         }
+!             
+! 
+!         query.setString(&quot;caption&quot;, URGENT);
+!         List urgentList = query.list();
+!         if (urgentList.size() != 1) {
+!             Priority urgent = new Priority();
+!             urgent.setCaption(URGENT);
+!             Transaction t = session.beginTransaction();
+!             session.save(urgent);
+!             t.commit();
+!         }
+!     }
+  
+  	/**
+
+Index: Zebra.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/Zebra.java,v
+retrieving revision 1.9
+retrieving revision 1.10
+diff -C2 -d -r1.9 -r1.10
+*** Zebra.java	15 Mar 2006 11:44:41 -0000	1.9
+--- Zebra.java	15 Mar 2006 17:14:23 -0000	1.10
+***************
+*** 30,36 ****
+  import com.anite.zebra.core.exceptions.StartProcessException;
+  import com.anite.zebra.core.exceptions.TransitionException;
+- import com.anite.zebra.core.factory.api.IStateFactory;
+  import com.anite.zebra.core.factory.exceptions.StateFailureException;
+  import com.anite.zebra.core.state.api.ITransaction;
+  import com.anite.zebra.hivemind.lifecycle.ProcessDestruct;
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+--- 30,37 ----
+  import com.anite.zebra.core.exceptions.StartProcessException;
+  import com.anite.zebra.core.exceptions.TransitionException;
+  import com.anite.zebra.core.factory.exceptions.StateFailureException;
+  import com.anite.zebra.core.state.api.ITransaction;
++ import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
++ import com.anite.zebra.hivemind.api.ZebraStateFactory;
+  import com.anite.zebra.hivemind.lifecycle.ProcessDestruct;
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+***************
+*** 50,54 ****
+      private ZebraDefinitionFactory definitionFactory;
+  
+!     private IStateFactory stateFactory;
+  
+      private IEngine engine;
+--- 51,55 ----
+      private ZebraDefinitionFactory definitionFactory;
+  
+!     private ZebraStateFactory stateFactory;
+  
+      private IEngine engine;
+***************
+*** 190,198 ****
+       * @return
+       */
+!     public IStateFactory getStateFactory() {
+          return this.stateFactory;
+      }
+  
+!     public void setStateFactory(IStateFactory stateFactory) {
+          this.stateFactory = stateFactory;
+      }
+--- 191,199 ----
+       * @return
+       */
+!     public ZebraStateFactory getStateFactory() {
+          return this.stateFactory;
+      }
+  
+!     public void setStateFactory(ZebraStateFactory stateFactory) {
+          this.stateFactory = stateFactory;
+      }
+
+--- ZebraDefinitionFactory.java DELETED ---
+
+--- ZebraStateFactory.java DELETED ---
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000265.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/api ZebraDefinitionFactory.java,NONE,1.1 StateFactoryEvent.java,NONE,1.1 ZebraStateFactory.java,NONE,1.1 StateFactoryListener.java,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000263.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources log4j.properties,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#270">[ date ]</a>
+              <a href="thread.html#270">[ thread ]</a>
+              <a href="subject.html#270">[ subject ]</a>
+              <a href="author.html#270">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

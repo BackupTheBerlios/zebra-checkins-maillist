@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.5,1.6
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-June/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20TimedTaskRunnerImpl.java%2C1.5%2C1.6&In-Reply-To=%3C200606010808.k5188wb00485%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000395.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.5,1.6</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20TimedTaskRunnerImpl.java%2C1.5%2C1.6&In-Reply-To=%3C200606010808.k5188wb00485%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.5,1.6">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Jun  1 10:08:58 CEST 2006</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000395.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.8,1.9
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#394">[ date ]</a>
+              <a href="thread.html#394">[ thread ]</a>
+              <a href="subject.html#394">[ subject ]</a>
+              <a href="author.html#394">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv23765/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	TimedTaskRunnerImpl.java 
+Log Message:
+
+
+Index: TimedTaskRunnerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/TimedTaskRunnerImpl.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** TimedTaskRunnerImpl.java	31 May 2006 09:33:41 -0000	1.5
+--- TimedTaskRunnerImpl.java	1 Jun 2006 08:08:53 -0000	1.6
+***************
+*** 174,178 ****
+  	 */
+  	protected void runTask(TimedTask timedTask) {
+! 
+  		FiredTimedTask firedTimedTask = new FiredTimedTask(timedTask);
+  
+--- 174,179 ----
+  	 */
+  	protected void runTask(TimedTask timedTask) {
+! 		log.debug(&quot;Running Task Instance:&quot; + timedTask.getZebraTaskInstanceId());
+! 		
+  		FiredTimedTask firedTimedTask = new FiredTimedTask(timedTask);
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000395.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.8,1.9
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#394">[ date ]</a>
+              <a href="thread.html#394">[ thread ]</a>
+              <a href="subject.html#394">[ subject ]</a>
+              <a href="author.html#394">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

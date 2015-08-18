@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security%20UserManager.java%2C1.3%2C1.4&In-Reply-To=%3C200601241138.k0OBcvx05670%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000087.html">
+   <LINK REL="Next"  HREF="000090.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.3,1.4</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security%20UserManager.java%2C1.3%2C1.4&In-Reply-To=%3C200601241138.k0OBcvx05670%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 24 12:38:57 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000087.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.6,1.7
+</A></li>
+        <LI>Next message: <A HREF="000090.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractUserManagerTest.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#89">[ date ]</a>
+              <a href="thread.html#89">[ thread ]</a>
+              <a href="subject.html#89">[ subject ]</a>
+              <a href="author.html#89">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security
+In directory sheep:/tmp/cvs-serv30775/src/main/java/org/apache/fulcrum/security
+
+Modified Files:
+	UserManager.java 
+Log Message:
+Completed changes for:
+
+1 - Make all methods pass passwords via crypto
+2 - Make the Authenticator available on API
+3 - Add Expiry Date
+4 - Add Use locking
+5 - Add Password History
+6 - Add Password Cycle Policy
+
+Index: UserManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/UserManager.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** UserManager.java	17 Jan 2006 15:43:10 -0000	1.3
+--- UserManager.java	24 Jan 2006 11:38:54 -0000	1.4
+***************
+*** 143,151 ****
+      *
+      * @param user the user object to save
+-     * @throws UnknownEntityException if the user's account does not
+-     *         exist in the database.
+      * @throws DataBackendException if there is a problem accessing the storage.
+      */
+!     void saveUser(User user) throws UnknownEntityException, DataBackendException;
+      /**
+       * Authenticate an User with the specified password. If authentication
+--- 143,149 ----
+      *
+      * @param user the user object to save
+      * @throws DataBackendException if there is a problem accessing the storage.
+      */
+!     void saveUser(User user) throws DataBackendException;
+      /**
+       * Authenticate an User with the specified password. If authentication
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000087.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.6,1.7
+</A></li>
+	<LI>Next message: <A HREF="000090.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractUserManagerTest.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#89">[ date ]</a>
+              <a href="thread.html#89">[ thread ]</a>
+              <a href="subject.html#89">[ subject ]</a>
+              <a href="author.html#89">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

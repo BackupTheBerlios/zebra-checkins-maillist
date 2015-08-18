@@ -1,0 +1,1177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.cache, 1.4,	1.5 ACGWFD.exe, 1.7, 1.8 ACGWFD.suo, 1.4, 1.5 ACGWFD.vbp, 1.13,	1.14 ACGWFD.vbw, 1.12, 1.13 ACGWFD.wip, 1.4, 1.5 DocScan.cls,	1.2, 1.3 basMain.bas, 1.2, 1.3 frmFlow.frm, 1.11,	1.12 frmMDI.frm, 1.9, 1.10 frmMDI.frx, 1.8, 1.9 frmPalette.frm,	1.2, 1.3 frmPropList.frm, 1.4, 1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20ACGWFD.cache%2C%201.4%2C%0A%091.5%20ACGWFD.exe%2C%201.7%2C%201.8%20ACGWFD.suo%2C%201.4%2C%201.5%20ACGWFD.vbp%2C%201.13%2C%0A%091.14%20ACGWFD.vbw%2C%201.12%2C%201.13%20ACGWFD.wip%2C%201.4%2C%201.5%20DocScan.cls%2C%0A%091.2%2C%201.3%20basMain.bas%2C%201.2%2C%201.3%20frmFlow.frm%2C%201.11%2C%0A%091.12%20frmMDI.frm%2C%201.9%2C%201.10%20frmMDI.frx%2C%201.8%2C%201.9%20frmPalette.frm%2C%0A%091.2%2C%201.3%20frmPropList.frm%2C%201.4%2C%201.5&In-Reply-To=%3C20071109145922.964281165DD%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000466.html">
+   <LINK REL="Next"  HREF="000468.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.cache, 1.4,	1.5 ACGWFD.exe, 1.7, 1.8 ACGWFD.suo, 1.4, 1.5 ACGWFD.vbp, 1.13,	1.14 ACGWFD.vbw, 1.12, 1.13 ACGWFD.wip, 1.4, 1.5 DocScan.cls,	1.2, 1.3 basMain.bas, 1.2, 1.3 frmFlow.frm, 1.11,	1.12 frmMDI.frm, 1.9, 1.10 frmMDI.frx, 1.8, 1.9 frmPalette.frm,	1.2, 1.3 frmPropList.frm, 1.4, 1.5</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20ACGWFD.cache%2C%201.4%2C%0A%091.5%20ACGWFD.exe%2C%201.7%2C%201.8%20ACGWFD.suo%2C%201.4%2C%201.5%20ACGWFD.vbp%2C%201.13%2C%0A%091.14%20ACGWFD.vbw%2C%201.12%2C%201.13%20ACGWFD.wip%2C%201.4%2C%201.5%20DocScan.cls%2C%0A%091.2%2C%201.3%20basMain.bas%2C%201.2%2C%201.3%20frmFlow.frm%2C%201.11%2C%0A%091.12%20frmMDI.frm%2C%201.9%2C%201.10%20frmMDI.frx%2C%201.8%2C%201.9%20frmPalette.frm%2C%0A%091.2%2C%201.3%20frmPropList.frm%2C%201.4%2C%201.5&In-Reply-To=%3C20071109145922.964281165DD%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.cache, 1.4,	1.5 ACGWFD.exe, 1.7, 1.8 ACGWFD.suo, 1.4, 1.5 ACGWFD.vbp, 1.13,	1.14 ACGWFD.vbw, 1.12, 1.13 ACGWFD.wip, 1.4, 1.5 DocScan.cls,	1.2, 1.3 basMain.bas, 1.2, 1.3 frmFlow.frm, 1.11,	1.12 frmMDI.frm, 1.9, 1.10 frmMDI.frx, 1.8, 1.9 frmPalette.frm,	1.2, 1.3 frmPropList.frm, 1.4, 1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Fri Nov  9 15:59:22 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000466.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDXML ACGWFDXML.cache, 1.3,	1.4 ACGWFDXML.suo, 1.3, 1.4 ACGWFDXML.vbp, 1.7,	1.8 ACGWFDXML.wip, 1.3, 1.4 ACGWFDXML4.compatible.dll, 1.1,	1.2 ACGWFDXML4.dll, 1.3, 1.4 ACGWFDXML4.exp, 1.3,	1.4 ACGWFDXML4.lib, 1.3, 1.4 TaskTemplateLoader.cls, 1.3,	1.4 XMLAddinLoader.cls, 1.1, 1.2 XMLProcessTemplate.cls, 1.3, 1.4
+</A></li>
+        <LI>Next message: <A HREF="000468.html">[Zebra-checkins] zebra/src/vbcode/ACGWFD/Addins - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#467">[ date ]</a>
+              <a href="thread.html#467">[ thread ]</a>
+              <a href="subject.html#467">[ subject ]</a>
+              <a href="author.html#467">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv22745/ACGWFD
+
+Modified Files:
+	ACGWFD.cache ACGWFD.exe ACGWFD.suo ACGWFD.vbp ACGWFD.vbw 
+	ACGWFD.wip DocScan.cls basMain.bas frmFlow.frm frmMDI.frm 
+	frmMDI.frx frmPalette.frm frmPropList.frm 
+Log Message:
+
+
+Index: ACGWFD.cache
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.cache,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+Binary files /tmp/cvs.DWwEUo and /tmp/cvs.4nvM71 differ
+
+Index: ACGWFD.exe
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.exe,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+Binary files /tmp/cvs.Udu6Yp and /tmp/cvs.Fbu8e3 differ
+
+Index: ACGWFD.suo
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.suo,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+Binary files /tmp/cvs.xr13Yt and /tmp/cvs.KQyKg7 differ
+
+Index: ACGWFD.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbp,v
+retrieving revision 1.13
+retrieving revision 1.14
+diff -C2 -d -r1.13 -r1.14
+*** ACGWFD.vbp	5 Nov 2007 15:00:59 -0000	1.13
+--- ACGWFD.vbp	9 Nov 2007 14:58:28 -0000	1.14
+***************
+*** 4,13 ****
+  Object={D76D7128-4A96-11D3-BD95-D296DC2DD072}#1.0#0; vsflex7.ocx
+  Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProperties.dll#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGWFDHelper.dll#
+! Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\ACGContainer\ACGContainer.dll#
+! Reference=*\G{70514876-FEA4-425D-AFBD-3389C20D7AAF}#4.1#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGWFDXML4.dll#ACG Workflow Definition Loader v4
+! Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProcessDefs.dll#
+  Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.1#0#..\ACGProcessVersions\ACGZVER.dll#ACG Zebra Versioning
+! Reference=*\A..\ACGWFDAddin\ACGWFDAddin.vbp
+  Object={F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0; innovadsxp.ocx
+  Object={83B0E423-D4EE-11D4-BEDF-BAB7F1EEA455}#4.2#0; addflow4.ocx
+--- 4,13 ----
+  Object={D76D7128-4A96-11D3-BD95-D296DC2DD072}#1.0#0; vsflex7.ocx
+  Reference=*\G{EA23E1CD-01DD-423C-85A3-759ED010EE2C}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProperties.dll#
+! Reference=*\G{63D862BD-0457-4538-BAF5-F646D787BE9B}#1.0#0#..\ACGWFDHelper\ACGWFDHelper.dll#
+! Reference=*\G{CCF04066-C857-49A4-8670-93231767A7DA}#1.0#0#..\..\..\..\..\..\..\DOCUME~1\MATTHE~1.NOR\MYDOCU~1\Projects\Zebra\vbcode\ACGContainer\ACGContainer.dll#
+! Reference=*\G{70514876-FEA4-425D-AFBD-3389C20D7AAF}#4.1#0#..\ACGWFDXML\ACGWFDXML4.dll#ACG Workflow Definition Loader v4
+! Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\ACGProcessDefs\ACGProcessDefs.dll#
+  Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.1#0#..\ACGProcessVersions\ACGZVER.dll#ACG Zebra Versioning
+! Reference=*\G{0820CDC7-3363-47E0-868E-995A28EF9D68}#1.0#0#..\ACGWFDAddin\ACGWFDAddin.dll#ACGWFDAddin
+  Object={F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0; innovadsxp.ocx
+  Object={83B0E423-D4EE-11D4-BEDF-BAB7F1EEA455}#4.2#0; addflow4.ocx
+***************
+*** 16,20 ****
+  Object={C048E7C2-514E-11D5-9781-0002E30447DE}#3.0#0; prnflow3.ocx
+  Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
+! Object={BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.1#0; PropertyGridControl.ocx
+  Form=frmPalette.frm
+  UserControl=ImageCaption.ctl
+--- 16,20 ----
+  Object={C048E7C2-514E-11D5-9781-0002E30447DE}#3.0#0; prnflow3.ocx
+  Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX
+! Object={BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.2#0; PropertyGridControl.ocx
+  Form=frmPalette.frm
+  UserControl=ImageCaption.ctl
+***************
+*** 26,30 ****
+  Form=frmMDI.frm
+  Form=frmPropertyAdd.frm
+! Form=..\..\..\..\..\..\..\Documents and Settings\Matthew.Norris\My Documents\Projects\Zebra\vbcode\ACGWFD\frmFlow.frm
+  Form=frmPropList.frm
+  Module=basMain; basMain.bas
+--- 26,30 ----
+  Form=frmMDI.frm
+  Form=frmPropertyAdd.frm
+! Form=frmFlow.frm
+  Form=frmPropList.frm
+  Module=basMain; basMain.bas
+***************
+*** 36,44 ****
+  Class=Dialog; Dialog.cls
+  Form=frmTextPopup.frm
+! Form=..\..\..\..\..\..\..\Documents and Settings\Matthew.Norris\My Documents\Projects\Zebra\vbcode\ACGWFD\frmChangeTaskType.frm
+  IconForm=&quot;frmFlow&quot;
+  Startup=&quot;Sub Main&quot;
+  HelpFile=&quot;&quot;
+  Title=&quot;ACGWFD&quot;
+  Command32=&quot;&quot;
+  Name=&quot;ACGWFD&quot;
+--- 36,45 ----
+  Class=Dialog; Dialog.cls
+  Form=frmTextPopup.frm
+! Form=frmChangeTaskType.frm
+  IconForm=&quot;frmFlow&quot;
+  Startup=&quot;Sub Main&quot;
+  HelpFile=&quot;&quot;
+  Title=&quot;ACGWFD&quot;
++ ExeName32=&quot;ACGWFD.exe&quot;
+  Command32=&quot;&quot;
+  Name=&quot;ACGWFD&quot;
+***************
+*** 48,52 ****
+  MajorVer=1
+  MinorVer=0
+! RevisionVer=87
+  AutoIncrementVer=1
+  ServerSupportFiles=0
+--- 49,53 ----
+  MajorVer=1
+  MinorVer=0
+! RevisionVer=102
+  AutoIncrementVer=1
+  ServerSupportFiles=0
+
+Index: ACGWFD.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbw,v
+retrieving revision 1.12
+retrieving revision 1.13
+diff -C2 -d -r1.12 -r1.13
+*** ACGWFD.vbw	5 Nov 2007 15:00:59 -0000	1.12
+--- ACGWFD.vbw	9 Nov 2007 14:58:28 -0000	1.13
+***************
+*** 1,3 ****
+! frmPalette = 22, 22, 544, 376, C, 176, 176, 762, 641, C
+  ImageCaption = 44, 44, 566, 398, C, 198, 198, 784, 663, C
+  IContextMenu = 176, 176, 803, 634, C
+--- 1,3 ----
+! frmPalette = 22, 22, 544, 376, , 176, 176, 762, 641, C
+  ImageCaption = 44, 44, 566, 398, C, 198, 198, 784, 663, C
+  IContextMenu = 176, 176, 803, 634, C
+***************
+*** 6,16 ****
+  clShellBrowse = 66, 66, 588, 420, C
+  frmProcessTemplate = 110, 110, 600, 466, C, 22, 22, 608, 487, C
+! frmMDI = 88, 164, 808, 619, C, -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, C, 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, C, 110, 110, 696, 575, C
+! basMain = 22, 22, 608, 487, C
+  frmInput = 154, 154, 676, 508, C, 132, 132, 718, 597, C
+! DocScan = 0, 0, 522, 354, C
+  frmVersions = 44, 44, 566, 398, C, 22, 22, 544, 376, C
+  DocFlow = 0, 0, 0, 0, C
+--- 6,16 ----
+  clShellBrowse = 66, 66, 588, 420, C
+  frmProcessTemplate = 110, 110, 600, 466, C, 22, 22, 608, 487, C
+! frmMDI = 88, 164, 808, 619, , -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, , 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, , 110, 110, 696, 575, C
+! basMain = 22, 22, 608, 487, 
+  frmInput = 154, 154, 676, 508, C, 132, 132, 718, 597, C
+! DocScan = 0, 0, 522, 354, 
+  frmVersions = 44, 44, 566, 398, C, 22, 22, 544, 376, C
+  DocFlow = 0, 0, 0, 0, C
+
+Index: ACGWFD.wip
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.wip,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+Binary files /tmp/cvs.tQYf8w and /tmp/cvs.mCmfva differ
+
+Index: DocScan.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/DocScan.cls,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DocScan.cls	3 Feb 2005 11:52:28 -0000	1.2
+--- DocScan.cls	9 Nov 2007 14:58:28 -0000	1.3
+***************
+*** 71,75 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc &amp; &quot; parsing file &quot; &amp; strFile)
+          Case vbIgnore
+              Resume Next
+--- 71,75 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc, &quot;parsing file &quot; &amp; strFile)
+          Case vbIgnore
+              Resume Next
+***************
+*** 262,272 ****
+  
+  
+! Private Sub SaveToFile(FileName As String, Content As String)
+      Dim fh As Integer
+!     If Len(Dir$(FileName)) &gt; 0 Then
+!         Kill FileName
+      End If
+      fh = FreeFile
+!     Open FileName For Output As fh
+      Print #fh, Content
+      Close #fh
+--- 262,272 ----
+  
+  
+! Private Sub SaveToFile(fileName As String, Content As String)
+      Dim fh As Integer
+!     If Len(Dir$(fileName)) &gt; 0 Then
+!         Kill fileName
+      End If
+      fh = FreeFile
+!     Open fileName For Output As fh
+      Print #fh, Content
+      Close #fh
+***************
+*** 399,403 ****
+      Exit Function
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, &quot;&quot;)
+          Case vbIgnore
+              Resume Next
+--- 399,403 ----
+      Exit Function
+  Err_Handler:
+!     Select Case reportError(Err, Me)
+          Case vbIgnore
+              Resume Next
+***************
+*** 508,512 ****
+      Exit Function
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, &quot;NeilB&quot;)
+          Case vbIgnore
+              Resume Next
+--- 508,512 ----
+      Exit Function
+  Err_Handler:
+!     Select Case reportError(Err, Me, &quot;NeilB&quot;)
+          Case vbIgnore
+              Resume Next
+***************
+*** 519,529 ****
+  End Function
+  
+! Private Sub ImportFlow(FileName As String)
+      Dim oLoad As XMLProcessDef
+      Set oLoad = New XMLProcessDef
+      Dim oFlow As ProcessDef
+      Set oFlow = New ProcessDef
+!     If Not oLoad.FileLoadXML(FileName, oFlow, moTaskTemplates, moProcessTemplates) Then
+!         Debug.Print &quot;Failed to import &quot; &amp; FileName
+      Else
+          mcolWorkflows.Add oFlow, &quot;@&quot; &amp; UCase$(oFlow.Name)
+--- 519,529 ----
+  End Function
+  
+! Private Sub ImportFlow(fileName As String)
+      Dim oLoad As XMLProcessDef
+      Set oLoad = New XMLProcessDef
+      Dim oFlow As ProcessDef
+      Set oFlow = New ProcessDef
+!     If Not oLoad.FileLoadXML(fileName, oFlow, moTaskTemplates, moProcessTemplates) Then
+!         Debug.Print &quot;Failed to import &quot; &amp; fileName
+      Else
+          mcolWorkflows.Add oFlow, &quot;@&quot; &amp; UCase$(oFlow.Name)
+
+Index: basMain.bas
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/basMain.bas,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** basMain.bas	3 Feb 2005 11:52:28 -0000	1.2
+--- basMain.bas	9 Nov 2007 14:58:28 -0000	1.3
+***************
+*** 25,28 ****
+--- 25,29 ----
+  '/ called on application startup
+  Sub Main()
++     On Error GoTo err_handler
+      frmMDI.Show
+      
+***************
+*** 31,38 ****
+          frmMDI.CommandLineLoadProcess Mid$(Command$, 2, Len(Command$) - 2)
+      End If
+  End Sub
+  
+  Public Sub CopyPropGroup(oPGSource As PropertyGroup, oPGDest As PropertyGroup, Optional EraseUnmatchedValues As Boolean = False, Optional OverwriteExistingValues As Boolean = False, Optional EnforceSourceNames As Boolean = False)
+!     On Error GoTo Err_Handler:
+      Dim oProps As Properties
+      Dim oDestProps As Properties
+--- 32,42 ----
+          frmMDI.CommandLineLoadProcess Mid$(Command$, 2, Len(Command$) - 2)
+      End If
++     Exit Sub
++ err_handler:
++     reportError Err, &quot;basMain&quot;, &quot;main&quot;
+  End Sub
+  
+  Public Sub CopyPropGroup(oPGSource As PropertyGroup, oPGDest As PropertyGroup, Optional EraseUnmatchedValues As Boolean = False, Optional OverwriteExistingValues As Boolean = False, Optional EnforceSourceNames As Boolean = False)
+!     On Error GoTo err_handler:
+      Dim oProps As Properties
+      Dim oDestProps As Properties
+***************
+*** 49,53 ****
+      Next
+      Exit Sub
+! Err_Handler:
+      Stop
+      Resume 0
+--- 53,57 ----
+      Next
+      Exit Sub
+! err_handler:
+      Stop
+      Resume 0
+
+Index: frmFlow.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmFlow.frm,v
+retrieving revision 1.11
+retrieving revision 1.12
+diff -C2 -d -r1.11 -r1.12
+*** frmFlow.frm	5 Nov 2007 15:00:59 -0000	1.11
+--- frmFlow.frm	9 Nov 2007 14:58:28 -0000	1.12
+***************
+*** 462,466 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 462,466 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 487,491 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 487,491 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 836,841 ****
+      Set dlg = Parent.dlg
+      dlg.Filter = &quot;HTML Documents|*.html&quot;
+!     dlg.FilterIndex = 1
+!     dlg.DialogTitle = &quot;Document Process&quot;
+      dlg.fileName = mProcessDef.Name
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+--- 836,841 ----
+      Set dlg = Parent.dlg
+      dlg.Filter = &quot;HTML Documents|*.html&quot;
+!     dlg.filterIndex = 1
+!     dlg.dialogTitle = &quot;Document Process&quot;
+      dlg.fileName = mProcessDef.Name
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+***************
+*** 855,859 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc + &quot;.&quot; &amp; strErrFunc)
+          Case vbIgnore
+              Resume Next
+--- 855,859 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc, strErrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 978,982 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 978,982 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1137,1141 ****
+      Exit Function
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1137,1141 ----
+      Exit Function
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1269,1273 ****
+      Exit Function
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1269,1273 ----
+      Exit Function
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1289,1294 ****
+      Set dlg = Parent.dlg
+      dlg.Filter = &quot;Windows MetaFile|*.wmf|Enhanced Windows MetaFile|*.emf&quot;
+!     dlg.FilterIndex = 1
+!     dlg.DialogTitle = &quot;Export Flow Image&quot;
+      dlg.fileName = mProcessDef.Name
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+--- 1289,1294 ----
+      Set dlg = Parent.dlg
+      dlg.Filter = &quot;Windows MetaFile|*.wmf|Enhanced Windows MetaFile|*.emf&quot;
+!     dlg.filterIndex = 1
+!     dlg.dialogTitle = &quot;Export Flow Image&quot;
+      dlg.fileName = mProcessDef.Name
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+***************
+*** 1303,1307 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1303,1307 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1332,1336 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1332,1336 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1411,1415 ****
+      Exit Function
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1411,1415 ----
+      Exit Function
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1508,1513 ****
+          Set dlg = Parent.dlg
+          dlg.Filter = &quot;ACG WorkFlow Format|*.acgwfd.xml&quot;
+!         dlg.FilterIndex = 1
+!         dlg.DialogTitle = &quot;New Process&quot;
+          dlg.fileName = &quot;Copy of &quot; &amp; mProcessDef.Name &amp; &quot; Process&quot;
+          dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+--- 1508,1513 ----
+          Set dlg = Parent.dlg
+          dlg.Filter = &quot;ACG WorkFlow Format|*.acgwfd.xml&quot;
+!         dlg.filterIndex = 1
+!         dlg.dialogTitle = &quot;New Process&quot;
+          dlg.fileName = &quot;Copy of &quot; &amp; mProcessDef.Name &amp; &quot; Process&quot;
+          dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+***************
+*** 1540,1544 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc + &quot;.&quot; &amp; strErrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1540,1544 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc, strErrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1567,1571 ****
+      Exit Function
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1567,1571 ----
+      Exit Function
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1687,1691 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1687,1691 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 1759,1763 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 1759,1763 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+
+Index: frmMDI.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frm,v
+retrieving revision 1.9
+retrieving revision 1.10
+diff -C2 -d -r1.9 -r1.10
+*** frmMDI.frm	5 Nov 2007 15:00:59 -0000	1.9
+--- frmMDI.frm	9 Nov 2007 14:58:28 -0000	1.10
+***************
+*** 104,108 ****
+  Private Sub ds_CommandClick(ByVal Command As InnovaDSXP.Command)
+      Const cstrFunc = &quot;ds_CommandClick&quot;
+!     On Error GoTo Err_Handler
+      Dim fHandled As Boolean
+      If Not (moContextMenu Is Nothing) Then
+--- 104,108 ----
+  Private Sub ds_CommandClick(ByVal Command As InnovaDSXP.Command)
+      Const cstrFunc = &quot;ds_CommandClick&quot;
+!     On Error GoTo err_handler
+      Dim fHandled As Boolean
+      If Not (moContextMenu Is Nothing) Then
+***************
+*** 136,141 ****
+      
+      Exit Sub
+! Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 136,141 ----
+      
+      Exit Sub
+! err_handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 177,182 ****
+      Select Case UCase$(Command.Name)
+          Case &quot;TLABOUT&quot;
+!             MsgBox &quot;Version &quot; &amp; App.Major &amp; &quot;.&quot; &amp; App.Minor &amp; &quot;.&quot; &amp; App.Revision
+!             
+      End Select
+  End Sub
+--- 177,184 ----
+      Select Case UCase$(Command.Name)
+          Case &quot;TLABOUT&quot;
+!             Dim strMsg As String
+!             strMsg = &quot;Template Path: &quot; &amp; getTemplatePath() &amp; vbCrLf
+!             strMsg = strMsg &amp; &quot;Version &quot; &amp; App.Major &amp; &quot;.&quot; &amp; App.Minor &amp; &quot;.&quot; &amp; App.Revision
+!             MsgBox strMsg
+      End Select
+  End Sub
+***************
+*** 225,229 ****
+  
+  Private Sub MakeNewFlow()
+!     On Error GoTo Err_Handler
+      Dim oFlow As frmFlow
+      Dim oDW As DocumentWindow
+--- 227,231 ----
+  
+  Private Sub MakeNewFlow()
+!     On Error GoTo err_handler
+      Dim oFlow As frmFlow
+      Dim oDW As DocumentWindow
+***************
+*** 250,255 ****
+      
+      dlg.Filter = &quot;ACG WorkFlow Format|*.acgwfd.xml&quot;
+!     dlg.FilterIndex = 1
+!     dlg.DialogTitle = &quot;New Process&quot;
+      dlg.fileName = &quot;New &quot; &amp; oProcessTemplate.Name &amp; &quot; Process&quot;
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+--- 252,257 ----
+      
+      dlg.Filter = &quot;ACG WorkFlow Format|*.acgwfd.xml&quot;
+!     dlg.filterIndex = 1
+!     dlg.dialogTitle = &quot;New Process&quot;
+      dlg.fileName = &quot;New &quot; &amp; oProcessTemplate.Name &amp; &quot; Process&quot;
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+***************
+*** 257,261 ****
+      dlg.ShowSave
+      If Err.Number &lt;&gt; 0 Then Exit Sub
+!     On Error GoTo Err_Handler
+      strErrFunc = &quot;Deleting existing file&quot;
+      If Len(Dir$(dlg.fileName)) &gt; 0 Then
+--- 259,263 ----
+      dlg.ShowSave
+      If Err.Number &lt;&gt; 0 Then Exit Sub
+!     On Error GoTo err_handler
+      strErrFunc = &quot;Deleting existing file&quot;
+      If Len(Dir$(dlg.fileName)) &gt; 0 Then
+***************
+*** 274,279 ****
+      ds.DocumentWindows.AddForm CreateGUID, oProcess.Name, , oFlow, True
+      Exit Sub
+! Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc + &quot;.&quot; &amp; strErrFunc)
+          Case vbIgnore
+              Resume Next
+--- 276,281 ----
+      ds.DocumentWindows.AddForm CreateGUID, oProcess.Name, , oFlow, True
+      Exit Sub
+! err_handler:
+!     Select Case reportError(Err, Me, cstrFunc, strErrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 340,345 ****
+  Private Function loadProcess() As frmFlow
+      dlg.Filter = &quot;ACG Process Format|*.acgwfd.xml&quot;
+!     dlg.FilterIndex = 1
+!     dlg.DialogTitle = &quot;Load Process&quot;
+      '/dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+--- 342,347 ----
+  Private Function loadProcess() As frmFlow
+      dlg.Filter = &quot;ACG Process Format|*.acgwfd.xml&quot;
+!     dlg.filterIndex = 1
+!     dlg.dialogTitle = &quot;Load Process&quot;
+      '/dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+***************
+*** 406,414 ****
+  '/ application initialisation - this will be moved out of here at some point!
+  Private Sub Form_Load()
+      Set moContainer = New Container
+      Dim oDW As InnovaDSXP.DockWindowForm
+      
+      Dim oPalette As frmPalette
+!     
+      With ds
+          Set oDW = .DockWindows.Item(&quot;dwStepTypes&quot;)
+--- 408,420 ----
+  '/ application initialisation - this will be moved out of here at some point!
+  Private Sub Form_Load()
++     On Error GoTo err_handler
++     Const cstrFunc = &quot;Form_Load&quot;
++     Dim strErrMsg As String
++     
+      Set moContainer = New Container
+      Dim oDW As InnovaDSXP.DockWindowForm
+      
+      Dim oPalette As frmPalette
+!     strErrMsg = &quot;Init Palette&quot;
+      With ds
+          Set oDW = .DockWindows.Item(&quot;dwStepTypes&quot;)
+***************
+*** 417,423 ****
+--- 423,433 ----
+      End With
+     
++     strErrMsg = &quot;Load Palette&quot;
+      LoadPalette oPalette
+      
++     strErrMsg = &quot;Init View Menu&quot;
++     
+      Call InitViewMenu
++     strErrMsg = &quot;Init Proplist&quot;
+      
+      Dim oPropList As frmPropList
+***************
+*** 442,448 ****
+--- 452,470 ----
+  '    End With
+      
++     strErrMsg = &quot;Load Process Templates&quot;
+      
+      LoadProcessTemplates
++     strErrMsg = &quot;Load Addins&quot;
+      loadAddinMenus
++ Exit Sub
++ err_handler:
++     Select Case reportError(Err, Me, cstrFunc, strErrMsg)
++         Case vbIgnore
++             Resume Next
++         Case vbRetry
++             Resume 0
++         Case Else
++             Exit Sub
++     End Select
+  End Sub
+  
+***************
+*** 490,494 ****
+      Dim strNewPath As String
+      
+!     On Error GoTo Err_Handler
+      Set oBrowse = New clShellBrowse
+      With oBrowse
+--- 512,516 ----
+      Dim strNewPath As String
+      
+!     On Error GoTo err_handler
+      Set oBrowse = New clShellBrowse
+      With oBrowse
+***************
+*** 522,527 ****
+      MsgBox &quot;Done&quot;
+  Exit Sub
+! Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc &amp; vbCrLf &amp; &quot;Flow: &quot; &amp; strErrMsg)
+          Case vbIgnore
+              Resume Next
+--- 544,549 ----
+      MsgBox &quot;Done&quot;
+  Exit Sub
+! err_handler:
+!     Select Case reportError(Err, Me, cstrFunc, &quot;Flow: &quot; &amp; strErrMsg)
+          Case vbIgnore
+              Resume Next
+***************
+*** 534,538 ****
+  
+  Private Function loadProcessVers(fileName As String, Optional destPath As String = vbNullString) As Versions
+!     On Error GoTo Err_Handler
+      Const cstrFunc = &quot;loadProcessVers&quot;
+      Dim fLoaded As Boolean
+--- 556,560 ----
+  
+  Private Function loadProcessVers(fileName As String, Optional destPath As String = vbNullString) As Versions
+!     On Error GoTo err_handler
+      Const cstrFunc = &quot;loadProcessVers&quot;
+      Dim fLoaded As Boolean
+***************
+*** 587,592 ****
+      Set loadProcessVers = oVersions
+      Exit Function
+! Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc &amp; vbCrLf &amp; &quot;Process: &quot; &amp; strErrMsg)
+          Case vbIgnore
+              Resume Next
+--- 609,614 ----
+      Set loadProcessVers = oVersions
+      Exit Function
+! err_handler:
+!     Select Case reportError(Err, Me, cstrFunc, &quot;Process: &quot; &amp; strErrMsg)
+          Case vbIgnore
+              Resume Next
+***************
+*** 599,603 ****
+  
+  Private Function OffsetPath(fileName As String, NewPath As String) As String
+!     On Error GoTo Err_Handler:
+      Dim intPos As Integer
+      Dim intStart As Integer
+--- 621,625 ----
+  
+  Private Function OffsetPath(fileName As String, NewPath As String) As String
+!     On Error GoTo err_handler:
+      Dim intPos As Integer
+      Dim intStart As Integer
+***************
+*** 620,624 ****
+      Loop
+      
+! Err_Handler:
+      Stop
+      Resume 0
+--- 642,646 ----
+      Loop
+      
+! err_handler:
+      Stop
+      Resume 0
+***************
+*** 626,630 ****
+  
+  Private Sub MkDirExt(PathName As String)
+!     On Error GoTo Err_Handler:
+      Dim intPos As Integer
+      Dim intStart As Integer
+--- 648,652 ----
+  
+  Private Sub MkDirExt(PathName As String)
+!     On Error GoTo err_handler:
+      Dim intPos As Integer
+      Dim intStart As Integer
+***************
+*** 639,643 ****
+      Loop
+      Exit Sub
+! Err_Handler:
+      Stop
+      Resume 0
+--- 661,665 ----
+      Loop
+      Exit Sub
+! err_handler:
+      Stop
+      Resume 0
+***************
+*** 645,648 ****
+--- 667,671 ----
+  
+  Private Sub LoadPalette(oPalette As frmPalette)
++     On Error GoTo err_handler
+      Dim oTaskTemplateLoader As TaskTemplateLoader
+      Dim oTaskTemplate As TaskTemplate
+***************
+*** 657,663 ****
+     
+      oPalette.Redraw
+!    
+  End Sub
+  Private Sub loadAddinMenus()
+      Dim XMLAddins As New XMLAddinLoader
+      Set mAddins = XMLAddins.loadAddins(getTemplatePath() &amp; &quot;..\Addins&quot;)
+--- 680,689 ----
+     
+      oPalette.Redraw
+!     Exit Sub
+! err_handler:
+!     stackError Err, Me, &quot;loadPalette&quot;
+  End Sub
+  Private Sub loadAddinMenus()
++     On Error GoTo err_handler
+      Dim XMLAddins As New XMLAddinLoader
+      Set mAddins = XMLAddins.loadAddins(getTemplatePath() &amp; &quot;..\Addins&quot;)
+***************
+*** 668,673 ****
+--- 694,703 ----
+          ds.Commands.GetPopupMenu(&quot;mnuAddins&quot;).CommandBar.Controls.Add cmd.ID
+      Next
++     Exit Sub
++ err_handler:
++     stackError Err, Me, &quot;loadAddinMenus&quot;
+  End Sub
+  Private Sub LoadProcessTemplates()
++     On Error GoTo err_handler
+      Dim oXMLProcessTemplate As XMLProcessTemplate
+      
+***************
+*** 680,683 ****
+--- 710,716 ----
+          MsgBox &quot;Failed to load process templates&quot;, vbCritical
+      End If
++     Exit Sub
++ err_handler:
++     stackError Err, Me, &quot;loadProcessTemplates&quot;
+  End Sub
+  
+***************
+*** 698,702 ****
+      Dim oPropWin As frmPropList
+      Set oPropWin = ds.DockWindows.GetForm(&quot;dwProperties&quot;).Form
+!     On Error GoTo Err_Handler
+      Select Case LCase$(Command.Name)
+          Case &quot;tlpropertyadd&quot;
+--- 731,735 ----
+      Dim oPropWin As frmPropList
+      Set oPropWin = ds.DockWindows.GetForm(&quot;dwProperties&quot;).Form
+!     On Error GoTo err_handler
+      Select Case LCase$(Command.Name)
+          Case &quot;tlpropertyadd&quot;
+***************
+*** 707,716 ****
+      End Select
+      '# ignore errors, like I care
+! Err_Handler:
+      
+  End Sub
+  
+  Private Sub combineVersions()
+!     On Error GoTo Err_Handler
+      Const cstrFunc = &quot;combineVersions&quot;
+      Dim pathBase As String
+--- 740,749 ----
+      End Select
+      '# ignore errors, like I care
+! err_handler:
+      
+  End Sub
+  
+  Private Sub combineVersions()
+!     On Error GoTo err_handler
+      Const cstrFunc = &quot;combineVersions&quot;
+      Dim pathBase As String
+***************
+*** 785,789 ****
+                  FileCopy pathCombine &amp; &quot;\&quot; &amp; oProcessDef.Name &amp; &quot;.acgwfd.xml&quot;, strFileName
+              End If
+!             On Error GoTo Err_Handler
+          End If
+  
+--- 818,822 ----
+                  FileCopy pathCombine &amp; &quot;\&quot; &amp; oProcessDef.Name &amp; &quot;.acgwfd.xml&quot;, strFileName
+              End If
+!             On Error GoTo err_handler
+          End If
+  
+***************
+*** 793,798 ****
+      MsgBox &quot;Process Definitions combined!&quot;, vbInformation
+      Exit Sub
+! Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 826,831 ----
+      MsgBox &quot;Process Definitions combined!&quot;, vbInformation
+      Exit Sub
+! err_handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 805,809 ****
+  
+  Private Function loadProcessVersions(fromPath As String, Optional destConvertPath As String) As Collection
+!     On Error GoTo Err_Handler:
+      Const cstrFunc = &quot;loadProcessVersions&quot;
+      Dim oRtn As New Collection
+--- 838,842 ----
+  
+  Private Function loadProcessVersions(fromPath As String, Optional destConvertPath As String) As Collection
+!     On Error GoTo err_handler:
+      Const cstrFunc = &quot;loadProcessVersions&quot;
+      Dim oRtn As New Collection
+***************
+*** 823,828 ****
+      Set loadProcessVersions = oRtn
+      Exit Function
+! Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc &amp; vbCrLf &amp; &quot;Process: &quot; &amp; strErrMsg)
+          Case vbIgnore
+              Resume Next
+--- 856,861 ----
+      Set loadProcessVersions = oRtn
+      Exit Function
+! err_handler:
+!     Select Case reportError(Err, Me, cstrFunc, &quot;Process: &quot; &amp; strErrMsg)
+          Case vbIgnore
+              Resume Next
+
+Index: frmMDI.frx
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frx,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+Binary files /tmp/cvs.lSpZkG and /tmp/cvs.2lCdOj differ
+
+Index: frmPalette.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmPalette.frm,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** frmPalette.frm	3 Feb 2005 11:52:29 -0000	1.2
+--- frmPalette.frm	9 Nov 2007 14:58:28 -0000	1.3
+***************
+*** 1,4 ****
+  VERSION 5.00
+! Object = &quot;{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0&quot;; &quot;mscomct2.ocx&quot;
+  Begin VB.Form frmPalette 
+     Caption         =   &quot;Form1&quot;
+--- 1,4 ----
+  VERSION 5.00
+! Object = &quot;{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0&quot;; &quot;MSCOMCT2.OCX&quot;
+  Begin VB.Form frmPalette 
+     Caption         =   &quot;Form1&quot;
+***************
+*** 31,35 ****
+        _ExtentY        =   2778
+        _Version        =   393216
+!       Orientation     =   1179648
+     End
+     Begin VB.PictureBox picScroll 
+--- 31,35 ----
+        _ExtentY        =   2778
+        _Version        =   393216
+!       Orientation     =   1245184
+     End
+     Begin VB.PictureBox picScroll 
+***************
+*** 107,111 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 107,111 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 156,160 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 156,160 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+
+Index: frmPropList.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmPropList.frm,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** frmPropList.frm	31 Oct 2007 12:36:34 -0000	1.4
+--- frmPropList.frm	9 Nov 2007 14:58:28 -0000	1.5
+***************
+*** 1,4 ****
+  VERSION 5.00
+! Object = &quot;{BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.1#0&quot;; &quot;PropertyGridControl.ocx&quot;
+  Begin VB.Form frmPropList 
+     Caption         =   &quot;Form1&quot;
+--- 1,4 ----
+  VERSION 5.00
+! Object = &quot;{BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.2#0&quot;; &quot;PropertyGridControl.ocx&quot;
+  Begin VB.Form frmPropList 
+     Caption         =   &quot;Form1&quot;
+***************
+*** 99,104 ****
+      Set dlg = MDI.dlg
+      dlg.Filter = &quot;ACG WorkFlow Format|*.acgwfd.xml&quot;
+!     dlg.FilterIndex = 1
+!     dlg.DialogTitle = &quot;Set SubProcess&quot;
+      dlg.fileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+--- 99,104 ----
+      Set dlg = MDI.dlg
+      dlg.Filter = &quot;ACG WorkFlow Format|*.acgwfd.xml&quot;
+!     dlg.filterIndex = 1
+!     dlg.dialogTitle = &quot;Set SubProcess&quot;
+      dlg.fileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+***************
+*** 152,156 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 152,156 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+***************
+*** 178,182 ****
+      Exit Sub
+  Err_Handler:
+!     Select Case StdErrMsg(Err, mcstrModule, cstrFunc)
+          Case vbIgnore
+              Resume Next
+--- 178,182 ----
+      Exit Sub
+  Err_Handler:
+!     Select Case reportError(Err, Me, cstrFunc)
+          Case vbIgnore
+              Resume Next
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000466.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDXML ACGWFDXML.cache, 1.3,	1.4 ACGWFDXML.suo, 1.3, 1.4 ACGWFDXML.vbp, 1.7,	1.8 ACGWFDXML.wip, 1.3, 1.4 ACGWFDXML4.compatible.dll, 1.1,	1.2 ACGWFDXML4.dll, 1.3, 1.4 ACGWFDXML4.exp, 1.3,	1.4 ACGWFDXML4.lib, 1.3, 1.4 TaskTemplateLoader.cls, 1.3,	1.4 XMLAddinLoader.cls, 1.1, 1.2 XMLProcessTemplate.cls, 1.3, 1.4
+</A></li>
+	<LI>Next message: <A HREF="000468.html">[Zebra-checkins] zebra/src/vbcode/ACGWFD/Addins - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#467">[ date ]</a>
+              <a href="thread.html#467">[ thread ]</a>
+              <a href="subject.html#467">[ subject ]</a>
+              <a href="author.html#467">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

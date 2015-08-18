@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources log4j.properties,1.1,1.2 hibernate.cfg.xml,1.1,1.2 mcKoi.conf,1.1,NONE
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/test/resources%20log4j.properties%2C1.1%2C1.2%20hibernate.cfg.xml%2C1.1%2C1.2%20mcKoi.conf%2C1.1%2CNONE&In-Reply-To=%3C200601041533.k04FXmH16261%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000041.html">
+   <LINK REL="Next"  HREF="000042.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources log4j.properties,1.1,1.2 hibernate.cfg.xml,1.1,1.2 mcKoi.conf,1.1,NONE</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/test/resources%20log4j.properties%2C1.1%2C1.2%20hibernate.cfg.xml%2C1.1%2C1.2%20mcKoi.conf%2C1.1%2CNONE&In-Reply-To=%3C200601041533.k04FXmH16261%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources log4j.properties,1.1,1.2 hibernate.cfg.xml,1.1,1.2 mcKoi.conf,1.1,NONE">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 16:33:48 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000041.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreateTables.java,1.2,1.3 CreateMcKoiTables.java,1.2,NONE
+</A></li>
+        <LI>Next message: <A HREF="000042.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/test/resources
+In directory sheep:/tmp/cvs-serv4274/src/test/resources
+
+Modified Files:
+	log4j.properties hibernate.cfg.xml 
+Removed Files:
+	mcKoi.conf 
+Log Message:
+McKoi is not supported by Quartz. Removed McKoi as a test db.
+
+Index: log4j.properties
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/test/resources/log4j.properties,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** log4j.properties	4 Jan 2006 12:06:06 -0000	1.1
+--- log4j.properties	4 Jan 2006 15:33:45 -0000	1.2
+***************
+*** 1,3 ****
+! log4j.rootLogger = INFO, stdout
+  
+  # BEGIN HIBERNATE SECTION
+--- 1,4 ----
+! log4j.rootLogger = info, stdout
+! 
+  
+  # BEGIN HIBERNATE SECTION
+
+Index: hibernate.cfg.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/test/resources/hibernate.cfg.xml,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** hibernate.cfg.xml	4 Jan 2006 12:06:06 -0000	1.1
+--- hibernate.cfg.xml	4 Jan 2006 15:33:45 -0000	1.2
+***************
+*** 10,18 ****
+      &lt;!-- properties for this SessionFactory only --&gt;
+      &lt;property name=&quot;hibernate.cglib.use_reflection_optimizer&quot;&gt;false&lt;/property&gt;
+!     &lt;property name=&quot;connection.driver_class&quot;&gt;com.mckoi.JDBCDriver&lt;/property&gt;
+!     &lt;property name=&quot;connection.username&quot;&gt;test&lt;/property&gt;
+!     &lt;property name=&quot;connection.password&quot;&gt;test&lt;/property&gt;
+!     &lt;property name=&quot;connection.url&quot;&gt;jdbc:mckoi:<A HREF="local://./src/test/resources/mcKoi.conf?create_or_boot=true&lt;/property">local://./src/test/resources/mcKoi.conf?create_or_boot=true&lt;/property</A>&gt;
+!     &lt;property name=&quot;dialect&quot;&gt;org.hibernate.dialect.MckoiDialect&lt;/property&gt;
+  	&lt;/session-factory&gt;
+  &lt;/hibernate-configuration&gt;
+--- 10,18 ----
+      &lt;!-- properties for this SessionFactory only --&gt;
+      &lt;property name=&quot;hibernate.cglib.use_reflection_optimizer&quot;&gt;false&lt;/property&gt;
+!     &lt;property name=&quot;connection.driver_class&quot;&gt;org.postgresql.Driver&lt;/property&gt;
+!     &lt;property name=&quot;connection.username&quot;&gt;zebra&lt;/property&gt;
+!     &lt;property name=&quot;connection.password&quot;&gt;zebra&lt;/property&gt;
+!     &lt;property name=&quot;connection.url&quot;&gt;jdbc:postgresql:zebra&lt;/property&gt;
+!     &lt;property name=&quot;dialect&quot;&gt;org.hibernate.dialect.PostgreSQLDialect&lt;/property&gt;
+  	&lt;/session-factory&gt;
+  &lt;/hibernate-configuration&gt;
+
+--- mcKoi.conf DELETED ---
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000041.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreateTables.java,1.2,1.3 CreateMcKoiTables.java,1.2,NONE
+</A></li>
+	<LI>Next message: <A HREF="000042.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

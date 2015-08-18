@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator CryptoAuthenticator.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator%20CryptoAuthenticator.java%2C1.2%2C1.3&In-Reply-To=%3C200601241138.k0OBcux05668%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000091.html">
+   <LINK REL="Next"  HREF="000087.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator CryptoAuthenticator.java,1.2,1.3</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator%20CryptoAuthenticator.java%2C1.2%2C1.3&In-Reply-To=%3C200601241138.k0OBcux05668%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator CryptoAuthenticator.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 24 12:38:57 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000091.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,1.10,1.11
+</A></li>
+        <LI>Next message: <A HREF="000087.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.6,1.7
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#86">[ date ]</a>
+              <a href="thread.html#86">[ thread ]</a>
+              <a href="subject.html#86">[ subject ]</a>
+              <a href="author.html#86">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator
+In directory sheep:/tmp/cvs-serv30775/src/main/java/org/apache/fulcrum/security/authenticator
+
+Modified Files:
+	CryptoAuthenticator.java 
+Log Message:
+Completed changes for:
+
+1 - Make all methods pass passwords via crypto
+2 - Make the Authenticator available on API
+3 - Add Expiry Date
+4 - Add Use locking
+5 - Add Password History
+6 - Add Password Cycle Policy
+
+Index: CryptoAuthenticator.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator/CryptoAuthenticator.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** CryptoAuthenticator.java	17 Jan 2006 09:17:24 -0000	1.2
+--- CryptoAuthenticator.java	24 Jan 2006 11:38:54 -0000	1.3
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.authenticator;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 22,100 ****
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+  /**
+!  * This class authenticates using the Fulcrum Crypto service a user and
+!  * their password
+!  *
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+!  * @version $Id$
+   * @avalon.component name=&quot;crypto-authenticator&quot;
+   * @avalon.service type=&quot;org.apache.fulcrum.security.authenticator.Authenticator&quot;
+   */
+! public class CryptoAuthenticator implements Authenticator
+! {
+!     boolean composed = false;
+!     private CryptoService cryptoService = null;
+!     private String algorithm=&quot;java&quot;;
+!     private String cipher=&quot;SHA-1&quot;;
+!     /**
+!      * Authenticate an username with the specified password. If authentication
+!      * is successful the method returns true. If it fails, it returns false
+!      * If there are any problems, an exception is thrown.
+!      * 
+!      *
+!      * @param usernameAndDomain an string in the format [domain]/[username].
+!      * @param password the user supplied password.
+!      * @exception UnknownEntityException if the user's account does not
+!      *            exist in the database.
+!      * @exception DataBackendException if there is a problem accessing the
+!      *            storage.
+!      */
+!     public boolean authenticate(User user, String password) throws  DataBackendException
+!     {
+!  
+!         /*try {
+!             CryptoAlgorithm ca = cryptoService.getCryptoAlgorithm(algorithm);
+!             ca.setCipher(cipher);
+!             String output = ca.encrypt(password);*/
+!         	String output = getCryptoPassword(password);
+!             return output.equals(user.getPassword());
+!         /*}
+!         catch (NoSuchAlgorithmException e) {
+!             throw new DataBackendException(e.getMessage(), e);
+!         }
+!         catch (Exception ex) {
+!             throw new DataBackendException(ex.getMessage(), ex);
+!         }*/
+!     }
+!     
+!     public String getAlgorithm() {
+!         return algorithm;
+!     }
+!     
+!     public void setAlgorithm(String algorithm) {
+!         this.algorithm = algorithm;
+!     }
+!     
+!     public String getCipher() {
+!         return cipher;
+!     }
+!     
+!     public void setCipher(String cipher) {
+!         this.cipher = cipher;
+!     }
+!    
+!     public void setCryptoService(CryptoService cryptoService) {
+!         this.cryptoService = cryptoService;
+!     }
+!     
+! 	public String getCryptoPassword(String password) throws DataBackendException {
+  		try {
+  			CryptoAlgorithm ca = cryptoService.getCryptoAlgorithm(algorithm);
+! 	        ca.setCipher(cipher);
+! 	        return ca.encrypt(password);
+! 		} catch (NoSuchAlgorithmException e) {
+!             throw new DataBackendException(e.getMessage(), e);
+  		} catch (Exception e) {
+!             throw new DataBackendException(e.getMessage(), e);
+  		}
+  	}
+--- 23,93 ----
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
++ 
+  /**
+!  * This class authenticates using the Fulcrum Crypto service a user and their
+!  * password
+!  * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+!  * @version $Id: CryptoAuthenticator.java,v 1.2 2006/01/17 09:17:24
+!  *          biggus_richus Exp $
+   * @avalon.component name=&quot;crypto-authenticator&quot;
+   * @avalon.service type=&quot;org.apache.fulcrum.security.authenticator.Authenticator&quot;
+   */
+! public class CryptoAuthenticator implements Authenticator {
+! 	boolean composed = false;
+! 
+! 	private CryptoService cryptoService = null;
+! 
+! 	private String algorithm = &quot;java&quot;;
+! 
+! 	private String cipher = &quot;SHA-1&quot;;
+! 
+! 	/**
+! 	 * Authenticate an username with the specified password. If authentication
+! 	 * is successful the method returns true. If it fails, it returns false If
+! 	 * there are any problems, an exception is thrown.
+! 	 * 
+! 	 * 
+! 	 * @param usernameAndDomain
+! 	 *            an string in the format [domain]/[username].
+! 	 * @param password
+! 	 *            the user supplied password.
+! 	 * @exception DataBackendException
+! 	 *                if there is a problem accessing the storage.
+! 	 */
+! 	public boolean authenticate(User user, String password)
+! 			throws DataBackendException {
+! 		String output = getCryptoPassword(password);
+! 		return output.equals(user.getPassword());
+! 	}
+! 
+! 	public String getAlgorithm() {
+! 		return algorithm;
+! 	}
+! 
+! 	public void setAlgorithm(String algorithm) {
+! 		this.algorithm = algorithm;
+! 	}
+! 
+! 	public String getCipher() {
+! 		return cipher;
+! 	}
+! 
+! 	public void setCipher(String cipher) {
+! 		this.cipher = cipher;
+! 	}
+! 
+! 	public void setCryptoService(CryptoService cryptoService) {
+! 		this.cryptoService = cryptoService;
+! 	}
+! 
+! 	public String getCryptoPassword(String password)
+! 			throws DataBackendException {
+  		try {
+  			CryptoAlgorithm ca = cryptoService.getCryptoAlgorithm(algorithm);
+! 			ca.setCipher(cipher);
+! 			return ca.encrypt(password);
+  		} catch (Exception e) {
+! 			throw new DataBackendException(e.getMessage(), e);
+  		}
+  	}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000091.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,1.10,1.11
+</A></li>
+	<LI>Next message: <A HREF="000087.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.6,1.7
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#86">[ date ]</a>
+              <a href="thread.html#86">[ thread ]</a>
+              <a href="subject.html#86">[ subject ]</a>
+              <a href="author.html#86">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

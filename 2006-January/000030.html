@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2CNONE%2C1.1&In-Reply-To=%3C200601041206.k04C69H06792%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000027.html">
+   <LINK REL="Next"  HREF="000028.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,NONE,1.1</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2CNONE%2C1.1&In-Reply-To=%3C200601041206.k04C69H06792%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 13:06:09 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000027.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,NONE,1.1 .cvsignore,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000028.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/resources/META-INF hivemodule.xml,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#30">[ date ]</a>
+              <a href="thread.html#30">[ thread ]</a>
+              <a href="subject.html#30">[ subject ]</a>
+              <a href="author.html#30">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory
+In directory sheep:/tmp/cvs-serv6930/src/main/java/org/apache/fulcrum/quartz/factory
+
+Added Files:
+	QuartzSchedulerFactory.java 
+Log Message:
+Initial commit of hivemind-quartz service. 
+
+--- NEW FILE: QuartzSchedulerFactory.java ---
+package org.apache.fulcrum.quartz.factory;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
+import org.apache.commons.lang.exception.NestableRuntimeException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.fulcrum.hibernate.factory.HibernateSessionFactory;
+import org.apache.fulcrum.quartz.tables.CreateMcKoiTables;
+import org.apache.fulcrum.quartz.tables.CreatePostgresTables;
+import org.apache.hivemind.ServiceImplementationFactory;
+import org.apache.hivemind.ServiceImplementationFactoryParameters;
+import org.apache.hivemind.events.RegistryShutdownListener;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
+
+public class QuartzSchedulerFactory implements ServiceImplementationFactory,
+		RegistryShutdownListener {
+
+	private static final Log log = LogFactory
+			.getLog(QuartzSchedulerFactory.class);
+
+	private static final String HIBERNATE_DRIVER_KEY = &quot;hibernate.connection.driver_class&quot;;
+
+	private static final String HIBERNATE_PASSWORD_KEY = &quot;hibernate.connection.password&quot;;
+
+	private static final String HIBERNATE_URL_KEY = &quot;hibernate.connection.url&quot;;
+
+	private static final String HIBERNATE_USERNAME_KEY = &quot;hibernate.connection.username&quot;;
+
+	private static final String HIBERNATE_POOL_SIZE_KEY = &quot;hibernate.connection.pool_size&quot;;
+
+	private static final String DEFAULT_MAX_CONNECTIONS = &quot;10&quot;;
+
+	/*
+	 * This class only supports use of the following databases/drivers
+	 * to support a new db, create a new class to create the tables using
+	 * the McKoi or Postgres ones as an example and add the appropriate 
+	 * block into the createTables method.
+	 */
+	private static final String MCKOI = &quot;com.mckoi.JDBCDriver&quot;;
+	private static final String POSTGRESQL = &quot;org.postgresql.Driver&quot;;
+	
+	private SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+
+	private Scheduler scheduler = null;
+
+	private HibernateSessionFactory hibernateSessionFactory = null;
+
+	public HibernateSessionFactory getHibernateSessionFactory() {
+		return hibernateSessionFactory;
+	}
+
+	public void setHibernateSessionFactory(
+			HibernateSessionFactory hibernateSessionFactory) {
+		this.hibernateSessionFactory = hibernateSessionFactory;
+	}
+
+	public Object createCoreServiceImplementation(
+			ServiceImplementationFactoryParameters arg0) {
+		try {
+			/*
+			 * check and see if we have scheduler tables in the DB.
+			 */
+			Properties hibernateProperties = hibernateSessionFactory
+					.getHibernateProperties();
+			String driver = hibernateProperties.getProperty(HIBERNATE_DRIVER_KEY);
+			System.out.println(&quot;url:&quot; +hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+			System.out.println(&quot;username:&quot; +hibernateProperties.getProperty(HIBERNATE_USERNAME_KEY));
+			System.out.println(&quot;password:&quot; +hibernateProperties.getProperty(HIBERNATE_PASSWORD_KEY));
+			checkTables(driver);
+			Properties defaults = new Properties();
+			defaults.load(this.getClass().getResourceAsStream(
+					&quot;/quartz.properties&quot;));
+			defaults.put(&quot;org.quartz.dataSource.quartzDS.driver&quot;,
+					hibernateProperties.getProperty(HIBERNATE_DRIVER_KEY));
+			defaults.put(&quot;org.quartz.dataSource.quartzDS.URL&quot;,
+					hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+			defaults.put(&quot;org.quartz.dataSource.quartzDS.user&quot;,
+					hibernateProperties.getProperty(HIBERNATE_USERNAME_KEY));
+			defaults.put(&quot;org.quartz.dataSource.quartzDS.password&quot;,
+					hibernateProperties.getProperty(HIBERNATE_PASSWORD_KEY));
+			defaults.put(&quot;org.quartz.dataSource.quartzDS.maxConnections&quot;,
+					DEFAULT_MAX_CONNECTIONS);
+			System.out.println(defaults.toString());
+			SchedulerFactory schedulerFactory = new StdSchedulerFactory(
+					defaults);
+			scheduler = schedulerFactory.getScheduler();
+			scheduler.start();
+		} catch (IOException ioe) {
+			throw new NestableRuntimeException(ioe);
+		} catch (SchedulerException se) {
+			throw new NestableRuntimeException(se);
+		} catch (SQLException sqle) {
+			log.error(&quot;SQLException caught:&quot;, sqle);
+			throw new NestableRuntimeException(sqle);
+		}
+		
+		return scheduler;
+	}
+
+	public void registryDidShutdown() {
+		try {
+			scheduler.shutdown();
+			scheduler = null;
+		} catch (SchedulerException se) {
+			throw new NestableRuntimeException(se);
+		}
+
+	}
+
+	/**
+	 * method to check the JobStore to see if tables exist and if not create
+	 * them.
+	 */
+	private void checkTables(String driverClassName) throws SQLException {
+		Connection conn = hibernateSessionFactory
+				.getConnectionProviderDataSource().getConnection();
+		String query = &quot;select * from qrtz_job_details;&quot;;
+		try {
+			/*
+			 * we are not interested in the result just whether an
+			 * exception is thrown on a table not found
+			 */
+			Statement stmt = conn.createStatement();
+			stmt.execute(query);
+		} catch (SQLException sqle) {
+			/*
+			 * no table.
+			 */
+			createTables(conn, driverClassName);
+		}
+	}
+	
+	/**
+	 * creates the tables for the Quartz jobStore.
+	 */
+	private void createTables(Connection conn, String driver) throws SQLException
+	{
+		if (MCKOI.equalsIgnoreCase(driver))
+		{
+			CreateMcKoiTables tableCreator = new CreateMcKoiTables();
+			tableCreator.createTables(conn);
+			return;
+		}
+		if (POSTGRESQL.equalsIgnoreCase(driver))
+		{
+			CreatePostgresTables tableCreator = new CreatePostgresTables();
+			tableCreator.createTables(conn);
+			return;
+		}
+		throw new RuntimeException(&quot;Driver not recognised as either McKoi or Postgres:&quot; + driver);
+	}
+	
+}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000027.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,NONE,1.1 .cvsignore,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000028.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/resources/META-INF hivemodule.xml,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#30">[ date ]</a>
+              <a href="thread.html#30">[ thread ]</a>
+              <a href="subject.html#30">[ subject ]</a>
+              <a href="author.html#30">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

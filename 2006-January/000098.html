@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF hivemodule.xml,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF%20hivemodule.xml%2C1.3%2C1.4&In-Reply-To=%3C200601241157.k0OBvwx06675%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000095.html">
+   <LINK REL="Next"  HREF="000094.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF hivemodule.xml,1.3,1.4</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF%20hivemodule.xml%2C1.3%2C1.4&In-Reply-To=%3C200601241157.k0OBvwx06675%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF hivemodule.xml,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 24 12:57:58 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000095.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.6,1.7
+</A></li>
+        <LI>Next message: <A HREF="000094.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelperHivemindImplementation.java,1.1,1.2 HibernateUserManagerImpl.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#98">[ date ]</a>
+              <a href="thread.html#98">[ thread ]</a>
+              <a href="subject.html#98">[ subject ]</a>
+              <a href="author.html#98">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF
+In directory sheep:/tmp/cvs-serv14042/src/main/resources/META-INF
+
+Modified Files:
+	hivemodule.xml 
+Log Message:
+Fixed issues with user modification not writing thru to database
+
+Index: hivemodule.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF/hivemodule.xml,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** hivemodule.xml	17 Jan 2006 09:17:20 -0000	1.3
+--- hivemodule.xml	24 Jan 2006 11:57:56 -0000	1.4
+***************
+*** 1,68 ****
+  &lt;?xml version=&quot;1.0&quot;?&gt;
+  &lt;module id=&quot;fulcrum.security.hivemind&quot; version=&quot;1.0.0&quot;&gt;
+!   &lt;service-point id=&quot;peristenceHelper&quot;
+!     interface=&quot;org.apache.fulcrum.security.hibernate.PersistenceHelper&quot;&gt;
+!     &lt;invoke-factory model=&quot;threaded&quot;&gt;
+!       &lt;construct class=&quot;org.apache.fulcrum.security.hibernate.PersistenceHelperHivemindImplementation&quot;&gt;
+!         &lt;set-service property=&quot;session&quot; service-id=&quot;fulcrum.hibernate.Session&quot;/&gt;
+!       &lt;/construct&gt;
+!     &lt;/invoke-factory&gt;
+!   &lt;/service-point&gt;
+!   &lt;service-point id=&quot;modelManagerDynamic&quot;
+!     interface=&quot;org.apache.fulcrum.security.model.dynamic.DynamicModelManager&quot;&gt;
+!     &lt;invoke-factory&gt;
+!       &lt;construct class=&quot;org.apache.fulcrum.security.hibernate.dynamic.HibernateModelManagerImpl&quot;
+!       &gt; &lt;/construct&gt;
+!     &lt;/invoke-factory&gt;
+!   &lt;/service-point&gt;
+!   &lt;service-point id=&quot;userManagerDynamic&quot; interface=&quot;org.apache.fulcrum.security.UserManager&quot;&gt;
+!     &lt;invoke-factory&gt;
+!       &lt;construct class=&quot;org.apache.fulcrum.security.hibernate.HibernateUserManagerImpl&quot;&gt;
+!         &lt;set property=&quot;className&quot;
+!           value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser&quot;/&gt;
+! 		&lt;set property=&quot;passwordDuration&quot; value=&quot;28&quot;/&gt;
+! 		&lt;set property=&quot;passwordCyclePolicy&quot; value=&quot;5&quot;/&gt;
+! 		&lt;set property=&quot;maxLoginAttempts&quot; value=&quot;3&quot;/&gt;
+! 		&lt;set property=&quot;lockReset&quot; value=&quot;12&quot;/&gt;
+!         &lt;set-service property=&quot;authenticator&quot; service-id=&quot;fulcrum.security.authenticatorTextMatch&quot;/&gt;
+!         &lt;set-service property=&quot;aclFactory&quot; service-id=&quot;fulcrum.security.aclFactoryDynamic&quot;/&gt;
+!       &lt;/construct&gt;
+!     &lt;/invoke-factory&gt;
+!   &lt;/service-point&gt;
+!   &lt;service-point id=&quot;groupManagerDynamic&quot; interface=&quot;org.apache.fulcrum.security.GroupManager&quot;&gt;
+!     &lt;invoke-factory&gt;
+!       &lt;construct class=&quot;org.apache.fulcrum.security.hibernate.HibernateGroupManagerImpl&quot;&gt;
+!         &lt;set property=&quot;className&quot;
+!           value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicGroup&quot;/&gt;
+!       &lt;/construct&gt;
+!     &lt;/invoke-factory&gt;
+!   &lt;/service-point&gt;
+!   &lt;service-point id=&quot;permissionManagerDynamic&quot;
+!     interface=&quot;org.apache.fulcrum.security.PermissionManager&quot;&gt;
+!     &lt;invoke-factory&gt;
+!       &lt;construct class=&quot;org.apache.fulcrum.security.hibernate.HibernatePermissionManagerImpl&quot;&gt;
+!         &lt;set property=&quot;className&quot;
+!           value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicPermission&quot;/&gt;
+!       &lt;/construct&gt;
+!     &lt;/invoke-factory&gt;
+!   &lt;/service-point&gt;
+!   &lt;service-point id=&quot;roleManagerDynamic&quot; interface=&quot;org.apache.fulcrum.security.RoleManager&quot;&gt;
+!     &lt;invoke-factory&gt;
+!       &lt;construct class=&quot;org.apache.fulcrum.security.hibernate.HibernateRoleManagerImpl&quot;&gt;
+!         &lt;set property=&quot;className&quot;
+!           value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicRole&quot;/&gt;
+!       &lt;/construct&gt;
+!     &lt;/invoke-factory&gt;
+!   &lt;/service-point&gt;
+!   &lt;service-point id=&quot;securityServiceDynamic&quot; interface=&quot;org.apache.fulcrum.security.SecurityService&quot;&gt;
+!     &lt;invoke-factory&gt;
+!       &lt;construct class=&quot;org.apache.fulcrum.security.BaseSecurityService&quot;&gt;
+!         &lt;set-service property=&quot;modelManager&quot; service-id=&quot;modelManagerDynamic&quot;/&gt;
+!         &lt;set-service property=&quot;groupManager&quot; service-id=&quot;groupManagerDynamic&quot;/&gt;
+!         &lt;set-service property=&quot;userManager&quot; service-id=&quot;userManagerDynamic&quot;/&gt;
+!         &lt;set-service property=&quot;permissionManager&quot; service-id=&quot;permissionManagerDynamic&quot;/&gt;
+!         &lt;set-service property=&quot;roleManager&quot; service-id=&quot;roleManagerDynamic&quot;/&gt;
+!       &lt;/construct&gt;
+!     &lt;/invoke-factory&gt;
+!   &lt;/service-point&gt;
+! &lt;/module&gt;
+--- 1,86 ----
+  &lt;?xml version=&quot;1.0&quot;?&gt;
+  &lt;module id=&quot;fulcrum.security.hivemind&quot; version=&quot;1.0.0&quot;&gt;
+! 	&lt;service-point id=&quot;peristenceHelper&quot;
+! 		interface=&quot;org.apache.fulcrum.security.hibernate.PersistenceHelper&quot;&gt;
+! 		&lt;invoke-factory model=&quot;threaded&quot;&gt;
+! 			&lt;construct
+! 				class=&quot;org.apache.fulcrum.security.hibernate.PersistenceHelperHivemindImplementation&quot;&gt;
+! 				&lt;set-service property=&quot;session&quot;
+! 					service-id=&quot;fulcrum.hibernate.Session&quot;/&gt;
+! 			&lt;/construct&gt;
+! 		&lt;/invoke-factory&gt;
+! 	&lt;/service-point&gt;
+! 	&lt;service-point id=&quot;modelManagerDynamic&quot;
+! 		interface=&quot;org.apache.fulcrum.security.model.dynamic.DynamicModelManager&quot;&gt;
+! 		&lt;invoke-factory&gt;
+! 			&lt;construct
+! 				class=&quot;org.apache.fulcrum.security.hibernate.dynamic.HibernateModelManagerImpl&quot;&gt;
+! 			&lt;/construct&gt;
+! 		&lt;/invoke-factory&gt;
+! 	&lt;/service-point&gt;
+! 	&lt;service-point id=&quot;userManagerDynamic&quot;
+! 		interface=&quot;org.apache.fulcrum.security.UserManager&quot;&gt;
+! 		&lt;invoke-factory&gt;
+! 			&lt;construct
+! 				class=&quot;org.apache.fulcrum.security.hibernate.HibernateUserManagerImpl&quot;&gt;
+! 				&lt;set property=&quot;className&quot;
+! 					value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser&quot;/&gt;
+! 				&lt;set property=&quot;passwordDurationDays&quot; value=&quot;28&quot;/&gt;
+! 				&lt;set property=&quot;passwordCyclePolicy&quot; value=&quot;5&quot;/&gt;
+! 				&lt;set property=&quot;maxLoginAttempts&quot; value=&quot;3&quot;/&gt;
+! 				&lt;set property=&quot;lockResetHours&quot; value=&quot;12&quot;/&gt;
+! 				&lt;set-service property=&quot;authenticator&quot;
+! 					service-id=&quot;fulcrum.security.authenticatorTextMatch&quot;/&gt;
+! 				&lt;set-service property=&quot;aclFactory&quot;
+! 					service-id=&quot;fulcrum.security.aclFactoryDynamic&quot;/&gt;
+! 			&lt;/construct&gt;
+! 		&lt;/invoke-factory&gt;
+! 	&lt;/service-point&gt;
+! 	&lt;service-point id=&quot;groupManagerDynamic&quot;
+! 		interface=&quot;org.apache.fulcrum.security.GroupManager&quot;&gt;
+! 		&lt;invoke-factory&gt;
+! 			&lt;construct
+! 				class=&quot;org.apache.fulcrum.security.hibernate.HibernateGroupManagerImpl&quot;&gt;
+! 				&lt;set property=&quot;className&quot;
+! 					value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicGroup&quot;/&gt;
+! 			&lt;/construct&gt;
+! 		&lt;/invoke-factory&gt;
+! 	&lt;/service-point&gt;
+! 	&lt;service-point id=&quot;permissionManagerDynamic&quot;
+! 		interface=&quot;org.apache.fulcrum.security.PermissionManager&quot;&gt;
+! 		&lt;invoke-factory&gt;
+! 			&lt;construct
+! 				class=&quot;org.apache.fulcrum.security.hibernate.HibernatePermissionManagerImpl&quot;&gt;
+! 				&lt;set property=&quot;className&quot;
+! 					value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicPermission&quot;/&gt;
+! 			&lt;/construct&gt;
+! 		&lt;/invoke-factory&gt;
+! 	&lt;/service-point&gt;
+! 	&lt;service-point id=&quot;roleManagerDynamic&quot;
+! 		interface=&quot;org.apache.fulcrum.security.RoleManager&quot;&gt;
+! 		&lt;invoke-factory&gt;
+! 			&lt;construct
+! 				class=&quot;org.apache.fulcrum.security.hibernate.HibernateRoleManagerImpl&quot;&gt;
+! 				&lt;set property=&quot;className&quot;
+! 					value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicRole&quot;/&gt;
+! 			&lt;/construct&gt;
+! 		&lt;/invoke-factory&gt;
+! 	&lt;/service-point&gt;
+! 	&lt;service-point id=&quot;securityServiceDynamic&quot;
+! 		interface=&quot;org.apache.fulcrum.security.SecurityService&quot;&gt;
+! 		&lt;invoke-factory&gt;
+! 			&lt;construct class=&quot;org.apache.fulcrum.security.BaseSecurityService&quot;&gt;
+! 				&lt;set-service property=&quot;modelManager&quot;
+! 					service-id=&quot;modelManagerDynamic&quot;/&gt;
+! 				&lt;set-service property=&quot;groupManager&quot;
+! 					service-id=&quot;groupManagerDynamic&quot;/&gt;
+! 				&lt;set-service property=&quot;userManager&quot;
+! 					service-id=&quot;userManagerDynamic&quot;/&gt;
+! 				&lt;set-service property=&quot;permissionManager&quot;
+! 					service-id=&quot;permissionManagerDynamic&quot;/&gt;
+! 				&lt;set-service property=&quot;roleManager&quot;
+! 					service-id=&quot;roleManagerDynamic&quot;/&gt;
+! 			&lt;/construct&gt;
+! 		&lt;/invoke-factory&gt;
+! 	&lt;/service-point&gt;
+! &lt;/module&gt;
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000095.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.6,1.7
+</A></li>
+	<LI>Next message: <A HREF="000094.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelperHivemindImplementation.java,1.1,1.2 HibernateUserManagerImpl.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#98">[ date ]</a>
+              <a href="thread.html#98">[ thread ]</a>
+              <a href="subject.html#98">[ subject ]</a>
+              <a href="author.html#98">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

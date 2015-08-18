@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.7,1.8 AbstractZebraTaskInstance.java,1.4,1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraProcessInstance.java%2C1.7%2C1.8%20AbstractZebraTaskInstance.java%2C1.4%2C1.5&In-Reply-To=%3C200601030748.k037mXH00607%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000003.html">
+   <LINK REL="Next"  HREF="000000.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.7,1.8 AbstractZebraTaskInstance.java,1.4,1.5</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraProcessInstance.java%2C1.7%2C1.8%20AbstractZebraTaskInstance.java%2C1.4%2C1.5&In-Reply-To=%3C200601030748.k037mXH00607%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.7,1.8 AbstractZebraTaskInstance.java,1.4,1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan  3 08:48:33 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000003.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraSecurity.java,1.3,1.4 Zebra.java,1.6,1.7
+</A></li>
+        <LI>Next message: <A HREF="000000.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state
+In directory sheep:/tmp/cvs-serv7171/src/main/java/com/anite/zebra/hivemind/om/state
+
+Modified Files:
+	ZebraProcessInstance.java AbstractZebraTaskInstance.java 
+Log Message:
+1.2 Release with Hibernate 3.1 release
+
+Index: ZebraProcessInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraProcessInstance.java,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** ZebraProcessInstance.java	5 Dec 2005 16:32:00 -0000	1.7
+--- ZebraProcessInstance.java	3 Jan 2006 07:48:31 -0000	1.8
+***************
+*** 46,50 ****
+  import org.apache.fulcrum.security.PermissionManager;
+  import org.apache.fulcrum.security.entity.Permission;
+! import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.PermissionSet;
+--- 46,50 ----
+  import org.apache.fulcrum.security.PermissionManager;
+  import org.apache.fulcrum.security.entity.Permission;
+! import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.PermissionSet;
+***************
+*** 105,109 ****
+  
+      /** The user that activated this process */
+!     private DynamicUser activatedBy;
+  
+      /** The property set catch all for anything at all */
+--- 105,109 ----
+  
+      /** The user that activated this process */
+!     private HibernateDynamicUser activatedBy;
+  
+      /** The property set catch all for anything at all */
+***************
+*** 225,228 ****
+--- 225,230 ----
+       * @hibernate.collection-cache usage=&quot;transactional&quot;
+       * @return Returns the dynamicPermissionMap.
++      * 
++      * @TODO implement me using CollectionOfElements once Hibernate Annonations B7 is integrated
+       */
+      @Transient
+***************
+*** 374,382 ****
+       */
+      @ManyToOne
+!     public DynamicUser getActivatedBy() {
+          return this.activatedBy;
+      }
+  
+!     public void setActivatedBy(DynamicUser activatedBy) {
+          this.activatedBy = activatedBy;
+      }
+--- 376,384 ----
+       */
+      @ManyToOne
+!     public HibernateDynamicUser getActivatedBy() {
+          return this.activatedBy;
+      }
+  
+!     public void setActivatedBy(HibernateDynamicUser activatedBy) {
+          this.activatedBy = activatedBy;
+      }
+
+Index: AbstractZebraTaskInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/AbstractZebraTaskInstance.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** AbstractZebraTaskInstance.java	5 Dec 2005 09:52:36 -0000	1.4
+--- AbstractZebraTaskInstance.java	3 Jan 2006 07:48:31 -0000	1.5
+***************
+*** 33,37 ****
+  import org.apache.commons.lang.exception.NestableException;
+  import org.apache.fulcrum.security.entity.Permission;
+! import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+  import org.apache.fulcrum.security.util.PermissionSet;
+  
+--- 33,37 ----
+  import org.apache.commons.lang.exception.NestableException;
+  import org.apache.fulcrum.security.entity.Permission;
+! import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+  import org.apache.fulcrum.security.util.PermissionSet;
+  
+***************
+*** 67,71 ****
+  	private String routingAnswer;
+  
+! 	private DynamicUser taskOwner;
+  
+  	private String caption;
+--- 67,71 ----
+  	private String routingAnswer;
+  
+! 	private HibernateDynamicUser taskOwner;
+  
+  	private String caption;
+***************
+*** 81,85 ****
+  	private Date actualCompletionDate;
+  
+! 	private DynamicUser decisionMadeBy;
+  
+  	private Priority priority;
+--- 81,85 ----
+  	private Date actualCompletionDate;
+  
+! 	private HibernateDynamicUser decisionMadeBy;
+  
+  	private Priority priority;
+***************
+*** 221,229 ****
+  
+  	@ManyToOne
+! 	public DynamicUser getTaskOwner() {
+  		return this.taskOwner;
+  	}
+  
+! 	public void setTaskOwner(DynamicUser user) {
+  		this.taskOwner = user;
+  	}
+--- 221,229 ----
+  
+  	@ManyToOne
+! 	public HibernateDynamicUser getTaskOwner() {
+  		return this.taskOwner;
+  	}
+  
+! 	public void setTaskOwner(HibernateDynamicUser user) {
+  		this.taskOwner = user;
+  	}
+***************
+*** 304,308 ****
+  	 */
+  	@ManyToOne
+! 	public DynamicUser getDecisionMadeBy() {
+  		return this.decisionMadeBy;
+  	}
+--- 304,308 ----
+  	 */
+  	@ManyToOne
+! 	public HibernateDynamicUser getDecisionMadeBy() {
+  		return this.decisionMadeBy;
+  	}
+***************
+*** 313,317 ****
+  	 * set
+  	 */
+! 	public void setDecisionMadeBy(DynamicUser decisionMadeBy) {
+  		this.decisionMadeBy = decisionMadeBy;
+  	}
+--- 313,317 ----
+  	 * set
+  	 */
+! 	public void setDecisionMadeBy(HibernateDynamicUser decisionMadeBy) {
+  		this.decisionMadeBy = decisionMadeBy;
+  	}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000003.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraSecurity.java,1.3,1.4 Zebra.java,1.6,1.7
+</A></li>
+	<LI>Next message: <A HREF="000000.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#4">[ date ]</a>
+              <a href="thread.html#4">[ thread ]</a>
+              <a href="subject.html#4">[ subject ]</a>
+              <a href="author.html#4">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources log4j.properties,NONE,1.1 hibernate.cfg.xml,1.4,1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/resources%20log4j.properties%2CNONE%2C1.1%20hibernate.cfg.xml%2C1.4%2C1.5&In-Reply-To=%3C200601041555.k04FtZH17147%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000047.html">
+   <LINK REL="Next"  HREF="000052.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources log4j.properties,NONE,1.1 hibernate.cfg.xml,1.4,1.5</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/resources%20log4j.properties%2CNONE%2C1.1%20hibernate.cfg.xml%2C1.4%2C1.5&In-Reply-To=%3C200601041555.k04FtZH17147%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources log4j.properties,NONE,1.1 hibernate.cfg.xml,1.4,1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 16:55:36 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000047.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000052.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs ZebraPropertyGroups.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/resources
+In directory sheep:/tmp/cvs-serv8139/src/test/resources
+
+Modified Files:
+	hibernate.cfg.xml 
+Added Files:
+	log4j.properties 
+Log Message:
+Add Quartz scheduled delay task and test. 
+
+--- NEW FILE: log4j.properties ---
+# Basic logging for testing
+log4j.rootLogger = info, stdout
+
+log4j.org.hibernate = debug, stdout
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+
+
+Index: hibernate.cfg.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/resources/hibernate.cfg.xml,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** hibernate.cfg.xml	3 Jan 2006 07:48:31 -0000	1.4
+--- hibernate.cfg.xml	4 Jan 2006 15:55:33 -0000	1.5
+***************
+*** 5,8 ****
+--- 5,9 ----
+  &lt;hibernate-configuration&gt;
+  	&lt;session-factory&gt;
++ 		&lt;property name=&quot;show_sql&quot;&gt;false&lt;/property&gt;
+  		&lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;org.postgresql.Driver&lt;/property&gt;
+  		&lt;property name=&quot;hibernate.connection.password&quot;&gt;zebra&lt;/property&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000047.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000052.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/defs ZebraPropertyGroups.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.35,1.36
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind%20pom.xml%2C1.35%2C1.36&In-Reply-To=%3C200605310847.k4V8lcb24411%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000389.html">
+   <LINK REL="Next"  HREF="000391.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.35,1.36</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind%20pom.xml%2C1.35%2C1.36&In-Reply-To=%3C200605310847.k4V8lcb24411%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.35,1.36">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed May 31 10:47:38 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000389.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.34,1.35
+</A></li>
+        <LI>Next message: <A HREF="000391.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#390">[ date ]</a>
+              <a href="thread.html#390">[ thread ]</a>
+              <a href="subject.html#390">[ subject ]</a>
+              <a href="author.html#390">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv32608
+
+Modified Files:
+	pom.xml 
+Log Message:
+
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.35
+retrieving revision 1.36
+diff -C2 -d -r1.35 -r1.36
+*** pom.xml	31 May 2006 07:11:17 -0000	1.35
+--- pom.xml	31 May 2006 08:47:35 -0000	1.36
+***************
+*** 135,146 ****
+              &lt;artifactId&gt;zebra-core&lt;/artifactId&gt;
+              &lt;version&gt;0.5.2-dev&lt;/version&gt;
+!         &lt;/dependency&gt;     
+          &lt;dependency&gt;
+              &lt;groupId&gt;zebra&lt;/groupId&gt;
+              &lt;artifactId&gt;zebra-xmlloader&lt;/artifactId&gt;
+              &lt;version&gt;1.0&lt;/version&gt;
+          &lt;/dependency&gt;
+          &lt;!-- End Zebra --&gt;
+-        
+      &lt;/dependencies&gt;
+      &lt;distributionManagement&gt;
+--- 135,151 ----
+              &lt;artifactId&gt;zebra-core&lt;/artifactId&gt;
+              &lt;version&gt;0.5.2-dev&lt;/version&gt;
+!         &lt;/dependency&gt;
+          &lt;dependency&gt;
+              &lt;groupId&gt;zebra&lt;/groupId&gt;
+              &lt;artifactId&gt;zebra-xmlloader&lt;/artifactId&gt;
+              &lt;version&gt;1.0&lt;/version&gt;
++             &lt;exclusions&gt;
++                 &lt;exclusion&gt;
++                     &lt;groupId&gt;jaxme&lt;/groupId&gt;
++                     &lt;artifactId&gt;jaxme-api&lt;/artifactId&gt;
++                 &lt;/exclusion&gt;
++             &lt;/exclusions&gt;
+          &lt;/dependency&gt;
+          &lt;!-- End Zebra --&gt;
+      &lt;/dependencies&gt;
+      &lt;distributionManagement&gt;
+***************
+*** 175,179 ****
+                  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                  &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+!             &lt;/plugin&gt;        
+          &lt;/plugins&gt;
+      &lt;/reporting&gt;
+--- 180,184 ----
+                  &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                  &lt;artifactId&gt;maven-javadoc-plugin&lt;/artifactId&gt;
+!             &lt;/plugin&gt;
+          &lt;/plugins&gt;
+      &lt;/reporting&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000389.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.34,1.35
+</A></li>
+	<LI>Next message: <A HREF="000391.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.4,1.5
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#390">[ date ]</a>
+              <a href="thread.html#390">[ thread ]</a>
+              <a href="subject.html#390">[ subject ]</a>
+              <a href="author.html#390">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

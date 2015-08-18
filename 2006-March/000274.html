@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.7,1.8
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/resources/META-INF%20hivemodule.xml%2C1.7%2C1.8&In-Reply-To=%3C200603160903.k2G93lb29710%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000273.html">
+   <LINK REL="Next"  HREF="000275.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.7,1.8</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/resources/META-INF%20hivemodule.xml%2C1.7%2C1.8&In-Reply-To=%3C200603160903.k2G93lb29710%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.7,1.8">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Mar 16 10:03:47 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000273.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.6,1.7
+</A></li>
+        <LI>Next message: <A HREF="000275.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/processes testProcess.acgwfd.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#274">[ date ]</a>
+              <a href="thread.html#274">[ thread ]</a>
+              <a href="subject.html#274">[ subject ]</a>
+              <a href="author.html#274">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/resources/META-INF
+In directory sheep:/tmp/cvs-serv21238/src/main/resources/META-INF
+
+Modified Files:
+	hivemodule.xml 
+Log Message:
+Added event listeners
+
+Index: hivemodule.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/resources/META-INF/hivemodule.xml,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** hivemodule.xml	15 Mar 2006 17:14:24 -0000	1.7
+--- hivemodule.xml	16 Mar 2006 08:05:08 -0000	1.8
+***************
+*** 30,33 ****
+--- 30,36 ----
+          &lt;/invoke-factory&gt;
+      &lt;/service-point&gt;
++     &lt;contribution configuration-id=&quot;hivemind.EagerLoad&quot;&gt;
++         &lt;load service-id=&quot;priorityManager&quot;/&gt;
++     &lt;/contribution&gt;
+      &lt;service-point id=&quot;clusterSafeLock&quot; interface=&quot;com.anite.zebra.hivemind.api.LockManager&quot;&gt;
+          &lt;invoke-factory&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000273.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.6,1.7
+</A></li>
+	<LI>Next message: <A HREF="000275.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/processes testProcess.acgwfd.xml,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#274">[ date ]</a>
+              <a href="thread.html#274">[ thread ]</a>
+              <a href="subject.html#274">[ subject ]</a>
+              <a href="author.html#274">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

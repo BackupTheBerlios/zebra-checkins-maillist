@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources .cvsignore,NONE,1.1 log4j.properties,NONE,1.1 mcKoi.conf,NONE,1.1 hibernate.cfg.xml,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/test/resources%20.cvsignore%2CNONE%2C1.1%20log4j.properties%2CNONE%2C1.1%20mcKoi.conf%2CNONE%2C1.1%20hibernate.cfg.xml%2CNONE%2C1.1&In-Reply-To=%3C200601041206.k04C68H06788%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000036.html">
+   <LINK REL="Next"  HREF="000029.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources .cvsignore,NONE,1.1 log4j.properties,NONE,1.1 mcKoi.conf,NONE,1.1 hibernate.cfg.xml,NONE,1.1</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/test/resources%20.cvsignore%2CNONE%2C1.1%20log4j.properties%2CNONE%2C1.1%20mcKoi.conf%2CNONE%2C1.1%20hibernate.cfg.xml%2CNONE%2C1.1&In-Reply-To=%3C200601041206.k04C68H06788%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/test/resources .cvsignore,NONE,1.1 log4j.properties,NONE,1.1 mcKoi.conf,NONE,1.1 hibernate.cfg.xml,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jan  4 13:06:08 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000036.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/resources quartz.properties,NONE,1.1 .cvsignore,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000029.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreateMcKoiTables.java,NONE,1.1 CreateTables.java,NONE,1.1 CreatePostgresTables.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/test/resources
+In directory sheep:/tmp/cvs-serv6930/src/test/resources
+
+Added Files:
+	.cvsignore log4j.properties mcKoi.conf hibernate.cfg.xml 
+Log Message:
+Initial commit of hivemind-quartz service. 
+
+--- NEW FILE: .cvsignore ---
+data
+
+--- NEW FILE: log4j.properties ---
+log4j.rootLogger = INFO, stdout
+
+# BEGIN HIBERNATE SECTION
+### direct log messages to stdout ###
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+--- NEW FILE: mcKoi.conf ---
+
+#######################################################
+#
+# Configuration options for the Mckoi SQL Database.
+#
+#   This is a configuration for the simple database
+#   demonstrations.
+#
+#
+# NOTE: Lines starting with '#' are comments.
+#
+#######################################################
+
+#
+# database_path - The path where the database data files
+#   are located.
+#   See the 'root_path' configuration property for the
+#   details of how the engine resolves this to an
+#   absolute path in your file system.
+
+database_path=./data
+storage_system = v1file
+
+#
+# log_path - The path the log files are written.
+#   See the 'root_path' configuration property for the
+#   details of how the engine resolves this to an
+#   absolute path in your file system.
+#   The log path must point to a writable directory.  If
+#   no log files are to be kept, then comment out (or
+#   remove) the 'log_path' variable.
+
+log_path=../../target/mckoi/log
+
+#
+# root_path - If this is set to 'jvm' then the root
+#   path of all database files is the root path of the
+#   JVM (Java virtual machine) running the database
+#   engine.  If this property is set to 'configuration'
+#   or if it is not present then the root path is the
+#   path of this configuration file.
+#   This property is useful if you are deploying a
+#   database and need this configuration file to be the
+#   root of the directory tree of the database files.
+
+root_path=configuration
+#root_path=jvm
+
+#
+# jdbc_server_port - The TCP/IP port on this host where
+#   the database server is mounted.  The default port
+#   of the Mckoi SQL Database server is '9157'
+
+jdbc_server_port=9157
+
+#
+# ignore_case_for_identifiers - If enabled all
+#   identifiers are compared case insensitive.  If
+#   disabled (the default) the case of the identifier
+#   is important.
+#   For example, if a table called 'MyTable' contains
+#   a column called 'my_column' and this property is
+#   enabled, the identifier 'MYTAble.MY_COlumN' will
+#   correctly reference the column of the table.  If
+#   this property is disable a not found error is
+#   generated.
+#   This property is intended for compatibility with
+#   other database managements systems where the case
+#   of identifiers is not important.
+
+ignore_case_for_identifiers=disabled
+
+
+# ----- PLUG-INS -----
+
+#
+# function_factories - Registers one or more FunctionFactory
+#   classes with the database at boot time.  A
+#   FunctionFactory allows user-defined functions to be
+#   incorporated into the SQL language.  Each factory class
+#   is separated by a semi-colon (;) character.
+#
+#function_factories=mypackage.MyFunctionFactory
+
+#
+# The Java regular expression library to use.  Currently
+# the engine supports the Apache Jakarta regular expression
+# library, and the GNU LGPL regular expression library.
+# These two regular expression libraries can be found at the
+# following web sites:
+#
+# GNU Regexp: <A HREF="http://www.cacas.org/~wes/java/">http://www.cacas.org/~wes/java/</A>
+# Apache Regexp: <A HREF="http://jakarta.apache.org/regexp/">http://jakarta.apache.org/regexp/</A>
+#
+# The libraries provide similar functionality, however they
+# are released under a different license.  The GNU library
+# is released under the LGPL and is compatible with GPL
+# distributions of the database.  The Apache Jakarta library
+# is released under the Apache Software License and must not
+# be linked into GPL distributions.
+#
+# Use 'regex_library=gnu.regexp' to use the GNU library, or
+# 'regex_library=org.apache.regexp' to use the Apache
+# library.
+#
+# NOTE: To use either library, you must include the
+#  respective .jar package in the Java classpath.
+
+regex_library=gnu.regexp
+
+
+
+
+# ----- PERFORMANCE -----
+
+#
+# data_cache_size - The maximum amount of memory (in bytes)
+#   to allow the memory cache to grow to.  If this is set
+#   to a value &lt; 4096 then the internal cache is disabled.
+#   It is recommended that a database server should provide
+#   a cache of 4 Megabytes (4194304).  A stand alone
+#   database need not have such a large cache.
+
+data_cache_size=2097152
+
+#
+# max_cache_entry_size - The maximum size of an element
+#   in the data cache.  This is available for tuning
+#   reasons and the value here is dependant on the type
+#   of data being stored.  If your data has more larger
+#   fields that would benefit from being stored in the
+#   cache then increase this value from its default of
+#   8192 (8k).
+
+max_cache_entry_size=8192
+
+#
+# max_worker_threads - The maximum number of worker
+#   threads that can be spawned to handle incoming
+#   requests.  The higher this number, the more
+#   'multi-threaded' the database becomes.  The
+#   default setting is '4'.
+
+maximum_worker_threads=2
+
+#
+# dont_synch_filesystem - If this is enabled, the engine
+#   will not synchronize the file handle when a table change
+#   is committed.  This will mean the data is not as
+#   safe but the 'commit' command will work faster.  If this
+#   is enabled, there is a chance that committed changes will
+#   not get a chance to flush to the file system if the
+#   system crashes.
+#
+#   It is recommended this property is left commented out.
+#
+#dont_synch_filesystem=enabled
+
+#
+# transaction_error_on_dirty_select - If this is disabled
+#   the 4th conflict (dirty read on modified table) will
+#   not be detected.  This has transactional consequences
+#   that will cause data modifications to sometimes be
+#   out of syncronization.  For example, one transaction
+#   adds an entry, and another concurrent transaction
+#   deletes all entries.  If this is disabled this
+#   conflict will not be detected.  The table will end up
+#   with the one entry added after commit.
+#
+#   It is recommended this property is left commented out.
+#
+#transaction_error_on_dirty_select=disabled
+
+
+
+
+# ----- SPECIAL -----
+
+#
+# read_only - If this is set to 'enabled' then the database
+#   is readable and not writable.  You may boot a database
+#   in read only mode from multiple VM's.  If the database
+#   data files are stored on a read only medium such as a
+#   CD, then the property must be enabled else it will not
+#   be possible to boot the database.
+#   ( Uncomment the line below for read only mode )
+#read_only=enabled
+
+
+
+
+# ----- DEBUGGING -----
+
+#
+# debug_log_file - The file that is used to log all debug
+#   information.  This file is stored in the 'log_path'
+#   path.
+
+debug_log_file=debug.log
+
+#
+# debug_level - The minimum debug level of messages that
+#   are written to the log file.  Reducing this number
+#   will cause more debug information to be written to
+#   the log.
+#     10 = INFORMATION
+#     20 = WARNINGS
+#     30 = ALERTS
+#     40 = ERRORS
+
+debug_level=20
+
+--- NEW FILE: hibernate.cfg.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-configuration PUBLIC &quot;-//Hibernate/Hibernate Configuration DTD 3.0//EN&quot; &quot;<A HREF="http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd</A>&quot;&gt;
+
+&lt;!-- Generated file - Do not edit! --&gt;
+&lt;hibernate-configuration&gt;
+  &lt;!-- a SessionFactory instance listed as /jndi/name --&gt;
+  &lt;session-factory&gt;
+    &lt;property name=&quot;show_sql&quot;&gt;false&lt;/property&gt;
+    &lt;property name=&quot;use_outer_join&quot;&gt;auto&lt;/property&gt;
+    &lt;!-- properties for this SessionFactory only --&gt;
+    &lt;property name=&quot;hibernate.cglib.use_reflection_optimizer&quot;&gt;false&lt;/property&gt;
+    &lt;property name=&quot;connection.driver_class&quot;&gt;com.mckoi.JDBCDriver&lt;/property&gt;
+    &lt;property name=&quot;connection.username&quot;&gt;test&lt;/property&gt;
+    &lt;property name=&quot;connection.password&quot;&gt;test&lt;/property&gt;
+    &lt;property name=&quot;connection.url&quot;&gt;jdbc:mckoi:<A HREF="local://./src/test/resources/mcKoi.conf?create_or_boot=true&lt;/property">local://./src/test/resources/mcKoi.conf?create_or_boot=true&lt;/property</A>&gt;
+    &lt;property name=&quot;dialect&quot;&gt;org.hibernate.dialect.MckoiDialect&lt;/property&gt;
+	&lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000036.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/resources quartz.properties,NONE,1.1 .cvsignore,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000029.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreateMcKoiTables.java,NONE,1.1 CreateTables.java,NONE,1.1 CreatePostgresTables.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl StateFactoryListenerService.java,NONE,1.1 ZebraDefinitionsFactoryTest.java,1.6,1.7 LockMangerTest.java,1.4,1.5 ZebraDefinitionsFactoryCleanUpTest.java,1.1,1.2 EngineTest.java,1.1,1.2 ZebraStateFactoryTest.java,1.5,1.6
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20StateFactoryListenerService.java%2CNONE%2C1.1%20ZebraDefinitionsFactoryTest.java%2C1.6%2C1.7%20LockMangerTest.java%2C1.4%2C1.5%20ZebraDefinitionsFactoryCleanUpTest.java%2C1.1%2C1.2%20EngineTest.java%2C1.1%2C1.2%20ZebraStateFactoryTest.java%2C1.5%2C1.6&In-Reply-To=%3C200603151813.k2FID3b26780%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000264.html">
+   <LINK REL="Next"  HREF="000267.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl StateFactoryListenerService.java,NONE,1.1 ZebraDefinitionsFactoryTest.java,1.6,1.7 LockMangerTest.java,1.4,1.5 ZebraDefinitionsFactoryCleanUpTest.java,1.1,1.2 EngineTest.java,1.1,1.2 ZebraStateFactoryTest.java,1.5,1.6</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20StateFactoryListenerService.java%2CNONE%2C1.1%20ZebraDefinitionsFactoryTest.java%2C1.6%2C1.7%20LockMangerTest.java%2C1.4%2C1.5%20ZebraDefinitionsFactoryCleanUpTest.java%2C1.1%2C1.2%20EngineTest.java%2C1.1%2C1.2%20ZebraStateFactoryTest.java%2C1.5%2C1.6&In-Reply-To=%3C200603151813.k2FID3b26780%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl StateFactoryListenerService.java,NONE,1.1 ZebraDefinitionsFactoryTest.java,1.6,1.7 LockMangerTest.java,1.4,1.5 ZebraDefinitionsFactoryCleanUpTest.java,1.1,1.2 EngineTest.java,1.1,1.2 ZebraStateFactoryTest.java,1.5,1.6">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Mar 15 19:13:03 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000264.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.27,1.28
+</A></li>
+        <LI>Next message: <A HREF="000267.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/META-INF hivemodule_zebradefinitions.xml,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#266">[ date ]</a>
+              <a href="thread.html#266">[ thread ]</a>
+              <a href="subject.html#266">[ subject ]</a>
+              <a href="author.html#266">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv25789/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraDefinitionsFactoryTest.java LockMangerTest.java 
+	ZebraDefinitionsFactoryCleanUpTest.java EngineTest.java 
+	ZebraStateFactoryTest.java 
+Added Files:
+	StateFactoryListenerService.java 
+Log Message:
+Fixing the loading problems
+
+--- NEW FILE: StateFactoryListenerService.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.impl;
+
+import com.anite.zebra.hivemind.api.StateFactoryEvent;
+import com.anite.zebra.hivemind.api.StateFactoryListener;
+
+public class StateFactoryListenerService implements StateFactoryListener {
+
+    public static int count = 0;
+
+
+    public void createTaskInstance(StateFactoryEvent stateFactoryEvent) {
+        StateFactoryListenerService.count++;
+    }
+
+}
+
+Index: ZebraDefinitionsFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraDefinitionsFactoryTest.java,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** ZebraDefinitionsFactoryTest.java	9 Mar 2006 10:14:17 -0000	1.6
+--- ZebraDefinitionsFactoryTest.java	15 Mar 2006 17:14:23 -0000	1.7
+***************
+*** 30,33 ****
+--- 30,34 ----
+  import com.anite.zebra.ext.definitions.impl.RoutingDefinition;
+  import com.anite.zebra.ext.definitions.impl.TaskDefinition;
++ import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+  
+
+Index: LockMangerTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/LockMangerTest.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** LockMangerTest.java	9 Mar 2006 10:14:17 -0000	1.4
+--- LockMangerTest.java	15 Mar 2006 17:14:23 -0000	1.5
+***************
+*** 32,35 ****
+--- 32,36 ----
+  import com.anite.zebra.core.state.api.IProcessInstance;
+  import com.anite.zebra.core.state.api.ITransaction;
++ import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+  
+
+Index: ZebraDefinitionsFactoryCleanUpTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraDefinitionsFactoryCleanUpTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** ZebraDefinitionsFactoryCleanUpTest.java	15 Mar 2006 11:44:39 -0000	1.1
+--- ZebraDefinitionsFactoryCleanUpTest.java	15 Mar 2006 17:14:23 -0000	1.2
+***************
+*** 31,34 ****
+--- 31,35 ----
+  import com.anite.zebra.ext.definitions.impl.RoutingDefinition;
+  import com.anite.zebra.ext.definitions.impl.TaskDefinition;
++ import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+  
+
+Index: EngineTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/EngineTest.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** EngineTest.java	1 Dec 2005 13:07:58 -0000	1.1
+--- EngineTest.java	15 Mar 2006 17:14:23 -0000	1.2
+***************
+*** 17,20 ****
+--- 17,22 ----
+  package com.anite.zebra.hivemind.impl;
+  
++ import junit.framework.TestCase;
++ 
+  import org.apache.fulcrum.hivemind.RegistryManager;
+  import org.apache.hivemind.Resource;
+***************
+*** 23,28 ****
+  
+  import com.anite.zebra.core.api.IEngine;
+- 
+- import junit.framework.TestCase;
+  
+  public class EngineTest extends TestCase {
+--- 25,28 ----
+
+Index: ZebraStateFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraStateFactoryTest.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** ZebraStateFactoryTest.java	9 Mar 2006 10:14:17 -0000	1.5
+--- ZebraStateFactoryTest.java	15 Mar 2006 17:14:23 -0000	1.6
+***************
+*** 35,38 ****
+--- 35,40 ----
+  import com.anite.zebra.core.state.api.ITaskInstance;
+  import com.anite.zebra.core.state.api.ITransaction;
++ import com.anite.zebra.hivemind.api.StateFactoryListener;
++ import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.om.defs.ZebraProcessDefinition;
+  import com.anite.zebra.hivemind.om.state.ZebraProcessInstance;
+***************
+*** 44,48 ****
+   */
+  public class ZebraStateFactoryTest extends TestCase {
+! 	private static final String SIMPLEWORKFLOW = &quot;SimpleWorkflow&quot;;
+  
+      private IStateFactory stateFactory;
+--- 46,50 ----
+   */
+  public class ZebraStateFactoryTest extends TestCase {
+!     private static final String SIMPLEWORKFLOW = &quot;SimpleWorkflow&quot;;
+  
+      private IStateFactory stateFactory;
+***************
+*** 60,63 ****
+--- 62,66 ----
+          this.definitionsFactory = (ZebraDefinitionFactory) RegistryManager.getInstance().getRegistry().getService(
+                  &quot;zebra.zebraDefinitionFactory&quot;, ZebraDefinitionFactory.class);
++ 
+      }
+  
+***************
+*** 75,79 ****
+  
+          ITransaction t = this.stateFactory.beginTransaction();
+!         ZebraProcessInstance processInstance = (ZebraProcessInstance) this.stateFactory.createProcessInstance(processDefinition);
+          ZebraPropertySetEntry propSet = new ZebraPropertySetEntry();
+          propSet.setValue(&quot;temp&quot;);
+--- 78,83 ----
+  
+          ITransaction t = this.stateFactory.beginTransaction();
+!         ZebraProcessInstance processInstance = (ZebraProcessInstance) this.stateFactory
+!                 .createProcessInstance(processDefinition);
+          ZebraPropertySetEntry propSet = new ZebraPropertySetEntry();
+          propSet.setValue(&quot;temp&quot;);
+***************
+*** 86,94 ****
+          IFOE foe = this.stateFactory.createFOE(processInstance);
+          t = this.stateFactory.beginTransaction();
+!         ZebraTaskInstance taskInstance = (ZebraTaskInstance) this.stateFactory.createTaskInstance(taskDefinition, processInstance, foe);
+          ZebraPropertySetEntry propSet2 = new ZebraPropertySetEntry();
+          propSet2.setValue(&quot;temp&quot;);
+          processInstance.getPropertySet().put(&quot;One&quot;, propSet2);
+!         
+          this.stateFactory.saveObject(processInstance);
+          this.stateFactory.saveObject(taskInstance);
+--- 90,99 ----
+          IFOE foe = this.stateFactory.createFOE(processInstance);
+          t = this.stateFactory.beginTransaction();
+!         ZebraTaskInstance taskInstance = (ZebraTaskInstance) this.stateFactory.createTaskInstance(taskDefinition,
+!                 processInstance, foe);
+          ZebraPropertySetEntry propSet2 = new ZebraPropertySetEntry();
+          propSet2.setValue(&quot;temp&quot;);
+          processInstance.getPropertySet().put(&quot;One&quot;, propSet2);
+! 
+          this.stateFactory.saveObject(processInstance);
+          this.stateFactory.saveObject(taskInstance);
+***************
+*** 160,168 ****
+  
+          assertTrue(taskInstance.getTaskInstanceId().longValue() &gt; 0);
+!         
+          t = this.stateFactory.beginTransaction();
+          this.stateFactory.deleteObject(taskInstance);
+          t.commit();
+  
+          
+      }
+--- 165,197 ----
+  
+          assertTrue(taskInstance.getTaskInstanceId().longValue() &gt; 0);
+! 
+          t = this.stateFactory.beginTransaction();
+          this.stateFactory.deleteObject(taskInstance);
+          t.commit();
+  
++     }
++ 
++     public void testEventFiring() throws Exception {
++         
++         StateFactoryListener stateFactoryListener = (StateFactoryListener) RegistryManager.getInstance().getRegistry().getService(StateFactoryListener.class);
++         stateFactoryListener.createTaskInstance(null);
++         
++         int count = StateFactoryListenerService.count;
++         
++         IProcessDefinition processDefinition = getProcessDefinition();
++ 
++         IProcessInstance processInstance = this.stateFactory.createProcessInstance(processDefinition);
++ 
++         ITransaction t = this.stateFactory.beginTransaction();
++         this.stateFactory.saveObject(processInstance);
++         t.commit();
++ 
++         ITaskDefinition taskDefinition = processDefinition.getFirstTask();
++ 
++         IFOE foe = this.stateFactory.createFOE(processInstance);
++         ITaskInstance taskInstance = this.stateFactory.createTaskInstance(taskDefinition, processInstance, foe);
++         assertNotNull(taskInstance);
++         
++         assertEquals(count +1, StateFactoryListenerService.count);
+          
+      }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000264.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.27,1.28
+</A></li>
+	<LI>Next message: <A HREF="000267.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources/META-INF hivemodule_zebradefinitions.xml,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#266">[ date ]</a>
+              <a href="thread.html#266">[ thread ]</a>
+              <a href="subject.html#266">[ subject ]</a>
+              <a href="author.html#266">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

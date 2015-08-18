@@ -1,0 +1,913 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity	DynamicRole.java, 1.2, 1.3 DynamicUser.java, 1.4,	1.5 DynamicGroup.java, 1.2, 1.3 DynamicPermission.java, 1.2, 1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-July/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity%0A%09DynamicRole.java%2C%201.2%2C%201.3%20DynamicUser.java%2C%201.4%2C%0A%091.5%20DynamicGroup.java%2C%201.2%2C%201.3%20DynamicPermission.java%2C%201.2%2C%201.3&In-Reply-To=%3C20060719091522.682405AFE8%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000402.html">
+   <LINK REL="Next"  HREF="000404.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity	DynamicRole.java, 1.2, 1.3 DynamicUser.java, 1.4,	1.5 DynamicGroup.java, 1.2, 1.3 DynamicPermission.java, 1.2, 1.3</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity%0A%09DynamicRole.java%2C%201.2%2C%201.3%20DynamicUser.java%2C%201.4%2C%0A%091.5%20DynamicGroup.java%2C%201.2%2C%201.3%20DynamicPermission.java%2C%201.2%2C%201.3&In-Reply-To=%3C20060719091522.682405AFE8%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity	DynamicRole.java, 1.2, 1.3 DynamicUser.java, 1.4,	1.5 DynamicGroup.java, 1.2, 1.3 DynamicPermission.java, 1.2, 1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Jul 19 11:15:22 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000402.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util	UserSet.java, 1.2, 1.3 RoleSet.java, 1.2, 1.3 GroupSet.java,	1.2, 1.3 SecuritySet.java, 1.2, 1.3 PermissionSet.java, 1.2, 1.3
+</A></li>
+        <LI>Next message: <A HREF="000404.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/resources	hibernate.cfg.xml, 1.2, 1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#403">[ date ]</a>
+              <a href="thread.html#403">[ thread ]</a>
+              <a href="subject.html#403">[ subject ]</a>
+              <a href="author.html#403">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+In directory sheep:/tmp/cvs-serv32558/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+
+Modified Files:
+	DynamicRole.java DynamicUser.java DynamicGroup.java 
+	DynamicPermission.java 
+Log Message:
+Set of fixed for bug 9944.
+
+The security sets were confusing hibernate and causing unecessary DB access.
+
+They have been simplified to resovle. This may introduce other performance hits but initial tests suggest this is better on average.
+
+Index: DynamicRole.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicRole.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DynamicRole.java	18 Mar 2006 16:19:36 -0000	1.2
+--- DynamicRole.java	19 Jul 2006 09:15:17 -0000	1.3
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.model.dynamic.entity;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 26,140 ****
+  
+  /**
+!  * Represents the &quot;simple&quot; model where permissions are related to roles,
+!  * roles are related to groups and groups are related to users,
+!  * all in many to many relationships.
+!  *
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public class DynamicRole extends SecurityEntityImpl implements Role
+! {
+!     private Set permissionSet = new PermissionSet();
+  
+!     private Set groupSet = new GroupSet();
+!     /**
+!      * @return
+!      */
+!     public PermissionSet getPermissions()
+!     {
+!     	if( permissionSet instanceof PermissionSet )
+!     		return (PermissionSet) permissionSet;
+!     	else {
+!     		permissionSet = new PermissionSet(permissionSet);
+!     		return (PermissionSet)permissionSet;
+!     	}
+!     }
+!     /**
+!      * @return
+!      */
+!     public Set getPermissionsAsSet()
+!     {
+!         return permissionSet;
+!     }
+  
+!     public void setPermissionsAsSet(Set permissions)
+!     {
+!         this.permissionSet = permissions;;
+!     }
+!     /**
+!      * @param permissionSet
+!      */
+!     public void setPermissions(PermissionSet permissionSet)
+!     {
+!     	if( permissionSet != null )
+!     		this.permissionSet = permissionSet;
+!     	else
+!     		this.permissionSet = new PermissionSet();
+!     }
+  
+!     /**
+!     * This method should only be used by a RoleManager.  Not directly.
+!     * @param permission
+!     */
+!     public void addPermission(Permission permission)
+!     {
+!         getPermissions().add(permission);
+!     }
+!     /**
+!      * This method should only be used by a RoleManager.  Not directly.
+!      * @param permission
+!      */
+!     public void removePermission(Permission permission)
+!     {
+!         getPermissions().remove(permission);
+!     }
+  
+!     /**
+!     	* @return
+!     	*/
+!     public GroupSet getGroups()
+!     {
+!     	if( groupSet instanceof GroupSet )
+!     		return (GroupSet) groupSet;
+!     	else {
+!     		groupSet = new GroupSet(groupSet);
+!     		return (GroupSet)groupSet;
+!     	}
+!     }
+!     /**
+!     	* @param groupSet
+!     	*/
+!     public void setGroups(GroupSet groupSet)
+!     {
+!     	if( groupSet != null )
+!     		this.groupSet = groupSet;
+!     	else
+!     		this.groupSet = new GroupSet();
+!     }
+  
+!     /**
+!     * This method should only be used by a RoleManager.  Not directly.
+!     * @param group
+!     */
+!     public void addGroup(Group group)
+!     {
+!         getGroups().add(group);
+!     }
+!     /**
+! 	* This method should only be used by a RoleManager.  Not directly.
+! 	* @param group
+! 	*/
+!     public void removeGroup(Group group)
+!     {
+!         getGroups().remove(group);
+!     }
+  
+!     public void setGroupsAsSet(Set groups)
+!     {
+!         this.groupSet = groups;
+!     }
+!     public Set getGroupsAsSet()
+!     {
+!         return groupSet;
+!     }
+  }
+--- 27,134 ----
+  
+  /**
+!  * Represents the &quot;simple&quot; model where permissions are related to roles, roles
+!  * are related to groups and groups are related to users, all in many to many
+!  * relationships.
+!  * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public class DynamicRole extends SecurityEntityImpl implements Role {
+! 	private Set permissionSet = new PermissionSet();
+  
+! 	private Set groupSet = new GroupSet();
+  
+! 	/**
+! 	 * @return
+! 	 */
+! 	public PermissionSet getPermissions() {
+  
+! 		return new PermissionSet(permissionSet);
+  
+! 	}
+  
+! 	/**
+! 	 * @return
+! 	 */
+! 	public Set getPermissionsAsSet() {
+! 		return permissionSet;
+! 	}
+  
+! 	public void setPermissionsAsSet(Set permissions) {
+! 		this.permissionSet = permissions;
+! 		;
+! 	}
+! 
+! 	/**
+! 	 * @param permissionSet
+! 	 */
+! 	public void setPermissions(PermissionSet permissionSet) {
+! 		if (permissionSet != null)
+! 			this.permissionSet = permissionSet;
+! 		else
+! 			this.permissionSet = new PermissionSet();
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param permission
+! 	 */
+! 	public void addPermission(Permission permission) {
+! 		getPermissions().add(permission);
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param permission
+! 	 */
+! 	public void removePermission(Permission permission) {
+! 		getPermissions().remove(permission);
+! 	}
+! 
+! 	/**
+! 	 * @return
+! 	 */
+! 	public GroupSet getGroups() {
+! 
+! 		return new GroupSet(groupSet);
+! 
+! 	}
+! 
+! 	/**
+! 	 * @param groupSet
+! 	 */
+! 	public void setGroups(GroupSet groupSet) {
+! 		if (groupSet != null)
+! 			this.groupSet = groupSet;
+! 		else
+! 			this.groupSet = new GroupSet();
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param group
+! 	 */
+! 	public void addGroup(Group group) {
+! 		getGroups().add(group);
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param group
+! 	 */
+! 	public void removeGroup(Group group) {
+! 		getGroups().remove(group);
+! 	}
+! 
+! 	public void setGroupsAsSet(Set groups) {
+! 		this.groupSet = groups;
+! 	}
+! 
+! 	public Set getGroupsAsSet() {
+! 		return groupSet;
+! 	}
+  }
+
+Index: DynamicUser.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicUser.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** DynamicUser.java	18 Mar 2006 16:19:36 -0000	1.4
+--- DynamicUser.java	19 Jul 2006 09:15:17 -0000	1.5
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.model.dynamic.entity;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 28,77 ****
+  
+  /**
+!  * Represents the &quot;simple&quot; model where permissions are related to roles,
+!  * roles are related to groups and groups are related to users,
+!  * all in many to many relationships.
+   * 
+-  * Users have a set of delegates and delegatee's. 
+-  * If user A has B in their delegates - B assumes A's groups,roles and permissions
+-  * If user C has D in their delegatees - C assumes D's groups,roles and permissions
+-  *
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public class DynamicUser extends SecurityEntityImpl implements User
+! {
+  	private static final long serialVersionUID = -7298282701583455184L;
+  	private String password;
+-     private Date passwordExpiryDate;
+-     private long lockTime;
+-     private int loginAttempts;
+-         
+-     private List passwordHistory = new ArrayList&lt;String&gt;();
+-     private Set groupSet = new GroupSet();
+-     private Set delegators = new HashSet();
+-     private Set delegatees = new HashSet();
+  
+!     /**
+!      * 
+!      * @return Returns the password history.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+!     public List getPasswordHistory() {
+!     	return this.passwordHistory;
+!     }
+!     
+!     /**
+!      * 
+!      * @param passwordHistory The password history to set.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+!     public void setPasswordHistory(List passwordHistory) {
+!     	this.passwordHistory = passwordHistory;
+!     }
+!     
+  	/**
+  	 * @return Returns the delegatees.
+--- 29,83 ----
+  
+  /**
+!  * Represents the &quot;simple&quot; model where permissions are related to roles, roles
+!  * are related to groups and groups are related to users, all in many to many
+!  * relationships.
+!  * 
+!  * Users have a set of delegates and delegatee's. If user A has B in their
+!  * delegates - B assumes A's groups,roles and permissions If user C has D in
+!  * their delegatees - C assumes D's groups,roles and permissions
+   * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public class DynamicUser extends SecurityEntityImpl implements User {
+  	private static final long serialVersionUID = -7298282701583455184L;
++ 
+  	private String password;
+  
+! 	private Date passwordExpiryDate;
+! 
+! 	private long lockTime;
+! 
+! 	private int loginAttempts;
+! 
+! 	private List passwordHistory = new ArrayList&lt;String&gt;();
+! 
+! 	private Set groupSet = new GroupSet();
+! 
+! 	private Set delegators = new HashSet();
+! 
+! 	private Set delegatees = new HashSet();
+! 
+! 	/**
+! 	 * 
+! 	 * @return Returns the password history.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+! 	public List getPasswordHistory() {
+! 		return this.passwordHistory;
+! 	}
+! 
+! 	/**
+! 	 * 
+! 	 * @param passwordHistory
+! 	 *            The password history to set.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+! 	public void setPasswordHistory(List passwordHistory) {
+! 		this.passwordHistory = passwordHistory;
+! 	}
+! 
+  	/**
+  	 * @return Returns the delegatees.
+***************
+*** 80,91 ****
+  		return delegatees;
+  	}
+! 	
+  	/**
+! 	 * @param delegatees The delegatees to set.
+  	 */
+  	public void setDelegatees(Set delegatees) {
+  		this.delegatees = delegatees;
+  	}
+! 	
+  	/**
+  	 * @return Returns the delegators.
+--- 86,98 ----
+  		return delegatees;
+  	}
+! 
+  	/**
+! 	 * @param delegatees
+! 	 *            The delegatees to set.
+  	 */
+  	public void setDelegatees(Set delegatees) {
+  		this.delegatees = delegatees;
+  	}
+! 
+  	/**
+  	 * @return Returns the delegators.
+***************
+*** 94,139 ****
+  		return delegators;
+  	}
+! 	
+  	/**
+! 	 * @param delegates The delegators to set.
+  	 */
+  	public void setDelegators(Set delegates) {
+  		this.delegators = delegates;
+  	}
+! 	
+!     /**
+!      * @return Returns the password.
+!      */
+!     public String getPassword()
+!     {
+!         return password;
+!     }
+!     
+!     /**
+!      * @param password The password to set.
+!      */
+!     public void setPassword(String password)
+!     {
+!         this.password = password;
+!     }
+!     
+!     /**
+!      * 
+!      * @return The expiry date of the current password.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+!     public Date getPasswordExpiryDate() {
+  		return passwordExpiryDate;
+  	}
+  
+!     /**
+!      * 
+!      * @param passwordExpiryDate Set the expiry date of the password.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+  	public void setPasswordExpiryDate(Date passwordExpiryDate) {
+  		this.passwordExpiryDate = passwordExpiryDate;
+--- 101,145 ----
+  		return delegators;
+  	}
+! 
+  	/**
+! 	 * @param delegates
+! 	 *            The delegators to set.
+  	 */
+  	public void setDelegators(Set delegates) {
+  		this.delegators = delegates;
+  	}
+! 
+! 	/**
+! 	 * @return Returns the password.
+! 	 */
+! 	public String getPassword() {
+! 		return password;
+! 	}
+! 
+! 	/**
+! 	 * @param password
+! 	 *            The password to set.
+! 	 */
+! 	public void setPassword(String password) {
+! 		this.password = password;
+! 	}
+! 
+! 	/**
+! 	 * 
+! 	 * @return The expiry date of the current password.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+! 	public Date getPasswordExpiryDate() {
+  		return passwordExpiryDate;
+  	}
+  
+! 	/**
+! 	 * 
+! 	 * @param passwordExpiryDate
+! 	 *            Set the expiry date of the password.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+  	public void setPasswordExpiryDate(Date passwordExpiryDate) {
+  		this.passwordExpiryDate = passwordExpiryDate;
+***************
+*** 143,149 ****
+  	 * 
+  	 * @return Return whether the user is locked.
+! 	 *
+! 	 * @author richard.brooks
+! 	 * Created on Jan 11, 2006
+  	 */
+  	public long getLockTime() {
+--- 149,154 ----
+  	 * 
+  	 * @return Return whether the user is locked.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+  	 */
+  	public long getLockTime() {
+***************
+*** 153,206 ****
+  	/**
+  	 * 
+! 	 * @param locked Sets whether the user is locked
+! 	 *
+! 	 * @author richard.brooks
+! 	 * Created on Jan 11, 2006
+  	 */
+  	public void setLockTime(long lockTime) {
+  		this.lockTime = lockTime;
+  	}
+! 	
+  	/**
+!     * @return
+!     */
+!     public GroupSet getGroups()
+!     {
+!     	if( groupSet instanceof GroupSet )
+!     		return (GroupSet) groupSet;
+!     	else {
+!     		groupSet = new GroupSet(groupSet);
+!     		return (GroupSet)groupSet;
+!     	}
+!     }
+!     
+!     /**
+!      * @param groups
+!      */
+!     public void setGroups(GroupSet groups)
+!     {
+!     	if( groups != null )
+!     		this.groupSet = groups;
+!     	else
+!     		this.groupSet = new GroupSet();
+!     }
+!     
+!     public void removeGroup(Group group)
+!     {
+!         getGroups().remove(group);
+!     }
+!     
+!     public void addGroup(Group group)
+!     {
+!         getGroups().add(group);
+!     }
+  
+! 	public void setGroupsAsSet(Set groups)
+! 	{
+  		this.groupSet = groups;
+  	}
+! 	
+! 	public Set getGroupsAsSet()
+! 	{
+  		return groupSet;
+  	}
+--- 158,200 ----
+  	/**
+  	 * 
+! 	 * @param locked
+! 	 *            Sets whether the user is locked
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+  	 */
+  	public void setLockTime(long lockTime) {
+  		this.lockTime = lockTime;
+  	}
+! 
+  	/**
+! 	 * @return
+! 	 */
+! 	public GroupSet getGroups() {
+! 		return new GroupSet(groupSet);
+! 	}
+  
+! 	/**
+! 	 * @param groups
+! 	 */
+! 	public void setGroups(GroupSet groups) {
+! 		if (groups != null)
+! 			this.groupSet = groups;
+! 		else
+! 			this.groupSet = new GroupSet();
+! 	}
+! 
+! 	public void removeGroup(Group group) {
+! 		getGroups().remove(group);
+! 	}
+! 
+! 	public void addGroup(Group group) {
+! 		getGroups().add(group);
+! 	}
+! 
+! 	public void setGroupsAsSet(Set groups) {
+  		this.groupSet = groups;
+  	}
+! 
+! 	public Set getGroupsAsSet() {
+  		return groupSet;
+  	}
+
+Index: DynamicGroup.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicGroup.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DynamicGroup.java	18 Mar 2006 16:19:36 -0000	1.2
+--- DynamicGroup.java	19 Jul 2006 09:15:17 -0000	1.3
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.model.dynamic.entity;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 26,70 ****
+  
+  /**
+!  * Represents the &quot;dynamic&quot; model where permissions are related to roles,
+!  * roles are related to groups and groups are related to userSet,
+!  * all in many to many relationships.
+   * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public class DynamicGroup extends SecurityEntityImpl implements Group
+! {
+!     private Set roleSet = new RoleSet();
+!     private Set userSet = new UserSet();
+!     
+!     /**
+!      * @return
+!      */
+!     public UserSet getUsers()
+!     {
+!     	if( userSet instanceof UserSet )
+!     		return (UserSet) userSet;
+!     	else {
+!     		userSet = new UserSet(userSet);
+!     		return (UserSet)userSet;
+!     	}
+!     }
+  
+-     /**
+-      * @param userSet
+-      */
+-     public void setUsers(UserSet userSet)
+-     {
+-     	if( userSet != null )
+-     		this.userSet = userSet;
+-     	else
+-     		this.userSet = new UserSet();
+-     }
+-     
+  	/**
+  	 * @return
+  	 */
+! 	public Set getUsersAsSet()
+! 	{
+  		return userSet;
+  	}
+--- 27,63 ----
+  
+  /**
+!  * Represents the &quot;dynamic&quot; model where permissions are related to roles, roles
+!  * are related to groups and groups are related to userSet, all in many to many
+!  * relationships.
+   * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public class DynamicGroup extends SecurityEntityImpl implements Group {
+! 	private Set roleSet = new RoleSet();
+! 
+! 	private Set userSet = new UserSet();
+  
+  	/**
+  	 * @return
+  	 */
+! 	public UserSet getUsers() {
+! 		return new UserSet(userSet);
+! 	}
+! 
+! 	/**
+! 	 * @param userSet
+! 	 */
+! 	public void setUsers(UserSet userSet) {
+! 		if (userSet != null)
+! 			this.userSet = userSet;
+! 		else
+! 			this.userSet = new UserSet();
+! 	}
+! 
+! 	/**
+! 	 * @return
+! 	 */
+! 	public Set getUsersAsSet() {
+  		return userSet;
+  	}
+***************
+*** 73,128 ****
+  	 * @param userSet
+  	 */
+! 	public void setUsersAsSet(Set users)
+! 	{
+  		this.userSet = users;
+! 	}    
+  
+!     /**
+!      * @return
+!      */
+!     public RoleSet getRoles()
+!     {
+!     	if( roleSet instanceof RoleSet )
+!     		return (RoleSet) roleSet;
+!     	else {
+!     		roleSet = new RoleSet(roleSet);
+!     		return (RoleSet)roleSet;
+!     	}
+!     }
+!     /**
+!      * @param roleSet
+!      */
+!     public void setRoles(RoleSet roleSet)
+!     {
+!     	if( roleSet != null )
+!     		this.roleSet = roleSet;
+!     	else
+!     		this.roleSet = new RoleSet();
+!     }
+!     public void addRole(Role role)
+!     {
+!         getRoles().add(role);
+!     }
+!     public void removeRole(Role role)
+!     {
+!         getRoles().remove(role);
+!     }
+  
+!     public void addUser(User user)
+!     {
+!         getUsers().add(user);
+!     }
+!     public void removeUser(User user)
+!     {
+!         getUsers().remove(user);
+!     }
+!     
+! 	public void setRolesAsSet(Set roles)
+! 	{
+  		this.roleSet = roles;
+  	}
+! 	public Set getRolesAsSet()
+! 	{
+  		return roleSet;
+! 	}    
+  }
+--- 66,112 ----
+  	 * @param userSet
+  	 */
+! 	public void setUsersAsSet(Set users) {
+  		this.userSet = users;
+! 	}
+  
+! 	/**
+! 	 * @return
+! 	 */
+! 	public RoleSet getRoles() {
+! 		return new RoleSet(roleSet);
+! 	}
+  
+! 	/**
+! 	 * @param roleSet
+! 	 */
+! 	public void setRoles(RoleSet roleSet) {
+! 		if (roleSet != null)
+! 			this.roleSet = roleSet;
+! 		else
+! 			this.roleSet = new RoleSet();
+! 	}
+! 
+! 	public void addRole(Role role) {
+! 		getRoles().add(role);
+! 	}
+! 
+! 	public void removeRole(Role role) {
+! 		getRoles().remove(role);
+! 	}
+! 
+! 	public void addUser(User user) {
+! 		getUsers().add(user);
+! 	}
+! 
+! 	public void removeUser(User user) {
+! 		getUsers().remove(user);
+! 	}
+! 
+! 	public void setRolesAsSet(Set roles) {
+  		this.roleSet = roles;
+  	}
+! 
+! 	public Set getRolesAsSet() {
+  		return roleSet;
+! 	}
+  }
+
+Index: DynamicPermission.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicPermission.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DynamicPermission.java	18 Mar 2006 16:19:36 -0000	1.2
+--- DynamicPermission.java	19 Jul 2006 09:15:17 -0000	1.3
+***************
+*** 39,48 ****
+       */
+      public RoleSet getRoles() {
+!         if (roleSet instanceof RoleSet)
+!             return (RoleSet) roleSet;
+!         else {
+!             roleSet = new RoleSet(roleSet);
+!             return (RoleSet) roleSet;
+!         }
+      }
+  
+--- 39,44 ----
+       */
+      public RoleSet getRoles() {
+!     	
+!     	return new RoleSet(roleSet);
+      }
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000402.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util	UserSet.java, 1.2, 1.3 RoleSet.java, 1.2, 1.3 GroupSet.java,	1.2, 1.3 SecuritySet.java, 1.2, 1.3 PermissionSet.java, 1.2, 1.3
+</A></li>
+	<LI>Next message: <A HREF="000404.html">[Zebra-checkins]	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/resources	hibernate.cfg.xml, 1.2, 1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#403">[ date ]</a>
+              <a href="thread.html#403">[ thread ]</a>
+              <a href="subject.html#403">[ subject ]</a>
+              <a href="author.html#403">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

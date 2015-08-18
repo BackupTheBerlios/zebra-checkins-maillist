@@ -1,0 +1,485 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ScheduledTaskTransitionJob.java,1.1,1.2 QuartzServiceTaskAction.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction%20ScheduledTaskTransitionJob.java%2C1.1%2C1.2%20QuartzServiceTaskAction.java%2C1.1%2C1.2&In-Reply-To=%3C200602171520.k1HFKiE28834%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000229.html">
+   <LINK REL="Next"  HREF="000231.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ScheduledTaskTransitionJob.java,1.1,1.2 QuartzServiceTaskAction.java,1.1,1.2</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction%20ScheduledTaskTransitionJob.java%2C1.1%2C1.2%20QuartzServiceTaskAction.java%2C1.1%2C1.2&In-Reply-To=%3C200602171520.k1HFKiE28834%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ScheduledTaskTransitionJob.java,1.1,1.2 QuartzServiceTaskAction.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Fri Feb 17 16:20:44 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000229.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.6,1.7 ZebraProcessInstance.java,1.10,1.11 ZebraPropertySetEntry.java,1.8,1.9
+</A></li>
+        <LI>Next message: <A HREF="000231.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ScheduledTaskTransitionJob.java,1.2,1.3 QuartzServiceTaskAction.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#230">[ date ]</a>
+              <a href="thread.html#230">[ thread ]</a>
+              <a href="subject.html#230">[ subject ]</a>
+              <a href="author.html#230">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction
+In directory sheep:/tmp/cvs-serv8645/src/main/java/com/anite/zebra/hivemind/taskAction
+
+Modified Files:
+	ScheduledTaskTransitionJob.java QuartzServiceTaskAction.java 
+Log Message:
+Fixed quartz and property set behaviour
+
+Index: ScheduledTaskTransitionJob.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction/ScheduledTaskTransitionJob.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** ScheduledTaskTransitionJob.java	4 Jan 2006 15:55:33 -0000	1.1
+--- ScheduledTaskTransitionJob.java	17 Feb 2006 15:20:12 -0000	1.2
+***************
+*** 17,20 ****
+--- 17,21 ----
+  package com.anite.zebra.hivemind.taskAction;
+  
++ import org.apache.fulcrum.hivemind.RegistryManager;
+  import org.hibernate.Session;
+  import org.quartz.Job;
+***************
+*** 23,27 ****
+--- 24,32 ----
+  import org.quartz.JobExecutionException;
+  
++ import com.anite.zebra.core.api.ITaskAction;
+  import com.anite.zebra.core.exceptions.TransitionException;
++ import com.anite.zebra.core.factory.exceptions.StateFailureException;
++ import com.anite.zebra.core.state.api.ITaskInstance;
++ import com.anite.zebra.core.state.api.ITransaction;
+  import com.anite.zebra.hivemind.impl.Zebra;
+  import com.anite.zebra.hivemind.om.state.ZebraTaskInstance;
+***************
+*** 38,52 ****
+  		Session session = RegistryHelper.getInstance().getSession();
+  
+  		ZebraTaskInstance task = (ZebraTaskInstance) session.load(
+  				ZebraTaskInstance.class, taskInstanceId);
+! 		task.setState(ZebraTaskInstance.STATE_AWAITINGCOMPLETE);
+  		Zebra zebra = RegistryHelper.getInstance().getZebra();
+  		try {
+! 			zebra.transitionTask(task);
+  		} catch (TransitionException te) {
+  			throw new JobExecutionException(te);
+! 		}
+  		
+! 		// Tell hivemind to recycle thread
+  
+  	}
+--- 43,62 ----
+  		Session session = RegistryHelper.getInstance().getSession();
+  
++         
++         
+  		ZebraTaskInstance task = (ZebraTaskInstance) session.load(
+  				ZebraTaskInstance.class, taskInstanceId);
+! 		task.setOutcome(&quot;Done&quot;);        
+!         task.setState(ITaskInstance.STATE_AWAITINGCOMPLETE);
+  		Zebra zebra = RegistryHelper.getInstance().getZebra();
++        
+  		try {
+!             zebra.transitionTask(task);
+  		} catch (TransitionException te) {
+  			throw new JobExecutionException(te);
+! 		} 
+  		
+! 		// Tell hivemind to recycle thread        
+!         RegistryManager.getInstance().getRegistry().cleanupThread();
+  
+  	}
+
+Index: QuartzServiceTaskAction.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction/QuartzServiceTaskAction.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** QuartzServiceTaskAction.java	4 Jan 2006 15:55:33 -0000	1.1
+--- QuartzServiceTaskAction.java	17 Feb 2006 15:20:12 -0000	1.2
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import java.util.Date;
+  
++ import org.apache.commons.lang.StringUtils;
+  import org.apache.commons.logging.Log;
+  import org.apache.commons.logging.LogFactory;
+***************
+*** 26,186 ****
+  import org.quartz.SimpleTrigger;
+  
+- import com.anite.zebra.core.api.ITaskAction;
+- import com.anite.zebra.core.exceptions.DefinitionNotFoundException;
+  import com.anite.zebra.core.exceptions.RunTaskException;
+  import com.anite.zebra.core.state.api.ITaskInstance;
+  import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+  
+! public class QuartzServiceTaskAction implements ITaskAction {
+  
+! 	public static final Log log = LogFactory.getLog(QuartzServiceTaskAction.class);
+! 	
+! 	public static final String TASK_INSTANCE_ID_KEY = &quot;taskInstanceId&quot;;
+! 	
+! 	private static final long SECONDS_DELAY = 1000L;
+! 	private static final long MINUTES_DELAY = 60L * 1000L;
+! 	private static final long HOURS_DELAY = 60L * 60L * 1000L;
+! 	private static final long DAYS_DELAY = 24L * 60L * 60L * 1000L;
+  
+! 	private Scheduler scheduler;
+  
+! 	public Scheduler getScheduler() {
+! 		return scheduler;
+! 	}
+  
+! 	public void setScheduler(Scheduler scheduler) {
+! 		this.scheduler = scheduler;
+! 	}
+  
+! 	/**
+! 	 * When this task is run, it waits until the scheduled time and then runs
+! 	 * the QuartzJob. This job is given the taskInstanceId and is responsible
+! 	 * for tranistioning the task when the trigger is fired.
+! 	 */
+! 	public void runTask(ITaskInstance taskInstance) throws RunTaskException {
+! 		try {
+! 			/*
+! 			 * Create your Scheduled job
+! 			 */
+! 			JobDetail jobDetail = new JobDetail(taskInstance
+! 					.getTaskInstanceId().toString(), null,
+! 					ScheduledTaskTransitionJob.class);
+! 			jobDetail.getJobDataMap().put(TASK_INSTANCE_ID_KEY,
+! 					taskInstance.getTaskInstanceId());
+! 			/*
+! 			 * get the poll interval from taskInstace.getTaskDefinition
+! 			 * (downcast to ZebraTaskDefinition) get property.
+! 			 */
+! 			ZebraTaskDefinition taskDef = (ZebraTaskDefinition) taskInstance
+! 					.getTaskDefinition();
+! 			String wait = taskDef.getGeneralProperties().getString(
+! 					&quot;Wait&quot;);
+! 			log.info(&quot;Wait is : &quot; + wait);
+! 			log.info(&quot;Delay is :&quot; + new Long(delay(wait)).toString());
+! 			/*
+! 			 * Wait supports delay times in : - 
+! 			 * 	S	Seconds ( Default )
+! 			 *  M	Minutes
+! 			 *  H	Hours
+! 			 *  D	Days
+! 			 *   
+! 			 */
+! 			
+! 			SimpleTrigger trigger = new SimpleTrigger();
+! 			trigger.setStartTime(new Date(new Date().getTime() + delay(wait)));
+! 			trigger.setName(&quot;delay&quot;);
+! 			scheduler.scheduleJob(jobDetail, trigger);
+! 			/*
+! 			 * Don't set the state unlike every other task action as the state
+! 			 * will be set when the trigger fires.
+! 			 */
+! 		} catch (DefinitionNotFoundException dnfe) {
+! 			throw new RunTaskException(dnfe);
+! 		} catch (SchedulerException se) {
+! 			throw new RunTaskException(se);
+! 		}
+  
+! 	}
+  
+- 	
+- 	private long delay(String wait) throws IllegalArgumentException
+- 	{
+- 		long delay = 0;
+- 		String sd = null;
+- 		String period = &quot;S&quot;;
+- 		wait.trim().toUpperCase();
+- 		if (wait.startsWith(&quot;S&quot;))
+- 		{
+- 			sd = wait.substring(1);
+- 		}
+- 		if (wait.endsWith(&quot;S&quot;))
+- 		{
+- 			sd = wait.substring(0, wait.length()-1);
+- 		}
+- 		if (wait.startsWith(&quot;M&quot;))
+- 		{
+- 			sd = wait.substring(1);
+- 			period = &quot;M&quot;;
+- 		}
+- 		if (wait.endsWith(&quot;M&quot;))
+- 		{
+- 			sd = wait.substring(0, wait.length()-1);
+- 			period = &quot;M&quot;;
+- 		}
+- 		if (wait.startsWith(&quot;H&quot;))
+- 		{
+- 			sd = wait.substring(1);
+- 			period = &quot;H&quot;;
+- 		}
+- 		if (wait.endsWith(&quot;H&quot;))
+- 		{
+- 			sd = wait.substring(0, wait.length()-1);
+- 			period = &quot;H&quot;;
+- 		}
+- 		if (wait.startsWith(&quot;D&quot;))
+- 		{
+- 			sd = wait.substring(1);
+- 			period = &quot;D&quot;;
+- 		}
+- 		if (wait.endsWith(&quot;D&quot;))
+- 		{
+- 			sd = wait.substring(0, wait.length()-1);
+- 			period = &quot;D&quot;;
+- 		}
+- 		/*
+- 		 * wait does not contain S,M,H or D
+- 		 */
+- 		if ((wait.indexOf(&quot;S&quot;) == -1) &amp;&amp;
+- 			(wait.indexOf(&quot;M&quot;) == -1) &amp;&amp;
+- 			(wait.indexOf(&quot;H&quot;) == -1) &amp;&amp;
+- 			(wait.indexOf(&quot;D&quot;) == -1))
+- 		{
+- 			sd = wait;
+- 		}
+- 		try
+- 		{
+- 			delay = Long.parseLong(sd);
+- 		}
+- 		catch (NumberFormatException pe)
+- 		{
+- 			throw new IllegalArgumentException(&quot;Wait string should be an integer followed by S, M, H or D. : &quot; + sd);
+- 		}
+- 		if (period.equals(&quot;S&quot;))
+- 		{
+- 			return delay * SECONDS_DELAY;
+- 		}
+- 		if (period.equals(&quot;M&quot;))
+- 		{
+- 			return delay * MINUTES_DELAY;
+- 		}
+- 		if (period.equals(&quot;H&quot;))
+- 		{
+- 			return delay * HOURS_DELAY;
+- 		}
+- 		if (period.equals(&quot;D&quot;))
+- 		{
+- 			return delay * DAYS_DELAY;
+- 		}
+- 		return delay * SECONDS_DELAY;
+- 	}
+  }
+--- 27,194 ----
+  import org.quartz.SimpleTrigger;
+  
+  import com.anite.zebra.core.exceptions.RunTaskException;
++ import com.anite.zebra.core.factory.exceptions.StateFailureException;
+  import com.anite.zebra.core.state.api.ITaskInstance;
++ import com.anite.zebra.core.state.api.ITransaction;
++ import com.anite.zebra.hivemind.impl.Zebra;
+  import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
++ import com.anite.zebra.hivemind.om.state.ZebraTaskInstance;
+  
+! public class QuartzServiceTaskAction extends ZebraTaskAction {
+  
+!     public static final Log log = LogFactory.getLog(QuartzServiceTaskAction.class);
+  
+!     public static final String TASK_INSTANCE_ID_KEY = &quot;taskInstanceId&quot;;
+  
+!     private static final long SECONDS_DELAY = 1000L;
+  
+!     private static final long MINUTES_DELAY = 60L * 1000L;
+  
+!     private static final long HOURS_DELAY = 60L * 60L * 1000L;
+  
+!     private static final long DAYS_DELAY = 24L * 60L * 60L * 1000L;
+! 
+!     private Scheduler scheduler;
+! 
+!     private Zebra zebra;
+! 
+!     public Zebra getZebra() {
+!         return zebra;
+!     }
+! 
+!     public void setZebra(Zebra zebra) {
+!         this.zebra = zebra;
+!     }
+! 
+!     public Scheduler getScheduler() {
+!         return scheduler;
+!     }
+! 
+!     public void setScheduler(Scheduler scheduler) {
+!         this.scheduler = scheduler;
+!     }
+! 
+!     /**
+!      * When this task is run, it waits until the scheduled time and then runs
+!      * the QuartzJob. This job is given the taskInstanceId and is responsible
+!      * for tranistioning the task when the trigger is fired.
+!      */
+!     public void runTask(ZebraTaskInstance taskInstance) throws RunTaskException {
+!         if (StringUtils.isEmpty(taskInstance.getOutcome())) {
+!             try {
+! 
+!                 /*
+!                  * Create your Scheduled job
+!                  */
+!                 JobDetail jobDetail = new JobDetail(taskInstance.getTaskInstanceId().toString(), null,
+!                         ScheduledTaskTransitionJob.class);
+!                 jobDetail.getJobDataMap().put(TASK_INSTANCE_ID_KEY, taskInstance.getTaskInstanceId());
+!                 /*
+!                  * get the poll interval from taskInstace.getTaskDefinition
+!                  * (downcast to ZebraTaskDefinition) get property.
+!                  */
+!                 ZebraTaskDefinition taskDef = (ZebraTaskDefinition) taskInstance.getTaskDefinition();
+!                 String wait = taskDef.getGeneralProperties().getString(&quot;Wait&quot;);
+!                 log.info(&quot;Wait is : &quot; + wait);
+!                 log.info(&quot;Delay is :&quot; + new Long(delay(wait)).toString());
+!                 /*
+!                  * Wait supports delay times in : - 
+!                  * 	S	Seconds ( Default )
+!                  *  M	Minutes
+!                  *  H	Hours
+!                  *  D	Days
+!                  *   
+!                  */
+! 
+!                 SimpleTrigger trigger = new SimpleTrigger();
+!                 trigger.setStartTime(new Date(new Date().getTime() + delay(wait)));
+!                 trigger.setName(&quot;delay&quot;);
+!                 scheduler.scheduleJob(jobDetail, trigger);
+!                 /*
+!                  * Don't set the state unlike every other task action as the state
+!                  * will be set when the trigger fires.
+!                  */
+! 
+!                 // Need to make sure that state (which is STATE_RUNNING) is saved in the DB
+!                 // This is a bug in the w/f engine as it hsould save it for us
+!                 taskInstance.setState(ITaskInstance.STATE_RUNNING);
+!                 ITransaction t = zebra.getStateFactory().beginTransaction();                
+!                 zebra.getStateFactory().saveObject(taskInstance);
+!                 t.commit();
+!                 log.info(&quot;Save task in state:&quot; + taskInstance.getState());
+! 
+!             } catch (SchedulerException se) {
+!                 throw new RunTaskException(se);
+!             } catch (StateFailureException e) {
+!                 throw new RunTaskException(e);
+!             }
+!         } else {
+!             // Trigger has fired
+!             taskInstance.setState(ITaskInstance.STATE_AWAITINGCOMPLETE);
+!         }
+! 
+!     }
+! 
+!     private long delay(String wait) throws IllegalArgumentException {
+!         long delay = 0;
+!         String sd = null;
+!         String period = &quot;S&quot;;
+!         wait.trim().toUpperCase();
+!         if (wait.startsWith(&quot;S&quot;)) {
+!             sd = wait.substring(1);
+!         }
+!         if (wait.endsWith(&quot;S&quot;)) {
+!             sd = wait.substring(0, wait.length() - 1);
+!         }
+!         if (wait.startsWith(&quot;M&quot;)) {
+!             sd = wait.substring(1);
+!             period = &quot;M&quot;;
+!         }
+!         if (wait.endsWith(&quot;M&quot;)) {
+!             sd = wait.substring(0, wait.length() - 1);
+!             period = &quot;M&quot;;
+!         }
+!         if (wait.startsWith(&quot;H&quot;)) {
+!             sd = wait.substring(1);
+!             period = &quot;H&quot;;
+!         }
+!         if (wait.endsWith(&quot;H&quot;)) {
+!             sd = wait.substring(0, wait.length() - 1);
+!             period = &quot;H&quot;;
+!         }
+!         if (wait.startsWith(&quot;D&quot;)) {
+!             sd = wait.substring(1);
+!             period = &quot;D&quot;;
+!         }
+!         if (wait.endsWith(&quot;D&quot;)) {
+!             sd = wait.substring(0, wait.length() - 1);
+!             period = &quot;D&quot;;
+!         }
+!         /*
+!          * wait does not contain S,M,H or D
+!          */
+!         if ((wait.indexOf(&quot;S&quot;) == -1) &amp;&amp; (wait.indexOf(&quot;M&quot;) == -1) &amp;&amp; (wait.indexOf(&quot;H&quot;) == -1)
+!                 &amp;&amp; (wait.indexOf(&quot;D&quot;) == -1)) {
+!             sd = wait;
+!         }
+!         try {
+!             delay = Long.parseLong(sd);
+!         } catch (NumberFormatException pe) {
+!             throw new IllegalArgumentException(&quot;Wait string should be an integer followed by S, M, H or D. : &quot; + sd);
+!         }
+!         if (period.equals(&quot;S&quot;)) {
+!             return delay * SECONDS_DELAY;
+!         }
+!         if (period.equals(&quot;M&quot;)) {
+!             return delay * MINUTES_DELAY;
+!         }
+!         if (period.equals(&quot;H&quot;)) {
+!             return delay * HOURS_DELAY;
+!         }
+!         if (period.equals(&quot;D&quot;)) {
+!             return delay * DAYS_DELAY;
+!         }
+!         return delay * SECONDS_DELAY;
+!     }
+  
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000229.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.6,1.7 ZebraProcessInstance.java,1.10,1.11 ZebraPropertySetEntry.java,1.8,1.9
+</A></li>
+	<LI>Next message: <A HREF="000231.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ScheduledTaskTransitionJob.java,1.2,1.3 QuartzServiceTaskAction.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#230">[ date ]</a>
+              <a href="thread.html#230">[ thread ]</a>
+              <a href="subject.html#230">[ subject ]</a>
+              <a href="author.html#230">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

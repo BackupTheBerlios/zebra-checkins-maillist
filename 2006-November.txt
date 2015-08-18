@@ -1,0 +1,188 @@
+From nobody at sheep.berlios.de  Thu Nov 30 14:41:43 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Thu, 30 Nov 2006 14:41:43 +0100 (CET)
+Subject: [Zebra-checkins]
+	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi
+	AbstractUserManager.java, 1.8, 1.9
+Message-ID: <20061130134143.A7344B3E67@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi
+In directory sheep:/tmp/cvs-serv31456/src/main/java/org/apache/fulcrum/security/spi
+
+Modified Files:
+	AbstractUserManager.java 
+Log Message:
+Removed extra hit on DB when retrieving a user
+
+Index: AbstractUserManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi/AbstractUserManager.java,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+*** AbstractUserManager.java	18 Mar 2006 16:19:37 -0000	1.8
+--- AbstractUserManager.java	30 Nov 2006 13:40:44 -0000	1.9
+***************
+*** 189,196 ****
+  			DataBackendException, UserLockedException, EntityDisabledException {
+  
+! 		if (!checkExists(user)) {
+! 			throw new UnknownEntityException("The account '" + user.getName()
+! 					+ "' does not exist");
+! 		}
+  
+  		if (user.isDisabled()) {
+--- 189,196 ----
+  			DataBackendException, UserLockedException, EntityDisabledException {
+  
+! //		if (!checkExists(user)) {
+! //			throw new UnknownEntityException("The account '" + user.getName()
+! //					+ "' does not exist");
+! //		}
+  
+  		if (user.isDisabled()) {
+
+
+
+From nobody at sheep.berlios.de  Thu Nov 30 14:41:43 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Thu, 30 Nov 2006 14:41:43 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,
+	1.18, 1.19
+Message-ID: <20061130134143.6AA83B1B09@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind
+In directory sheep:/tmp/cvs-serv31456
+
+Modified Files:
+	pom.xml 
+Log Message:
+Removed extra hit on DB when retrieving a user
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/pom.xml,v
+retrieving revision 1.18
+retrieving revision 1.19
+diff -C2 -d -r1.18 -r1.19
+*** pom.xml	19 Jul 2006 12:49:46 -0000	1.18
+--- pom.xml	30 Nov 2006 13:40:44 -0000	1.19
+***************
+*** 7,11 ****
+  	<packaging>jar</packaging>
+  	<name>Fulcrum Security for Hivemind</name>
+! 	<version>2.1</version>
+  	<description>
+  		A port of Fulcrum Security to run inside Hivemind.
+--- 7,11 ----
+  	<packaging>jar</packaging>
+  	<name>Fulcrum Security for Hivemind</name>
+! 	<version>2.2</version>
+  	<description>
+  		A port of Fulcrum Security to run inside Hivemind.
+
+
+
+From nobody at sheep.berlios.de  Thu Nov 30 14:43:29 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Thu, 30 Nov 2006 14:43:29 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate
+	pom.xml, 1.15, 1.16
+Message-ID: <20061130134329.4E7ABAEF1D@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate
+In directory sheep:/tmp/cvs-serv31712
+
+Modified Files:
+	pom.xml 
+Log Message:
+New version of fulcrum-security
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/pom.xml,v
+retrieving revision 1.15
+retrieving revision 1.16
+diff -C2 -d -r1.15 -r1.16
+*** pom.xml	19 Jul 2006 12:50:28 -0000	1.15
+--- pom.xml	30 Nov 2006 13:42:30 -0000	1.16
+***************
+*** 6,10 ****
+  	<artifactId>fulcrum-security-hibernate</artifactId>
+  	<packaging>jar</packaging>
+! 	<version>2.1</version>
+  	<name>
+  		fulcrum-hibernate-security- Fuclrum Security Hibernate layer for
+--- 6,10 ----
+  	<artifactId>fulcrum-security-hibernate</artifactId>
+  	<packaging>jar</packaging>
+! 	<version>2.2</version>
+  	<name>
+  		fulcrum-hibernate-security- Fuclrum Security Hibernate layer for
+***************
+*** 101,105 ****
+  			<groupId>fulcrum-hivemind</groupId>
+  			<artifactId>fulcrum-security</artifactId>
+! 			<version>2.1</version>
+  		</dependency>
+  		<dependency>
+--- 101,105 ----
+  			<groupId>fulcrum-hivemind</groupId>
+  			<artifactId>fulcrum-security</artifactId>
+! 			<version>2.2</version>
+  		</dependency>
+  		<dependency>
+
+
+
+From nobody at sheep.berlios.de  Thu Nov 30 14:44:39 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Thu, 30 Nov 2006 14:44:39 +0100 (CET)
+Subject: [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.46,1.47
+Message-ID: <20061130134439.85728B3795@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv31766
+
+Modified Files:
+	pom.xml 
+Log Message:
+New version of fulcrum-security
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.46
+retrieving revision 1.47
+diff -C2 -d -r1.46 -r1.47
+*** pom.xml	16 Nov 2006 17:09:20 -0000	1.46
+--- pom.xml	30 Nov 2006 13:43:40 -0000	1.47
+***************
+*** 6,10 ****
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.10</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+--- 6,10 ----
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.11</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+***************
+*** 123,127 ****
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security-hibernate</artifactId>
+!             <version>2.1</version>
+          </dependency>
+          <!-- Zebra -->
+--- 123,127 ----
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security-hibernate</artifactId>
+!             <version>2.2</version>
+          </dependency>
+          <!-- Zebra -->
+
+
+

@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraDefinitionFactory.java%2C1.2%2C1.3&In-Reply-To=%3C200603140924.k2E9Obb30697%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000258.html">
+   <LINK REL="Next"  HREF="000260.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.2,1.3</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20ZebraDefinitionFactory.java%2C1.2%2C1.3&In-Reply-To=%3C200603140924.k2E9Obb30697%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl ZebraDefinitionFactory.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Mar 14 10:24:37 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000258.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.25,1.26 surefire-system.properties,1.1,NONE
+</A></li>
+        <LI>Next message: <A HREF="000260.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.26,1.27
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#259">[ date ]</a>
+              <a href="thread.html#259">[ thread ]</a>
+              <a href="subject.html#259">[ subject ]</a>
+              <a href="author.html#259">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv7248/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraDefinitionFactory.java 
+Log Message:
+Added convenience method to retrieve task definition ids.
+
+
+Index: ZebraDefinitionFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/ZebraDefinitionFactory.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ZebraDefinitionFactory.java	9 Mar 2006 10:14:17 -0000	1.2
+--- ZebraDefinitionFactory.java	14 Mar 2006 08:25:56 -0000	1.3
+***************
+*** 1,4 ****
+--- 1,6 ----
+  package com.anite.zebra.hivemind.impl;
+  
++ import java.math.BigInteger;
++ import java.util.ArrayList;
+  import java.util.HashMap;
+  import java.util.Iterator;
+***************
+*** 249,252 ****
+--- 251,281 ----
+  		getDistinctLatestVersions();
+  	}
++ 
++ 	@SuppressWarnings(&quot;unchecked&quot;)
++ 	public List&lt;Long&gt; getTaskDefinitionIds(String processName, String taskName) {
++     	StringBuffer sql = new StringBuffer();
++     	sql.append(&quot;SELECT td.id &quot;);
++     	sql.append(&quot;FROM ZebraProcessDefinition pd, processTaskDefinitions ptd, ZebraTaskDefinition td, ZebraProcessVersions pv &quot;);
++     	sql.append(&quot;WHERE pd.id=ptd.processDefinitionId &quot;);
++     	sql.append(&quot;AND pd.versionId=pv.id &quot;);
++     	sql.append(&quot;AND pd.id=ptd.processDefinitionId &quot;);
++     	sql.append(&quot;AND ptd.taskDefinitionId=td.id &quot;);
++     	sql.append(&quot;AND pv.name=:processName &quot;);
++     	sql.append(&quot;AND td.name=:taskName&quot;);
++     	
++     	Query q = session.createSQLQuery(sql.toString());
++     	q.setString(&quot;processName&quot;, processName);
++     	q.setString(&quot;taskName&quot;, taskName);
++     	
++     	// Query stupidly returns a list of BigIntegers. 
++     	// Need to convert them into Longs. Yawn.
++     	List&lt;BigInteger&gt; results = q.list();
++     	List&lt;Long&gt; properResults = new ArrayList&lt;Long&gt;(results.size());
++     	for (BigInteger i : results) {
++     		properResults.add(i.longValue());
++     	}
++     	
++     	return properResults;
++     }
+  
+  	public Session getSession() {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000258.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.25,1.26 surefire-system.properties,1.1,NONE
+</A></li>
+	<LI>Next message: <A HREF="000260.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.26,1.27
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#259">[ date ]</a>
+              <a href="thread.html#259">[ thread ]</a>
+              <a href="subject.html#259">[ subject ]</a>
+              <a href="author.html#259">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

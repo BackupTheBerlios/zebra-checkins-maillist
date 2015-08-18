@@ -1,0 +1,98 @@
+From nobody at sheep.berlios.de  Wed Aug 23 12:36:15 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Wed, 23 Aug 2006 12:36:15 +0200 (CEST)
+Subject: [Zebra-checkins]
+	zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+	TimedTaskRunnerImpl.java, 1.7, 1.8
+Message-ID: <20060823103615.964EC6BC9D@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv15854/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	TimedTaskRunnerImpl.java 
+Log Message:
+Added extra logging for scheduled tasks
+
+Index: TimedTaskRunnerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/TimedTaskRunnerImpl.java,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** TimedTaskRunnerImpl.java	27 Jun 2006 08:32:56 -0000	1.7
+--- TimedTaskRunnerImpl.java	23 Aug 2006 10:35:56 -0000	1.8
+***************
+*** 111,123 ****
+  	 */
+  	public void runTasksForTime(Time time) {
+! 
+  		List<TimedTask> timedTasks = timedTaskManager.getTasksForTime(time);
+  
+! 		for (TimedTask timedTask : timedTasks) {
+! 
+  			runTask(timedTask);
+  
+  		}
+! 
+  	}
+  
+--- 111,127 ----
+  	 */
+  	public void runTasksForTime(Time time) {
+! 		log.info("Beginning the " + time.getJobName() + " task run");
+! 		
+  		List<TimedTask> timedTasks = timedTaskManager.getTasksForTime(time);
+  
+! 		log.info(time.getJobName() + " run: " + timedTasks.size() + " tasks found");
+! 		//for (TimedTask timedTask : timedTasks) {
+! 		for (int i=0; i<timedTasks.size(); i++) {
+! 			TimedTask timedTask = timedTasks.get(i);
+! 			log.info(time.getJobName() + " run: running task " + i);
+  			runTask(timedTask);
+  
+  		}
+! 		log.info("Completed the " + time.getJobName() + " task run");
+  	}
+  
+
+
+
+From nobody at sheep.berlios.de  Wed Aug 23 12:36:15 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Wed, 23 Aug 2006 12:36:15 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.42,1.43
+Message-ID: <20060823103615.5A2335B00B@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv15854
+
+Modified Files:
+	pom.xml 
+Log Message:
+Added extra logging for scheduled tasks
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.42
+retrieving revision 1.43
+diff -C2 -d -r1.42 -r1.43
+*** pom.xml	19 Jul 2006 13:11:08 -0000	1.42
+--- pom.xml	23 Aug 2006 10:35:54 -0000	1.43
+***************
+*** 6,10 ****
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.6</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+--- 6,10 ----
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.7</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+
+
+

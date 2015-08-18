@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/test/resources/META-INF hivemodule_hivemindtest.xml,NONE,1.1 hivemodule_jmx.xml,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind/src/test/resources/META-INF%20hivemodule_hivemindtest.xml%2CNONE%2C1.1%20hivemodule_jmx.xml%2CNONE%2C1.1&In-Reply-To=%3C200603161251.k2GCpLb09660%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000278.html">
+   <LINK REL="Next"  HREF="000281.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/test/resources/META-INF hivemodule_hivemindtest.xml,NONE,1.1 hivemodule_jmx.xml,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind/src/test/resources/META-INF%20hivemodule_hivemindtest.xml%2CNONE%2C1.1%20hivemodule_jmx.xml%2CNONE%2C1.1&In-Reply-To=%3C200603161251.k2GCpLb09660%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/test/resources/META-INF hivemodule_hivemindtest.xml,NONE,1.1 hivemodule_jmx.xml,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Mar 16 13:51:21 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000278.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind pom.xml,1.4,1.5
+</A></li>
+        <LI>Next message: <A HREF="000281.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind RegistryManager.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#280">[ date ]</a>
+              <a href="thread.html#280">[ thread ]</a>
+              <a href="subject.html#280">[ subject ]</a>
+              <a href="author.html#280">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind/src/test/resources/META-INF
+In directory sheep:/tmp/cvs-serv31521/src/test/resources/META-INF
+
+Added Files:
+	hivemodule_hivemindtest.xml hivemodule_jmx.xml 
+Log Message:
+
+
+--- NEW FILE: hivemodule_hivemindtest.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;fulcrum.hivemind.test&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;service-point id=&quot;DummyService&quot; interface=&quot;org.apache.fulcrum.hivemind.IDummy&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;org.apache.fulcrum.hivemind.DummyService&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;contribution configuration-id=&quot;hivemind.management.MBeans&quot; &gt;
+        &lt;mbean service-id=&quot;fulcrum.hivemind.test.DummyService&quot; /&gt;
+    &lt;/contribution&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemodule_jmx.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;fulcrum.hivmind.jmx&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;contribution configuration-id=&quot;hivemind.EagerLoad&quot;&gt;
+        &lt;load service-id=&quot;hivemind.management.MBeanRegistry&quot;/&gt;
+    &lt;/contribution&gt;
+    &lt;contribution configuration-id=&quot;hivemind.management.MBeans&quot;&gt;
+        &lt;mbean service-id=&quot;hivemind.management.connector.NamingServiceMBean&quot; start-method=&quot;start&quot;/&gt;
+        &lt;mbean service-id=&quot;hivemind.management.connector.JMXConnectorServerMBean&quot;
+            start-method=&quot;start&quot;/&gt;
+        &lt;mbean service-id=&quot;hivemind.management.log4j.LogManagementMBean&quot;/&gt;
+    &lt;/contribution&gt;
+    &lt;contribution configuration-id=&quot;hivemind.management.log4j.ManagedLog4jLoggers&quot;&gt;
+        &lt;logger name=&quot;*&quot;/&gt;
+    &lt;/contribution&gt;
+&lt;/module&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000278.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind pom.xml,1.4,1.5
+</A></li>
+	<LI>Next message: <A HREF="000281.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind RegistryManager.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#280">[ date ]</a>
+              <a href="thread.html#280">[ thread ]</a>
+              <a href="subject.html#280">[ subject ]</a>
+              <a href="author.html#280">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

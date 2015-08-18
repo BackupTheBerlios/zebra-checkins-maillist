@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicUser.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model%20HibernateDynamicUser.java%2C1.2%2C1.3&In-Reply-To=%3C200601191129.k0JBTKx02796%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000079.html">
+   <LINK REL="Next"  HREF="000082.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicUser.java,1.2,1.3</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model%20HibernateDynamicUser.java%2C1.2%2C1.3&In-Reply-To=%3C200601191129.k0JBTKx02796%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicUser.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Jan 19 12:29:20 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000079.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.5,1.6
+</A></li>
+        <LI>Next message: <A HREF="000082.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreatePostgresTables.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model
+In directory sheep:/tmp/cvs-serv9014/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model
+
+Modified Files:
+	HibernateDynamicUser.java 
+Log Message:
+Corrected annotations
+
+Index: HibernateDynamicUser.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicUser.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** HibernateDynamicUser.java	17 Jan 2006 09:17:20 -0000	1.2
+--- HibernateDynamicUser.java	19 Jan 2006 11:29:18 -0000	1.3
+***************
+*** 13,16 ****
+--- 13,17 ----
+  import javax.persistence.ManyToMany;
+  import javax.persistence.Table;
++ import javax.persistence.TemporalType;
+  
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+***************
+*** 61,65 ****
+      
+      @Override
+!     @Type(type=&quot;java.util.Date&quot;)
+      public Date getPasswordExpiryDate() {
+      	return super.getPasswordExpiryDate();
+--- 62,66 ----
+      
+      @Override
+!     @Basic(temporalType = TemporalType.DATE)
+      public Date getPasswordExpiryDate() {
+      	return super.getPasswordExpiryDate();
+***************
+*** 67,71 ****
+      
+      @Override
+!     @Type(type=&quot;java.util.Date&quot;)
+      public Date getLockedDate() {
+      	return super.getLockedDate();
+--- 68,72 ----
+      
+      @Override
+!     @Basic(temporalType = TemporalType.DATE)
+      public Date getLockedDate() {
+      	return super.getLockedDate();
+***************
+*** 73,77 ****
+      
+      @Override
+!     @Type(type=&quot;int&quot;)
+      public int getLoginAttempts() {
+      	return super.getLoginAttempts();
+--- 74,78 ----
+      
+      @Override
+!     @Basic
+      public int getLoginAttempts() {
+      	return super.getLoginAttempts();
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000079.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.5,1.6
+</A></li>
+	<LI>Next message: <A HREF="000082.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreatePostgresTables.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,846 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbp, 1.11,	1.12 ACGWFD.vbw, 1.9, 1.10 IContextMenu.cls, 1.2,	1.3 frmFlow.frm, 1.8, 1.9 frmMDI.frm, 1.7, 1.8 frmMDI.frx, 1.6,	1.7 frmPropList.frm, 1.3, 1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20ACGWFD.vbp%2C%201.11%2C%0A%091.12%20ACGWFD.vbw%2C%201.9%2C%201.10%20IContextMenu.cls%2C%201.2%2C%0A%091.3%20frmFlow.frm%2C%201.8%2C%201.9%20frmMDI.frm%2C%201.7%2C%201.8%20frmMDI.frx%2C%201.6%2C%0A%091.7%20frmPropList.frm%2C%201.3%2C%201.4&In-Reply-To=%3C20071031123725.56F6C44AA2%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000438.html">
+   <LINK REL="Next"  HREF="000441.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbp, 1.11,	1.12 ACGWFD.vbw, 1.9, 1.10 IContextMenu.cls, 1.2,	1.3 frmFlow.frm, 1.8, 1.9 frmMDI.frm, 1.7, 1.8 frmMDI.frx, 1.6,	1.7 frmPropList.frm, 1.3, 1.4</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFD%20ACGWFD.vbp%2C%201.11%2C%0A%091.12%20ACGWFD.vbw%2C%201.9%2C%201.10%20IContextMenu.cls%2C%201.2%2C%0A%091.3%20frmFlow.frm%2C%201.8%2C%201.9%20frmMDI.frm%2C%201.7%2C%201.8%20frmMDI.frx%2C%201.6%2C%0A%091.7%20frmPropList.frm%2C%201.3%2C%201.4&In-Reply-To=%3C20071031123725.56F6C44AA2%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/vbcode/ACGWFD ACGWFD.vbp, 1.11,	1.12 ACGWFD.vbw, 1.9, 1.10 IContextMenu.cls, 1.2,	1.3 frmFlow.frm, 1.8, 1.9 frmMDI.frm, 1.7, 1.8 frmMDI.frx, 1.6,	1.7 frmPropList.frm, 1.3, 1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Oct 31 13:37:25 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000438.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDXML ACGWFDXML.vbp, 1.5,	1.6 XMLProcessDef.cls, 1.4, 1.5
+</A></li>
+        <LI>Next message: <A HREF="000441.html">[Zebra-checkins] zebra/src/vbcode AllProjects.vbg,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#440">[ date ]</a>
+              <a href="thread.html#440">[ thread ]</a>
+              <a href="subject.html#440">[ subject ]</a>
+              <a href="author.html#440">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFD
+In directory sheep:/tmp/cvs-serv17277/src/vbcode/ACGWFD
+
+Modified Files:
+	ACGWFD.vbp ACGWFD.vbw IContextMenu.cls frmFlow.frm frmMDI.frm 
+	frmMDI.frx frmPropList.frm 
+Log Message:
+Various tweaks and changes to open up more functionality
+
+Index: ACGWFD.vbp
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbp,v
+retrieving revision 1.11
+retrieving revision 1.12
+diff -C2 -d -r1.11 -r1.12
+*** ACGWFD.vbp	16 Oct 2007 15:53:53 -0000	1.11
+--- ACGWFD.vbp	31 Oct 2007 12:36:34 -0000	1.12
+***************
+*** 9,12 ****
+--- 9,13 ----
+  Reference=*\G{2F9D76FD-5387-45C7-8F06-2926FEC87D7E}#1.0#0#..\..\..\..\..\..\..\Program Files\Zebra Workflow Designer\ACGProcessDefs.dll#
+  Reference=*\G{A8C97445-2A9C-4938-84B7-64B16A052106}#2.1#0#..\ACGProcessVersions\ACGZVER.dll#ACG Zebra Versioning
++ Reference=*\A..\ACGWFDAddin\ACGWFDAddin.vbp
+  Object={F74DBB97-4C02-4B5D-AB22-1D7E188F4415}#1.0#0; innovadsxp.ocx
+  Object={83B0E423-D4EE-11D4-BEDF-BAB7F1EEA455}#4.2#0; addflow4.ocx
+***************
+*** 31,39 ****
+  Class=DocScan; DocScan.cls
+  Form=frmVersions.frm
+  IconForm=&quot;frmFlow&quot;
+  Startup=&quot;Sub Main&quot;
+  HelpFile=&quot;&quot;
+  Title=&quot;ACGWFD&quot;
+- ExeName32=&quot;ACGWFD.exe&quot;
+  Command32=&quot;&quot;
+  Name=&quot;ACGWFD&quot;
+--- 32,43 ----
+  Class=DocScan; DocScan.cls
+  Form=frmVersions.frm
++ Class=DocFlow; DocFlow.cls
++ Class=AddinAccess; AddinAccess.cls
++ Class=Dialog; Dialog.cls
++ Form=frmTextPopup.frm
+  IconForm=&quot;frmFlow&quot;
+  Startup=&quot;Sub Main&quot;
+  HelpFile=&quot;&quot;
+  Title=&quot;ACGWFD&quot;
+  Command32=&quot;&quot;
+  Name=&quot;ACGWFD&quot;
+
+Index: ACGWFD.vbw
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/ACGWFD.vbw,v
+retrieving revision 1.9
+retrieving revision 1.10
+diff -C2 -d -r1.9 -r1.10
+*** ACGWFD.vbw	16 Oct 2007 15:53:53 -0000	1.9
+--- ACGWFD.vbw	31 Oct 2007 12:36:34 -0000	1.10
+***************
+*** 6,15 ****
+  clShellBrowse = 66, 66, 588, 420, C
+  frmProcessTemplate = 110, 110, 600, 466, C, 22, 22, 608, 487, C
+! frmMDI = 32, 25, 752, 480, C, -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, C, 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, C, 110, 110, 696, 575, C
+  basMain = 22, 22, 608, 487, C
+  frmInput = 154, 154, 676, 508, C, 132, 132, 718, 597, C
+  DocScan = 0, 0, 522, 354, C
+  frmVersions = 44, 44, 566, 398, C, 22, 22, 544, 376, C
+--- 6,19 ----
+  clShellBrowse = 66, 66, 588, 420, C
+  frmProcessTemplate = 110, 110, 600, 466, C, 22, 22, 608, 487, C
+! frmMDI = 88, 164, 808, 619, , -14, 59, 572, 524, C
+  frmPropertyAdd = 132, 132, 614, 489, C, 66, 66, 652, 531, C
+! frmFlow = 66, 66, 794, 531, , 88, 88, 674, 553, C
+! frmPropList = 154, 154, 874, 612, , 110, 110, 696, 575, C
+  basMain = 22, 22, 608, 487, C
+  frmInput = 154, 154, 676, 508, C, 132, 132, 718, 597, C
+  DocScan = 0, 0, 522, 354, C
+  frmVersions = 44, 44, 566, 398, C, 22, 22, 544, 376, C
++ DocFlow = 0, 0, 0, 0, C
++ AddinAccess = 0, 0, 0, 0, C
++ Dialog = 88, 88, 610, 442, 
++ frmTextPopup = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+
+Index: IContextMenu.cls
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/IContextMenu.cls,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** IContextMenu.cls	3 Feb 2005 11:52:28 -0000	1.2
+--- IContextMenu.cls	31 Oct 2007 12:36:34 -0000	1.3
+***************
+*** 46,47 ****
+--- 46,53 ----
+      '
+  End Sub
++ Public Property Get ProcessDef() As ProcessDef
++     '
++ End Property
++ Public Sub Refresh()
++     '
++ End Sub
+
+Index: frmFlow.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmFlow.frm,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+*** frmFlow.frm	16 Oct 2007 15:53:53 -0000	1.8
+--- frmFlow.frm	31 Oct 2007 12:36:34 -0000	1.9
+***************
+*** 200,204 ****
+  Private mstrFileName As String
+  
+! Public Sub Init(oParent As Container, oProcessTemplate As ProcessTemplate, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set mProcessDef = New ProcessDef
+--- 200,204 ----
+  Private mstrFileName As String
+  
+! Public Sub init(oParent As Container, oProcessTemplate As ProcessTemplate, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set mProcessDef = New ProcessDef
+***************
+*** 766,769 ****
+--- 766,772 ----
+              IContextMenu_CommandClick = True
+              Call DeleteVersion
++         Case &quot;TLDOCUMENT&quot;
++             IContextMenu_CommandClick = True
++             Call documentProcess
+          Case &quot;TLCOPY&quot;
+              IContextMenu_CommandClick = CopySelected
+***************
+*** 812,815 ****
+--- 815,854 ----
+      
+  End Function
++ Private Sub documentProcess()
++     Const cstrFunc = &quot;documentProcess&quot;
++     Dim strErrFunc As String
++     
++     Dim dlg As MSComDlg.CommonDialog
++     
++     Set dlg = Parent.dlg
++     dlg.Filter = &quot;HTML Documents|*.html&quot;
++     dlg.FilterIndex = 1
++     dlg.DialogTitle = &quot;Document Process&quot;
++     dlg.fileName = mProcessDef.Name
++     dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
++     On Error Resume Next
++     dlg.ShowSave
++     If Err.Number &lt;&gt; 0 Then Exit Sub
++     On Error GoTo Err_Handler
++     strErrFunc = &quot;Deleting existing file&quot;
++     If Len(Dir$(dlg.fileName)) &gt; 0 Then
++         Kill dlg.fileName
++     End If
++     
++     strErrFunc = &quot;Creating documentation&quot;
++     Dim oDocProcess As DocFlow
++     Set oDocProcess = New DocFlow
++     oDocProcess.DocProcess mProcessDef, dlg.fileName, False
++     Exit Sub
++ Err_Handler:
++     Select Case StdErrMsg(Err, mcstrModule, cstrFunc + &quot;.&quot; &amp; strErrFunc)
++         Case vbIgnore
++             Resume Next
++         Case vbRetry
++             Resume 0
++         Case Else
++             Exit Sub
++     End Select
++ End Sub
+  Private Sub DeleteVersion()
+      '// check that the user really wants to do this
+***************
+*** 1238,1242 ****
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = &quot;Export Flow Image&quot;
+!     dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+--- 1277,1281 ----
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = &quot;Export Flow Image&quot;
+!     dlg.fileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+***************
+*** 1245,1249 ****
+      On Error GoTo Err_Handler
+      
+!     SaveImage dlg.FileName
+      MsgBox &quot;Export Complete&quot;
+      
+--- 1284,1288 ----
+      On Error GoTo Err_Handler
+      
+!     SaveImage dlg.fileName
+      MsgBox &quot;Export Complete&quot;
+      
+***************
+*** 1264,1278 ****
+  End Property
+  
+! Public Sub SaveImage(FileName As String)
+      On Error GoTo Err_Handler
+      Const cstrFunc = &quot;SaveImage&quot;
+!     If Len(Dir$(FileName)) &gt; 0 Then
+!         Kill FileName
+      End If
+          
+!     If StrComp(Right$(FileName, 4), &quot;.emf&quot;, vbTextCompare) Then
+!         FlowGUI.SaveImage afTypeMediumFile, afEMF, FileName
+      Else
+!         FlowGUI.SaveImage afTypeMediumFile, afWMF, FileName
+      End If
+      
+--- 1303,1317 ----
+  End Property
+  
+! Public Sub SaveImage(fileName As String)
+      On Error GoTo Err_Handler
+      Const cstrFunc = &quot;SaveImage&quot;
+!     If Len(Dir$(fileName)) &gt; 0 Then
+!         Kill fileName
+      End If
+          
+!     If StrComp(Right$(fileName, 4), &quot;.emf&quot;, vbTextCompare) Then
+!         FlowGUI.SaveImage afTypeMediumFile, afEMF, fileName
+      Else
+!         FlowGUI.SaveImage afTypeMediumFile, afWMF, fileName
+      End If
+      
+***************
+*** 1308,1314 ****
+          oDW.Caption = &quot;Process&quot;
+      End If
+!     moPropList.Init moParent, moTaskTemplates, moProcessTemplates
+  End Sub
+! Public Function LoadFlow(FileName As String) As Boolean
+      Const cstrFunc = &quot;LoadFlow&quot;
+      On Error GoTo Err_Handler
+--- 1347,1353 ----
+          oDW.Caption = &quot;Process&quot;
+      End If
+!     moPropList.init moParent, moTaskTemplates, moProcessTemplates
+  End Sub
+! Public Function LoadFlow(fileName As String) As Boolean
+      Const cstrFunc = &quot;LoadFlow&quot;
+      On Error GoTo Err_Handler
+***************
+*** 1316,1326 ****
+      Set oLoad = New XMLProcessVersion
+      Set moVersions = New Versions
+!     mstrFileName = FileName
+!     If Not oLoad.FileLoadXML(FileName, moVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set mProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(FileName, mProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox &quot;Failed to load process!&quot;, vbExclamation
+              LoadFlow = False
+--- 1355,1365 ----
+      Set oLoad = New XMLProcessVersion
+      Set moVersions = New Versions
+!     mstrFileName = fileName
+!     If Not oLoad.FileLoadXML(fileName, moVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set mProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(fileName, mProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox &quot;Failed to load process!&quot;, vbExclamation
+              LoadFlow = False
+***************
+*** 1457,1461 ****
+          dlg.FilterIndex = 1
+          dlg.DialogTitle = &quot;New Process&quot;
+!         dlg.FileName = &quot;Copy of &quot; &amp; mProcessDef.Name &amp; &quot; Process&quot;
+          dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+          On Error Resume Next
+--- 1496,1500 ----
+          dlg.FilterIndex = 1
+          dlg.DialogTitle = &quot;New Process&quot;
+!         dlg.fileName = &quot;Copy of &quot; &amp; mProcessDef.Name &amp; &quot; Process&quot;
+          dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+          On Error Resume Next
+***************
+*** 1464,1474 ****
+          On Error GoTo Err_Handler
+          strErrFunc = &quot;Deleting existing file&quot;
+!         If Len(Dir$(dlg.FileName)) &gt; 0 Then
+!             Kill dlg.FileName
+          End If
+          
+          strErrFunc = &quot;Exporting new file&quot;
+          mProcessDef.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(&quot;.acgwfd.xml&quot;))
+!         oExport.FileSaveXML dlg.FileName, oVersions, mProcessDef
+          Caption = getCaption
+          Parent.ds.ActiveDocumentWindow.Caption = mProcessDef.Name
+--- 1503,1513 ----
+          On Error GoTo Err_Handler
+          strErrFunc = &quot;Deleting existing file&quot;
+!         If Len(Dir$(dlg.fileName)) &gt; 0 Then
+!             Kill dlg.fileName
+          End If
+          
+          strErrFunc = &quot;Exporting new file&quot;
+          mProcessDef.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(&quot;.acgwfd.xml&quot;))
+!         oExport.FileSaveXML dlg.fileName, oVersions, mProcessDef
+          Caption = getCaption
+          Parent.ds.ActiveDocumentWindow.Caption = mProcessDef.Name
+***************
+*** 1478,1481 ****
+--- 1517,1521 ----
+          'oExport.FileLoadXML mstrFileName, oVersions, moTaskTemplates, moProcessTemplates
+          'oExport.FileSaveXML mstrFileName, oVersions, mProcessDef
++         MsgBox &quot;ERROR: can't save an updated process yet!!!! File has NOT been saved!&quot;, vbCritical
+      Else
+          oExport.FileLoadXML mstrFileName, oVersions, moTaskTemplates, moProcessTemplates
+***************
+*** 1576,1579 ****
+--- 1616,1623 ----
+  End Sub
+  
++ Private Property Get IContextMenu_ProcessDef() As ACGProcessDefs.ProcessDef
++     Set IContextMenu_ProcessDef = mProcessDef
++ End Property
++ 
+  Private Sub IContextMenu_QueryUnload(Cancel As Boolean)
+      If FlowGUI.IsChanged Then
+***************
+*** 1709,1712 ****
+--- 1753,1769 ----
+              Exit Sub
+      End Select
++ End Sub
++ 
++ Private Sub IContextMenu_Refresh()
++     Sanitize
++     ShowPropWin
++     Dim oNode As afNode
++     Dim oTaskDef As TaskDef
++     '/ reset all captions in case properties have been changed
++     For Each oNode In FlowGUI.Nodes
++         Set oTaskDef = mProcessDef.Tasks(oNode.key)
++         oNode.Text = NodeCaption(oTaskDef)
++     Next
++     FlowGUI.Refresh
+  End Sub
+  
+
+Index: frmMDI.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frm,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** frmMDI.frm	16 Oct 2007 15:53:53 -0000	1.7
+--- frmMDI.frm	31 Oct 2007 12:36:34 -0000	1.8
+***************
+*** 90,94 ****
+--- 90,105 ----
+  Private moTemplates As TaskTemplates
+  Private moProcessTemplates As ProcessTemplates
++ Private mAddins As Collection
++ Public Sub refreshActiveProcess()
++     moContextMenu.Refresh
++ End Sub
+  
++ Public Property Get activeProcessDef() As ProcessDef
++     If moContextMenu Is Nothing Then
++         Set activeProcessDef = Nothing
++     Else
++         Set activeProcessDef = moContextMenu.ProcessDef
++     End If
++ End Property
+  Private Sub ds_CommandClick(ByVal Command As InnovaDSXP.Command)
+      Const cstrFunc = &quot;ds_CommandClick&quot;
+***************
+*** 113,116 ****
+--- 124,129 ----
+                  Case &quot;EDIT&quot;
+                      MenuHandlerEdit Command
++                 Case &quot;ADDINS&quot;
++                     menuHandlerAddins Command
+                  Case Else
+                      If Command.Name = &quot;tlUndo&quot; Then
+***************
+*** 144,148 ****
+      ds.DockWindows.Item(oTool.Tag).Visible = (oTool.State = dsxpCommandToolButtonStateChecked)
+  End Sub
+! 
+  Private Sub MenuHandlerWindow(ByRef Command As InnovaDSXP.Command)
+      Dim ofrmMDI As frmMDI
+--- 157,167 ----
+      ds.DockWindows.Item(oTool.Tag).Visible = (oTool.State = dsxpCommandToolButtonStateChecked)
+  End Sub
+! Private Sub menuHandlerAddins(ByRef Command As InnovaDSXP.Command)
+!     Dim oAddin As IAddin
+!     Set oAddin = CreateObject(Command.Name)
+!     Dim oAccess As New AddinAccess
+!     oAccess.init Me
+!     oAddin.runAddin oAccess
+! End Sub
+  Private Sub MenuHandlerWindow(ByRef Command As InnovaDSXP.Command)
+      Dim ofrmMDI As frmMDI
+***************
+*** 233,237 ****
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = &quot;New Process&quot;
+!     dlg.FileName = &quot;New &quot; &amp; oProcessTemplate.Name &amp; &quot; Process&quot;
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+--- 252,256 ----
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = &quot;New Process&quot;
+!     dlg.fileName = &quot;New &quot; &amp; oProcessTemplate.Name &amp; &quot; Process&quot;
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+***************
+*** 240,245 ****
+      On Error GoTo Err_Handler
+      strErrFunc = &quot;Deleting existing file&quot;
+!     If Len(Dir$(dlg.FileName)) &gt; 0 Then
+!         Kill dlg.FileName
+      End If
+      
+--- 259,264 ----
+      On Error GoTo Err_Handler
+      strErrFunc = &quot;Deleting existing file&quot;
+!     If Len(Dir$(dlg.fileName)) &gt; 0 Then
+!         Kill dlg.fileName
+      End If
+      
+***************
+*** 249,256 ****
+      oProcess.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(&quot;.acgwfd.xml&quot;))
+      Dim oVersions As New Versions
+!     oExport.FileSaveXML dlg.FileName, oVersions, oProcess
+      strErrFunc = &quot;Loading process&quot;
+!     oFlow.Init moContainer, oProcessTemplate, moTemplates, moProcessTemplates
+!     oFlow.LoadFlow dlg.FileName
+      ds.DocumentWindows.AddForm CreateGUID, oProcess.Name, , oFlow, True
+      Exit Sub
+--- 268,275 ----
+      oProcess.Name = Left$(dlg.FileTitle, Len(dlg.FileTitle) - Len(&quot;.acgwfd.xml&quot;))
+      Dim oVersions As New Versions
+!     oExport.FileSaveXML dlg.fileName, oVersions, oProcess
+      strErrFunc = &quot;Loading process&quot;
+!     oFlow.init moContainer, oProcessTemplate, moTemplates, moProcessTemplates
+!     oFlow.LoadFlow dlg.fileName
+      ds.DocumentWindows.AddForm CreateGUID, oProcess.Name, , oFlow, True
+      Exit Sub
+***************
+*** 329,348 ****
+      If Err.Number &lt;&gt; 0 Then Exit Function
+      
+!     Set loadProcess = LoadFromFile(dlg.FileName)
+  End Function
+! Public Sub CommandLineLoadProcess(FileName As String)
+      Dim oFlow As frmFlow
+      Dim oDW As DocumentWindow
+      
+!     Set oFlow = LoadFromFile(FileName)
+      If Not (oFlow Is Nothing) Then
+          Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.getCaption, , oFlow, True)
+      End If
+  End Sub
+! Private Function LoadFromFile(FileName As String) As frmFlow
+      Dim oFlow As frmFlow
+      Set oFlow = New frmFlow
+!     oFlow.Init moContainer, New ProcessTemplate, moTemplates, moProcessTemplates
+!     If Not oFlow.LoadFlow(FileName) Then
+          Unload oFlow
+          Set oFlow = Nothing
+--- 348,367 ----
+      If Err.Number &lt;&gt; 0 Then Exit Function
+      
+!     Set loadProcess = LoadFromFile(dlg.fileName)
+  End Function
+! Public Sub CommandLineLoadProcess(fileName As String)
+      Dim oFlow As frmFlow
+      Dim oDW As DocumentWindow
+      
+!     Set oFlow = LoadFromFile(fileName)
+      If Not (oFlow Is Nothing) Then
+          Set oDW = ds.DocumentWindows.AddForm(CreateGUID, oFlow.getCaption, , oFlow, True)
+      End If
+  End Sub
+! Private Function LoadFromFile(fileName As String) As frmFlow
+      Dim oFlow As frmFlow
+      Set oFlow = New frmFlow
+!     oFlow.init moContainer, New ProcessTemplate, moTemplates, moProcessTemplates
+!     If Not oFlow.LoadFlow(fileName) Then
+          Unload oFlow
+          Set oFlow = Nothing
+***************
+*** 425,428 ****
+--- 444,448 ----
+      
+      LoadProcessTemplates
++     loadAddinMenus
+  End Sub
+  
+***************
+*** 513,517 ****
+  End Sub
+  
+! Private Function loadProcessVers(FileName As String, Optional destPath As String = vbNullString) As Versions
+      On Error GoTo Err_Handler
+      Const cstrFunc = &quot;loadProcessVers&quot;
+--- 533,537 ----
+  End Sub
+  
+! Private Function loadProcessVers(fileName As String, Optional destPath As String = vbNullString) As Versions
+      On Error GoTo Err_Handler
+      Const cstrFunc = &quot;loadProcessVers&quot;
+***************
+*** 520,527 ****
+      Dim oLoad As XMLProcessVersion
+      Dim strErrMsg As String
+!     strErrMsg = FileName
+      
+      Set oLoad = New XMLProcessVersion
+!     fLoaded = oLoad.FileLoadXML(FileName, oVersions, moTemplates, moProcessTemplates)
+      
+      If fLoaded Then
+--- 540,547 ----
+      Dim oLoad As XMLProcessVersion
+      Dim strErrMsg As String
+!     strErrMsg = fileName
+      
+      Set oLoad = New XMLProcessVersion
+!     fLoaded = oLoad.FileLoadXML(fileName, oVersions, moTemplates, moProcessTemplates)
+      
+      If fLoaded Then
+***************
+*** 537,546 ****
+      Set oProcessDef = New ProcessDef
+      Set oFilter = New XMLProcessDef
+!     fLoaded = oFilter.FileLoadXML(FileName, oProcessDef, moTemplates, moProcessTemplates)
+      If fLoaded Then
+          '/ add original GUID's as properties for conversion
+          Call AddGUIDForConvert(oProcessDef)
+      Else
+!         MsgBox &quot;Failed to convert &quot; &amp; FileName, vbCritical
+          Exit Function
+      End If
+--- 557,566 ----
+      Set oProcessDef = New ProcessDef
+      Set oFilter = New XMLProcessDef
+!     fLoaded = oFilter.FileLoadXML(fileName, oProcessDef, moTemplates, moProcessTemplates)
+      If fLoaded Then
+          '/ add original GUID's as properties for conversion
+          Call AddGUIDForConvert(oProcessDef)
+      Else
+!         MsgBox &quot;Failed to convert &quot; &amp; fileName, vbCritical
+          Exit Function
+      End If
+***************
+*** 552,557 ****
+      End If
+      
+!     Debug.Print &quot;converting &quot; &amp; FileName
+!     strNewName = OffsetPath(FileName, destPath)
+      
+      strErrMsg = strNewName
+--- 572,577 ----
+      End If
+      
+!     Debug.Print &quot;converting &quot; &amp; fileName
+!     strNewName = OffsetPath(fileName, destPath)
+      
+      strErrMsg = strNewName
+***************
+*** 578,582 ****
+  End Function
+  
+! Private Function OffsetPath(FileName As String, NewPath As String) As String
+      On Error GoTo Err_Handler:
+      Dim intPos As Integer
+--- 598,602 ----
+  End Function
+  
+! Private Function OffsetPath(fileName As String, NewPath As String) As String
+      On Error GoTo Err_Handler:
+      Dim intPos As Integer
+***************
+*** 586,596 ****
+      
+      Do
+!         intPos = InStr(intStart, FileName, &quot;\&quot;)
+          If intPos &lt; 1 Then
+!             OffsetPath = Trim$(Left$(FileName, intStart))
+              Exit Do
+          End If
+!         If StrComp(Left$(FileName, intPos), Left$(NewPath, intPos)) &lt;&gt; 0 Then
+!             strFileName = Right$(FileName, Len(FileName) - InStrRev(FileName, &quot;\&quot;))
+              OffsetPath = NewPath &amp; &quot;\&quot; &amp; strFileName
+              Exit Function
+--- 606,616 ----
+      
+      Do
+!         intPos = InStr(intStart, fileName, &quot;\&quot;)
+          If intPos &lt; 1 Then
+!             OffsetPath = Trim$(Left$(fileName, intStart))
+              Exit Do
+          End If
+!         If StrComp(Left$(fileName, intPos), Left$(NewPath, intPos)) &lt;&gt; 0 Then
+!             strFileName = Right$(fileName, Len(fileName) - InStrRev(fileName, &quot;\&quot;))
+              OffsetPath = NewPath &amp; &quot;\&quot; &amp; strFileName
+              Exit Function
+***************
+*** 639,643 ****
+     
+  End Sub
+! 
+  Private Sub LoadProcessTemplates()
+      Dim oXMLProcessTemplate As XMLProcessTemplate
+--- 659,672 ----
+     
+  End Sub
+! Private Sub loadAddinMenus()
+!     Dim XMLAddins As New XMLAddinLoader
+!     Set mAddins = XMLAddins.loadAddins(getTemplatePath() &amp; &quot;..\Addins&quot;)
+!     Dim cAddin As Addin
+!     Dim cmd As InnovaDSXP.Command
+!     For Each cAddin In mAddins
+!         Set cmd = ds.Commands.AddToolButton(cAddin.ClassName, cAddin.MenuName, , ds.Categories(&quot;Addins&quot;))
+!         ds.Commands.GetPopupMenu(&quot;mnuAddins&quot;).CommandBar.Controls.Add cmd.ID
+!     Next
+! End Sub
+  Private Sub LoadProcessTemplates()
+      Dim oXMLProcessTemplate As XMLProcessTemplate
+
+Index: frmMDI.frx
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmMDI.frx,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+Binary files /tmp/cvs.bcGoEH and /tmp/cvs.RhRzkf differ
+
+Index: frmPropList.frm
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/vbcode/ACGWFD/frmPropList.frm,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** frmPropList.frm	7 Dec 2005 12:49:42 -0000	1.3
+--- frmPropList.frm	31 Oct 2007 12:36:34 -0000	1.4
+***************
+*** 1,4 ****
+  VERSION 5.00
+! Object = &quot;{BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.0#0&quot;; &quot;PropertyGridControl.ocx&quot;
+  Begin VB.Form frmPropList 
+     Caption         =   &quot;Form1&quot;
+--- 1,4 ----
+  VERSION 5.00
+! Object = &quot;{BA5F9142-B708-4B5E-93B0-3948F8003F86}#1.1#0&quot;; &quot;PropertyGridControl.ocx&quot;
+  Begin VB.Form frmPropList 
+     Caption         =   &quot;Form1&quot;
+***************
+*** 66,70 ****
+      pg.Move 0, 0, ScaleWidth, ScaleHeight
+  End Sub
+! Public Sub Init(oParent As Container, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set moTaskTemplates = oTaskTemplates
+--- 66,70 ----
+      pg.Move 0, 0, ScaleWidth, ScaleHeight
+  End Sub
+! Public Sub init(oParent As Container, oTaskTemplates As TaskTemplates, oProcessTemplates As ProcessTemplates)
+      Set moParent = oParent
+      Set moTaskTemplates = oTaskTemplates
+***************
+*** 87,95 ****
+  End Property
+  
+! Private Sub pg_ContextClick(oProperty As ACGProperties.Property, x As Single, y As Single)
+      MDI.showPropGroupsPopup oProperty
+  End Sub
+  
+! Private Sub pg_FileBrowse(oProperty As ACGProperties.Property, FileName As String, Cancel As Boolean)
+      Const cstrFunc = &quot;pg_FileBrowse&quot;
+      On Error GoTo Err_Handler
+--- 87,95 ----
+  End Property
+  
+! Private Sub pg_ContextClick(oProperty As ACGProperties.Property, X As Single, y As Single)
+      MDI.showPropGroupsPopup oProperty
+  End Sub
+  
+! Private Sub pg_FileBrowse(oProperty As ACGProperties.Property, fileName As String, Cancel As Boolean)
+      Const cstrFunc = &quot;pg_FileBrowse&quot;
+      On Error GoTo Err_Handler
+***************
+*** 101,105 ****
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = &quot;Set SubProcess&quot;
+!     dlg.FileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+--- 101,105 ----
+      dlg.FilterIndex = 1
+      dlg.DialogTitle = &quot;Set SubProcess&quot;
+!     dlg.fileName = Me.Caption
+      dlg.Flags = MSComDlg.cdlOFNOverwritePrompt
+      On Error Resume Next
+***************
+*** 114,124 ****
+      Set oVersions = New Versions
+      Dim oProcessDef As ProcessDef
+!     FileName = dlg.FileName
+!     If Not oLoad.FileLoadXML(FileName, oVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set oProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(FileName, oProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox &quot;Failed to load process!&quot;, vbExclamation
+              Cancel = True
+--- 114,124 ----
+      Set oVersions = New Versions
+      Dim oProcessDef As ProcessDef
+!     fileName = dlg.fileName
+!     If Not oLoad.FileLoadXML(fileName, oVersions, moTaskTemplates, moProcessTemplates) Then
+          '/ try the old loader
+          Dim oImport As XMLProcessDef
+          Set oImport = New XMLProcessDef
+          Set oProcessDef = New ProcessDef
+!         If Not (oImport.FileLoadXML(fileName, oProcessDef, moTaskTemplates, moProcessTemplates)) Then
+              MsgBox &quot;Failed to load process!&quot;, vbExclamation
+              Cancel = True
+***************
+*** 131,140 ****
+          End If
+          oProcessDef.PropertyGroup.Item(&quot;(General)&quot;).Item(&quot;Name&quot;).Locked = True
+!         Kill FileName
+!         oLoad.FileSaveXML FileName, oVersions, oProcessDef
+      Else
+          Set oProcessDef = oVersions(oVersions.MaxVer).ProcessDef
+      End If
+!     FileName = oProcessDef.Name
+      '# copy Input and Output property sections
+      Dim oPropsSrc As Properties, oPropsDest As Properties
+--- 131,140 ----
+          End If
+          oProcessDef.PropertyGroup.Item(&quot;(General)&quot;).Item(&quot;Name&quot;).Locked = True
+!         Kill fileName
+!         oLoad.FileSaveXML fileName, oVersions, oProcessDef
+      Else
+          Set oProcessDef = oVersions(oVersions.MaxVer).ProcessDef
+      End If
+!     fileName = oProcessDef.Name
+      '# copy Input and Output property sections
+      Dim oPropsSrc As Properties, oPropsDest As Properties
+***************
+*** 186,188 ****
+--- 186,201 ----
+              Exit Sub
+      End Select
++ End Sub
++ 
++ Private Sub pg_TextPopup(oProperty As ACGProperties.Property, Cancel As Boolean)
++     On Error Resume Next
++     Load frmTextPopup
++     If frmTextPopup.doTextPopup(oProperty) Then
++         oProperty.Value = Trim$(frmTextPopup.Text)
++         Cancel = False
++     Else
++         Cancel = True
++     End If
++     Unload frmTextPopup
++     
+  End Sub
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000438.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDXML ACGWFDXML.vbp, 1.5,	1.6 XMLProcessDef.cls, 1.4, 1.5
+</A></li>
+	<LI>Next message: <A HREF="000441.html">[Zebra-checkins] zebra/src/vbcode AllProjects.vbg,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#440">[ date ]</a>
+              <a href="thread.html#440">[ thread ]</a>
+              <a href="subject.html#440">[ subject ]</a>
+              <a href="author.html#440">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

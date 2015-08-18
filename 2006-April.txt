@@ -1,0 +1,861 @@
+From nobody at sheep.berlios.de  Thu Apr 20 18:33:07 2006
+From: nobody at sheep.berlios.de (mik3_jon3s)
+Date: Thu, 20 Apr 2006 18:33:07 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory HibernateSessionFactory.java,1.5,1.6
+Message-ID: <200604201633.k3KGX7t28408@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory
+In directory sheep:/tmp/cvs-serv30220/src/main/java/org/apache/fulcrum/hibernate/factory
+
+Modified Files:
+	HibernateSessionFactory.java 
+Log Message:
+added the ability to specifiy the config file.
+This allows you to have different session factories pointing at different databases
+
+Index: HibernateSessionFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate/src/main/java/org/apache/fulcrum/hibernate/factory/HibernateSessionFactory.java,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** HibernateSessionFactory.java	5 Jan 2006 10:32:49 -0000	1.5
+--- HibernateSessionFactory.java	20 Apr 2006 16:33:30 -0000	1.6
+***************
+*** 8,11 ****
+--- 8,12 ----
+  import javax.sql.DataSource;
+  
++ import org.apache.commons.lang.StringUtils;
+  import org.apache.commons.lang.exception.NestableRuntimeException;
+  import org.apache.hivemind.ServiceImplementationFactory;
+***************
+*** 26,143 ****
+   * Creates the Hibernate Session and manages the lifecycle.
+   * 
+!  * The application simply gets the HibernateSession as a service on a Threaded model. 
+   * 
+   * @author Mike Jones
+   * @author ben.gidley
+!  *
+   */
+! public class HibernateSessionFactory implements ServiceImplementationFactory, RegistryShutdownListener {
+  
+!     private SessionFactory sessionFactory;
+  
+!     private ThreadEventNotifier threadEventNotifier;
+  
+!     private boolean updateSchema = false;
+!     private boolean createSchema = false;
+!     
+!     private DataSource connectionProviderDataSource = null;
+!     
+!     private Properties hibernateProperties = null;
+  
+!     /**
+!      * Called by factory when creating service
+!      *
+!      */
+!     public void initializeService() {
+!         try {
+!             Configuration config = new AnnotationConfiguration();
+!             config.configure();
+!             hibernateProperties = config.getProperties();
+!             if (createSchema){ 
+!                 SchemaExport export = new SchemaExport(config);
+!                 export.drop(true, true);
+!                 export.create(true, true);
+!             }
+!             else if (updateSchema) {
+!                 new SchemaUpdate(config).execute(true, true);
+!             }
+!             sessionFactory = config.buildSessionFactory();
+!             ConnectionProvider connectionProvider = config.buildSettings().getConnectionProvider();
+!             connectionProviderDataSource = 
+!             	new HibernateConnectionProviderDataSource(connectionProvider);
+!         } catch (HibernateException e) {
+!         	e.printStackTrace();
+!             throw new NestableRuntimeException(e);
+!         }
+!     }
+  
+!     /*
+!      *  (non-Javadoc)
+!      * @see org.apache.hivemind.ServiceImplementationFactory#createCoreServiceImplementation(org.apache.hivemind.ServiceImplementationFactoryParameters)
+!      */
+!     public Object createCoreServiceImplementation(ServiceImplementationFactoryParameters arg0) {
+!         try {
+!             Session session = sessionFactory.openSession();
+!             threadEventNotifier.addThreadCleanupListener(new SessionCloser(session));
+!             return session;
+!         } catch (HibernateException e) {
+!             throw new NestableRuntimeException(e);
+!         }
+  
+!     }
+  
+!     /*
+!      *  (non-Javadoc)
+!      * @see org.apache.hivemind.events.RegistryShutdownListener#registryDidShutdown()
+!      */
+!     public void registryDidShutdown() {
+!         try {
+!             sessionFactory.close();
+!         } catch (HibernateException e) {
+!             throw new NestableRuntimeException(e);
+!         }
+!     }
+  
+!     public void setThreadEventNotifier(ThreadEventNotifier notifier) {
+!         this.threadEventNotifier = notifier;
+!     }
+  
+!     public void setUpdateSchema(boolean updateSchema) {
+!         this.updateSchema = updateSchema;
+!     }
+  
+!     private class SessionCloser implements ThreadCleanupListener {
+!         private final Session session;
+  
+!         public SessionCloser(Session session) {
+!             this.session = session;
+!         }
+  
+!         public void threadDidCleanup() {
+!             try {
+!                 session.close();
+!             } catch (HibernateException e) {
+!                 throw new NestableRuntimeException(e);
+!             }
+!             threadEventNotifier.removeThreadCleanupListener(this);
+!         }
+!     }
+  
+!     public boolean isCreateSchema() {
+!         return createSchema;
+!     }
+  
+!     public void setCreateSchema(boolean createSchema) {
+!         this.createSchema = createSchema;
+!     }
+  
+!     public DataSource getConnectionProviderDataSource()
+!     {
+!     	return this.connectionProviderDataSource;
+!     }
+!     
+!     public Properties getHibernateProperties()
+!     {
+!     	return this.hibernateProperties;
+!     }
+  }
+--- 27,161 ----
+   * Creates the Hibernate Session and manages the lifecycle.
+   * 
+!  * The application simply gets the HibernateSession as a service on a Threaded
+!  * model.
+   * 
+   * @author Mike Jones
+   * @author ben.gidley
+!  * 
+   */
+! public class HibernateSessionFactory implements ServiceImplementationFactory,
+! 		RegistryShutdownListener {
+  
+! 	private SessionFactory sessionFactory;
+  
+! 	private ThreadEventNotifier threadEventNotifier;
+  
+! 	private boolean updateSchema = false;
+  
+! 	private boolean createSchema = false;
+  
+! 	private DataSource connectionProviderDataSource = null;
+  
+! 	private Properties hibernateProperties = null;
+  
+! 	private String configXml;
+  
+! 	public void setConfigXml(String configXml) {
+! 		this.configXml = configXml;
+! 	}
+  
+! 	/**
+! 	 * Called by factory when creating service
+! 	 * 
+! 	 */
+! 	public void initializeService() {
+! 		try {
+! 			Configuration config = new AnnotationConfiguration();
+  
+! 			if (StringUtils.isEmpty(configXml)) {
+! 				config.configure();
+! 			} else {
+! 				config.configure(configXml);
+! 			}
+  
+! 			hibernateProperties = config.getProperties();
+! 			if (createSchema) {
+! 				SchemaExport export = new SchemaExport(config);
+! 				export.drop(true, true);
+! 				export.create(true, true);
+! 			} else if (updateSchema) {
+! 				new SchemaUpdate(config).execute(true, true);
+! 			}
+! 			sessionFactory = config.buildSessionFactory();
+! 			ConnectionProvider connectionProvider = config.buildSettings()
+! 					.getConnectionProvider();
+! 			connectionProviderDataSource = new HibernateConnectionProviderDataSource(
+! 					connectionProvider);
+! 		} catch (HibernateException e) {
+! 			e.printStackTrace();
+! 			throw new NestableRuntimeException(e);
+! 		}
+! 	}
+  
+! 	/*
+! 	 * (non-Javadoc)
+! 	 * 
+! 	 * @see org.apache.hivemind.ServiceImplementationFactory#createCoreServiceImplementation(org.apache.hivemind.ServiceImplementationFactoryParameters)
+! 	 */
+! 	public Object createCoreServiceImplementation(
+! 			ServiceImplementationFactoryParameters arg0) {
+! 		try {
+! 			Session session = sessionFactory.openSession();
+! 			threadEventNotifier.addThreadCleanupListener(new SessionCloser(
+! 					session));
+! 			return session;
+! 		} catch (HibernateException e) {
+! 			throw new NestableRuntimeException(e);
+! 		}
+  
+! 	}
+  
+! 	/*
+! 	 * (non-Javadoc)
+! 	 * 
+! 	 * @see org.apache.hivemind.events.RegistryShutdownListener#registryDidShutdown()
+! 	 */
+! 	public void registryDidShutdown() {
+! 		try {
+! 			sessionFactory.close();
+! 		} catch (HibernateException e) {
+! 			throw new NestableRuntimeException(e);
+! 		}
+! 	}
+  
+! 	public void setThreadEventNotifier(ThreadEventNotifier notifier) {
+! 		this.threadEventNotifier = notifier;
+! 	}
+! 
+! 	public void setUpdateSchema(boolean updateSchema) {
+! 		this.updateSchema = updateSchema;
+! 	}
+! 
+! 	private class SessionCloser implements ThreadCleanupListener {
+! 		private final Session session;
+! 
+! 		public SessionCloser(Session session) {
+! 			this.session = session;
+! 		}
+! 
+! 		public void threadDidCleanup() {
+! 			try {
+! 				session.close();
+! 			} catch (HibernateException e) {
+! 				throw new NestableRuntimeException(e);
+! 			}
+! 			threadEventNotifier.removeThreadCleanupListener(this);
+! 		}
+! 	}
+! 
+! 	public boolean isCreateSchema() {
+! 		return createSchema;
+! 	}
+! 
+! 	public void setCreateSchema(boolean createSchema) {
+! 		this.createSchema = createSchema;
+! 	}
+! 
+! 	public DataSource getConnectionProviderDataSource() {
+! 		return this.connectionProviderDataSource;
+! 	}
+! 
+! 	public Properties getHibernateProperties() {
+! 		return this.hibernateProperties;
+! 	}
+  }
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 11:23:56 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 11:23:56 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate pom.xml,1.18,1.19
+Message-ID: <200604250923.k3P9Nut01447@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate
+In directory sheep:/tmp/cvs-serv17307
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate/pom.xml,v
+retrieving revision 1.18
+retrieving revision 1.19
+diff -C2 -d -r1.18 -r1.19
+*** pom.xml	16 Mar 2006 12:28:29 -0000	1.18
+--- pom.xml	25 Apr 2006 09:24:20 -0000	1.19
+***************
+*** 6,10 ****
+      <artifactId>fulcrum-hibernate</artifactId>
+      <packaging>jar</packaging>
+!     <version>1.12</version>
+      <name>fulcrum-hivemind-hibernate - Hibernate Session manager for Hivemind</name>
+      <url>http://gnasher.aniteps.com/docs/</url>
+--- 6,10 ----
+      <artifactId>fulcrum-hibernate</artifactId>
+      <packaging>jar</packaging>
+!     <version>2.0</version>
+      <name>fulcrum-hivemind-hibernate - Hibernate Session manager for Hivemind</name>
+      <url>http://gnasher.aniteps.com/docs/</url>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 12:09:40 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Tue, 25 Apr 2006 12:09:40 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-crypto pom.xml,1.5,1.6
+Message-ID: <200604251009.k3PA9et03672@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-crypto
+In directory sheep:/tmp/cvs-serv21354
+
+Modified Files:
+	pom.xml 
+Log Message:
+
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-crypto/pom.xml,v
+retrieving revision 1.5
+retrieving revision 1.6
+diff -C2 -d -r1.5 -r1.6
+*** pom.xml	21 Mar 2006 12:23:21 -0000	1.5
+--- pom.xml	25 Apr 2006 10:10:04 -0000	1.6
+***************
+*** 7,11 ****
+    <packaging>jar</packaging>
+    <name>Fulcrum crypto for Hivemind</name>
+!   <version>1.4</version>
+    <description>A port of Fulcrum crypto to run inside Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+--- 7,11 ----
+    <packaging>jar</packaging>
+    <name>Fulcrum crypto for Hivemind</name>
+!   <version>1.5</version>
+    <description>A port of Fulcrum crypto to run inside Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 12:20:46 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 12:20:46 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-hivemind pom.xml,1.6,1.7
+Message-ID: <200604251020.k3PAKkt04260@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind
+In directory sheep:/tmp/cvs-serv23718
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind/pom.xml,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** pom.xml	16 Mar 2006 12:07:26 -0000	1.6
+--- pom.xml	25 Apr 2006 10:21:10 -0000	1.7
+***************
+*** 7,11 ****
+    <packaging>jar</packaging>
+    <name>Fulcrum Hivemind</name>
+!   <version>1.6</version>
+    <description>Fulcrum Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+--- 7,11 ----
+    <packaging>jar</packaging>
+    <name>Fulcrum Hivemind</name>
+!   <version>2.0</version>
+    <description>Fulcrum Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 12:34:05 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 12:34:05 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-crypto pom.xml,1.6,1.7
+Message-ID: <200604251034.k3PAY5t04816@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-crypto
+In directory sheep:/tmp/cvs-serv31967
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-crypto/pom.xml,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** pom.xml	25 Apr 2006 10:10:04 -0000	1.6
+--- pom.xml	25 Apr 2006 10:34:30 -0000	1.7
+***************
+*** 7,11 ****
+    <packaging>jar</packaging>
+    <name>Fulcrum crypto for Hivemind</name>
+!   <version>1.5</version>
+    <description>A port of Fulcrum crypto to run inside Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+--- 7,11 ----
+    <packaging>jar</packaging>
+    <name>Fulcrum crypto for Hivemind</name>
+!   <version>2.0</version>
+    <description>A port of Fulcrum crypto to run inside Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+***************
+*** 94,103 ****
+        <groupId>fulcrum-hivemind</groupId>
+        <artifactId>fulcrum-hivemind</artifactId>
+!       <version>1.6</version>
+!     </dependency>
+!     <dependency>
+!       <groupId>junit</groupId>
+!       <artifactId>junit</artifactId>
+!       <version>3.8.1</version>
+      </dependency>
+      <dependency>
+--- 94,98 ----
+        <groupId>fulcrum-hivemind</groupId>
+        <artifactId>fulcrum-hivemind</artifactId>
+!       <version>2.0</version>
+      </dependency>
+      <dependency>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 12:34:16 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 12:34:16 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-hivemind-hibernate pom.xml,1.19,1.20
+Message-ID: <200604251034.k3PAYGt04821@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate
+In directory sheep:/tmp/cvs-serv31992
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-hibernate/pom.xml,v
+retrieving revision 1.19
+retrieving revision 1.20
+diff -C2 -d -r1.19 -r1.20
+*** pom.xml	25 Apr 2006 09:24:20 -0000	1.19
+--- pom.xml	25 Apr 2006 10:34:41 -0000	1.20
+***************
+*** 66,70 ****
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-hivemind</artifactId>
+!             <version>1.6</version>
+          </dependency>
+          <!-- Hibernate -->
+--- 66,70 ----
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-hivemind</artifactId>
+!             <version>2.0</version>
+          </dependency>
+          <!-- Hibernate -->
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 12:38:04 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 12:38:04 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,1.16,1.17
+Message-ID: <200604251038.k3PAc4t04943@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind
+In directory sheep:/tmp/cvs-serv1209
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/pom.xml,v
+retrieving revision 1.16
+retrieving revision 1.17
+diff -C2 -d -r1.16 -r1.17
+*** pom.xml	18 Mar 2006 16:19:38 -0000	1.16
+--- pom.xml	25 Apr 2006 10:38:25 -0000	1.17
+***************
+*** 7,11 ****
+    <packaging>jar</packaging>
+    <name>Fulcrum Security for Hivemind</name>
+!   <version>1.10</version>
+    <description>A port of Fulcrum Security to run inside Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+--- 7,11 ----
+    <packaging>jar</packaging>
+    <name>Fulcrum Security for Hivemind</name>
+!   <version>2.0</version>
+    <description>A port of Fulcrum Security to run inside Hivemind.</description>
+    <url>http://zebra.berlios.de</url>
+***************
+*** 105,119 ****
+        <groupId>fulcrum-hivemind</groupId>
+        <artifactId>fulcrum-hivemind</artifactId>
+!       <version>1.6</version>
+!     </dependency>
+!     <dependency>
+!       <groupId>junit</groupId>
+!       <artifactId>junit</artifactId>
+!       <version>3.8.1</version>
+      </dependency>
+      <dependency>
+        <groupId>fulcrum-hivemind</groupId>
+        <artifactId>fulcrum-crypto</artifactId>
+!       <version>1.5</version>
+      </dependency>
+    </dependencies>
+--- 105,114 ----
+        <groupId>fulcrum-hivemind</groupId>
+        <artifactId>fulcrum-hivemind</artifactId>
+!       <version>2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>fulcrum-hivemind</groupId>
+        <artifactId>fulcrum-crypto</artifactId>
+!       <version>2.0</version>
+      </dependency>
+    </dependencies>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 12:51:49 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 12:51:49 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.13,1.14
+Message-ID: <200604251051.k3PApmt05317@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate
+In directory sheep:/tmp/cvs-serv16174
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/pom.xml,v
+retrieving revision 1.13
+retrieving revision 1.14
+diff -C2 -d -r1.13 -r1.14
+*** pom.xml	18 Mar 2006 16:18:21 -0000	1.13
+--- pom.xml	25 Apr 2006 10:52:13 -0000	1.14
+***************
+*** 6,10 ****
+      <artifactId>fulcrum-security-hibernate</artifactId>
+      <packaging>jar</packaging>
+! 	<version>1.16</version>
+      <name>fulcrum-hibernate-security- Fuclrum Security Hibernate layer for Hivemind</name>
+      <url>http://gnasher.aniteps.com/docs/</url>
+--- 6,10 ----
+      <artifactId>fulcrum-security-hibernate</artifactId>
+      <packaging>jar</packaging>
+! 	<version>2.0</version>
+      <name>fulcrum-hibernate-security- Fuclrum Security Hibernate layer for Hivemind</name>
+      <url>http://gnasher.aniteps.com/docs/</url>
+***************
+*** 77,86 ****
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security</artifactId>
+!             <version>1.10</version>
+          </dependency>
+          <dependency>
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-hibernate</artifactId>
+!             <version>1.12</version>
+          </dependency>
+          <dependency>
+--- 77,86 ----
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security</artifactId>
+!             <version>2.0</version>
+          </dependency>
+          <dependency>
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-hibernate</artifactId>
+!             <version>2.0</version>
+          </dependency>
+          <dependency>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 12:58:51 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 12:58:51 +0200
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.7,1.8
+Message-ID: <200604251058.k3PAwpt05538@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz
+In directory sheep:/tmp/cvs-serv20307
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/pom.xml,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** pom.xml	16 Mar 2006 13:07:44 -0000	1.7
+--- pom.xml	25 Apr 2006 10:59:15 -0000	1.8
+***************
+*** 6,10 ****
+      <artifactId>fulcrum-quartz</artifactId>
+      <packaging>jar</packaging>
+!     <version>1.5</version>
+      <name>fulcrum-hivemind-quartz - Scheduler factory for Hivemind</name>
+      <url>http://gnasher.aniteps.com/docs/</url>
+--- 6,10 ----
+      <artifactId>fulcrum-quartz</artifactId>
+      <packaging>jar</packaging>
+!     <version>2.0</version>
+      <name>fulcrum-hivemind-quartz - Scheduler factory for Hivemind</name>
+      <url>http://gnasher.aniteps.com/docs/</url>
+***************
+*** 71,75 ****
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-hibernate</artifactId>
+!             <version>1.12</version>
+          </dependency>
+          <dependency>
+--- 71,75 ----
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-hibernate</artifactId>
+!             <version>2.0</version>
+          </dependency>
+          <dependency>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 13:00:40 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Tue, 25 Apr 2006 13:00:40 +0200
+Subject: [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.30,1.31
+Message-ID: <200604251100.k3PB0dt05619@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv20848
+
+Modified Files:
+	pom.xml 
+Log Message:
+
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.30
+retrieving revision 1.31
+diff -C2 -d -r1.30 -r1.31
+*** pom.xml	21 Mar 2006 12:22:25 -0000	1.30
+--- pom.xml	25 Apr 2006 11:01:04 -0000	1.31
+***************
+*** 6,10 ****
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>2.4</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+--- 6,10 ----
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>2.5</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+
+
+
+From nobody at sheep.berlios.de  Tue Apr 25 15:18:08 2006
+From: nobody at sheep.berlios.de (biggus_richus)
+Date: Tue, 25 Apr 2006 15:18:08 +0200
+Subject: [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.31,1.32
+Message-ID: <200604251318.k3PDI8t13368@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv24154
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.31
+retrieving revision 1.32
+diff -C2 -d -r1.31 -r1.32
+*** pom.xml	25 Apr 2006 11:01:04 -0000	1.31
+--- pom.xml	25 Apr 2006 13:18:30 -0000	1.32
+***************
+*** 6,10 ****
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>2.5</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+--- 6,10 ----
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>3.0</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+***************
+*** 123,137 ****
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-quartz</artifactId>
+!             <version>1.5</version>
+          </dependency>
+          <dependency>
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security-hibernate</artifactId>
+!             <version>1.16</version>
+!         </dependency>
+!         <dependency>
+!             <groupId>junit</groupId>
+!             <artifactId>junit</artifactId>
+!             <version>3.8.1</version>
+          </dependency>
+          <!-- Zebra -->
+--- 123,132 ----
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-quartz</artifactId>
+!             <version>2.0</version>
+          </dependency>
+          <dependency>
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security-hibernate</artifactId>
+!             <version>2.0</version>
+          </dependency>
+          <!-- Zebra -->
+***************
+*** 141,149 ****
+              <version>0.5.2-dev</version>
+          </dependency>     
+-         <!--<dependency>
+-             <groupId>zebra</groupId>
+-             <artifactId>zebra-state</artifactId>
+-             <version>0.5.1-dev</version>
+-         </dependency>-->
+          <dependency>
+              <groupId>zebra</groupId>
+--- 136,139 ----
+
+
+
+From nobody at sheep.berlios.de  Sun Apr 30 14:56:26 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Sun, 30 Apr 2006 14:56:26 +0200
+Subject: [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,NONE,1.1
+Message-ID: <200604301256.k3UCuQt00999@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv31963/src/test/java/com/anite/zebra/hivemind/impl
+
+Added Files:
+	ZebraSubflowsTest.java 
+Log Message:
+Test to prove locking is non-funcitonal in subflows
+
+--- NEW FILE: ZebraSubflowsTest.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    http://www.anite.com/publicsector
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.impl;
+
+import org.apache.fulcrum.hivemind.RegistryManager;
+import org.apache.hivemind.Resource;
+import org.apache.hivemind.impl.DefaultClassResolver;
+import org.apache.hivemind.util.ClasspathResource;
+
+import com.anite.zebra.core.exceptions.CreateProcessException;
+import com.anite.zebra.core.exceptions.StartProcessException;
+import com.anite.zebra.hivemind.om.state.ZebraProcessInstance;
+
+import junit.framework.TestCase;
+
+public class ZebraSubflowsTest extends TestCase {
+   private Zebra zebra;
+    
+    protected void setUp() throws Exception {
+        Resource resource = new ClasspathResource(new DefaultClassResolver(), "META-INF/hivemodule_zebradefinitions.xml");
+        RegistryManager.getInstance().getResources().add(resource);
+        
+        
+        this.zebra = (Zebra) RegistryManager.getInstance().getRegistry().getService("zebra.zebra",Zebra.class);
+    }
+    
+    public void testSubflows() throws CreateProcessException, StartProcessException{
+        
+        ZebraProcessInstance zpi = zebra.createProcessPaused("SubProcessReturnTop");
+        
+        assertNotNull(zpi);
+        zebra.startProcess(zpi);
+        
+        assertEquals(3,zpi.getHistoryInstances().size());
+        
+    }
+}
+
+
+

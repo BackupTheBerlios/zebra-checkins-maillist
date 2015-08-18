@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/model ACLFactoryTest.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/model%20ACLFactoryTest.java%2C1.2%2C1.3&In-Reply-To=%3C200601170917.k0H9HRx27895%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000063.html">
+   <LINK REL="Next"  HREF="000065.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/model ACLFactoryTest.java,1.2,1.3</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/model%20ACLFactoryTest.java%2C1.2%2C1.3&In-Reply-To=%3C200601170917.k0H9HRx27895%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/model ACLFactoryTest.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 17 10:17:27 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000063.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.3,1.4
+</A></li>
+        <LI>Next message: <A HREF="000065.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/basic/entity BasicGroup.java,1.1,NONE BasicUser.java,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/model
+In directory sheep:/tmp/cvs-serv30075/src/test/java/org/apache/fulcrum/security/model
+
+Modified Files:
+	ACLFactoryTest.java 
+Log Message:
+1 - Make all methods pass passwords via crypto
+2 - Make the Authenticator available on API
+3 - Add Expiry Date
+4 - Add Use locking
+5 - Add Password History
+6 - Add Password Cycle Policy
+
+Index: ACLFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/test/java/org/apache/fulcrum/security/model/ACLFactoryTest.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** ACLFactoryTest.java	15 Nov 2005 09:30:30 -0000	1.2
+--- ACLFactoryTest.java	17 Jan 2006 09:17:24 -0000	1.3
+***************
+*** 21,27 ****
+  import org.apache.fulcrum.hivemind.RegistryManager;
+  import org.apache.fulcrum.security.acl.AccessControlList;
+- import org.apache.fulcrum.security.model.basic.BasicAccessControlList;
+- import org.apache.fulcrum.security.model.basic.entity.BasicGroup;
+- import org.apache.fulcrum.security.model.basic.entity.BasicUser;
+  import org.apache.fulcrum.security.model.dynamic.DynamicAccessControlList;
+  import org.apache.fulcrum.security.model.dynamic.entity.DynamicGroup;
+--- 21,24 ----
+***************
+*** 60,82 ****
+          DynamicAccessControlList dacl = (DynamicAccessControlList) acl;
+          assertTrue(dacl.hasPermission(permission));
+- 
+-     }
+- 
+-     public void testCreatingBasicACL() throws Exception {
+-         ACLFactory factory = (ACLFactory) RegistryManager.getInstance().getRegistry().getService(
+-                 &quot;fulcrum.security.aclFactoryBasic&quot;, ACLFactory.class);
+-         BasicUser user = new BasicUser();
+-         user.setName(&quot;bob&quot;);
+-         user.setId(new Integer(1));
+-         BasicGroup group = new BasicGroup();
+-         group.setName(&quot;group1&quot;);
+-         group.setId(new Integer(1));
+-         user.addGroup(group);
+-         AccessControlList acl = factory.getAccessControlList(user);
+-         assertTrue(acl instanceof BasicAccessControlList);
+-         BasicAccessControlList bacl = (BasicAccessControlList) acl;
+-         assertTrue(bacl.hasGroup(group));
+- 
+      }
+- 
+  }
+--- 57,60 ----
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000063.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractUserManager.java,1.3,1.4
+</A></li>
+	<LI>Next message: <A HREF="000065.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/basic/entity BasicGroup.java,1.1,NONE BasicUser.java,1.1,NONE
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

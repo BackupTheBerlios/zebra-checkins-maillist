@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.31,1.32
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-April/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind%20pom.xml%2C1.31%2C1.32&In-Reply-To=%3C200604251318.k3PDI8t13368%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000320.html">
+   <LINK REL="Next"  HREF="000322.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.31,1.32</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind%20pom.xml%2C1.31%2C1.32&In-Reply-To=%3C200604251318.k3PDI8t13368%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.31,1.32">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Apr 25 15:18:08 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000320.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.30,1.31
+</A></li>
+        <LI>Next message: <A HREF="000322.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#321">[ date ]</a>
+              <a href="thread.html#321">[ thread ]</a>
+              <a href="subject.html#321">[ subject ]</a>
+              <a href="author.html#321">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv24154
+
+Modified Files:
+	pom.xml 
+Log Message:
+Mass library version update
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.31
+retrieving revision 1.32
+diff -C2 -d -r1.31 -r1.32
+*** pom.xml	25 Apr 2006 11:01:04 -0000	1.31
+--- pom.xml	25 Apr 2006 13:18:30 -0000	1.32
+***************
+*** 6,10 ****
+      &lt;artifactId&gt;zebra-hivemind&lt;/artifactId&gt;
+      &lt;packaging&gt;jar&lt;/packaging&gt;
+!     &lt;version&gt;2.5&lt;/version&gt;
+      &lt;name&gt;Zebra Hivemind Layer&lt;/name&gt;
+      &lt;url&gt;<A HREF="http://zebra.berlios.de/&lt;/url">http://zebra.berlios.de/&lt;/url</A>&gt;
+--- 6,10 ----
+      &lt;artifactId&gt;zebra-hivemind&lt;/artifactId&gt;
+      &lt;packaging&gt;jar&lt;/packaging&gt;
+!     &lt;version&gt;3.0&lt;/version&gt;
+      &lt;name&gt;Zebra Hivemind Layer&lt;/name&gt;
+      &lt;url&gt;<A HREF="http://zebra.berlios.de/&lt;/url">http://zebra.berlios.de/&lt;/url</A>&gt;
+***************
+*** 123,137 ****
+              &lt;groupId&gt;fulcrum-hivemind&lt;/groupId&gt;
+              &lt;artifactId&gt;fulcrum-quartz&lt;/artifactId&gt;
+!             &lt;version&gt;1.5&lt;/version&gt;
+          &lt;/dependency&gt;
+          &lt;dependency&gt;
+              &lt;groupId&gt;fulcrum-hivemind&lt;/groupId&gt;
+              &lt;artifactId&gt;fulcrum-security-hibernate&lt;/artifactId&gt;
+!             &lt;version&gt;1.16&lt;/version&gt;
+!         &lt;/dependency&gt;
+!         &lt;dependency&gt;
+!             &lt;groupId&gt;junit&lt;/groupId&gt;
+!             &lt;artifactId&gt;junit&lt;/artifactId&gt;
+!             &lt;version&gt;3.8.1&lt;/version&gt;
+          &lt;/dependency&gt;
+          &lt;!-- Zebra --&gt;
+--- 123,132 ----
+              &lt;groupId&gt;fulcrum-hivemind&lt;/groupId&gt;
+              &lt;artifactId&gt;fulcrum-quartz&lt;/artifactId&gt;
+!             &lt;version&gt;2.0&lt;/version&gt;
+          &lt;/dependency&gt;
+          &lt;dependency&gt;
+              &lt;groupId&gt;fulcrum-hivemind&lt;/groupId&gt;
+              &lt;artifactId&gt;fulcrum-security-hibernate&lt;/artifactId&gt;
+!             &lt;version&gt;2.0&lt;/version&gt;
+          &lt;/dependency&gt;
+          &lt;!-- Zebra --&gt;
+***************
+*** 141,149 ****
+              &lt;version&gt;0.5.2-dev&lt;/version&gt;
+          &lt;/dependency&gt;     
+-         &lt;!--&lt;dependency&gt;
+-             &lt;groupId&gt;zebra&lt;/groupId&gt;
+-             &lt;artifactId&gt;zebra-state&lt;/artifactId&gt;
+-             &lt;version&gt;0.5.1-dev&lt;/version&gt;
+-         &lt;/dependency&gt;--&gt;
+          &lt;dependency&gt;
+              &lt;groupId&gt;zebra&lt;/groupId&gt;
+--- 136,139 ----
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000320.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.30,1.31
+</A></li>
+	<LI>Next message: <A HREF="000322.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#321">[ date ]</a>
+              <a href="thread.html#321">[ thread ]</a>
+              <a href="subject.html#321">[ subject ]</a>
+              <a href="author.html#321">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

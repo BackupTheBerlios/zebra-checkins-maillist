@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins]	zebra/src/java/zebra-core/src/java/com/anite/zebra/core/util	TaskSync.java, 1.3, 1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/zebra-core/src/java/com/anite/zebra/core/util%0A%09TaskSync.java%2C%201.3%2C%201.4&In-Reply-To=%3C20070116103856.CAC0FA7142%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000416.html">
+   <LINK REL="Next"  HREF="000418.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins]	zebra/src/java/zebra-core/src/java/com/anite/zebra/core/util	TaskSync.java, 1.3, 1.4</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%0A%09zebra/src/java/zebra-core/src/java/com/anite/zebra/core/util%0A%09TaskSync.java%2C%201.3%2C%201.4&In-Reply-To=%3C20070116103856.CAC0FA7142%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins]	zebra/src/java/zebra-core/src/java/com/anite/zebra/core/util	TaskSync.java, 1.3, 1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 16 11:38:56 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000416.html">[Zebra-checkins] zebra/src/java/zebra-core project.xml,1.11,1.12
+</A></li>
+        <LI>Next message: <A HREF="000418.html">[Zebra-checkins]	zebra/src/java/zebra-core/src/java/com/anite/zebra/core	Engine.java, 1.8, 1.9
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#417">[ date ]</a>
+              <a href="thread.html#417">[ thread ]</a>
+              <a href="subject.html#417">[ subject ]</a>
+              <a href="author.html#417">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-core/src/java/com/anite/zebra/core/util
+In directory sheep:/tmp/cvs-serv6762/src/java/com/anite/zebra/core/util
+
+Modified Files:
+	TaskSync.java 
+Log Message:
+Minor fix to synchronisation code. Problem where if an autorun task existed straight after a join task the engine could erroneously believe the join task never becomes unblocked.
+
+Revised the SplitJoinTest unit test to ensure that it tests for this scenario
+
+Index: TaskSync.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-core/src/java/com/anite/zebra/core/util/TaskSync.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** TaskSync.java	15 Sep 2005 16:45:23 -0000	1.3
+--- TaskSync.java	16 Jan 2007 10:37:38 -0000	1.4
+***************
+*** 22,25 ****
+--- 22,28 ----
+  import java.util.Set;
+  
++ import org.apache.commons.logging.Log;
++ import org.apache.commons.logging.LogFactory;
++ 
+  import com.anite.zebra.core.definitions.api.IRoutingDefinition;
+  import com.anite.zebra.core.definitions.api.ITaskDefinition;
+***************
+*** 34,38 ****
+   */
+  public class TaskSync {
+!     /**
+       * @return Returns TaskDefs marked as Synchronise=TRUE that this TaskDef can
+       *         potentially block
+--- 37,42 ----
+   */
+  public class TaskSync {
+!     private static Log log = LogFactory.getLog(TaskSync.class);
+! 	/**
+       * @return Returns TaskDefs marked as Synchronise=TRUE that this TaskDef can
+       *         potentially block
+***************
+*** 92,98 ****
+          for (Iterator it = processTasks.iterator(); it.hasNext();) {
+              ITaskInstance iti = (ITaskInstance) it.next();
+!             ITaskDefinition itd = iti.getTaskDefinition();
+!             if (!blockingDefs.containsKey(itd.getId())) {
+!                 blockingDefs.put(itd.getId(), itd);
+              }
+          }
+--- 96,104 ----
+          for (Iterator it = processTasks.iterator(); it.hasNext();) {
+              ITaskInstance iti = (ITaskInstance) it.next();
+!             if (!iti.getTaskInstanceId().equals(task.getTaskInstanceId())) {
+! 	            ITaskDefinition itd = iti.getTaskDefinition();
+! 	            if (!blockingDefs.containsKey(itd.getId())) {
+! 	                blockingDefs.put(itd.getId(), itd);
+! 	            }
+              }
+          }
+***************
+*** 123,127 ****
+                  ITaskDefinition srcTask = checkRouting.getOriginatingTaskDefinition();
+                  if (blockingDefs.containsKey(srcTask.getId())) {
+!                     return true;
+                  }
+                  if (!checkList.containsKey(srcTask.getId())) {
+--- 129,136 ----
+                  ITaskDefinition srcTask = checkRouting.getOriginatingTaskDefinition();
+                  if (blockingDefs.containsKey(srcTask.getId())) {
+!                     if (log.isInfoEnabled()) {
+!                     	log.info(&quot;Task &quot; + taskDef + &quot; is being blocked by &quot;  + srcTask);
+!                     }
+!                 	return true;
+                  }
+                  if (!checkList.containsKey(srcTask.getId())) {
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000416.html">[Zebra-checkins] zebra/src/java/zebra-core project.xml,1.11,1.12
+</A></li>
+	<LI>Next message: <A HREF="000418.html">[Zebra-checkins]	zebra/src/java/zebra-core/src/java/com/anite/zebra/core	Engine.java, 1.8, 1.9
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#417">[ date ]</a>
+              <a href="thread.html#417">[ thread ]</a>
+              <a href="subject.html#417">[ subject ]</a>
+              <a href="author.html#417">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator CryptoAuthenticator.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator%20CryptoAuthenticator.java%2C1.3%2C1.4&In-Reply-To=%3C200603181718.k2IHIIb18121%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000341.html">
+   <LINK REL="Next"  HREF="000297.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator CryptoAuthenticator.java,1.3,1.4</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator%20CryptoAuthenticator.java%2C1.3%2C1.4&In-Reply-To=%3C200603181718.k2IHIIb18121%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator CryptoAuthenticator.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Mar 18 18:18:18 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000341.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security PermissionManager.java,1.1,1.2 RoleManager.java,1.1,1.2 UserManager.java,1.4,1.5 GroupManager.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000297.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/entity/impl SecurityEntityImpl.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#295">[ date ]</a>
+              <a href="thread.html#295">[ thread ]</a>
+              <a href="subject.html#295">[ subject ]</a>
+              <a href="author.html#295">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator
+In directory sheep:/tmp/cvs-serv18372/src/main/java/org/apache/fulcrum/security/authenticator
+
+Modified Files:
+	CryptoAuthenticator.java 
+Log Message:
+Added functionality to disable users
+
+Index: CryptoAuthenticator.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/authenticator/CryptoAuthenticator.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** CryptoAuthenticator.java	24 Jan 2006 11:38:54 -0000	1.3
+--- CryptoAuthenticator.java	18 Mar 2006 16:19:38 -0000	1.4
+***************
+*** 16,26 ****
+   *  limitations under the License.
+   */
+- import java.security.NoSuchAlgorithmException;
+- 
+  import org.apache.fulcrum.crypto.CryptoAlgorithm;
+  import org.apache.fulcrum.crypto.CryptoService;
+  import org.apache.fulcrum.security.entity.User;
+  import org.apache.fulcrum.security.util.DataBackendException;
+- import org.apache.fulcrum.security.util.UnknownEntityException;
+  
+  /**
+--- 16,23 ----
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000341.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security PermissionManager.java,1.1,1.2 RoleManager.java,1.1,1.2 UserManager.java,1.4,1.5 GroupManager.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000297.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/entity/impl SecurityEntityImpl.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#295">[ date ]</a>
+              <a href="thread.html#295">[ thread ]</a>
+              <a href="subject.html#295">[ subject ]</a>
+              <a href="author.html#295">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

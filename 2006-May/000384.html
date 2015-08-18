@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20TimedTaskRunnerImpl.java%2C1.3%2C1.4&In-Reply-To=%3C200605301154.k4UBsxT31522%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000382.html">
+   <LINK REL="Next"  HREF="000386.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.3,1.4</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl%20TimedTaskRunnerImpl.java%2C1.3%2C1.4&In-Reply-To=%3C200605301154.k4UBsxT31522%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl TimedTaskRunnerImpl.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue May 30 13:54:59 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000382.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api TimedTaskRunnerTest.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000386.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,1.1,1.2 PropertySetBehaviourTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#384">[ date ]</a>
+              <a href="thread.html#384">[ thread ]</a>
+              <a href="subject.html#384">[ subject ]</a>
+              <a href="author.html#384">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv12237/src/main/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	TimedTaskRunnerImpl.java 
+Log Message:
+
+
+Index: TimedTaskRunnerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/impl/TimedTaskRunnerImpl.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** TimedTaskRunnerImpl.java	30 May 2006 10:44:47 -0000	1.3
+--- TimedTaskRunnerImpl.java	30 May 2006 11:54:57 -0000	1.4
+***************
+*** 17,27 ****
+--- 17,35 ----
+  package com.anite.zebra.hivemind.impl;
+  
++ import java.rmi.registry.Registry;
+  import java.util.List;
+  
+  import org.apache.commons.logging.Log;
++ import org.apache.fulcrum.hivemind.RegistryManager;
++ import org.quartz.JobDataMap;
++ import org.quartz.JobDetail;
++ import org.quartz.Scheduler;
++ import org.quartz.SchedulerException;
++ import org.quartz.TriggerUtils;
+  
+  import com.anite.zebra.core.exceptions.TransitionException;
+  import com.anite.zebra.core.state.api.ITaskInstance;
+  import com.anite.zebra.hivemind.api.TimedTaskRunner;
++ import com.anite.zebra.hivemind.job.TimedTaskRunnerJob;
+  import com.anite.zebra.hivemind.manager.FiredTimedTaskManager;
+  import com.anite.zebra.hivemind.manager.TimeManager;
+***************
+*** 31,43 ****
+  import com.anite.zebra.hivemind.om.timedtask.Time;
+  import com.anite.zebra.hivemind.om.timedtask.TimedTask;
+- import com.sun.msv.datatype.xsd.TimeType;
+  
+  /**
+   * 
+   * @author Mike Jones
+!  *
+   */
+  public class TimedTaskRunnerImpl implements TimedTaskRunner {
+  
+  	private TimedTaskManager timedTaskManager;
+  
+--- 39,62 ----
+  import com.anite.zebra.hivemind.om.timedtask.Time;
+  import com.anite.zebra.hivemind.om.timedtask.TimedTask;
+  
+  /**
++  * Runs the tasks.
++  * 
++  * The manages all interactions with the OM Managers and Quartz.
++  * 
++  * Quartz is injected into the service
+   * 
+   * @author Mike Jones
+!  * @author Ben GIdley
+!  * 
+   */
+  public class TimedTaskRunnerImpl implements TimedTaskRunner {
+  
++ 	static public final String MINUTE = &quot;minute&quot;;
++ 
++ 	static public final String HOUR = &quot;hour&quot;;
++ 
++ 	private static final String TIME_TASK_RUNNER = &quot;TimeTaskRunner&quot;;
++ 
+  	private TimedTaskManager timedTaskManager;
+  
+***************
+*** 50,53 ****
+--- 69,82 ----
+  	private Zebra zebra;
+  
++ 	private Scheduler scheduler;
++ 
++ 	public Scheduler getScheduler() {
++ 		return scheduler;
++ 	}
++ 
++ 	public void setScheduler(Scheduler scheduler) {
++ 		this.scheduler = scheduler;
++ 	}
++ 
+  	public void setZebra(Zebra zebra) {
+  		this.zebra = zebra;
+***************
+*** 96,102 ****
+  
+  		TimedTask timedTask = new TimedTask();
+  		timedTask.setZebraTaskInstanceId(zti.getTaskInstanceId());
+! 		timedTask.setTime(getTimeManager().createOrFetchTime(hours, mins));
+  		getTimedTaskManager().saveOrUpdate(timedTask);
+  	}
+  
+--- 125,168 ----
+  
+  		TimedTask timedTask = new TimedTask();
++ 		Time time = getTimeManager().createOrFetchTime(hours, mins);
+  		timedTask.setZebraTaskInstanceId(zti.getTaskInstanceId());
+! 		timedTask.setTime(time);
+  		getTimedTaskManager().saveOrUpdate(timedTask);
++ 
++ 		// Now verify there is a quartz job for requested time.
++ 		try {
++ 			JobDetail jobDetail = scheduler.getJobDetail(time.getJobName(),
++ 					TIME_TASK_RUNNER);
++ 
++ 			if (jobDetail == null){
++ 				createJobDetail(time);
++ 			}
++ 
++ 		} catch (SchedulerException e) {
++ 			log.error(e);
++ 		}
++ 
++ 	}
++ 
++ 	/**
++ 	 * Create the job in quartz for the passed time.
++ 	 * @param time
++ 	 * @throws SchedulerException
++ 	 */
++ 	private void createJobDetail(Time time) throws SchedulerException {
++ 		JobDetail jobDetail = new JobDetail();
++ 		jobDetail.setName(time.getJobName());
++ 		jobDetail.setDescription(&quot;Time Task Runner Job&quot;);
++ 		jobDetail.setDurability(false);
++ 		jobDetail.setGroup(TIME_TASK_RUNNER);
++ 		jobDetail.setJobClass(TimedTaskRunnerJob.class);
++ 		jobDetail.setRequestsRecovery(true);
++ 		JobDataMap jobDataMap = new JobDataMap();
++ 		jobDataMap.put(HOUR, time.getHour());
++ 		jobDataMap.put(MINUTE, time.getMinute());
++ 		jobDetail.setJobDataMap(jobDataMap);
++ 
++ 		scheduler.scheduleJob(jobDetail, TriggerUtils.makeDailyTrigger(time.getJobName(), time
++ 				.getHour(), time.getMinute()));
+  	}
+  
+***************
+*** 133,136 ****
+--- 199,203 ----
+  			firedTimedTaskManager.saveOrUpdate(firedTimedTask);
+  			timedTaskManager.delete(timedTask);
++ 			RegistryManager.getInstance().getRegistry().cleanupThread();
+  		}
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000382.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/api TimedTaskRunnerTest.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000386.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraSubflowsTest.java,1.1,1.2 PropertySetBehaviourTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#384">[ date ]</a>
+              <a href="thread.html#384">[ thread ]</a>
+              <a href="subject.html#384">[ subject ]</a>
+              <a href="author.html#384">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

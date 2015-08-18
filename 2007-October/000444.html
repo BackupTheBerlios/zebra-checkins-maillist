@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/vbcode/ACGWFDXML Addin.cls, NONE,	1.1 XMLAddinLoader.cls, NONE, 1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2007-October/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFDXML%20Addin.cls%2C%20NONE%2C%0A%091.1%20XMLAddinLoader.cls%2C%20NONE%2C%201.1&In-Reply-To=%3C20071031123916.8B18144AAB%40mail.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000443.html">
+   <LINK REL="Next"  HREF="000445.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/vbcode/ACGWFDXML Addin.cls, NONE,	1.1 XMLAddinLoader.cls, NONE, 1.1</H1>
+    <B>mpn_uk</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/vbcode/ACGWFDXML%20Addin.cls%2C%20NONE%2C%0A%091.1%20XMLAddinLoader.cls%2C%20NONE%2C%201.1&In-Reply-To=%3C20071031123916.8B18144AAB%40mail.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/vbcode/ACGWFDXML Addin.cls, NONE,	1.1 XMLAddinLoader.cls, NONE, 1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Oct 31 13:39:16 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000443.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDAddin ACGWFDAddin.vbp, NONE,	1.1 IAddin.cls, NONE, 1.1 IAddinAccess.cls, NONE,	1.1 IDialog.cls, NONE, 1.1 Stub.cls, NONE, 1.1
+</A></li>
+        <LI>Next message: <A HREF="000445.html">[Zebra-checkins] zebra/src/vbcode/ACGWFD AddinAccess.cls, NONE,	1.1 Dialog.cls, NONE, 1.1 DocFlow.cls, NONE,	1.1 frmTextPopup.frm, NONE, 1.1 frmTextPopup.frx, NONE, 1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#444">[ date ]</a>
+              <a href="thread.html#444">[ thread ]</a>
+              <a href="subject.html#444">[ subject ]</a>
+              <a href="author.html#444">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/vbcode/ACGWFDXML
+In directory sheep:/tmp/cvs-serv17930/src/vbcode/ACGWFDXML
+
+Added Files:
+	Addin.cls XMLAddinLoader.cls 
+Log Message:
+addin loader components
+
+--- NEW FILE: Addin.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = &quot;Addin&quot;
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+Private mMenuName As String
+Private mClassName As String
+Public Property Get MenuName() As String
+    MenuName = mMenuName
+End Property
+Public Property Get ClassName() As String
+    ClassName = mClassName
+End Property
+
+Friend Property Let ClassName(v As String)
+    mClassName = v
+End Property
+Friend Property Let MenuName(v As String)
+    mMenuName = v
+End Property
+
+
+--- NEW FILE: XMLAddinLoader.cls ---
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = &quot;XMLAddinLoader&quot;
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Option Explicit
+
+Public Function loadAddins(Path As String) As Collection
+    '# scan the path for addin templates
+    
+    Dim oScanPath As ScanPath
+    Dim lngCount As Long
+    Dim fLoadOK As Boolean
+    Dim oAddins As New Collection
+    
+    Set oScanPath = New ScanPath
+    oScanPath.StartScan Path, &quot;.xml&quot;
+    
+    Do Until oScanPath.FileList.Count = 0
+        loadAddin oScanPath.FileList(1), oAddins
+        oScanPath.FileList.Remove 1
+    Loop
+    
+    Set loadAddins = oAddins
+End Function
+
+Private Sub loadAddin(FileName As String, oAddins As Collection)
+    Dim oDoc As MSXML2.DOMDocument
+    Dim oRoot As MSXML2.IXMLDOMNode
+    
+    Set oDoc = New MSXML2.DOMDocument
+    
+    oDoc.Load FileName
+    
+    Set oRoot = getRealNode(oDoc.firstChild)
+    
+    If StrComp(oRoot.nodeName, &quot;ACGWFD.Addins&quot;, vbTextCompare) &lt;&gt; 0 Then
+        Exit Sub
+    End If
+    
+    processAddin oRoot, oAddins
+End Sub
+
+Private Sub processAddin(oRoot As MSXML2.IXMLDOMNode, oAddins As Collection)
+    Dim oAddin As Addin
+    Dim n As IXMLDOMNode
+    For Each n In oRoot.childNodes
+        If StrComp(n.nodeName, &quot;Addin&quot;, vbTextCompare) = 0 Then
+            Set oAddin = New Addin
+            oAddin.ClassName = GetNodeAttr(n, &quot;classname&quot;)
+            oAddin.MenuName = GetNodeAttr(n, &quot;menuname&quot;)
+            oAddins.Add oAddin
+        End If
+    Next
+    
+End Sub
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000443.html">[Zebra-checkins] zebra/src/vbcode/ACGWFDAddin ACGWFDAddin.vbp, NONE,	1.1 IAddin.cls, NONE, 1.1 IAddinAccess.cls, NONE,	1.1 IDialog.cls, NONE, 1.1 Stub.cls, NONE, 1.1
+</A></li>
+	<LI>Next message: <A HREF="000445.html">[Zebra-checkins] zebra/src/vbcode/ACGWFD AddinAccess.cls, NONE,	1.1 Dialog.cls, NONE, 1.1 DocFlow.cls, NONE,	1.1 frmTextPopup.frm, NONE, 1.1 frmTextPopup.frx, NONE, 1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#444">[ date ]</a>
+              <a href="thread.html#444">[ thread ]</a>
+              <a href="subject.html#444">[ subject ]</a>
+              <a href="author.html#444">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

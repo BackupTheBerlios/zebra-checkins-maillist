@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ZebraTaskAction.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction%20ZebraTaskAction.java%2CNONE%2C1.1&In-Reply-To=%3C200602091428.k19ESHE06586%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000203.html">
+   <LINK REL="Next"  HREF="000205.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ZebraTaskAction.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction%20ZebraTaskAction.java%2CNONE%2C1.1&In-Reply-To=%3C200602091428.k19ESHE06586%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ZebraTaskAction.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Feb  9 15:28:17 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000203.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraPropertySetEntry.java,1.5,1.6
+</A></li>
+        <LI>Next message: <A HREF="000205.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/.settings .component,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#204">[ date ]</a>
+              <a href="thread.html#204">[ thread ]</a>
+              <a href="subject.html#204">[ subject ]</a>
+              <a href="author.html#204">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction
+In directory sheep:/tmp/cvs-serv27272/src/main/java/com/anite/zebra/hivemind/taskAction
+
+Added Files:
+	ZebraTaskAction.java 
+Log Message:
+v1_7
+
+--- NEW FILE: ZebraTaskAction.java ---
+/*
+ * Copyright 2004, 2005 Anite 
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anite.zebra.hivemind.taskAction;
+
+import com.anite.zebra.core.api.ITaskAction;
+import com.anite.zebra.core.exceptions.RunTaskException;
+import com.anite.zebra.core.state.api.ITaskInstance;
+import com.anite.zebra.hivemind.om.state.ZebraTaskInstance;
+
+/**
+ * A simple wrapper to avoid all task actions having to down cast the Task instance themselves
+ * @author ben.gidley
+ *
+ */
+public abstract class ZebraTaskAction implements ITaskAction {
+
+    public final void runTask(ITaskInstance task) throws RunTaskException {
+        this.runTask((ZebraTaskInstance) task);
+    }
+
+    /**
+     * Execute the task
+     * @param zebraTaskInstance
+     * @throws RunTaskException
+     * @see ITaskAction
+     */
+    public abstract void runTask(ZebraTaskInstance zebraTaskInstance) throws RunTaskException;
+
+}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000203.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraPropertySetEntry.java,1.5,1.6
+</A></li>
+	<LI>Next message: <A HREF="000205.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/.settings .component,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#204">[ date ]</a>
+              <a href="thread.html#204">[ thread ]</a>
+              <a href="subject.html#204">[ subject ]</a>
+              <a href="author.html#204">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

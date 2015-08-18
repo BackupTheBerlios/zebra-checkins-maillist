@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.7,1.8
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/resources%20hibernate.cfg.xml%2C1.7%2C1.8&In-Reply-To=%3C200605261525.k4QFPjT22228%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000359.html">
+   <LINK REL="Next"  HREF="000361.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.7,1.8</H1>
+    <B>mik3_jon3s</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/resources%20hibernate.cfg.xml%2C1.7%2C1.8&In-Reply-To=%3C200605261525.k4QFPjT22228%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.7,1.8">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Fri May 26 17:25:45 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000359.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager TimeManager.java,NONE,1.1 TimedTaskManager.java,NONE,1.1 BaseManager.java,NONE,1.1 FiredTimedTaskManager.java,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000361.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.33,1.34
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#360">[ date ]</a>
+              <a href="thread.html#360">[ thread ]</a>
+              <a href="subject.html#360">[ subject ]</a>
+              <a href="author.html#360">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/resources
+In directory sheep:/tmp/cvs-serv26703/src/test/resources
+
+Modified Files:
+	hibernate.cfg.xml 
+Log Message:
+mapped new classes
+
+Index: hibernate.cfg.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/resources/hibernate.cfg.xml,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** hibernate.cfg.xml	17 Feb 2006 15:20:12 -0000	1.7
+--- hibernate.cfg.xml	26 May 2006 15:30:46 -0000	1.8
+***************
+*** 25,33 ****
+  		&lt;mapping class=&quot;com.anite.zebra.hivemind.om.state.ZebraTaskInstance&quot;/&gt;
+  		&lt;mapping class=&quot;com.anite.zebra.hivemind.om.state.ZebraTaskInstanceHistory&quot;/&gt;
+  		&lt;mapping class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser&quot;/&gt;
+  		&lt;mapping class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicGroup&quot;/&gt;
+  		&lt;mapping class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicRole&quot;/&gt;
+! 		&lt;mapping
+! 			class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicPermission&quot;/&gt;
+  	&lt;/session-factory&gt;
+  &lt;/hibernate-configuration&gt;
+--- 25,39 ----
+  		&lt;mapping class=&quot;com.anite.zebra.hivemind.om.state.ZebraTaskInstance&quot;/&gt;
+  		&lt;mapping class=&quot;com.anite.zebra.hivemind.om.state.ZebraTaskInstanceHistory&quot;/&gt;
++ 		
++ 		&lt;mapping class=&quot;com.anite.zebra.hivemind.om.timedtask.FiredTimedTask&quot;/&gt;
++ 		&lt;mapping class=&quot;com.anite.zebra.hivemind.om.timedtask.Time&quot;/&gt;
++ 		&lt;mapping class=&quot;com.anite.zebra.hivemind.om.timedtask.TimedTask&quot;/&gt;
++ 		
+  		&lt;mapping class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser&quot;/&gt;
+  		&lt;mapping class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicGroup&quot;/&gt;
+  		&lt;mapping class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicRole&quot;/&gt;
+! 		&lt;mapping class=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicPermission&quot;/&gt;
+! 		
+! 		
+  	&lt;/session-factory&gt;
+  &lt;/hibernate-configuration&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000359.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager TimeManager.java,NONE,1.1 TimedTaskManager.java,NONE,1.1 BaseManager.java,NONE,1.1 FiredTimedTaskManager.java,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000361.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.33,1.34
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#360">[ date ]</a>
+              <a href="thread.html#360">[ thread ]</a>
+              <a href="subject.html#360">[ subject ]</a>
+              <a href="author.html#360">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

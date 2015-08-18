@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries hivemoduleSoap.xml,NONE,1.1 hivemodule.xml,NONE,1.1 hivemoduleAuthentication.xml,NONE,1.1 configuration.xml,NONE,1.1 hivemoduleDataRetention.xml,NONE,1.1 hivemoduleZebra.xml,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20src/java/hivedoc-maven-plugin/src/test/resources/castries%20hivemoduleSoap.xml%2CNONE%2C1.1%20hivemodule.xml%2CNONE%2C1.1%20hivemoduleAuthentication.xml%2CNONE%2C1.1%20configuration.xml%2CNONE%2C1.1%20hivemoduleDataRetention.xml%2CNONE%2C1.1%20hivemoduleZebra.xml%2CNONE%2C1.1&In-Reply-To=%3C200605031435.k43EZpt03442%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000334.html">
+   <LINK REL="Next"  HREF="000340.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries hivemoduleSoap.xml,NONE,1.1 hivemodule.xml,NONE,1.1 hivemoduleAuthentication.xml,NONE,1.1 configuration.xml,NONE,1.1 hivemoduleDataRetention.xml,NONE,1.1 hivemoduleZebra.xml,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20src/java/hivedoc-maven-plugin/src/test/resources/castries%20hivemoduleSoap.xml%2CNONE%2C1.1%20hivemodule.xml%2CNONE%2C1.1%20hivemoduleAuthentication.xml%2CNONE%2C1.1%20configuration.xml%2CNONE%2C1.1%20hivemoduleDataRetention.xml%2CNONE%2C1.1%20hivemoduleZebra.xml%2CNONE%2C1.1&In-Reply-To=%3C200605031435.k43EZpt03442%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries hivemoduleSoap.xml,NONE,1.1 hivemodule.xml,NONE,1.1 hivemoduleAuthentication.xml,NONE,1.1 configuration.xml,NONE,1.1 hivemoduleDataRetention.xml,NONE,1.1 hivemoduleZebra.xml,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed May  3 16:35:51 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000334.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources log4j.properties,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000340.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc Dom4JRegistrySerializer.java,NONE,1.1 HivedocReport.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#338">[ date ]</a>
+              <a href="thread.html#338">[ thread ]</a>
+              <a href="subject.html#338">[ subject ]</a>
+              <a href="author.html#338">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/src/java/hivedoc-maven-plugin/src/test/resources/castries
+In directory sheep:/tmp/cvs-serv25781/src/test/resources/castries
+
+Added Files:
+	hivemoduleSoap.xml hivemodule.xml hivemoduleAuthentication.xml 
+	configuration.xml hivemoduleDataRetention.xml 
+	hivemoduleZebra.xml 
+Log Message:
+
+
+--- NEW FILE: hivemoduleSoap.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.tpr.soapgateway&quot; version=&quot;1.0.0&quot;&gt;
+  &lt;service-point id=&quot;replication&quot; interface=&quot;com.anite.tpr.soapgateway.replication.api.Replication&quot;&gt;
+    &lt;invoke-factory model=&quot;threaded&quot;&gt;
+      &lt;construct class=&quot;com.anite.tpr.soapgateway.replication.impl.ReplicationImpl&quot;&gt; &lt;/construct&gt;
+    &lt;/invoke-factory&gt;
+  &lt;/service-point&gt;
+  &lt;service-point id=&quot;newReturn&quot; interface=&quot;com.anite.tpr.soapgateway.newReturn.api.NewReturn&quot;&gt;
+    &lt;invoke-factory model=&quot;threaded&quot;&gt;
+      &lt;construct class=&quot;com.anite.tpr.soapgateway.newReturn.impl.NewReturnImpl&quot;&gt; &lt;/construct&gt;
+    &lt;/invoke-factory&gt;
+  &lt;/service-point&gt;
+  &lt;service-point id=&quot;export&quot; interface=&quot;com.anite.tpr.soapgateway.export.api.Export&quot;&gt;
+    &lt;invoke-factory model=&quot;threaded&quot;&gt;
+      &lt;construct class=&quot;com.anite.tpr.soapgateway.export.impl.ExportImpl&quot;&gt; &lt;/construct&gt;
+    &lt;/invoke-factory&gt;
+  &lt;/service-point&gt;
+  &lt;implementation service-id=&quot;com.anite.tpr.serviceRequestManager.serviceRequestManager&quot;&gt;
+    &lt;invoke-factory&gt;
+      &lt;construct class=&quot;com.anite.tpr.serviceRequestManager.impl.ServiceRequestManagerImpl&quot;/&gt;
+    &lt;/invoke-factory&gt;
+  &lt;/implementation&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemodule.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries&quot; version=&quot;1.0.0&quot;&gt;
+  &lt;!-- On pain of being mocked no services should be declared 
+  here put them in submodules depending on what they are for 
+  Items likely to be user configured are to reside in the configuration.xml module 
+  --&gt;
+  &lt;sub-module descriptor=&quot;configuration.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;hivemoduleAuthentication.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;hivemoduleDataRetention.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;hivemoduleSoap.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;hivemoduleZebra.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;workflowServices/hivemoduleRandomGeneration.xml&quot;/&gt;
+  &lt;!-- All workflow related services to reside in the workflow services sub folder
+       Each workflow will have its own sub-module --&gt;
+  &lt;sub-module descriptor=&quot;workflowServices/hivemoduleShared.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;workflowServices/hivemoduleSchemeReturn.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;workflowServices/hivemoduleSchemeTracking.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;workflowServices/hivemoduleCommonCallProcess.xml&quot;/&gt;
+  &lt;sub-module descriptor=&quot;workflowServices/hivemoduleSchemeReturnDataEntry.xml&quot;/&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleAuthentication.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.openreports.authentication&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;service-point id=&quot;Authentication&quot; interface=&quot;com.anite.castries.openreports.authentication.AuthenticationService&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.openreports.authentication.DefaultAuthenticationService&quot;&gt;
+                &lt;!-- Time in seconds that the key is valid for. --&gt;
+				&lt;set property=&quot;expiryTime&quot; value=&quot;600&quot;/&gt;
+            &lt;/construct&gt;
+        &lt;/invoke-factory&gt;
+		&lt;interceptor service-id=&quot;hivemind.LoggingInterceptor&quot;/&gt;
+    &lt;/service-point&gt;
+&lt;/module&gt;
+
+--- NEW FILE: configuration.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.configuration&quot; version=&quot;1.0.0&quot;&gt;
+	&lt;!--All user configuratable implementations should be put here
+		Items that are theoretically configurable but unlikely to be configured should not
+		go here and should be in their own submodule file --&gt;
+	&lt;implementation service-id=&quot;fulcrum.security.hivemind.userManagerDynamic&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct class=&quot;org.apache.fulcrum.security.hibernate.HibernateUserManagerImpl&quot;&gt;
+				&lt;set property=&quot;className&quot;
+					value=&quot;org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser&quot;/&gt;
+				&lt;set property=&quot;passwordDurationDays&quot; value=&quot;28&quot;/&gt;
+				&lt;set property=&quot;passwordCyclePolicy&quot; value=&quot;5&quot;/&gt;
+				&lt;set property=&quot;maxLoginAttempts&quot; value=&quot;3&quot;/&gt;
+				&lt;set property=&quot;lockResetHours&quot; value=&quot;12&quot;/&gt;
+				&lt;set-service property=&quot;authenticator&quot;
+					service-id=&quot;fulcrum.security.authenticatorCrypto&quot;/&gt;
+				&lt;set-service property=&quot;aclFactory&quot; service-id=&quot;fulcrum.security.aclFactoryDynamic&quot;/&gt;
+			&lt;/construct&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/implementation&gt;
+	&lt;implementation service-id=&quot;tprformcomponents.GeneralExceptionPresenter&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct class=&quot;com.anite.tpr.services.exception.GeneralExceptionPresenter&quot;&gt;
+				&lt;set-object property=&quot;exceptionPageName&quot; value=&quot;infrastructure:exceptionPageName&quot;/&gt;
+				&lt;set-object property=&quot;requestExceptionReporter&quot;
+					value=&quot;infrastructure:requestExceptionReporter&quot;/&gt;
+				&lt;set-object property=&quot;responseRenderer&quot; value=&quot;infrastructure:responseRenderer&quot;/&gt;
+				&lt;set-configuration property=&quot;exceptionCases&quot;
+					configuration-id=&quot;tprformcomponents.exceptionCases&quot;/&gt;
+			&lt;/construct&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/implementation&gt;
+	&lt;contribution configuration-id=&quot;tapestry.InfrastructureOverrides&quot;&gt;
+		&lt;property name=&quot;exceptionPresenter&quot;
+			object=&quot;service:tprformcomponents.GeneralExceptionPresenter&quot;/&gt;
+	&lt;/contribution&gt;
+	&lt;!-- The TPR Timeouts --&gt;
+	&lt;contribution configuration-id=&quot;printmanager.TprTimeLimits&quot;&gt;
+		&lt;timeLimits processTimeOut=&quot;58&quot; issueChaserLetter=&quot;42&quot; dueDateForCompletion=&quot;37&quot;
+			issueReminderLetter=&quot;21&quot; beginCourtesyCall=&quot;5&quot;/&gt;
+	&lt;/contribution&gt;
+	&lt;contribution configuration-id=&quot;tprformcomponents.exceptionCases&quot;&gt;
+		&lt;exceptionCase exceptionClass=&quot;org.hibernate.HibernateException&quot; page=&quot;HibernateException&quot;/&gt;
+		&lt;!-- Remove next line to send all other errors to the browser --&gt;
+		&lt;!-- exceptionCase exceptionClass=&quot;java.lang.Throwable&quot; page=&quot;GeneralException&quot;/--&gt;
+	&lt;/contribution&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleDataRetention.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.dataretention&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;service-point id=&quot;DataRetention&quot; interface=&quot;com.anite.castries.dataretention.api.IDataRetentionService&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.dataretention.impl.DataRetentionService&quot;&gt;
+                &lt;set property=&quot;minElapsedMonths&quot; value=&quot;12&quot;/&gt;
+            &lt;/construct&gt;
+        &lt;/invoke-factory&gt;
+		&lt;interceptor service-id=&quot;hivemind.LoggingInterceptor&quot;/&gt;
+    &lt;/service-point&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleZebra.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.zebra&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;implementation service-id=&quot;zebra.zebraDefinitionFactory&quot; if=&quot;not (class org.mortbay.Jetty)&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.zebra.hivemind.impl.ZebraDefinitionFactoryImpl&quot;&gt;
+                &lt;set property=&quot;processesPath&quot; value=&quot;src/main/webapp/WEB-INF/processes&quot;/&gt;
+                &lt;set-service property=&quot;session&quot; service-id=&quot;fulcrum.hibernate.Session&quot;/&gt;
+            &lt;/construct&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/implementation&gt;
+    &lt;implementation service-id=&quot;zebra.zebraDefinitionFactory&quot; if=&quot;class org.mortbay.Jetty&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.zebra.hivemind.impl.ZebraDefinitionFactory&quot;&gt;
+                &lt;set property=&quot;processesPath&quot; value=&quot;WEB-INF/processes&quot;/&gt;
+                &lt;set-service property=&quot;session&quot; service-id=&quot;fulcrum.hibernate.Session&quot;/&gt;
+            &lt;/construct&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/implementation&gt;
+    
+    &lt;!-- 
+    	listener to calculate the due date for the different types of calls 
+    	(query, web, courtesy).
+    --&gt;
+    &lt;service-point id=&quot;dueDateFactoryListener&quot;
+        interface=&quot;com.anite.zebra.hivemind.api.StateFactoryListener&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.services.callrecord.DueDateListener&quot;&gt;
+                &lt;event-listener service-id=&quot;zebra.zebraState&quot;/&gt;
+            &lt;/construct&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;contribution configuration-id=&quot;hivemind.EagerLoad&quot;&gt;
+        &lt;load service-id=&quot;com.anite.castries.zebra.dueDateFactoryListener&quot;/&gt;
+    &lt;/contribution&gt;
+    
+&lt;/module&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000334.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources log4j.properties,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000340.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/main/java/com/anite/maven/plugin/hivedoc Dom4JRegistrySerializer.java,NONE,1.1 HivedocReport.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#338">[ date ]</a>
+              <a href="thread.html#338">[ thread ]</a>
+              <a href="subject.html#338">[ subject ]</a>
+              <a href="author.html#338">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

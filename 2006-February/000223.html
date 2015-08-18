@@ -1,0 +1,391 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicPermission.java,1.1,1.2 HibernateDynamicRole.java,1.1,1.2 HibernateDynamicGroup.java,1.1,1.2 HibernateDynamicUser.java,1.4,1.5
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model%20HibernateDynamicPermission.java%2C1.1%2C1.2%20HibernateDynamicRole.java%2C1.1%2C1.2%20HibernateDynamicGroup.java%2C1.1%2C1.2%20HibernateDynamicUser.java%2C1.4%2C1.5&In-Reply-To=%3C200602161648.k1GGmxE06016%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000222.html">
+   <LINK REL="Next"  HREF="000224.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicPermission.java,1.1,1.2 HibernateDynamicRole.java,1.1,1.2 HibernateDynamicGroup.java,1.1,1.2 HibernateDynamicUser.java,1.4,1.5</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model%20HibernateDynamicPermission.java%2C1.1%2C1.2%20HibernateDynamicRole.java%2C1.1%2C1.2%20HibernateDynamicGroup.java%2C1.1%2C1.2%20HibernateDynamicUser.java%2C1.4%2C1.5&In-Reply-To=%3C200602161648.k1GGmxE06016%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicPermission.java,1.1,1.2 HibernateDynamicRole.java,1.1,1.2 HibernateDynamicGroup.java,1.1,1.2 HibernateDynamicUser.java,1.4,1.5">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Thu Feb 16 17:48:59 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000222.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.9,1.10
+</A></li>
+        <LI>Next message: <A HREF="000224.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.6,1.7
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#223">[ date ]</a>
+              <a href="thread.html#223">[ thread ]</a>
+              <a href="subject.html#223">[ subject ]</a>
+              <a href="author.html#223">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model
+In directory sheep:/tmp/cvs-serv27237/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model
+
+Modified Files:
+	HibernateDynamicPermission.java HibernateDynamicRole.java 
+	HibernateDynamicGroup.java HibernateDynamicUser.java 
+Log Message:
+Updated annotations for hibernate-annotations beta8
+
+Index: HibernateDynamicPermission.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicPermission.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HibernateDynamicPermission.java	22 Dec 2005 16:26:00 -0000	1.1
+--- HibernateDynamicPermission.java	16 Feb 2006 16:48:57 -0000	1.2
+***************
+*** 5,9 ****
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToMany;
+--- 5,9 ----
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToMany;
+***************
+*** 15,19 ****
+  public class HibernateDynamicPermission extends DynamicPermission {
+  
+!     @Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicRole&gt; getRolesAsSet() {
+--- 15,20 ----
+  public class HibernateDynamicPermission extends DynamicPermission {
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicRole&gt; getRolesAsSet() {
+***************
+*** 23,30 ****
+  
+      @Override
+!     @Id(generate=GeneratorType.AUTO)
+      @Type(type=&quot;long&quot;)
+      public Object getId() {
+-         // TODO Auto-generated method stub
+          return super.getId();
+      }
+--- 24,30 ----
+  
+      @Override
+!     @Id @GeneratedValue
+      @Type(type=&quot;long&quot;)
+      public Object getId() {
+          return super.getId();
+      }
+***************
+*** 33,37 ****
+      @Basic
+      public String getName() {
+-         // TODO Auto-generated method stub
+          return super.getName();
+      }
+--- 33,36 ----
+
+Index: HibernateDynamicRole.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicRole.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HibernateDynamicRole.java	22 Dec 2005 16:26:00 -0000	1.1
+--- HibernateDynamicRole.java	16 Feb 2006 16:48:57 -0000	1.2
+***************
+*** 5,9 ****
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToMany;
+--- 5,9 ----
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToMany;
+***************
+*** 15,19 ****
+  public class HibernateDynamicRole extends DynamicRole{
+  
+!     @Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicGroup&gt; getGroupsAsSet() {
+--- 15,20 ----
+  public class HibernateDynamicRole extends DynamicRole{
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicGroup&gt; getGroupsAsSet() {
+***************
+*** 21,25 ****
+      }
+  
+!     @Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicPermission&gt; getPermissionsAsSet() {
+--- 22,27 ----
+      }
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicPermission&gt; getPermissionsAsSet() {
+***************
+*** 28,32 ****
+  
+      @Override
+!     @Id(generate=GeneratorType.AUTO)
+      @Type(type=&quot;long&quot;)
+      public Object getId() {
+--- 30,34 ----
+  
+      @Override
+!     @Id @GeneratedValue
+      @Type(type=&quot;long&quot;)
+      public Object getId() {
+
+Index: HibernateDynamicGroup.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicGroup.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HibernateDynamicGroup.java	22 Dec 2005 16:26:00 -0000	1.1
+--- HibernateDynamicGroup.java	16 Feb 2006 16:48:57 -0000	1.2
+***************
+*** 5,9 ****
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToMany;
+--- 5,9 ----
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.ManyToMany;
+***************
+*** 16,20 ****
+  
+      @Override
+!     @Id(generate=GeneratorType.AUTO)
+      @Type(type=&quot;long&quot;)
+      public Object getId() {
+--- 16,20 ----
+  
+      @Override
+!     @Id @GeneratedValue
+      @Type(type=&quot;long&quot;)
+      public Object getId() {
+***************
+*** 28,32 ****
+      }
+  
+!     @Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicRole&gt; getRolesAsSet() {
+--- 28,33 ----
+      }
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicRole&gt; getRolesAsSet() {
+***************
+*** 35,39 ****
+      }
+  
+!     @Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicUser&gt; getUsersAsSet() {
+--- 36,41 ----
+      }
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicUser&gt; getUsersAsSet() {
+
+Index: HibernateDynamicUser.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model/HibernateDynamicUser.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** HibernateDynamicUser.java	24 Jan 2006 11:57:57 -0000	1.4
+--- HibernateDynamicUser.java	16 Feb 2006 16:48:57 -0000	1.5
+***************
+*** 7,16 ****
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratorType;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+  import javax.persistence.JoinTable;
+  import javax.persistence.ManyToMany;
+! import javax.persistence.Table;
+  import javax.persistence.TemporalType;
+  
+--- 7,16 ----
+  import javax.persistence.Basic;
+  import javax.persistence.Entity;
+! import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
+  import javax.persistence.JoinColumn;
+  import javax.persistence.JoinTable;
+  import javax.persistence.ManyToMany;
+! import javax.persistence.Temporal;
+  import javax.persistence.TemporalType;
+  
+***************
+*** 22,26 ****
+  public class HibernateDynamicUser extends DynamicUser {
+  
+!     @Override
+      @ManyToMany(mappedBy=&quot;delegators&quot;)
+      public Set&lt;HibernateDynamicUser&gt; getDelegatees() {
+--- 22,34 ----
+  public class HibernateDynamicUser extends DynamicUser {
+  
+!     /**
+! 	 * 
+! 	 * @author richard.brooks
+! 	 * Created on 14-Feb-2006
+! 	 */
+! 	private static final long serialVersionUID = 7837009296539278078L;
+! 
+! 	@SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany(mappedBy=&quot;delegators&quot;)
+      public Set&lt;HibernateDynamicUser&gt; getDelegatees() {
+***************
+*** 28,34 ****
+      }
+  
+!     @Override
+      @ManyToMany
+!     @JoinTable(table = @Table(name = &quot;HIBUSER_DELEGATES&quot;), joinColumns = { @JoinColumn(name = &quot;DELEGATOR_ID&quot;) }, inverseJoinColumns = { @JoinColumn(name = &quot;DELEGATEE_ID&quot;) })
+      public Set&lt;HibernateDynamicUser&gt; getDelegators() {
+          return super.getDelegators();
+--- 36,43 ----
+      }
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany
+!     @JoinTable(name = &quot;HIBUSER_DELEGATES&quot;, joinColumns = { @JoinColumn(name = &quot;DELEGATOR_ID&quot;) }, inverseJoinColumns = { @JoinColumn(name = &quot;DELEGATEE_ID&quot;) })
+      public Set&lt;HibernateDynamicUser&gt; getDelegators() {
+          return super.getDelegators();
+***************
+*** 42,46 ****
+  
+      @Override
+!     @Id(generate = GeneratorType.AUTO)
+      @Type(type = &quot;long&quot;)
+      public Object getId() {
+--- 51,55 ----
+  
+      @Override
+!     @Id @GeneratedValue
+      @Type(type = &quot;long&quot;)
+      public Object getId() {
+***************
+*** 55,59 ****
+      }
+  
+!     @Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicGroup&gt; getGroupsAsSet() {
+--- 64,69 ----
+      }
+  
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @ManyToMany
+      public Set&lt;HibernateDynamicGroup&gt; getGroupsAsSet() {
+***************
+*** 62,66 ****
+      
+      @Override
+!     @Basic(temporalType = TemporalType.DATE)
+      public Date getPasswordExpiryDate() {
+      	return super.getPasswordExpiryDate();
+--- 72,76 ----
+      
+      @Override
+!     @Temporal(TemporalType.DATE)
+      public Date getPasswordExpiryDate() {
+      	return super.getPasswordExpiryDate();
+***************
+*** 79,87 ****
+      }
+      
+!     @Override
+      @CollectionOfElements
+      public List&lt;String&gt; getPasswordHistory() {
+      	return super.getPasswordHistory();
+      }
+! 
+! }
+--- 89,97 ----
+      }
+      
+!     @SuppressWarnings(&quot;unchecked&quot;)
+! 	@Override
+      @CollectionOfElements
+      public List&lt;String&gt; getPasswordHistory() {
+      	return super.getPasswordHistory();
+      }
+! }
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000222.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate pom.xml,1.9,1.10
+</A></li>
+	<LI>Next message: <A HREF="000224.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/resources hibernate.cfg.xml,1.6,1.7
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#223">[ date ]</a>
+              <a href="thread.html#223">[ thread ]</a>
+              <a href="subject.html#223">[ subject ]</a>
+              <a href="author.html#223">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

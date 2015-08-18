@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager TimeManager.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager%20TimeManager.java%2C1.1%2C1.2&In-Reply-To=%3C200605301044.k4UAinT26682%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000370.html">
+   <LINK REL="Next"  HREF="000372.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager TimeManager.java,1.1,1.2</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager%20TimeManager.java%2C1.1%2C1.2&In-Reply-To=%3C200605301044.k4UAinT26682%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager TimeManager.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue May 30 12:44:49 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000370.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl HibernateTimeManager.java,1.1,1.2 HibernateTimedTaskManager.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000372.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.8,1.9
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#371">[ date ]</a>
+              <a href="thread.html#371">[ thread ]</a>
+              <a href="subject.html#371">[ subject ]</a>
+              <a href="author.html#371">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager
+In directory sheep:/tmp/cvs-serv11467/src/main/java/com/anite/zebra/hivemind/manager
+
+Modified Files:
+	TimeManager.java 
+Log Message:
+
+
+Index: TimeManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/TimeManager.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** TimeManager.java	26 May 2006 15:30:29 -0000	1.1
+--- TimeManager.java	30 May 2006 10:44:47 -0000	1.2
+***************
+*** 19,23 ****
+  import com.anite.zebra.hivemind.om.timedtask.Time;
+  
+! public interface TimeManager extends BaseManager {
+  
+      public Time createOrFetchTime(int hours, int mins);
+--- 19,23 ----
+  import com.anite.zebra.hivemind.om.timedtask.Time;
+  
+! public interface TimeManager extends BaseManager&lt;Time&gt; {
+  
+      public Time createOrFetchTime(int hours, int mins);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000370.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/manager/impl HibernateTimeManager.java,1.1,1.2 HibernateTimedTaskManager.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000372.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/resources/META-INF hivemodule.xml,1.8,1.9
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#371">[ date ]</a>
+              <a href="thread.html#371">[ thread ]</a>
+              <a href="subject.html#371">[ subject ]</a>
+              <a href="author.html#371">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicUser.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity%20DynamicUser.java%2C1.1%2C1.2&In-Reply-To=%3C200601170917.k0H9HSx27906%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000067.html">
+   <LINK REL="Next"  HREF="000071.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicUser.java,1.1,1.2</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity%20DynamicUser.java%2C1.1%2C1.2&In-Reply-To=%3C200601170917.k0H9HSx27906%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity DynamicUser.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 17 10:17:28 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000067.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000071.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractUserManagerTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#68">[ date ]</a>
+              <a href="thread.html#68">[ thread ]</a>
+              <a href="subject.html#68">[ subject ]</a>
+              <a href="author.html#68">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+In directory sheep:/tmp/cvs-serv30075/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+
+Modified Files:
+	DynamicUser.java 
+Log Message:
+1 - Make all methods pass passwords via crypto
+2 - Make the Authenticator available on API
+3 - Add Expiry Date
+4 - Add Use locking
+5 - Add Password History
+6 - Add Password Cycle Policy
+
+Index: DynamicUser.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicUser.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** DynamicUser.java	14 Nov 2005 18:20:50 -0000	1.1
+--- DynamicUser.java	17 Jan 2006 09:17:25 -0000	1.2
+***************
+*** 16,20 ****
+--- 16,23 ----
+   */
+  
++ import java.util.ArrayList;
++ import java.util.Date;
+  import java.util.HashSet;
++ import java.util.List;
+  import java.util.Set;
+  
+***************
+*** 39,46 ****
+--- 42,76 ----
+  {
+      private String password;
++     private Date passwordExpiryDate;
++     private Date locked;
++     private int loginAttempts;
++         
++     private List passwordHistory = new ArrayList&lt;String&gt;();
+      private Set groupSet = new GroupSet();
+      private Set delegators = new HashSet();
+      private Set delegatees = new HashSet();
+  
++     /**
++      * 
++      * @return Returns the password history.
++      *
++      * @author richard.brooks
++      * Created on Jan 11, 2006
++      */
++     public List getPasswordHistory() {
++     	return this.passwordHistory;
++     }
++     
++     /**
++      * 
++      * @param passwordHistory The password history to set.
++      *
++      * @author richard.brooks
++      * Created on Jan 11, 2006
++      */
++     public void setPasswordHistory(List passwordHistory) {
++     	this.passwordHistory = passwordHistory;
++     }
++     
+  	/**
+  	 * @return Returns the delegatees.
+***************
+*** 49,52 ****
+--- 79,83 ----
+  		return delegatees;
+  	}
++ 	
+  	/**
+  	 * @param delegatees The delegatees to set.
+***************
+*** 55,58 ****
+--- 86,90 ----
+  		this.delegatees = delegatees;
+  	}
++ 	
+  	/**
+  	 * @return Returns the delegators.
+***************
+*** 61,64 ****
+--- 93,97 ----
+  		return delegators;
+  	}
++ 	
+  	/**
+  	 * @param delegates The delegators to set.
+***************
+*** 67,72 ****
+  		this.delegators = delegates;
+  	}
+      /**
+!      * @return
+       */
+      public String getPassword()
+--- 100,106 ----
+  		this.delegators = delegates;
+  	}
++ 	
+      /**
+!      * @return Returns the password.
+       */
+      public String getPassword()
+***************
+*** 74,79 ****
+          return password;
+      }
+      /**
+!      * @param password
+       */
+      public void setPassword(String password)
+--- 108,114 ----
+          return password;
+      }
++     
+      /**
+!      * @param password The password to set.
+       */
+      public void setPassword(String password)
+***************
+*** 81,85 ****
+--- 116,165 ----
+          this.password = password;
+      }
++     
++     /**
++      * 
++      * @return The expiry date of the current password.
++      *
++      * @author richard.brooks
++      * Created on Jan 11, 2006
++      */
++     public Date getPasswordExpiryDate() {
++ 		return passwordExpiryDate;
++ 	}
++ 
+      /**
++      * 
++      * @param passwordExpiryDate Set the expiry date of the password.
++      *
++      * @author richard.brooks
++      * Created on Jan 11, 2006
++      */
++ 	public void setPasswordExpiryDate(Date passwordExpiryDate) {
++ 		this.passwordExpiryDate = passwordExpiryDate;
++ 	}
++ 
++ 	/**
++ 	 * 
++ 	 * @return Return whether the user is locked.
++ 	 *
++ 	 * @author richard.brooks
++ 	 * Created on Jan 11, 2006
++ 	 */
++ 	public Date getLockedDate() {
++ 		return locked;
++ 	}
++ 
++ 	/**
++ 	 * 
++ 	 * @param locked Sets whether the user is locked
++ 	 *
++ 	 * @author richard.brooks
++ 	 * Created on Jan 11, 2006
++ 	 */
++ 	public void setLockedDate(Date locked) {
++ 		this.locked = locked;
++ 	}
++ 	
++ 	/**
+      * @return
+      */
+***************
+*** 93,96 ****
+--- 173,177 ----
+      	}
+      }
++     
+      /**
+       * @param groups
+***************
+*** 103,110 ****
+--- 184,193 ----
+      		this.groupSet = new GroupSet();
+      }
++     
+      public void removeGroup(Group group)
+      {
+          getGroups().remove(group);
+      }
++     
+      public void addGroup(Group group)
+      {
+***************
+*** 116,122 ****
+--- 199,214 ----
+  		this.groupSet = groups;
+  	}
++ 	
+  	public Set getGroupsAsSet()
+  	{
+  		return groupSet;
++ 	}
++ 
++ 	public int getLoginAttempts() {
++ 		return loginAttempts;
++ 	}
++ 
++ 	public void setLoginAttempts(int loginAttempts) {
++ 		this.loginAttempts = loginAttempts;
+  	}
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000067.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security UserManager.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000071.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/test AbstractUserManagerTest.java,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#68">[ date ]</a>
+              <a href="thread.html#68">[ thread ]</a>
+              <a href="subject.html#68">[ subject ]</a>
+              <a href="author.html#68">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

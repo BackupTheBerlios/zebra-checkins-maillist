@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test DatabaseWriteThroughTest.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test%20DatabaseWriteThroughTest.java%2CNONE%2C1.1&In-Reply-To=%3C200601241157.k0OBvwx06678%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000094.html">
+   <LINK REL="Next"  HREF="000097.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test DatabaseWriteThroughTest.java,NONE,1.1</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test%20DatabaseWriteThroughTest.java%2CNONE%2C1.1&In-Reply-To=%3C200601241157.k0OBvwx06678%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test DatabaseWriteThroughTest.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 24 12:57:59 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000094.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelperHivemindImplementation.java,1.1,1.2 HibernateUserManagerImpl.java,1.1,1.2
+</A></li>
+        <LI>Next message: <A HREF="000097.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicUser.java,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#96">[ date ]</a>
+              <a href="thread.html#96">[ thread ]</a>
+              <a href="subject.html#96">[ subject ]</a>
+              <a href="author.html#96">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test
+In directory sheep:/tmp/cvs-serv14042/src/main/java/org/apache/fulcrum/security/model/test
+
+Added Files:
+	DatabaseWriteThroughTest.java 
+Log Message:
+Fixed issues with user modification not writing thru to database
+
+--- NEW FILE: DatabaseWriteThroughTest.java ---
+package org.apache.fulcrum.security.model.test;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.apache.fulcrum.hivemind.RegistryManager;
+import org.apache.fulcrum.security.SecurityService;
+import org.apache.fulcrum.security.UserManager;
+import org.apache.fulcrum.security.hibernate.PersistenceHelper;
+import org.apache.fulcrum.security.hibernate.dynamic.model.HibernateDynamicUser;
+import org.apache.hivemind.Resource;
+import org.apache.hivemind.impl.DefaultClassResolver;
+import org.apache.hivemind.util.ClasspathResource;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+public class DatabaseWriteThroughTest extends TestCase {
+	
+	public static final String USER_NAME = &quot;rich28&quot;;
+
+	public void setUp() throws Exception {
+		// Force Registry to have test configuration
+		Resource resource = new ClasspathResource(new DefaultClassResolver(),
+				&quot;META-INF/hivemodule_test.xml&quot;);
+		RegistryManager.getInstance().getResources().add(resource);
+		super.setUp();
+	}
+
+	public void testAddUser() throws Exception {
+		PersistenceHelper persistenceHelper = (PersistenceHelper) RegistryManager
+				.getInstance().getRegistry()
+				.getService(PersistenceHelper.class);
+
+		
+		HibernateDynamicUser user = new HibernateDynamicUser();
+		user.setName(USER_NAME);
+		user.setPassword(&quot;password&quot;);
+		user.setLoginAttempts(0);
+		user.setLockTime(0);
+
+		Calendar date = Calendar.getInstance();
+		GregorianCalendar passwordExpiry = new GregorianCalendar(date.get(Calendar.YEAR),
+                												 date.get(Calendar.MONTH),
+                												 date.get(Calendar.DAY_OF_MONTH));
+		passwordExpiry.add(Calendar.DAY_OF_MONTH, 28);
+		user.setPasswordExpiryDate(passwordExpiry.getTime());
+
+		user.setPasswordExpiryDate(passwordExpiry.getTime());
+		
+		//Session session = persistenceHelper.retrieveSession();
+        //Transaction transaction = session.beginTransaction();
+        //session.save(user);
+        //transaction.commit();
+		persistenceHelper.addEntity(user);
+	}
+	
+	public void testChangeUser() throws Exception {
+		PersistenceHelper persistenceHelper = (PersistenceHelper) RegistryManager
+		.getInstance().getRegistry()
+		.getService(PersistenceHelper.class);
+		
+		Session session = persistenceHelper.retrieveSession();
+		
+		Query query = session.createQuery(&quot;from HibernateDynamicUser hdu where hdu.name=:name&quot;);
+		query.setString(&quot;name&quot;, USER_NAME);
+		
+		List users = query.list();
+		HibernateDynamicUser user = (HibernateDynamicUser) users.get(0);
+		user.setPassword(&quot;changed&quot;);
+        //Transaction transaction = session.beginTransaction();
+        //session.saveOrUpdate(user);
+        //transaction.commit();
+		persistenceHelper.updateEntity(user);
+	}
+	
+	public void testGetUserFromManager() throws Exception {
+		SecurityService securityService = (SecurityService) RegistryManager.getInstance().getRegistry().getService(SecurityService.class);
+        UserManager userManager = securityService.getUserManager();
+        HibernateDynamicUser user = (HibernateDynamicUser) userManager.getUser(USER_NAME);
+        user.setPassword(&quot;changed_2&quot;);
+        user.setLoginAttempts(1);
+        
+        userManager.saveUser(user);
+
+		/*PersistenceHelper persistenceHelper = (PersistenceHelper) RegistryManager
+		.getInstance().getRegistry()
+		.getService(PersistenceHelper.class);
+		persistenceHelper.updateEntity(user);*/
+	}
+}
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000094.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelperHivemindImplementation.java,1.1,1.2 HibernateUserManagerImpl.java,1.1,1.2
+</A></li>
+	<LI>Next message: <A HREF="000097.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicUser.java,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#96">[ date ]</a>
+              <a href="thread.html#96">[ thread ]</a>
+              <a href="subject.html#96">[ subject ]</a>
+              <a href="author.html#96">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

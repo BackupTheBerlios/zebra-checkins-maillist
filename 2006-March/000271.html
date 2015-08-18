@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.14,1.15 AbstractZebraTaskInstance.java,1.7,1.8
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraProcessInstance.java%2C1.14%2C1.15%20AbstractZebraTaskInstance.java%2C1.7%2C1.8&In-Reply-To=%3C200603151813.k2FIDWb26822%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000269.html">
+   <LINK REL="Next"  HREF="000272.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.14,1.15 AbstractZebraTaskInstance.java,1.7,1.8</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraProcessInstance.java%2C1.14%2C1.15%20AbstractZebraTaskInstance.java%2C1.7%2C1.8&In-Reply-To=%3C200603151813.k2FIDWb26822%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.14,1.15 AbstractZebraTaskInstance.java,1.7,1.8">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed Mar 15 19:13:32 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000269.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/META-INF MANIFEST.MF,1.1,NONE
+</A></li>
+        <LI>Next message: <A HREF="000272.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/taskAction LogTaskActionTest.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#271">[ date ]</a>
+              <a href="thread.html#271">[ thread ]</a>
+              <a href="subject.html#271">[ subject ]</a>
+              <a href="author.html#271">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state
+In directory sheep:/tmp/cvs-serv25789/src/main/java/com/anite/zebra/hivemind/om/state
+
+Modified Files:
+	ZebraProcessInstance.java AbstractZebraTaskInstance.java 
+Log Message:
+Fixing the loading problems
+
+Index: ZebraProcessInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraProcessInstance.java,v
+retrieving revision 1.14
+retrieving revision 1.15
+diff -C2 -d -r1.14 -r1.15
+*** ZebraProcessInstance.java	9 Mar 2006 10:14:16 -0000	1.14
+--- ZebraProcessInstance.java	15 Mar 2006 17:14:22 -0000	1.15
+***************
+*** 60,64 ****
+  import com.anite.zebra.core.state.api.IProcessInstance;
+  import com.anite.zebra.core.state.api.ITaskInstance;
+! import com.anite.zebra.hivemind.impl.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.impl.ZebraSecurity;
+  import com.anite.zebra.hivemind.util.RegistryHelper;
+--- 60,64 ----
+  import com.anite.zebra.core.state.api.IProcessInstance;
+  import com.anite.zebra.core.state.api.ITaskInstance;
+! import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.impl.ZebraSecurity;
+  import com.anite.zebra.hivemind.util.RegistryHelper;
+
+Index: AbstractZebraTaskInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/AbstractZebraTaskInstance.java,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** AbstractZebraTaskInstance.java	8 Mar 2006 16:52:52 -0000	1.7
+--- AbstractZebraTaskInstance.java	15 Mar 2006 17:14:22 -0000	1.8
+***************
+*** 43,47 ****
+  import com.anite.zebra.core.state.api.IProcessInstance;
+  import com.anite.zebra.core.state.api.ITaskInstance;
+! import com.anite.zebra.hivemind.impl.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+  
+--- 43,47 ----
+  import com.anite.zebra.core.state.api.IProcessInstance;
+  import com.anite.zebra.core.state.api.ITaskInstance;
+! import com.anite.zebra.hivemind.api.ZebraDefinitionFactory;
+  import com.anite.zebra.hivemind.om.defs.ZebraTaskDefinition;
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000269.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/META-INF MANIFEST.MF,1.1,NONE
+</A></li>
+	<LI>Next message: <A HREF="000272.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/taskAction LogTaskActionTest.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#271">[ date ]</a>
+              <a href="thread.html#271">[ thread ]</a>
+              <a href="subject.html#271">[ subject ]</a>
+              <a href="author.html#271">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

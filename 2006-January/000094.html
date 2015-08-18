@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelperHivemindImplementation.java,1.1,1.2 HibernateUserManagerImpl.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate%20PersistenceHelperHivemindImplementation.java%2C1.1%2C1.2%20HibernateUserManagerImpl.java%2C1.1%2C1.2&In-Reply-To=%3C200601241157.k0OBvxx06682%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000098.html">
+   <LINK REL="Next"  HREF="000096.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelperHivemindImplementation.java,1.1,1.2 HibernateUserManagerImpl.java,1.1,1.2</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate%20PersistenceHelperHivemindImplementation.java%2C1.1%2C1.2%20HibernateUserManagerImpl.java%2C1.1%2C1.2&In-Reply-To=%3C200601241157.k0OBvxx06682%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelperHivemindImplementation.java,1.1,1.2 HibernateUserManagerImpl.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Jan 24 12:57:59 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000098.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF hivemodule.xml,1.3,1.4
+</A></li>
+        <LI>Next message: <A HREF="000096.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test DatabaseWriteThroughTest.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#94">[ date ]</a>
+              <a href="thread.html#94">[ thread ]</a>
+              <a href="subject.html#94">[ subject ]</a>
+              <a href="author.html#94">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate
+In directory sheep:/tmp/cvs-serv14042/src/main/java/org/apache/fulcrum/security/hibernate
+
+Modified Files:
+	PersistenceHelperHivemindImplementation.java 
+	HibernateUserManagerImpl.java 
+Log Message:
+Fixed issues with user modification not writing thru to database
+
+Index: PersistenceHelperHivemindImplementation.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/PersistenceHelperHivemindImplementation.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** PersistenceHelperHivemindImplementation.java	25 Nov 2005 08:50:12 -0000	1.1
+--- PersistenceHelperHivemindImplementation.java	24 Jan 2006 11:57:56 -0000	1.2
+***************
+*** 38,42 ****
+          try {
+              transaction = session.beginTransaction();
+!             session.update(entity);
+              transaction.commit();
+  
+--- 38,42 ----
+          try {
+              transaction = session.beginTransaction();
+!             session.saveOrUpdate(entity);
+              transaction.commit();
+  
+
+Index: HibernateUserManagerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/HibernateUserManagerImpl.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** HibernateUserManagerImpl.java	25 Nov 2005 08:50:12 -0000	1.1
+--- HibernateUserManagerImpl.java	24 Jan 2006 11:57:56 -0000	1.2
+***************
+*** 132,136 ****
+       *
+       * @param user the object describing account to be created.
+-      * @param password The password to use for the account.
+       *
+       * @throws DataBackendException if there was an error accessing the
+--- 132,135 ----
+***************
+*** 152,163 ****
+       * @throws UnknownEntityException if the role does not exist.
+       */
+!     public void saveUser(User user) throws DataBackendException, UnknownEntityException {
+!         boolean userExists = false;
+!         userExists = checkExists(user);
+!         if (userExists) {
+              getPersistenceHelper().updateEntity(user);
+-         } else {
+-             throw new UnknownEntityException(&quot;Unknown user '&quot; + user + &quot;'&quot;);
+-         }
+      }
+  
+--- 151,156 ----
+       * @throws UnknownEntityException if the role does not exist.
+       */
+!     public void saveUser(User user) throws DataBackendException {
+              getPersistenceHelper().updateEntity(user);
+      }
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000098.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/resources/META-INF hivemodule.xml,1.3,1.4
+</A></li>
+	<LI>Next message: <A HREF="000096.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/model/test DatabaseWriteThroughTest.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#94">[ date ]</a>
+              <a href="thread.html#94">[ thread ]</a>
+              <a href="subject.html#94">[ subject ]</a>
+              <a href="author.html#94">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

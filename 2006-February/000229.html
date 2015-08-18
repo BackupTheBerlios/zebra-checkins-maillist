@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.6,1.7 ZebraProcessInstance.java,1.10,1.11 ZebraPropertySetEntry.java,1.8,1.9
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraTaskInstance.java%2C1.6%2C1.7%20ZebraProcessInstance.java%2C1.10%2C1.11%20ZebraPropertySetEntry.java%2C1.8%2C1.9&In-Reply-To=%3C200602171520.k1HFKhE28830%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000228.html">
+   <LINK REL="Next"  HREF="000230.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.6,1.7 ZebraProcessInstance.java,1.10,1.11 ZebraPropertySetEntry.java,1.8,1.9</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state%20ZebraTaskInstance.java%2C1.6%2C1.7%20ZebraProcessInstance.java%2C1.10%2C1.11%20ZebraPropertySetEntry.java%2C1.8%2C1.9&In-Reply-To=%3C200602171520.k1HFKhE28830%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraTaskInstance.java,1.6,1.7 ZebraProcessInstance.java,1.10,1.11 ZebraPropertySetEntry.java,1.8,1.9">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Fri Feb 17 16:20:43 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000228.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl PropertySetBehaviourTest.java,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000230.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ScheduledTaskTransitionJob.java,1.1,1.2 QuartzServiceTaskAction.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#229">[ date ]</a>
+              <a href="thread.html#229">[ thread ]</a>
+              <a href="subject.html#229">[ subject ]</a>
+              <a href="author.html#229">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state
+In directory sheep:/tmp/cvs-serv8645/src/main/java/com/anite/zebra/hivemind/om/state
+
+Modified Files:
+	ZebraTaskInstance.java ZebraProcessInstance.java 
+	ZebraPropertySetEntry.java 
+Log Message:
+Fixed quartz and property set behaviour
+
+Index: ZebraTaskInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraTaskInstance.java,v
+retrieving revision 1.6
+retrieving revision 1.7
+diff -C2 -d -r1.6 -r1.7
+*** ZebraTaskInstance.java	16 Feb 2006 08:54:29 -0000	1.6
+--- ZebraTaskInstance.java	17 Feb 2006 15:20:11 -0000	1.7
+***************
+*** 74,84 ****
+  	 * @return
+  	 */
+! 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  	@MapKey(name=&quot;key&quot;)
+- 	//@JoinColumn
+  	public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+  		return this.propertySet;
+  	}
+  
+  	/**
+  	 * @param propertySetEntries
+--- 74,94 ----
+  	 * @return
+  	 */
+! 	@OneToMany(cascade = CascadeType.ALL, mappedBy=&quot;taskInstance&quot;, fetch=FetchType.LAZY)
+  	@MapKey(name=&quot;key&quot;)
+  	public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+  		return this.propertySet;
+  	}
+  
++      /**
++      * A helper function to ensure the referential integrity in maintained
++      * @param key
++      * @param entry
++      */
++     public void addPropertySetEntry(String key, ZebraPropertySetEntry entry){
++         entry.setKey(key);
++         entry.setTaskInstance(this);
++         this.getPropertySet().put(key, entry);
++     }
++     
+  	/**
+  	 * @param propertySetEntries
+
+Index: ZebraProcessInstance.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraProcessInstance.java,v
+retrieving revision 1.10
+retrieving revision 1.11
+diff -C2 -d -r1.10 -r1.11
+*** ZebraProcessInstance.java	16 Feb 2006 08:54:29 -0000	1.10
+--- ZebraProcessInstance.java	17 Feb 2006 15:20:11 -0000	1.11
+***************
+*** 341,347 ****
+       * @return
+       */
+!     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+      @MapKey(name=&quot;key&quot;)
+-     //@JoinColumn
+      public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+          return this.propertySet;
+--- 341,346 ----
+       * @return
+       */
+!     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy=&quot;processInstance&quot;)
+      @MapKey(name=&quot;key&quot;)
+      public Map&lt;String, ZebraPropertySetEntry&gt; getPropertySet() {
+          return this.propertySet;
+***************
+*** 350,353 ****
+--- 349,363 ----
+      public void setPropertySet(Map&lt;String, ZebraPropertySetEntry&gt; propertySetEntries) {
+          this.propertySet = propertySetEntries;
++     }
++     
++     /**
++      * A helper function to ensure the referential integrity in maintained
++      * @param key
++      * @param entry
++      */
++     public void addPropertySetEntry(String key, ZebraPropertySetEntry entry){
++         entry.setKey(key);
++         entry.setProcessInstance(this);
++         this.getPropertySet().put(key, entry);
+      }
+  
+
+Index: ZebraPropertySetEntry.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state/ZebraPropertySetEntry.java,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+*** ZebraPropertySetEntry.java	16 Feb 2006 08:54:29 -0000	1.8
+--- ZebraPropertySetEntry.java	17 Feb 2006 15:20:11 -0000	1.9
+***************
+*** 25,28 ****
+--- 25,29 ----
+  import javax.persistence.GeneratedValue;
+  import javax.persistence.Id;
++ import javax.persistence.ManyToOne;
+  
+  /**
+***************
+*** 35,38 ****
+--- 36,43 ----
+  
+      private Integer propertySetId;
++     
++     private ZebraTaskInstance taskInstance;
++     
++     private ZebraProcessInstance processInstance;
+  
+      private String value = null;
+***************
+*** 45,48 ****
+--- 50,71 ----
+      static final long serialVersionUID = 1L;
+  
++     @ManyToOne
++     public ZebraProcessInstance getProcessInstance() {
++         return processInstance;
++     }
++ 
++     public void setProcessInstance(ZebraProcessInstance processInstance) {
++         this.processInstance = processInstance;
++     }
++ 
++     @ManyToOne
++     public ZebraTaskInstance getTaskInstance() {
++         return taskInstance;
++     }
++ 
++     public void setTaskInstance(ZebraTaskInstance taskInstance) {
++         this.taskInstance = taskInstance;
++     }
++ 
+      public ZebraPropertySetEntry() {
+          //noop
+***************
+*** 118,122 ****
+  	}
+  
+! 	
+  	public String getKey() {
+  		return key;
+--- 141,145 ----
+  	}
+  
+! 	@Basic
+  	public String getKey() {
+  		return key;
+***************
+*** 126,128 ****
+--- 149,153 ----
+  		this.key = key;
+  	}
++     
++     
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000228.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl PropertySetBehaviourTest.java,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000230.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/taskAction ScheduledTaskTransitionJob.java,1.1,1.2 QuartzServiceTaskAction.java,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#229">[ date ]</a>
+              <a href="thread.html#229">[ thread ]</a>
+              <a href="subject.html#229">[ subject ]</a>
+              <a href="author.html#229">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

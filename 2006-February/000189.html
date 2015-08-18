@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/java/com/anite/zebra/ext/xmlloader XMLLoadProcessTest.java,NONE,1.1 SimpleTest.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-xmlloader/src/test/java/com/anite/zebra/ext/xmlloader%20XMLLoadProcessTest.java%2CNONE%2C1.1%20SimpleTest.java%2CNONE%2C1.1&In-Reply-To=%3C200602071729.k17HT3E09646%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000176.html">
+   <LINK REL="Next"  HREF="000191.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/java/com/anite/zebra/ext/xmlloader XMLLoadProcessTest.java,NONE,1.1 SimpleTest.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-xmlloader/src/test/java/com/anite/zebra/ext/xmlloader%20XMLLoadProcessTest.java%2CNONE%2C1.1%20SimpleTest.java%2CNONE%2C1.1&In-Reply-To=%3C200602071729.k17HT3E09646%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/java/com/anite/zebra/ext/xmlloader XMLLoadProcessTest.java,NONE,1.1 SimpleTest.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Feb  7 18:29:03 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000176.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/com/anite/zebra/ext/xmlloader XMLLoadProcessTest.java,1.2,NONE SimpleTest.java,1.3,NONE
+</A></li>
+        <LI>Next message: <A HREF="000191.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/resources/test-resources/processes/simple simple.acgwfd.xml,NONE,1.1 prettyprinted.acgwfd.xml,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#189">[ date ]</a>
+              <a href="thread.html#189">[ thread ]</a>
+              <a href="subject.html#189">[ subject ]</a>
+              <a href="author.html#189">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-xmlloader/src/test/java/com/anite/zebra/ext/xmlloader
+In directory sheep:/tmp/cvs-serv22646/src/test/java/com/anite/zebra/ext/xmlloader
+
+Added Files:
+	XMLLoadProcessTest.java SimpleTest.java 
+Log Message:
+
+
+--- NEW FILE: XMLLoadProcessTest.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ * <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.anite.zebra.ext.xmlloader;
+
+import java.io.File;
+
+import junit.framework.TestCase;
+
+import com.anite.zebra.core.definitions.api.IProcessDefinition;
+import com.anite.zebra.ext.definitions.api.IProcessVersion;
+import com.anite.zebra.ext.definitions.api.IProcessVersions;
+import com.anite.zebra.ext.definitions.api.IProperties;
+import com.anite.zebra.ext.definitions.impl.ProcessDefinition;
+import com.anite.zebra.ext.definitions.impl.TaskDefinition;
+
+/**
+ * @author Eric.pugh
+ */
+public class XMLLoadProcessTest extends TestCase {
+
+    private Class processDefClass;
+    private Class taskDefClass;
+    private Class processVersionsClass;
+    private Class propertyElementClass;
+    private Class propertyGroupsClass;
+    private Class routingDefinitionClass;
+
+    private File xmlFile;
+
+    public void setUp() throws Exception {
+        processDefClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.ProcessDefinition&quot;);
+        taskDefClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.TaskDefinition&quot;);
+        processVersionsClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.ProcessVersions&quot;);
+        propertyElementClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.PropertyElement&quot;);
+        propertyGroupsClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.PropertyGroups&quot;);
+        routingDefinitionClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.RoutingDefinition&quot;);
+        
+    }
+
+    public void testExceptionThrownWhenMissingProperties() {
+        try {
+            XMLLoadProcess loadProcess = new XMLLoadProcess();
+            loadProcess.checkProperties();
+            fail(&quot;Should have thrown exception&quot;);
+        } catch (Exception e) {
+            //good
+        }
+    }
+
+    public void testLoadNoWhiteSpaceInXML() throws Exception {
+
+        XMLLoadProcess loadProcess = new XMLLoadProcess();
+        loadProcess.setProcessDefinitionClass(processDefClass);
+        loadProcess.setTaskDefinitionClass(taskDefClass);
+        loadProcess.setProcessVersionsClass(processVersionsClass);
+        loadProcess.setPropertyElementClass(propertyElementClass);
+        loadProcess.setPropertyGroupsClass(propertyGroupsClass);
+        loadProcess.setRoutingDefinitionClass(routingDefinitionClass);
+        xmlFile = new File(&quot;src/test/resources/test-resources/nowhitespace.acgwfd.xml&quot;);
+        IProcessVersions results = loadProcess.loadFromFile(xmlFile);
+        assertEquals(3, results.getProcessVersions().size());
+    }
+
+    public void testLoadPrettyPrintedXML() throws Exception {
+
+        XMLLoadProcess loadProcess = new XMLLoadProcess();
+        loadProcess.setProcessDefinitionClass(processDefClass);
+        loadProcess.setTaskDefinitionClass(taskDefClass);
+        loadProcess.setProcessVersionsClass(processVersionsClass);
+        loadProcess.setPropertyElementClass(propertyElementClass);
+        loadProcess.setPropertyGroupsClass(propertyGroupsClass);
+        loadProcess.setRoutingDefinitionClass(routingDefinitionClass);
+        File xmlFile = new File(&quot;src/test/resources/test-resources/prettyprinted.acgwfd.xml&quot;);
+
+        IProcessVersions results = loadProcess.loadFromFile(xmlFile);
+        assertEquals(&quot;New Test1 Process&quot;,results.getName());
+        assertEquals(3, results.getProcessVersions().size());
+        IProcessVersion latestVersion = results.getLatestProcessVersion();
+        assertEquals(4,latestVersion.getVersion().longValue());
+        IProcessDefinition ipd = (IProcessDefinition)latestVersion;
+        ProcessDefinition pd = (ProcessDefinition)ipd;
+        IProperties properties = pd.getPropertyGroups().getProperties(&quot;Visibility&quot;);
+        assertTrue(properties.getBoolean(&quot;DebugFlow&quot;));
+        assertTrue(properties.containsKey(&quot;DebugFlow&quot;));
+        TaskDefinition td3 = (TaskDefinition)pd.getTaskDefs().getTaskDef(new Long(3));
+        assertEquals(&quot;DefaultDecision.vm&quot;,td3.getPropertyGroups().getProperties(&quot;Screen&quot;).getString(&quot;Screen Name&quot;));
+        assertTrue(td3.getPropertyGroups().getProperties(&quot;Screen&quot;).getBoolean(&quot;Auto Show&quot;));
+    }
+    
+    public void testLoadOneBadOneGoodXML() throws Exception{
+    	XMLLoadProcess loadProcess = new XMLLoadProcess();
+        loadProcess.setProcessDefinitionClass(processDefClass);
+        loadProcess.setTaskDefinitionClass(taskDefClass);
+        loadProcess.setProcessVersionsClass(processVersionsClass);
+        loadProcess.setPropertyElementClass(propertyElementClass);
+        loadProcess.setPropertyGroupsClass(propertyGroupsClass);
+        loadProcess.setRoutingDefinitionClass(routingDefinitionClass);
+        File xmlFile = new File(&quot;src/test/resources/test-resources/OneBadOneGoodVersion.acgwfd.xml&quot;);
+        
+        IProcessVersions results = loadProcess.loadFromFile(xmlFile);
+        assertEquals(results.getProcessVersions().size(),1);
+    }
+    
+    public void testLoadOneBad() throws Exception{
+    	XMLLoadProcess loadProcess = new XMLLoadProcess();
+        loadProcess.setProcessDefinitionClass(processDefClass);
+        loadProcess.setTaskDefinitionClass(taskDefClass);
+        loadProcess.setProcessVersionsClass(processVersionsClass);
+        loadProcess.setPropertyElementClass(propertyElementClass);
+        loadProcess.setPropertyGroupsClass(propertyGroupsClass);
+        loadProcess.setRoutingDefinitionClass(routingDefinitionClass);
+        File xmlFile = new File(&quot;src/test/resources/test-resources/OneBad.acgwfd.xml&quot;);
+        
+        IProcessVersions results = loadProcess.loadFromFile(xmlFile);
+        assertEquals(results.getProcessVersions().size(),0);
+    }
+}
+--- NEW FILE: SimpleTest.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ * <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.anite.zebra.ext.xmlloader;
+
+import java.io.File;
+import java.util.Iterator;
+
+import junit.framework.TestCase;
+
+import com.anite.zebra.core.definitions.api.IRoutingDefinition;
+import com.anite.zebra.core.definitions.api.IRoutingDefinitions;
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+import com.anite.zebra.core.definitions.api.ITaskDefinitions;
+import com.anite.zebra.ext.definitions.api.IProperties;
+import com.anite.zebra.ext.definitions.api.IPropertyGroups;
+import com.anite.zebra.ext.definitions.impl.ProcessDefinition;
+import com.anite.zebra.ext.definitions.impl.ProcessVersions;
+import com.anite.zebra.ext.definitions.impl.TaskDefinition;
+
+/**
+ * @author Eric.pugh
+ */
+public class SimpleTest extends TestCase {
+    private Class processDefClass;
+
+    private Class taskDefClass;
+
+    private Class processVersionsClass;
+
+    private Class propertyElementClass;
+
+    private Class propertyGroupsClass;
+
+    private Class routingDefinitionClass;
+
+    public void setUp() throws Exception {
+        processDefClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.ProcessDefinition&quot;);
+        taskDefClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.TaskDefinition&quot;);
+        processVersionsClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.ProcessVersions&quot;);
+        propertyElementClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.PropertyElement&quot;);
+        propertyGroupsClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.PropertyGroups&quot;);
+        routingDefinitionClass = Class.forName(&quot;com.anite.zebra.ext.definitions.impl.RoutingDefinition&quot;);
+
+    }
+
+    public void testLoadingObjectsLoadedFromXML() throws Exception {
+        LoadFromFile lf = new LoadFromFile();
+        lf.setProcessDefinitionClass(processDefClass);
+        lf.setTaskDefinitionClass(taskDefClass);
+        lf.setProcessVersionsClass(processVersionsClass);
+        lf.setPropertyElementClass(propertyElementClass);
+        lf.setPropertyGroupsClass(propertyGroupsClass);
+        lf.setRoutingDefinitionClass(routingDefinitionClass);
+        lf.loadProcessDef(new File(&quot;src/test/resources/test-resources/testLoadingObjectsLoadedFromXML.acgwfd.xml&quot;)
+                .getAbsoluteFile());
+
+        assertEquals(&quot;Loaded &quot; + lf.getAllProcessVersions().size() + &quot; process versions&quot;, 1, lf.getAllProcessVersions()
+                .size());
+
+        assertEquals(1, lf.getAllProcessVersions().size());
+        Iterator it = lf.getAllProcessVersions().iterator();
+        ProcessVersions pv = (ProcessVersions) it.next();
+        ProcessDefinition apd = (ProcessDefinition) pv.getLatestProcessVersion();
+        assertEquals(1, apd.getVersion().longValue());
+        assertEquals(&quot;New Test1 Process&quot;, apd.getName());
+        assertNull(apd.getClassConstruct());
+        assertNull(apd.getClassDestruct());
+        IPropertyGroups propertyGroups = apd.getPropertyGroups();
+        assertNotNull(propertyGroups.getProperties(&quot;CTMS&quot;));
+        assertNotNull(propertyGroups.getProperties(&quot;FakeGroup&quot;));
+
+        IProperties ctmsProperties = propertyGroups.getProperties(&quot;CTMS&quot;);
+        String s = (String) ctmsProperties.get(&quot;Display Name&quot;);
+        assertEquals(&quot;Add Note&quot;, s);
+        assertSame(s, ctmsProperties.getString(&quot;Display Name&quot;));
+
+        ITaskDefinitions taskDefs = apd.getTaskDefs();
+
+        ITaskDefinition taskDef = taskDefs.getTaskDef(new Long(1));
+        assertNotNull(taskDef);
+        Long id = taskDef.getId();
+        assertEquals(1, id.longValue());
+        TaskDefinition atd = (TaskDefinition) taskDef;
+        IPropertyGroups atdPropertyGroups = atd.getPropertyGroups();
+        IProperties atdProperties = atdPropertyGroups.getProperties(&quot;Test1 Properties&quot;);
+        assertEquals(&quot;Test1 Properties&quot;, atdProperties.getName());
+        assertNull(atdProperties.getString(&quot;Another Property&quot;));
+        assertEquals(&quot;2&quot;, atdProperties.getString(&quot;Another Property2&quot;));
+
+        IRoutingDefinitions routingDefs = apd.getRoutingDefs();
+        Iterator i = routingDefs.iterator();
+        IRoutingDefinition routingDef = (IRoutingDefinition) i.next();
+        assertFalse(i.hasNext());
+        assertEquals(3, routingDef.getId().longValue());
+        assertEquals(1, routingDef.getOriginatingTaskDefinition().getId().longValue());
+        assertEquals(2, routingDef.getDestinationTaskDefinition().getId().longValue());
+
+    }
+}
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000176.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/com/anite/zebra/ext/xmlloader XMLLoadProcessTest.java,1.2,NONE SimpleTest.java,1.3,NONE
+</A></li>
+	<LI>Next message: <A HREF="000191.html">[Zebra-checkins] zebra/src/java/zebra-xmlloader/src/test/resources/test-resources/processes/simple simple.acgwfd.xml,NONE,1.1 prettyprinted.acgwfd.xml,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#189">[ date ]</a>
+              <a href="thread.html#189">[ thread ]</a>
+              <a href="subject.html#189">[ subject ]</a>
+              <a href="author.html#189">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

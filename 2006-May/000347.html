@@ -1,0 +1,333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.7,1.8
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2C1.7%2C1.8&In-Reply-To=%3C200605231452.k4NEqPT00870%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000346.html">
+   <LINK REL="Next"  HREF="000348.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.7,1.8</H1>
+    <B>mik3_jon3s</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory%20QuartzSchedulerFactory.java%2C1.7%2C1.8&In-Reply-To=%3C200605231452.k4NEqPT00870%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.7,1.8">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue May 23 16:52:25 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000346.html">[Zebra-checkins] src/java/hivedoc-maven-plugin pom.xml,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000348.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/.settings org.eclipse.wst.validation.prefs,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#347">[ date ]</a>
+              <a href="thread.html#347">[ thread ]</a>
+              <a href="subject.html#347">[ subject ]</a>
+              <a href="author.html#347">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory
+In directory sheep:/tmp/cvs-serv13594/src/main/java/org/apache/fulcrum/quartz/factory
+
+Modified Files:
+	QuartzSchedulerFactory.java 
+Log Message:
+format
+
+Index: QuartzSchedulerFactory.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory/QuartzSchedulerFactory.java,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** QuartzSchedulerFactory.java	22 May 2006 07:48:59 -0000	1.7
+--- QuartzSchedulerFactory.java	23 May 2006 14:57:04 -0000	1.8
+***************
+*** 36,166 ****
+  import org.quartz.impl.StdSchedulerFactory;
+  
+! public class QuartzSchedulerFactory implements ServiceImplementationFactory,
+! 		RegistryShutdownListener {
+  
+! 	private static final Log log = LogFactory
+! 			.getLog(QuartzSchedulerFactory.class);
+  
+! 	private static final String HIBERNATE_DRIVER_KEY = &quot;hibernate.connection.driver_class&quot;;
+  
+! 	private static final String HIBERNATE_PASSWORD_KEY = &quot;hibernate.connection.password&quot;;
+  
+! 	private static final String HIBERNATE_URL_KEY = &quot;hibernate.connection.url&quot;;
+  
+! 	private static final String HIBERNATE_USERNAME_KEY = &quot;hibernate.connection.username&quot;;
+  
+  
+! 	private static final String DEFAULT_MAX_CONNECTIONS = &quot;27&quot;;
+  
+! 	/*
+! 	 * This class only supports use of the following databases/drivers
+! 	 * to support a new db, create a new class to create the tables using
+! 	 * Postgres ones as an example and add the appropriate 
+! 	 * block into the createTables method.
+! 	 */
+! 	private static final String POSTGRESQL = &quot;org.postgresql.Driver&quot;;
+! 	
+! 	private Scheduler scheduler = null;
+  
+! 	private HibernateSessionFactory hibernateSessionFactory = null;
+  
+! 	public HibernateSessionFactory getHibernateSessionFactory() {
+! 		return hibernateSessionFactory;
+! 	}
+  
+! 	public void setHibernateSessionFactory(
+! 			HibernateSessionFactory hibernateSessionFactory) {
+! 		this.hibernateSessionFactory = hibernateSessionFactory;
+! 	}
+  
+! 	public Object createCoreServiceImplementation(
+! 			ServiceImplementationFactoryParameters arg0) {
+! 		try {
+! 			/*
+! 			 * check and see if we have scheduler tables in the DB.
+! 			 */
+! 			Properties hibernateProperties = hibernateSessionFactory
+! 					.getHibernateProperties();
+! 			String driver = hibernateProperties.getProperty(HIBERNATE_DRIVER_KEY);
+! 			log.debug(&quot;url:&quot; +hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+!             log.debug(&quot;username:&quot; +hibernateProperties.getProperty(HIBERNATE_USERNAME_KEY));
+!             log.debug(&quot;password:&quot; +hibernateProperties.getProperty(HIBERNATE_PASSWORD_KEY));
+! 			checkTables(driver);
+! 			Properties defaults = new Properties();
+! 			defaults.load(this.getClass().getResourceAsStream(
+! 					&quot;/quartz.properties&quot;));
+! 			defaults.put(&quot;org.quartz.dataSource.quartzDS.driver&quot;,
+! 					hibernateProperties.getProperty(HIBERNATE_DRIVER_KEY));
+! 			defaults.put(&quot;org.quartz.dataSource.quartzDS.URL&quot;,
+! 					hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+! 			defaults.put(&quot;org.quartz.dataSource.quartzDS.user&quot;,
+! 					hibernateProperties.getProperty(HIBERNATE_USERNAME_KEY));
+! 			defaults.put(&quot;org.quartz.dataSource.quartzDS.password&quot;,
+! 					hibernateProperties.getProperty(HIBERNATE_PASSWORD_KEY));
+! 			defaults.put(&quot;org.quartz.dataSource.quartzDS.maxConnections&quot;,
+! 					DEFAULT_MAX_CONNECTIONS);
+!             log.info(defaults.toString());
+! 			SchedulerFactory schedulerFactory = new StdSchedulerFactory(
+! 					defaults);
+! 			scheduler = schedulerFactory.getScheduler();
+! 			scheduler.start();
+! 		} catch (IOException ioe) {
+! 			throw new NestableRuntimeException(ioe);
+! 		} catch (SchedulerException se) {
+! 			throw new NestableRuntimeException(se);
+! 		} catch (SQLException sqle) {
+! 			log.error(&quot;SQLException caught:&quot;, sqle);
+! 			throw new NestableRuntimeException(sqle);
+! 		}
+! 		
+! 		return scheduler;
+! 	}
+  
+! 	public void registryDidShutdown() {
+! 		try {
+! 			scheduler.shutdown();
+! 			scheduler = null;
+! 		} catch (SchedulerException se) {
+! 			throw new NestableRuntimeException(se);
+! 		}
+  
+! 	}
+  
+- 	/**
+- 	 * method to check the JobStore to see if tables exist and if not create
+- 	 * them.
+- 	 */
+- 	private void checkTables(String driverClassName) throws SQLException {
+- 		Connection conn = hibernateSessionFactory
+- 				.getConnectionProviderDataSource().getConnection();
+- 		String query = &quot;select * from qrtz_job_details;&quot;;
+- 		try {
+- 			/*
+- 			 * we are not interested in the result just whether an
+- 			 * exception is thrown on a table not found
+- 			 */
+- 			Statement stmt = conn.createStatement();
+- 			stmt.execute(query);
+- 		} catch (SQLException sqle) {
+- 			/*
+- 			 * no table.
+- 			 */
+- 			createTables(conn, driverClassName);
+- 		}
+- 	}
+- 	
+- 	/**
+- 	 * creates the tables for the Quartz jobStore.
+- 	 */
+- 	private void createTables(Connection conn, String driver) throws SQLException
+- 	{
+- 		if (POSTGRESQL.equalsIgnoreCase(driver))
+- 		{
+- 			CreatePostgresTables tableCreator = new CreatePostgresTables();
+- 			tableCreator.createTables(conn);
+- 			return;
+- 		}
+- 		throw new RuntimeException(&quot;Driver not recognised as Postgres:&quot; + driver);
+- 	}
+- 	
+  }
+--- 36,156 ----
+  import org.quartz.impl.StdSchedulerFactory;
+  
+! public class QuartzSchedulerFactory implements ServiceImplementationFactory, RegistryShutdownListener {
+  
+!     private static final Log log = LogFactory.getLog(QuartzSchedulerFactory.class);
+  
+!     private static final String HIBERNATE_DRIVER_KEY = &quot;hibernate.connection.driver_class&quot;;
+  
+!     private static final String HIBERNATE_PASSWORD_KEY = &quot;hibernate.connection.password&quot;;
+  
+!     private static final String HIBERNATE_URL_KEY = &quot;hibernate.connection.url&quot;;
+  
+!     private static final String HIBERNATE_USERNAME_KEY = &quot;hibernate.connection.username&quot;;
+  
++     private static final String DEFAULT_MAX_CONNECTIONS = &quot;27&quot;;
+  
+!     /*
+!      * This class only supports use of the following databases/drivers
+!      * to support a new db, create a new class to create the tables using
+!      * Postgres ones as an example and add the appropriate 
+!      * block into the createTables method.
+!      */
+!     private static final String POSTGRESQL = &quot;org.postgresql.Driver&quot;;
+  
+!     private Scheduler scheduler = null;
+  
+!     private HibernateSessionFactory hibernateSessionFactory = null;
+  
+!     public HibernateSessionFactory getHibernateSessionFactory() {
+!         return hibernateSessionFactory;
+!     }
+  
+!     public void setHibernateSessionFactory(HibernateSessionFactory hibernateSessionFactory) {
+!         this.hibernateSessionFactory = hibernateSessionFactory;
+!     }
+  
+!     public Object createCoreServiceImplementation(ServiceImplementationFactoryParameters arg0) {
+  
+!         if (scheduler == null) {
+!             try {
+!                 /*
+!                  * check and see if we have scheduler tables in the DB.
+!                  */
+!                 Properties hibernateProperties = hibernateSessionFactory.getHibernateProperties();
+!                 String driver = hibernateProperties.getProperty(HIBERNATE_DRIVER_KEY);
+!                 log.debug(&quot;url:&quot; + hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+!                 log.debug(&quot;username:&quot; + hibernateProperties.getProperty(HIBERNATE_USERNAME_KEY));
+!                 log.debug(&quot;password:&quot; + hibernateProperties.getProperty(HIBERNATE_PASSWORD_KEY));
+!                 checkTables(driver);
+!                 Properties defaults = new Properties();
+!                 defaults.load(this.getClass().getResourceAsStream(&quot;/quartz.properties&quot;));
+!                 defaults.put(&quot;org.quartz.dataSource.quartzDS.driver&quot;, hibernateProperties
+!                         .getProperty(HIBERNATE_DRIVER_KEY));
+!                 defaults.put(&quot;org.quartz.dataSource.quartzDS.URL&quot;, hibernateProperties.getProperty(HIBERNATE_URL_KEY));
+!                 defaults.put(&quot;org.quartz.dataSource.quartzDS.user&quot;, hibernateProperties
+!                         .getProperty(HIBERNATE_USERNAME_KEY));
+!                 defaults.put(&quot;org.quartz.dataSource.quartzDS.password&quot;, hibernateProperties
+!                         .getProperty(HIBERNATE_PASSWORD_KEY));
+!                 defaults.put(&quot;org.quartz.dataSource.quartzDS.maxConnections&quot;, DEFAULT_MAX_CONNECTIONS);
+!                 log.info(defaults.toString());
+!                 SchedulerFactory schedulerFactory = new StdSchedulerFactory(defaults);
+!                 scheduler = schedulerFactory.getScheduler();
+!                 scheduler.start();
+!             } catch (IOException ioe) {
+!                 throw new NestableRuntimeException(ioe);
+!             } catch (SchedulerException se) {
+!                 throw new NestableRuntimeException(se);
+!             } catch (SQLException sqle) {
+!                 log.error(&quot;SQLException caught:&quot;, sqle);
+!                 throw new NestableRuntimeException(sqle);
+!             }
+!         }
+  
+!         return scheduler;
+!     }
+! 
+!     public void registryDidShutdown() {
+!         try {
+!             scheduler.shutdown();
+!             scheduler = null;
+!         } catch (SchedulerException se) {
+!             throw new NestableRuntimeException(se);
+!         }
+! 
+!     }
+! 
+!     /**
+!      * method to check the JobStore to see if tables exist and if not create
+!      * them.
+!      */
+!     private void checkTables(String driverClassName) throws SQLException {
+!         Connection conn = hibernateSessionFactory.getConnectionProviderDataSource().getConnection();
+!         String query = &quot;select * from qrtz_job_details;&quot;;
+!         try {
+!             /*
+!              * we are not interested in the result just whether an
+!              * exception is thrown on a table not found
+!              */
+!             Statement stmt = conn.createStatement();
+!             stmt.execute(query);
+!         } catch (SQLException sqle) {
+!             /*
+!              * no table.
+!              */
+!             createTables(conn, driverClassName);
+!         }
+!     }
+! 
+!     /**
+!      * creates the tables for the Quartz jobStore.
+!      */
+!     private void createTables(Connection conn, String driver) throws SQLException {
+!         if (POSTGRESQL.equalsIgnoreCase(driver)) {
+!             CreatePostgresTables tableCreator = new CreatePostgresTables();
+!             tableCreator.createTables(conn);
+!             return;
+!         }
+!         throw new RuntimeException(&quot;Driver not recognised as Postgres:&quot; + driver);
+!     }
+  
+  }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000346.html">[Zebra-checkins] src/java/hivedoc-maven-plugin pom.xml,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000348.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/.settings org.eclipse.wst.validation.prefs,1.1,1.2
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#347">[ date ]</a>
+              <a href="thread.html#347">[ thread ]</a>
+              <a href="subject.html#347">[ subject ]</a>
+              <a href="author.html#347">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

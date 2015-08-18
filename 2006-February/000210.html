@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.3,1.4
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.3%2C1.4&In-Reply-To=%3C200602131611.k1DGBIE14248%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000209.html">
+   <LINK REL="Next"  HREF="000211.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.3,1.4</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl%20ZebraStateFactoryTest.java%2C1.3%2C1.4&In-Reply-To=%3C200602131611.k1DGBIE14248%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl ZebraStateFactoryTest.java,1.3,1.4">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Mon Feb 13 17:11:18 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000209.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.8,1.9
+</A></li>
+        <LI>Next message: <A HREF="000211.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.18,1.19
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl
+In directory sheep:/tmp/cvs-serv30324/src/test/java/com/anite/zebra/hivemind/impl
+
+Modified Files:
+	ZebraStateFactoryTest.java 
+Log Message:
+Modified testLoadSaveObjects to run a dummy workflow.
+
+
+Index: ZebraStateFactoryTest.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/src/test/java/com/anite/zebra/hivemind/impl/ZebraStateFactoryTest.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** ZebraStateFactoryTest.java	4 Jan 2006 15:55:34 -0000	1.3
+--- ZebraStateFactoryTest.java	13 Feb 2006 16:11:16 -0000	1.4
+***************
+*** 76,81 ****
+  
+          ITransaction t = this.stateFactory.beginTransaction();
+!         IProcessInstance processInstance = this.stateFactory.createProcessInstance(processDefinition);
+! 
+          this.stateFactory.saveObject(processInstance);
+          t.commit();
+--- 76,83 ----
+  
+          ITransaction t = this.stateFactory.beginTransaction();
+!         ZebraProcessInstance processInstance = (ZebraProcessInstance) this.stateFactory.createProcessInstance(processDefinition);
+!         ZebraPropertySetEntry propSet = new ZebraPropertySetEntry();
+!         propSet.setValue(&quot;temp&quot;);
+!         processInstance.getPropertySet().put(&quot;One&quot;, propSet);
+          this.stateFactory.saveObject(processInstance);
+          t.commit();
+***************
+*** 85,89 ****
+          IFOE foe = this.stateFactory.createFOE(processInstance);
+          t = this.stateFactory.beginTransaction();
+!         ITaskInstance taskInstance = this.stateFactory.createTaskInstance(taskDefinition, processInstance, foe);
+          this.stateFactory.saveObject(processInstance);
+          this.stateFactory.saveObject(taskInstance);
+--- 87,95 ----
+          IFOE foe = this.stateFactory.createFOE(processInstance);
+          t = this.stateFactory.beginTransaction();
+!         ZebraTaskInstance taskInstance = (ZebraTaskInstance) this.stateFactory.createTaskInstance(taskDefinition, processInstance, foe);
+!         ZebraPropertySetEntry propSet2 = new ZebraPropertySetEntry();
+!         propSet2.setValue(&quot;temp&quot;);
+!         processInstance.getPropertySet().put(&quot;One&quot;, propSet2);
+!         
+          this.stateFactory.saveObject(processInstance);
+          this.stateFactory.saveObject(taskInstance);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000209.html">[Zebra-checkins] zebra/src/java/zebra-hivemind/src/main/java/com/anite/zebra/hivemind/om/state ZebraProcessInstance.java,1.8,1.9
+</A></li>
+	<LI>Next message: <A HREF="000211.html">[Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.18,1.19
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

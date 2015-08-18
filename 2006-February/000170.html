@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api IPropertyGroupsAware.java,NONE,1.1 IPropertyGroups.java,NONE,1.1 IProcessVersion.java,NONE,1.1 IProcessVersions.java,NONE,1.1 AbstractProcessDefinition.java,NONE,1.1 IProperties.java,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-February/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api%20IPropertyGroupsAware.java%2CNONE%2C1.1%20IPropertyGroups.java%2CNONE%2C1.1%20IProcessVersion.java%2CNONE%2C1.1%20IProcessVersions.java%2CNONE%2C1.1%20AbstractProcessDefinition.java%2CNONE%2C1.1%20IProperties.java%2CNONE%2C1.1&In-Reply-To=%3C200602071727.k17HRwE09246%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000162.html">
+   <LINK REL="Next"  HREF="000172.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api IPropertyGroupsAware.java,NONE,1.1 IPropertyGroups.java,NONE,1.1 IProcessVersion.java,NONE,1.1 IProcessVersions.java,NONE,1.1 AbstractProcessDefinition.java,NONE,1.1 IProperties.java,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api%20IPropertyGroupsAware.java%2CNONE%2C1.1%20IPropertyGroups.java%2CNONE%2C1.1%20IProcessVersion.java%2CNONE%2C1.1%20IProcessVersions.java%2CNONE%2C1.1%20AbstractProcessDefinition.java%2CNONE%2C1.1%20IProperties.java%2CNONE%2C1.1&In-Reply-To=%3C200602071727.k17HRwE09246%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api IPropertyGroupsAware.java,NONE,1.1 IPropertyGroups.java,NONE,1.1 IProcessVersion.java,NONE,1.1 IProcessVersions.java,NONE,1.1 AbstractProcessDefinition.java,NONE,1.1 IProperties.java,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Tue Feb  7 18:27:58 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000162.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/test/com/anite/zebra/ext/definitions/impl/hibernate RoutingDefinitionTest.java,1.2,NONE BaseTestCase.java,1.2,NONE ProcessVersionsTest.java,1.2,NONE PropertyGroupsTest.java,1.2,NONE ProcessDefinitionTest.java,1.3,NONE RoutingDefinitionsTest.java,1.2,NONE
+</A></li>
+        <LI>Next message: <A HREF="000172.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl TaskDefinition.java,NONE,1.1 PropertyGroups.java,NONE,1.1 RoutingDefinition.java,NONE,1.1 ProcessVersions.java,NONE,1.1 PropertyElement.java,NONE,1.1 RoutingDefinitions.java,NONE,1.1 ProcessDefinition.java,NONE,1.1 Properties.java,NONE,1.1 TaskDefinitions.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/api
+In directory sheep:/tmp/cvs-serv22272/src/main/java/com/anite/zebra/ext/definitions/api
+
+Added Files:
+	IPropertyGroupsAware.java IPropertyGroups.java 
+	IProcessVersion.java IProcessVersions.java 
+	AbstractProcessDefinition.java IProperties.java 
+Log Message:
+Migrated to Maven 2
+Removed depenecy on commons-convert
+
+--- NEW FILE: IPropertyGroupsAware.java ---
+/*
+ * Created on Aug 10, 2004
+ *
+ */
+package com.anite.zebra.ext.definitions.api;
+
+/**
+ * @author Eric Pugh
+ *
+ */
+public interface IPropertyGroupsAware {
+    public IPropertyGroups getPropertyGroups();
+    public void setPropertyGroups(IPropertyGroups propertyGroups);
+}
+
+--- NEW FILE: IPropertyGroups.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.api;
+
+
+/**
+ * @author matt
+ */
+public interface IPropertyGroups {
+	public IProperties getProperties(String name);
+}
+
+--- NEW FILE: IProcessVersion.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ * <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ * 
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package com.anite.zebra.ext.definitions.api;
+
+/**
+ * Simple process versioning api.
+ * @author Matthew.Norris
+ * @author michael.jones 
+ */
+public interface IProcessVersion {
+
+    /**
+     * Process Version Number
+     * 
+     * @return
+     */
+    public Long getVersion();
+
+    /**
+     * 
+     * @param version
+     */
+    public void setVersion(Long version);
+
+    /**
+     * 
+     * @return
+     */
+    public IProcessVersions getProcessVersions();
+
+    /**
+     * 
+     * @param iProcessVersions
+     */
+    public void setProcessVersions(IProcessVersions iProcessVersions);
+
+}
+--- NEW FILE: IProcessVersions.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.api;
+
+import java.util.Set;
+
+/**
+ * @author Eric.Pugh
+ */
+public interface IProcessVersions {
+
+    /**
+     * Returns a set of all the process definitions we have.
+     * @return A collection of IProcessDef objects.
+     */
+    public Set getProcessVersions();
+
+    /**
+     * add a process version, the implementation of this method shoudl maintain both ends of the
+     * relationship
+     * @param processVersion
+     */
+    public void addProcessVersion(IProcessVersion processVersion);
+
+    public IProcessVersion getLatestProcessVersion();
+
+    /**
+     * get the name
+     * @return
+     */
+    public String getName();
+
+    /**
+     * set the name
+     * @param name
+     */
+    public void setName(String name);
+
+}
+--- NEW FILE: AbstractProcessDefinition.java ---
+/*
+ * Created on 02-Dec-2005 
+ */
+package com.anite.zebra.ext.definitions.api;
+
+import java.util.Set;
+
+import com.anite.zebra.core.definitions.api.IProcessDefinition;
+import com.anite.zebra.core.definitions.api.ITaskDefinition;
+
+public abstract class AbstractProcessDefinition implements IProcessVersion, IProcessDefinition, IPropertyGroupsAware {
+
+    /**
+     * TODO: put this method in a correct interface
+     * 
+     * sets the constructor class name - this class is called after the
+     * process is initialised, but before the first task in the process is run.
+     * 
+     * should be null if there is no constructor for the process
+     * 
+     * @return
+     */
+    public abstract void setClassConstruct(String classConstruct);
+
+    /**
+     * 
+     * TODO: put this method in a correct interface
+     * 
+     * sets the destructor class name - this class is called after the last
+     * task in the process has completed, but before the process is marked as
+     * &quot;complete&quot;.
+     * 
+     * should be null if there is no destructor for the process
+     * 
+     * @return
+     */
+    public abstract void setClassDestruct(String classDestruct);
+
+    /**
+     * 
+     * TODO: put this method in a correct interface
+     * 
+     * sets the first task in the process (the one to start the process it
+     * with)
+     * 
+     * @return
+     */
+    public abstract void setFirstTask(ITaskDefinition taskDefinition);
+
+    /**
+     * TODO: put this method in a correct interface
+     * @return
+     */
+    public abstract Set getRoutingDefinitions();
+
+    /**
+     * TODO: put this method in a correct interface
+     * @return
+     */
+    public abstract Set getTaskDefinitions();
+
+}
+
+--- NEW FILE: IProperties.java ---
+/*
+ * Copyright 2004/2005 Anite - Enforcement &amp; Security
+ *    <A HREF="http://www.anite.com/publicsector">http://www.anite.com/publicsector</A>
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    <A HREF="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</A>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.anite.zebra.ext.definitions.api;
+
+import java.util.Iterator;
+
+
+
+/**
+ * @author matt
+ */
+public interface IProperties {
+	/**
+	 * @return Returns the name.
+	 */
+	public String getName();
+	public Object get(Object key);
+	public String getString(String key);
+	public Long getLongAsObj(String key);
+	public long getLong(String key);
+	public Integer getIntegerAsObj(String key);
+	public int getInteger(String key);
+	public Boolean getBooleanAsObj(String key);
+	public boolean getBoolean(String key);
+	public void put(String key, String value);
+	public boolean containsKey(String key);
+	public Iterator keys();
+}
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000162.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/test/com/anite/zebra/ext/definitions/impl/hibernate RoutingDefinitionTest.java,1.2,NONE BaseTestCase.java,1.2,NONE ProcessVersionsTest.java,1.2,NONE PropertyGroupsTest.java,1.2,NONE ProcessDefinitionTest.java,1.3,NONE RoutingDefinitionsTest.java,1.2,NONE
+</A></li>
+	<LI>Next message: <A HREF="000172.html">[Zebra-checkins] zebra/src/java/zebra-defs/src/main/java/com/anite/zebra/ext/definitions/impl TaskDefinition.java,NONE,1.1 PropertyGroups.java,NONE,1.1 RoutingDefinition.java,NONE,1.1 ProcessVersions.java,NONE,1.1 PropertyElement.java,NONE,1.1 RoutingDefinitions.java,NONE,1.1 ProcessDefinition.java,NONE,1.1 Properties.java,NONE,1.1 TaskDefinitions.java,NONE,1.1
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

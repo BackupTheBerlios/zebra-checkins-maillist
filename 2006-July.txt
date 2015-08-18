@@ -1,0 +1,3272 @@
+From nobody at sheep.berlios.de  Wed Jul  5 16:24:50 2006
+From: nobody at sheep.berlios.de (mik3_jon3s)
+Date: Wed, 5 Jul 2006 16:24:50 +0200
+Subject: [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.40,1.41
+Message-ID: <200607051424.k65EOo212723@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv22117
+
+Modified Files:
+	pom.xml 
+Log Message:
+bumped versions to deploy for bens fix
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.40
+retrieving revision 1.41
+diff -C2 -d -r1.40 -r1.41
+*** pom.xml	14 Jun 2006 08:50:23 -0000	1.40
+--- pom.xml	5 Jul 2006 14:24:48 -0000	1.41
+***************
+*** 6,10 ****
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.4</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+--- 6,10 ----
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.5</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 11:15:22 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 11:15:22 +0200 (CEST)
+Subject: [Zebra-checkins]
+	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util
+	UserSet.java, 1.2, 1.3 RoleSet.java, 1.2, 1.3 GroupSet.java,
+	1.2, 1.3 SecuritySet.java, 1.2, 1.3 PermissionSet.java, 1.2, 1.3
+Message-ID: <20060719091522.2C07F5AE2F@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util
+In directory sheep:/tmp/cvs-serv32558/src/main/java/org/apache/fulcrum/security/util
+
+Modified Files:
+	UserSet.java RoleSet.java GroupSet.java SecuritySet.java 
+	PermissionSet.java 
+Log Message:
+Set of fixed for bug 9944.
+
+The security sets were confusing hibernate and causing unecessary DB access.
+
+They have been simplified to resovle. This may introduce other performance hits but initial tests suggest this is better on average.
+
+Index: UserSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/UserSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** UserSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- UserSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.User;
+***************
+*** 51,58 ****
+       * @param users A collection of users to be contained in the set.
+       */
+!     public UserSet(Collection users)
+      {
+!         super();
+!         add(users);
+      }
+  
+--- 52,58 ----
+       * @param users A collection of users to be contained in the set.
+       */
+!     public UserSet(Set users)
+      {
+!     	this.wrappedSet = users;
+      }
+  
+***************
+*** 67,77 ****
+  	public boolean add(User user)
+      {
+!         if (contains(user)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(user.getId(), user);
+!             return true;
+!         }
+      }
+      
+--- 67,71 ----
+  	public boolean add(User user)
+      {
+!     	return wrappedSet.add(user);
+      }
+      
+***************
+*** 139,146 ****
+      public boolean remove(User user)
+      {
+!         boolean res = contains(user);
+!        // nameMap.remove(user.getName());
+!         idMap.remove(user.getId());
+!         return res;
+      }
+  
+--- 133,138 ----
+      public boolean remove(User user)
+      {
+!     	return wrappedSet.remove(user);
+!     	
+      }
+  
+***************
+*** 188,192 ****
+      {
+          return (userId != null) 
+!                 ? (User) idMap.get(userId) : null;
+      }
+  
+--- 180,184 ----
+      {
+          return (userId != null) 
+!                 ? (User) super.getById(userId) : null;
+      }
+  
+
+Index: RoleSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/RoleSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** RoleSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- RoleSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.Role;
+***************
+*** 55,62 ****
+       * @param roles A collection of roles to be contained in the set.
+       */
+!     public RoleSet(Collection roles)
+      {
+!         super();
+!         add(roles);
+      }
+  
+--- 56,62 ----
+       * @param roles A collection of roles to be contained in the set.
+       */
+!     public RoleSet(Set roles)
+      {
+!         this.wrappedSet = roles;
+      }
+  
+***************
+*** 71,81 ****
+  	public boolean add(Role role)
+      {
+!         if (contains(role)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(role.getId(), role);
+!             return true;
+!         }
+      }
+      
+--- 71,75 ----
+  	public boolean add(Role role)
+      {
+!     	return wrappedSet.add(role);
+      }
+      
+***************
+*** 143,150 ****
+      public boolean remove(Role role)
+      {
+!         boolean res = contains(role);
+!       //  nameMap.remove(role.getName());
+!         idMap.remove(role.getId());
+!         return res;
+      }
+  
+--- 137,141 ----
+      public boolean remove(Role role)
+      {
+!     	return wrappedSet.remove(role);
+      }
+  
+***************
+*** 172,179 ****
+      public Role getRoleByName(String roleName)
+      {
+! 		return (Role)getByName(roleName);
+! 		/*roleName=roleName.toLowerCase();
+!         return (StringUtils.isNotEmpty(roleName))
+!                 ? (Role) nameMap.get(roleName) : null;*/
+      }
+  
+--- 163,167 ----
+      public Role getRoleByName(String roleName)
+      {
+! 		return (Role)getByName(roleName);	
+      }
+  
+***************
+*** 189,193 ****
+      {
+          return (roleId != null) 
+!                 ? (Role) idMap.get(roleId) : null;
+      }
+  
+--- 177,181 ----
+      {
+          return (roleId != null) 
+!                 ? (Role) super.getById(roleId) : null;
+      }
+  
+
+Index: GroupSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/GroupSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** GroupSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- GroupSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 19,22 ****
+--- 19,23 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.Group;
+***************
+*** 24,31 ****
+  /**
+   * This class represents a set of Groups. It's useful for building
+!  * administration UI.  It enforces that only
+!  * Group objects are allowed in the set and only relevant methods
+!  * are available.
+!  *
+   * @author <a href="mailto:john.mcnally at clearink.com">John D. McNally</a>
+   * @author <a href="mailto:bmclaugh at algx.net">Brett McLaughlin</a>
+--- 25,31 ----
+  /**
+   * This class represents a set of Groups. It's useful for building
+!  * administration UI. It enforces that only Group objects are allowed in the set
+!  * and only relevant methods are available.
+!  * 
+   * @author <a href="mailto:john.mcnally at clearink.com">John D. McNally</a>
+   * @author <a href="mailto:bmclaugh at algx.net">Brett McLaughlin</a>
+***************
+*** 34,236 ****
+   * @version $Id$
+   */
+! public class GroupSet
+!         extends SecuritySet
+! {
+  	private static final long serialVersionUID = 6882240173053961011L;
+  
+  	/**
+!      * Constructs an empty GroupSet
+!      */
+!     public GroupSet()
+!     {
+!         super();
+!     }
+  
+!     /**
+!      * Constructs a new GroupSet with specified contents.
+!      *
+!      * If the given collection contains multiple objects that are
+!      * identical WRT equals() method, some objects will be overwritten.
+!      *
+!      * @param groups A collection of groups to be contained in the set.
+!      */
+!     public GroupSet(Collection groups)
+!     {
+!         super();
+!         add(groups);
+!     }
+  
+!     /**
+!      * Adds a Group to this GroupSet.
+!      *
+!      * @param group A Group.
+!      * @return True if Group was added; false if GroupSet
+!      * already contained the Group.
+!      */
+!     @SuppressWarnings("unchecked")
+! 	public boolean add(Group group)
+!     {
+!         if (contains(group)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(group.getId(), group);
+!             return true;
+!         }
+!     }
+!     
+!     /**
+!      * Adds a Group to this GroupSet.
+!      *
+!      * @param obj A Group.
+!      * @return True if Group was added; false if GroupSet already
+!      * contained the Group.
+!      */
+!     public boolean add(Object obj) {
+!         if(obj instanceof Group){
+!             return add((Group)obj);
+!         }
+!         else {
+!             throw new ClassCastException("Object passed to add to GroupSet is not of type Group");
+!         }
+!     }    
+! 		
+!     /**
+!      * Adds the Groups in a Collection to this GroupSet.
+!      *
+!      * @param groups A Collection of Groups.
+!      * @return True if this GroupSet changed as a result; false
+!      * if no change to this GroupSet occurred (this GroupSet
+!      * already contained all members of the added GroupSet).
+!      */
+!     public boolean add(Collection groups)
+!     {
+!         boolean res = false;
+!         for (Iterator it = groups.iterator(); it.hasNext();)
+!         {
+!             Group g = (Group) it.next();
+!             res |= add(g);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Adds the Groups in another GroupSet to this GroupSet.
+!      *
+!      * @param groupSet A GroupSet.
+!      * @return True if this GroupSet changed as a result; false
+!      * if no change to this GroupSet occurred (this GroupSet
+!      * already contained all members of the added GroupSet).
+!      */
+!     public boolean add(GroupSet groupSet)
+!     {
+!         boolean res = false;
+!         for( Iterator it = groupSet.iterator(); it.hasNext();)
+!         {
+!             Group g = (Group) it.next();
+!             res |= add(g);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Removes a Group from this GroupSet.
+!      *
+!      * @param group A Group.
+!      * @return True if this GroupSet contained the Group
+!      * before it was removed.
+!      */
+!     public boolean remove(Group group)
+!     {
+!         boolean res = contains(group);
+!         //nameMap.remove(group.getName());
+!         idMap.remove(group.getId());
+!         return res;
+!     }
+  
+!     /**
+!      * Checks whether this GroupSet contains a Group.
+!      *
+!      * @param group A Group.
+!      * @return True if this GroupSet contains the Group,
+!      * false otherwise.
+!      */
+!     public boolean contains(Group group)
+!     {
+!         return super.contains(group);
+!     }
+  
+  
+  
+!     /**
+!      * Returns a Group with the given name, if it is contained in
+!      * this GroupSet.
+!      *
+!      * @param groupName Name of Group.
+!      * @return Group if argument matched a Group in this
+!      * GroupSet; null if no match.
+!      */
+!     public Group getGroupByName(String groupName)
+!     {
+!     	/*groupName=groupName.toLowerCase();
+!         return (StringUtils.isNotEmpty(groupName))
+!                 ? (Group) nameMap.get(groupName) : null;
+!                 */
+! 		return (Group)getByName(groupName);
+!     }
+  
+!     /**
+!      * Returns a Group with the given id, if it is contained in
+!      * this GroupSet.
+!      *
+!      * @param groupId Id of the group
+!      * @return Group if argument matched a Group in this
+!      * GroupSet; null if no match.
+!      */
+!     public Group getGroupById(Object groupId)
+!     {
+!         return (groupId != null)
+!                 ? (Group) idMap.get(groupId) : null;
+!     }
+  
+!     /**
+!      * Returns an Array of Groups in this GroupSet.
+!      *
+!      * @return An Array of Group objects.
+!      */
+!     @SuppressWarnings("unchecked")
+! 	public Group[] getGroupsArray()
+!     {
+!         return (Group[]) getSet().toArray(new Group[0]);
+!     }
+  
+!     /**
+!      * Print out a GroupSet as a String
+!      *
+!      * @returns The Group Set as String
+!      *
+!      */
+!     public String toString()
+!     {
+!         StringBuffer sb = new StringBuffer();
+!         sb.append("GroupSet: ");
+  
+!         for(Iterator it = iterator(); it.hasNext();)
+!         {
+!             Group g = (Group) it.next();
+!             sb.append('[');
+!             sb.append(g.getName());
+!             sb.append(" -> ");
+!             sb.append(g.getId());
+!             sb.append(']');
+!             if (it.hasNext())
+!             {
+!                 sb.append(", ");
+!             }
+!         }
+  
+-         return sb.toString();
+-     }
+-     
+-   
+  }
+--- 34,207 ----
+   * @version $Id$
+   */
+! public class GroupSet extends SecuritySet {
+  	private static final long serialVersionUID = 6882240173053961011L;
+  
+  	/**
+! 	 * Constructs an empty GroupSet
+! 	 */
+! 	public GroupSet() {
+! 		super();
+! 	}
+  
+! 	/**
+! 	 * Constructs a new GroupSet with specified contents.
+! 	 * 
+! 	 * If the given collection contains multiple objects that are identical WRT
+! 	 * equals() method, some objects will be overwritten.
+! 	 * 
+! 	 * @param groups
+! 	 *            A collection of groups to be contained in the set.
+! 	 */
+! 	public GroupSet(Set groups) {
+! 		this.wrappedSet=groups;
+! 	}
+  
+! 	/**
+! 	 * Adds a Group to this GroupSet.
+! 	 * 
+! 	 * @param group
+! 	 *            A Group.
+! 	 * @return True if Group was added; false if GroupSet already contained the
+! 	 *         Group.
+! 	 */
+! 	@SuppressWarnings("unchecked")
+! 	public boolean add(Group group) {
+! 		return wrappedSet.add(group);
+  
+! 	}
+  
+! 	/**
+! 	 * Adds a Group to this GroupSet.
+! 	 * 
+! 	 * @param obj
+! 	 *            A Group.
+! 	 * @return True if Group was added; false if GroupSet already contained the
+! 	 *         Group.
+! 	 */
+! 	public boolean add(Object obj) {
+! 		if (obj instanceof Group) {
+! 			return add((Group) obj);
+! 		} else {
+! 			throw new ClassCastException(
+! 					"Object passed to add to GroupSet is not of type Group");
+! 		}
+! 	}
+  
+! 	/**
+! 	 * Adds the Groups in a Collection to this GroupSet.
+! 	 * 
+! 	 * @param groups
+! 	 *            A Collection of Groups.
+! 	 * @return True if this GroupSet changed as a result; false if no change to
+! 	 *         this GroupSet occurred (this GroupSet already contained all
+! 	 *         members of the added GroupSet).
+! 	 */
+! 	public boolean add(Collection groups) {
+! 		boolean res = false;
+! 		for (Iterator it = groups.iterator(); it.hasNext();) {
+! 			Group g = (Group) it.next();
+! 			res |= add(g);
+! 		}
+! 		return res;
+! 	}
+  
++ 	/**
++ 	 * Adds the Groups in another GroupSet to this GroupSet.
++ 	 * 
++ 	 * @param groupSet
++ 	 *            A GroupSet.
++ 	 * @return True if this GroupSet changed as a result; false if no change to
++ 	 *         this GroupSet occurred (this GroupSet already contained all
++ 	 *         members of the added GroupSet).
++ 	 */
++ 	public boolean add(GroupSet groupSet) {
++ 		boolean res = false;
++ 		for (Iterator it = groupSet.iterator(); it.hasNext();) {
++ 			Group g = (Group) it.next();
++ 			res |= add(g);
++ 		}
++ 		return res;
++ 	}
+  
++ 	/**
++ 	 * Removes a Group from this GroupSet.
++ 	 * 
++ 	 * @param group
++ 	 *            A Group.
++ 	 * @return True if this GroupSet contained the Group before it was removed.
++ 	 */
++ 	public boolean remove(Group group) {
++ 		return super.remove(group);
++ 	}
+  
+! 	/**
+! 	 * Checks whether this GroupSet contains a Group.
+! 	 * 
+! 	 * @param group
+! 	 *            A Group.
+! 	 * @return True if this GroupSet contains the Group, false otherwise.
+! 	 */
+! 	public boolean contains(Group group) {
+! 		return super.contains(group);
+! 	}
+  
+! 	/**
+! 	 * Returns a Group with the given name, if it is contained in this GroupSet.
+! 	 * 
+! 	 * @param groupName
+! 	 *            Name of Group.
+! 	 * @return Group if argument matched a Group in this GroupSet; null if no
+! 	 *         match.
+! 	 */
+! 	public Group getGroupByName(String groupName) {
+! 		return (Group) getByName(groupName);
+! 	}
+  
+! 	/**
+! 	 * Returns a Group with the given id, if it is contained in this GroupSet.
+! 	 * 
+! 	 * @param groupId
+! 	 *            Id of the group
+! 	 * @return Group if argument matched a Group in this GroupSet; null if no
+! 	 *         match.
+! 	 */
+! 	public Group getGroupById(Object groupId) {
+! 		return (Group) ((groupId != null) ? super.getById(groupId) : null);
+! 	}
+  
+! 	/**
+! 	 * Returns an Array of Groups in this GroupSet.
+! 	 * 
+! 	 * @return An Array of Group objects.
+! 	 */
+! 	@SuppressWarnings("unchecked")
+! 	public Group[] getGroupsArray() {
+! 		return (Group[]) getSet().toArray(new Group[0]);
+! 	}
+  
+! 	/**
+! 	 * Print out a GroupSet as a String
+! 	 * 
+! 	 * @returns The Group Set as String
+! 	 * 
+! 	 */
+! 	public String toString() {
+! 		StringBuffer sb = new StringBuffer();
+! 		sb.append("GroupSet: ");
+! 
+! 		for (Iterator it = iterator(); it.hasNext();) {
+! 			Group g = (Group) it.next();
+! 			sb.append('[');
+! 			sb.append(g.getName());
+! 			sb.append(" -> ");
+! 			sb.append(g.getId());
+! 			sb.append(']');
+! 			if (it.hasNext()) {
+! 				sb.append(", ");
+! 			}
+! 		}
+! 
+! 		return sb.toString();
+! 	}
+  
+  }
+
+Index: SecuritySet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/SecuritySet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** SecuritySet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- SecuritySet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 26,36 ****
+  import org.apache.commons.lang.StringUtils;
+  import org.apache.fulcrum.security.entity.SecurityEntity;
+  /**
+!  * This class represents a set of Security Entities. It makes it easy to build
+!  * a UI. It wraps a TreeSet object to enforce that only relevant methods are
+   * available. TreeSet's contain only unique Objects (no duplicates) based on the
+!  * ID.  They may or may not have a name, that depends on the implementation.
+!  * Want to get away frm requiring an ID and a name... Nothing should force 
+!  * Name to be unique in the basic architecture of Fulcrum Security.
+   * 
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+--- 26,40 ----
+  import org.apache.commons.lang.StringUtils;
+  import org.apache.fulcrum.security.entity.SecurityEntity;
++ 
+  /**
+!  * This class represents a set of Security Entities. It makes it easy to build a
+!  * UI. It wraps a TreeSet object to enforce that only relevant methods are
+   * available. TreeSet's contain only unique Objects (no duplicates) based on the
+!  * ID. They may or may not have a name, that depends on the implementation. Want
+!  * to get away frm requiring an ID and a name... Nothing should force Name to be
+!  * unique in the basic architecture of Fulcrum Security.
+!  * 
+!  * I have reimplemented this as a quick fix to the hibernate issues this causes.
+!  * This now wraps the set looking up everything at run time.
+   * 
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+***************
+*** 41,277 ****
+   * @version $Id$
+   */
+! public abstract class SecuritySet implements Serializable, Set
+! {
+!     /** Map for "name" -> "security object" */
+!   //  protected Map nameMap = null;
+!     /** Map for "id" -> "security object" */
+!     protected Map idMap = null;
+!     /**
+! 	 * Constructs an empty Set
+! 	 */
+!     public SecuritySet()
+!     {
+!         //nameMap = new TreeMap();
+!         idMap = new TreeMap();
+!     }
+!     
+!     /*
+! 	 * To enable the typesafe handling, make this abstract
+! 	 * and rely on the implementing classes like RoleSet to
+! 	 * properly cast the Object type.
+  	 * 
+  	 * @see java.util.Collection#add(java.lang.Object)
+  	 */
+!     public abstract boolean add(Object o);    
+!     /**
+  	 * Returns a set of security objects in this object.
+  	 * 
+  	 * @return A Set Object
+! 	 *  
+  	 */
+!     @SuppressWarnings("unchecked")
+! 	public Set getSet()
+!     {
+!         return new HashSet(idMap.values());
+!     }
+!     /**
+  	 * Returns a set of Names in this Object.
+  	 * 
+  	 * @return The Set of Names in this Object, backed by the actual data.
+  	 */
+!     @SuppressWarnings("unchecked")
+! 	public Set getNames()
+!     {
+!         Set names = new HashSet();
+!         for (Iterator i = getSet().iterator();i.hasNext();){
+!             SecurityEntity se = (SecurityEntity)i.next();
+!             names.add(se.getName());
+!         }
+!         return names;
+!         //return nameMap.keySet();
+!     }
+!     /**
+  	 * Returns a set of Id values in this Object.
+  	 * 
+  	 * @return The Set of Ids in this Object, backed by the actual data.
+  	 */
+!     public Set getIds()
+!     {
+!         return idMap.keySet();
+!     }
+!     /**
+  	 * Removes all Objects from this Set.
+  	 */
+!     public void clear()
+!     {
+!       //  nameMap.clear();
+!         idMap.clear();
+!     }
+!     /**
+  	 * Searches if an Object with a given name is in the Set
+  	 * 
+! 	 * @param roleName Name of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+!     public boolean containsName(String name)
+!     {        
+!         
+! 		return (StringUtils.isNotEmpty(name))
+! 				   ? getNames().contains(name.toLowerCase())
+! 				   : false;        
+!         /*
+!         return (StringUtils.isNotEmpty(name))
+!             ? nameMap.containsKey(name.toLowerCase())
+!             : false;
+!             */
+!     }
+!     /**
+  	 * Searches if an Object with a given Id is in the Set
+  	 * 
+! 	 * @param id Id of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+!     public boolean containsId(Object id)
+!     {
+!         return (id == null) ? false : idMap.containsKey(id);
+!     }
+!     /**
+  	 * Returns an Iterator for Objects in this Set.
+  	 * 
+  	 * @return An iterator for the Set
+  	 */
+!     public Iterator iterator()
+!     {
+!         return idMap.values().iterator();
+!     }
+!     /**
+  	 * Returns size (cardinality) of this set.
+  	 * 
+  	 * @return The cardinality of this Set.
+  	 */
+!     public int size()
+!     {
+!         return idMap.size();
+!     }
+!     /**
+  	 * list of role names in this set
+  	 * 
+  	 * @return The string representation of this Set.
+  	 */
+!     public String toString()
+!     {
+!         StringBuffer sbuf = new StringBuffer(12 * size());
+!         for (Iterator it = idMap.keySet().iterator(); it.hasNext();)
+!         {
+!             sbuf.append((String) it.next());
+!             if (it.hasNext())
+!             {
+!                 sbuf.append(", ");
+!             }
+!         }
+!         return sbuf.toString();
+!     }
+!     // methods from Set
+!     public boolean addAll(Collection collection)
+!     {
+!         return add((Collection) collection);
+!     }
+!     public boolean isEmpty()
+!     {
+!         return idMap.isEmpty();
+!     }
+!     public boolean containsAll(Collection collection)
+!     {
+!         for (Iterator i = collection.iterator(); i.hasNext();)
+!         {
+!             Object object = i.next();
+!             if (!contains(object))
+!             {
+!                 return false;
+!             }
+!         }
+!         return true;
+!     }
+!     public boolean removeAll(Collection collection)
+!     {
+!         boolean changed = false;
+!         for (Iterator i = collection.iterator(); i.hasNext();)
+!         {
+!             Object object = i.next();
+!             boolean result = remove(object);
+!             if (result)
+!             {
+!                 changed = true;
+!             }
+!         }
+!         return changed;
+!     }
+!     public boolean retainAll(Collection collection)
+!     {
+!         throw new RuntimeException("not implemented");
+!     }
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray()
+  	 */
+!     public Object[] toArray()
+!     {
+!         return getSet().toArray();
+!     }
+!     
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#contains(java.lang.Object)
+  	 */
+!     public boolean contains(Object o)
+!     {
+!         if (o == null)
+!         {
+!             return false;
+!         }
+!         else
+!         {
+!             return containsName(((SecurityEntity) o).getName());
+!         }
+!     }
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#remove(java.lang.Object)
+  	 */
+!     public boolean remove(Object o)
+!     {
+!         SecurityEntity se = (SecurityEntity)o;
+! 		boolean res = contains(se);
+! 		idMap.remove(se.getId());
+! 		return res;
+!     }
+!     /*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray(java.lang.Object[])
+  	 */
+!     @SuppressWarnings("unchecked")
+! 	public Object[] toArray(Object[] a)
+!     {
+!         return getSet().toArray(a);
+!     }
+!     
+!     public SecurityEntity getByName(String name){
+!         SecurityEntity securityEntity = null;
+!         for (Iterator i = getSet().iterator();i.hasNext();){
+!             SecurityEntity se = (SecurityEntity)i.next();
+!             if(se.getName().equalsIgnoreCase(name)){
+!                 securityEntity = se;
+!                 break;
+!             }
+!         }
+!         return securityEntity;
+!     
+!     
+!     }
+  }
+--- 45,253 ----
+   * @version $Id$
+   */
+! public abstract class SecuritySet implements Serializable, Set {
+! 	protected Set wrappedSet;
+! 
+! 	/*
+! 	 * To enable the typesafe handling, make this abstract and rely on the
+! 	 * implementing classes like RoleSet to properly cast the Object type.
+  	 * 
+  	 * @see java.util.Collection#add(java.lang.Object)
+  	 */
+! 	public abstract boolean add(Object o);
+! 
+! 	
+! 	public SecuritySet(){
+! 		this.wrappedSet = new HashSet();
+! 	}
+! 	
+! 	/**
+  	 * Returns a set of security objects in this object.
+  	 * 
+  	 * @return A Set Object
+! 	 * 
+  	 */
+! 	@SuppressWarnings("unchecked")
+! 	public Set getSet() {
+! 		return wrappedSet;
+! 	}
+! 
+! 	/**
+  	 * Returns a set of Names in this Object.
+  	 * 
+  	 * @return The Set of Names in this Object, backed by the actual data.
+  	 */
+! 	@SuppressWarnings("unchecked")
+! 	public Set getNames() {
+! 		Set names = new HashSet();
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			names.add(se.getName());
+! 		}
+! 		return names;
+! 	}
+! 
+! 	/**
+  	 * Returns a set of Id values in this Object.
+  	 * 
+  	 * @return The Set of Ids in this Object, backed by the actual data.
+  	 */
+! 	@SuppressWarnings("unchecked")
+! 	public Set getIds() {
+! 		Set ids = new HashSet();
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			ids.add(se.getId());
+! 		}
+! 		return ids;
+! 	}
+! 
+! 	/**
+  	 * Removes all Objects from this Set.
+  	 */
+! 	public void clear() {
+! 		wrappedSet.clear();
+! 	}
+! 
+! 	/**
+  	 * Searches if an Object with a given name is in the Set
+  	 * 
+! 	 * @param roleName
+! 	 *            Name of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+! 	public boolean containsName(String name) {
+! 
+! 		return (StringUtils.isNotEmpty(name)) ? getNames().contains(
+! 				name.toLowerCase()) : false;
+! 
+! 	}
+! 
+! 	/**
+  	 * Searches if an Object with a given Id is in the Set
+  	 * 
+! 	 * @param id
+! 	 *            Id of the Security Object.
+  	 * @return True if argument matched an Object in this Set; false if no
+  	 *         match.
+  	 */
+! 	public boolean containsId(Object id) {
+! 		return (id == null) ? false : getIds().contains(id);
+! 	}
+! 
+! 	/**
+  	 * Returns an Iterator for Objects in this Set.
+  	 * 
+  	 * @return An iterator for the Set
+  	 */
+! 	public Iterator iterator() {
+! 		return wrappedSet.iterator();
+! 	}
+! 
+! 	/**
+  	 * Returns size (cardinality) of this set.
+  	 * 
+  	 * @return The cardinality of this Set.
+  	 */
+! 	public int size() {
+! 		return wrappedSet.size();
+! 	}
+! 
+! 	/**
+  	 * list of role names in this set
+  	 * 
+  	 * @return The string representation of this Set.
+  	 */
+! 	public String toString() {
+! 
+! 		return wrappedSet.toString();
+! 	}
+! 
+! 	// methods from Set
+! 	public boolean addAll(Collection collection) {
+! 		return add((Collection) collection);
+! 	}
+! 
+! 	public boolean isEmpty() {
+! 		return wrappedSet.isEmpty();
+! 	}
+! 
+! 	public boolean containsAll(Collection collection) {
+! 
+! 		return wrappedSet.containsAll(collection);
+! 	}
+! 
+! 	public boolean removeAll(Collection collection) {
+! 		return wrappedSet.removeAll(collection);
+! 	}
+! 
+! 	public boolean retainAll(Collection collection) {
+! 		return wrappedSet.retainAll(collection);
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray()
+  	 */
+! 	public Object[] toArray() {
+! 		return wrappedSet.toArray();
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#contains(java.lang.Object)
+  	 */
+! 	public boolean contains(Object o) {
+! 		if (o == null) {
+! 			return false;
+! 		} else {
+! 			return containsName(((SecurityEntity) o).getName());
+! 		}
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#remove(java.lang.Object)
+  	 */
+! 	public boolean remove(Object o) {
+! 		return wrappedSet.remove(o);
+! 	}
+! 
+! 	/*
+  	 * (non-Javadoc)
+  	 * 
+  	 * @see java.util.Collection#toArray(java.lang.Object[])
+  	 */
+! 	@SuppressWarnings("unchecked")
+! 	public Object[] toArray(Object[] a) {
+! 		return wrappedSet.toArray(a);
+! 	}
+! 
+! 	public SecurityEntity getByName(String name) {
+! 		SecurityEntity securityEntity = null;
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			if (se.getName().equalsIgnoreCase(name)) {
+! 				securityEntity = se;
+! 				break;
+! 			}
+! 		}
+! 		return securityEntity;
+! 
+! 	}
+! 
+! 	public SecurityEntity getById(Object id) {
+! 		SecurityEntity securityEntity = null;
+! 		for (Iterator i = getSet().iterator(); i.hasNext();) {
+! 			SecurityEntity se = (SecurityEntity) i.next();
+! 			if (se.getId().equals(id)) {
+! 				securityEntity = se;
+! 				break;
+! 			}
+! 		}
+! 		return securityEntity;
+! 	}
+  }
+
+Index: PermissionSet.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/util/PermissionSet.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** PermissionSet.java	18 Mar 2006 16:19:36 -0000	1.2
+--- PermissionSet.java	19 Jul 2006 09:15:16 -0000	1.3
+***************
+*** 18,31 ****
+  import java.util.Collection;
+  import java.util.Iterator;
+  
+  import org.apache.fulcrum.security.entity.Permission;
+  
+  /**
+!  * This class represents a set of Permissions.  It makes it easy to
+!  * build a UI that would allow someone to add a group of Permissions
+!  * to a Role.  It enforces that only
+!  * Permission objects are allowed in the set and only relevant methods
+   * are available.
+!  *
+   * @author <a href="mailto:john.mcnally at clearink.com">John D. McNally</a>
+   * @author <a href="mailto:bmclaugh at algx.net">Brett McLaughlin</a>
+--- 18,31 ----
+  import java.util.Collection;
+  import java.util.Iterator;
++ import java.util.Set;
+  
+  import org.apache.fulcrum.security.entity.Permission;
+  
+  /**
+!  * This class represents a set of Permissions. It makes it easy to build a UI
+!  * that would allow someone to add a group of Permissions to a Role. It enforces
+!  * that only Permission objects are allowed in the set and only relevant methods
+   * are available.
+!  * 
+   * @author <a href="mailto:john.mcnally at clearink.com">John D. McNally</a>
+   * @author <a href="mailto:bmclaugh at algx.net">Brett McLaughlin</a>
+***************
+*** 34,234 ****
+   * @version $Id$
+   */
+! public class PermissionSet
+!     extends SecuritySet
+! {
+  	private static final long serialVersionUID = 4532868341893924965L;
+  
+  	/**
+!      * Constructs an empty PermissionSet
+!      */
+!     public PermissionSet()
+!     {
+!         super();
+!     }
+! 
+!     /**
+!      * Constructs a new PermissionSet with specified contents.
+!      *
+!      * If the given collection contains multiple objects that are
+!      * identical WRT equals() method, some objects will be overwritten.
+!      *
+!      * @param permissions A collection of permissions to be contained in the set.
+!      */
+!     public PermissionSet(Collection permissions)
+!     {
+!         super();
+!         add(permissions);
+!     }
+  
+!     /**
+!      * Adds a Permission to this PermissionSet.
+!      *
+!      * @param permission A Permission.
+!      * @return True if Permission was added; false if PermissionSet
+!      * already contained the Permission.
+!      */
+!     @SuppressWarnings("unchecked")
+! 	public boolean add(Permission permission)
+!     {
+!         if (contains(permission)){
+!             return false;            
+!         }
+!         else {
+!             idMap.put(permission.getId(), permission);
+!             return true;
+!         }
+!     }
+!     
+!     /**
+!      * Adds a Permission to this PermissionSet.
+!      *
+!      * @param obj A Permission.
+!      * @return True if Permission was added; false if PermissionSet already
+!      * contained the Permission.
+!      */
+!     public boolean add(Object obj) {
+!         if(obj instanceof Permission){
+!             return add((Permission)obj);
+!         }
+!         else {
+!             throw new ClassCastException("Object passed to add to PermissionSet is not of type Permission");
+!         }
+!     }      
+  
+!     /**
+!      * Adds the Permissions in a Collection to this PermissionSet.
+!      *
+!      * @param permissions A Collection of Permissions.
+!      * @return True if this PermissionSet changed as a result; false
+!      * if no change to this PermissionSet occurred (this PermissionSet
+!      * already contained all members of the added PermissionSet).
+!      */
+!     public boolean add(Collection permissions)
+!     {
+!         boolean res = false;
+!         for (Iterator it = permissions.iterator(); it.hasNext();)
+!         {
+!             Permission p = (Permission) it.next();
+!             res |= add(p);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Adds the Permissions in another PermissionSet to this
+!      * PermissionSet.
+!      *
+!      * @param permissionSet A PermissionSet.
+!      * @return True if this PermissionSet changed as a result; false
+!      * if no change to this PermissionSet occurred (this PermissionSet
+!      * already contained all members of the added PermissionSet).
+!      */
+!     public boolean add(PermissionSet permissionSet)
+!     {
+!         boolean res = false;
+!         for( Iterator it = permissionSet.iterator(); it.hasNext();)
+!         {
+!             Permission p = (Permission) it.next();
+!             res |= add(p);
+!         }
+!         return res;
+!     }
+  
+!     /**
+!      * Removes a Permission from this PermissionSet.
+!      *
+!      * @param permission A Permission.
+!      * @return True if this PermissionSet contained the Permission
+!      * before it was removed.
+!      */
+!     public boolean remove(Permission permission)
+!     {
+!         boolean res = contains(permission);
+!         //nameMap.remove(permission.getName());
+!         idMap.remove(permission.getId());
+!         return res;
+!     }
+  
+!     /**
+!      * Checks whether this PermissionSet contains a Permission.
+!      *
+!      * @param permission A Permission.
+!      * @return True if this PermissionSet contains the Permission,
+!      * false otherwise.
+!      */
+!     public boolean contains(Permission permission)
+!     {
+! 		return super.contains(permission);
+!     }
+  
+  
+  
+!     /**
+!      * Returns a Permission with the given name, if it is contained in
+!      * this PermissionSet.
+!      *
+!      * @param permissionName Name of Permission.
+!      * @return Permission if argument matched a Permission in this
+!      * PermissionSet; null if no match.
+!      */
+!     public Permission getPermissionByName(String permissionName)
+!     {
+! 		return (Permission)getByName(permissionName);
+! 		//permissionName=permissionName.toLowerCase();
+!         //return (StringUtils.isNotEmpty(permissionName))
+!          //       ? (Permission) nameMap.get(permissionName) : null;
+!     }
+  
+!     /**
+!      * Returns a Permission with the given id, if it is contained in
+!      * this PermissionSet.
+!      *
+!      * @param permissionId Id of the Permission.
+!      * @return Permission if argument matched a Permission in this
+!      * PermissionSet; null if no match.
+!      */
+!     public Permission getPermissionById(Object permissionId)
+!     {
+!         return (permissionId != null) 
+!                 ? (Permission) idMap.get(permissionId) : null;
+!     }
+  
+!     /**
+!      * Returns an Array of Permissions in this PermissionSet.
+!      *
+!      * @return An Array of Permission Objects.
+!      */
+!     @SuppressWarnings("unchecked")
+! 	public Permission[] getPermissionsArray()
+!     {
+!         return (Permission[]) getSet().toArray(new Permission[0]);
+!     }
+  
+!     /**
+!      * Print out a PermissionSet as a String
+!      *
+!      * @returns The Permission Set as String
+!      *
+!      */
+!     public String toString()
+!     {
+!         StringBuffer sb = new StringBuffer();
+!         sb.append("PermissionSet: ");
+  
+!         for(Iterator it = iterator(); it.hasNext();)
+!         {
+!             Permission p = (Permission) it.next();
+!             sb.append('[');
+!             sb.append(p.getName());
+!             sb.append(" -> ");
+!             sb.append(p.getId());
+!             sb.append(']');
+!             if (it.hasNext())
+!             {
+!                 sb.append(", ");
+!             }
+!         }
+  
+!         return sb.toString();
+!     }
+  }
+--- 34,213 ----
+   * @version $Id$
+   */
+! public class PermissionSet extends SecuritySet {
+  	private static final long serialVersionUID = 4532868341893924965L;
+  
+  	/**
+! 	 * Constructs an empty PermissionSet
+! 	 */
+! 	public PermissionSet() {
+! 		super();
+! 	}
+  
+! 	/**
+! 	 * Constructs a new PermissionSet with specified contents.
+! 	 * 
+! 	 * If the given collection contains multiple objects that are identical WRT
+! 	 * equals() method, some objects will be overwritten.
+! 	 * 
+! 	 * @param permissions
+! 	 *            A collection of permissions to be contained in the set.
+! 	 */
+! 	public PermissionSet(Set permissions) {
+! 		this.wrappedSet = permissions;
+! 	}
+  
+! 	/**
+! 	 * Adds a Permission to this PermissionSet.
+! 	 * 
+! 	 * @param permission
+! 	 *            A Permission.
+! 	 * @return True if Permission was added; false if PermissionSet already
+! 	 *         contained the Permission.
+! 	 */
+! 	@SuppressWarnings("unchecked")
+! 	public boolean add(Permission permission) {
+! 		return wrappedSet.add(permission);
+! 	}
+  
+! 	/**
+! 	 * Adds a Permission to this PermissionSet.
+! 	 * 
+! 	 * @param obj
+! 	 *            A Permission.
+! 	 * @return True if Permission was added; false if PermissionSet already
+! 	 *         contained the Permission.
+! 	 */
+! 	public boolean add(Object obj) {
+! 		if (obj instanceof Permission) {
+! 			return add((Permission) obj);
+! 		} else {
+! 			throw new ClassCastException(
+! 					"Object passed to add to PermissionSet is not of type Permission");
+! 		}
+! 	}
+  
+! 	/**
+! 	 * Adds the Permissions in a Collection to this PermissionSet.
+! 	 * 
+! 	 * @param permissions
+! 	 *            A Collection of Permissions.
+! 	 * @return True if this PermissionSet changed as a result; false if no
+! 	 *         change to this PermissionSet occurred (this PermissionSet already
+! 	 *         contained all members of the added PermissionSet).
+! 	 */
+! 	public boolean add(Collection permissions) {
+! 		boolean res = false;
+! 		for (Iterator it = permissions.iterator(); it.hasNext();) {
+! 			Permission p = (Permission) it.next();
+! 			res |= add(p);
+! 		}
+! 		return res;
+! 	}
+  
+! 	/**
+! 	 * Adds the Permissions in another PermissionSet to this PermissionSet.
+! 	 * 
+! 	 * @param permissionSet
+! 	 *            A PermissionSet.
+! 	 * @return True if this PermissionSet changed as a result; false if no
+! 	 *         change to this PermissionSet occurred (this PermissionSet already
+! 	 *         contained all members of the added PermissionSet).
+! 	 */
+! 	public boolean add(PermissionSet permissionSet) {
+! 		boolean res = false;
+! 		for (Iterator it = permissionSet.iterator(); it.hasNext();) {
+! 			Permission p = (Permission) it.next();
+! 			res |= add(p);
+! 		}
+! 		return res;
+! 	}
+  
++ 	/**
++ 	 * Removes a Permission from this PermissionSet.
++ 	 * 
++ 	 * @param permission
++ 	 *            A Permission.
++ 	 * @return True if this PermissionSet contained the Permission before it was
++ 	 *         removed.
++ 	 */
++ 	public boolean remove(Permission permission) {
++ 		return wrappedSet.remove(permission);
++ 	}
+  
++ 	/**
++ 	 * Checks whether this PermissionSet contains a Permission.
++ 	 * 
++ 	 * @param permission
++ 	 *            A Permission.
++ 	 * @return True if this PermissionSet contains the Permission, false
++ 	 *         otherwise.
++ 	 */
++ 	public boolean contains(Permission permission) {
++ 		return super.contains(permission);
++ 	}
+  
+! 	/**
+! 	 * Returns a Permission with the given name, if it is contained in this
+! 	 * PermissionSet.
+! 	 * 
+! 	 * @param permissionName
+! 	 *            Name of Permission.
+! 	 * @return Permission if argument matched a Permission in this
+! 	 *         PermissionSet; null if no match.
+! 	 */
+! 	public Permission getPermissionByName(String permissionName) {
+! 		return (Permission) getByName(permissionName);
+! 		// permissionName=permissionName.toLowerCase();
+! 		// return (StringUtils.isNotEmpty(permissionName))
+! 		// ? (Permission) nameMap.get(permissionName) : null;
+! 	}
+  
+! 	/**
+! 	 * Returns a Permission with the given id, if it is contained in this
+! 	 * PermissionSet.
+! 	 * 
+! 	 * @param permissionId
+! 	 *            Id of the Permission.
+! 	 * @return Permission if argument matched a Permission in this
+! 	 *         PermissionSet; null if no match.
+! 	 */
+! 	public Permission getPermissionById(Object permissionId) {
+! 		return (permissionId != null) ? (Permission) super
+! 				.getById(permissionId) : null;
+! 	}
+  
+! 	/**
+! 	 * Returns an Array of Permissions in this PermissionSet.
+! 	 * 
+! 	 * @return An Array of Permission Objects.
+! 	 */
+! 	@SuppressWarnings("unchecked")
+! 	public Permission[] getPermissionsArray() {
+! 		return (Permission[]) getSet().toArray(new Permission[0]);
+! 	}
+  
+! 	/**
+! 	 * Print out a PermissionSet as a String
+! 	 * 
+! 	 * @returns The Permission Set as String
+! 	 * 
+! 	 */
+! 	public String toString() {
+! 		StringBuffer sb = new StringBuffer();
+! 		sb.append("PermissionSet: ");
+  
+! 		for (Iterator it = iterator(); it.hasNext();) {
+! 			Permission p = (Permission) it.next();
+! 			sb.append('[');
+! 			sb.append(p.getName());
+! 			sb.append(" -> ");
+! 			sb.append(p.getId());
+! 			sb.append(']');
+! 			if (it.hasNext()) {
+! 				sb.append(", ");
+! 			}
+! 		}
+  
+! 		return sb.toString();
+! 	}
+  }
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 11:15:22 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 11:15:22 +0200 (CEST)
+Subject: [Zebra-checkins]
+	zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+	DynamicRole.java, 1.2, 1.3 DynamicUser.java, 1.4,
+	1.5 DynamicGroup.java, 1.2, 1.3 DynamicPermission.java, 1.2, 1.3
+Message-ID: <20060719091522.682405AFE8@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+In directory sheep:/tmp/cvs-serv32558/src/main/java/org/apache/fulcrum/security/model/dynamic/entity
+
+Modified Files:
+	DynamicRole.java DynamicUser.java DynamicGroup.java 
+	DynamicPermission.java 
+Log Message:
+Set of fixed for bug 9944.
+
+The security sets were confusing hibernate and causing unecessary DB access.
+
+They have been simplified to resovle. This may introduce other performance hits but initial tests suggest this is better on average.
+
+Index: DynamicRole.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicRole.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DynamicRole.java	18 Mar 2006 16:19:36 -0000	1.2
+--- DynamicRole.java	19 Jul 2006 09:15:17 -0000	1.3
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.model.dynamic.entity;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 26,140 ****
+  
+  /**
+!  * Represents the "simple" model where permissions are related to roles,
+!  * roles are related to groups and groups are related to users,
+!  * all in many to many relationships.
+!  *
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+   * @version $Id$
+   */
+! public class DynamicRole extends SecurityEntityImpl implements Role
+! {
+!     private Set permissionSet = new PermissionSet();
+  
+!     private Set groupSet = new GroupSet();
+!     /**
+!      * @return
+!      */
+!     public PermissionSet getPermissions()
+!     {
+!     	if( permissionSet instanceof PermissionSet )
+!     		return (PermissionSet) permissionSet;
+!     	else {
+!     		permissionSet = new PermissionSet(permissionSet);
+!     		return (PermissionSet)permissionSet;
+!     	}
+!     }
+!     /**
+!      * @return
+!      */
+!     public Set getPermissionsAsSet()
+!     {
+!         return permissionSet;
+!     }
+  
+!     public void setPermissionsAsSet(Set permissions)
+!     {
+!         this.permissionSet = permissions;;
+!     }
+!     /**
+!      * @param permissionSet
+!      */
+!     public void setPermissions(PermissionSet permissionSet)
+!     {
+!     	if( permissionSet != null )
+!     		this.permissionSet = permissionSet;
+!     	else
+!     		this.permissionSet = new PermissionSet();
+!     }
+  
+!     /**
+!     * This method should only be used by a RoleManager.  Not directly.
+!     * @param permission
+!     */
+!     public void addPermission(Permission permission)
+!     {
+!         getPermissions().add(permission);
+!     }
+!     /**
+!      * This method should only be used by a RoleManager.  Not directly.
+!      * @param permission
+!      */
+!     public void removePermission(Permission permission)
+!     {
+!         getPermissions().remove(permission);
+!     }
+  
+!     /**
+!     	* @return
+!     	*/
+!     public GroupSet getGroups()
+!     {
+!     	if( groupSet instanceof GroupSet )
+!     		return (GroupSet) groupSet;
+!     	else {
+!     		groupSet = new GroupSet(groupSet);
+!     		return (GroupSet)groupSet;
+!     	}
+!     }
+!     /**
+!     	* @param groupSet
+!     	*/
+!     public void setGroups(GroupSet groupSet)
+!     {
+!     	if( groupSet != null )
+!     		this.groupSet = groupSet;
+!     	else
+!     		this.groupSet = new GroupSet();
+!     }
+  
+!     /**
+!     * This method should only be used by a RoleManager.  Not directly.
+!     * @param group
+!     */
+!     public void addGroup(Group group)
+!     {
+!         getGroups().add(group);
+!     }
+!     /**
+! 	* This method should only be used by a RoleManager.  Not directly.
+! 	* @param group
+! 	*/
+!     public void removeGroup(Group group)
+!     {
+!         getGroups().remove(group);
+!     }
+  
+!     public void setGroupsAsSet(Set groups)
+!     {
+!         this.groupSet = groups;
+!     }
+!     public Set getGroupsAsSet()
+!     {
+!         return groupSet;
+!     }
+  }
+--- 27,134 ----
+  
+  /**
+!  * Represents the "simple" model where permissions are related to roles, roles
+!  * are related to groups and groups are related to users, all in many to many
+!  * relationships.
+!  * 
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+   * @version $Id$
+   */
+! public class DynamicRole extends SecurityEntityImpl implements Role {
+! 	private Set permissionSet = new PermissionSet();
+  
+! 	private Set groupSet = new GroupSet();
+  
+! 	/**
+! 	 * @return
+! 	 */
+! 	public PermissionSet getPermissions() {
+  
+! 		return new PermissionSet(permissionSet);
+  
+! 	}
+  
+! 	/**
+! 	 * @return
+! 	 */
+! 	public Set getPermissionsAsSet() {
+! 		return permissionSet;
+! 	}
+  
+! 	public void setPermissionsAsSet(Set permissions) {
+! 		this.permissionSet = permissions;
+! 		;
+! 	}
+! 
+! 	/**
+! 	 * @param permissionSet
+! 	 */
+! 	public void setPermissions(PermissionSet permissionSet) {
+! 		if (permissionSet != null)
+! 			this.permissionSet = permissionSet;
+! 		else
+! 			this.permissionSet = new PermissionSet();
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param permission
+! 	 */
+! 	public void addPermission(Permission permission) {
+! 		getPermissions().add(permission);
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param permission
+! 	 */
+! 	public void removePermission(Permission permission) {
+! 		getPermissions().remove(permission);
+! 	}
+! 
+! 	/**
+! 	 * @return
+! 	 */
+! 	public GroupSet getGroups() {
+! 
+! 		return new GroupSet(groupSet);
+! 
+! 	}
+! 
+! 	/**
+! 	 * @param groupSet
+! 	 */
+! 	public void setGroups(GroupSet groupSet) {
+! 		if (groupSet != null)
+! 			this.groupSet = groupSet;
+! 		else
+! 			this.groupSet = new GroupSet();
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param group
+! 	 */
+! 	public void addGroup(Group group) {
+! 		getGroups().add(group);
+! 	}
+! 
+! 	/**
+! 	 * This method should only be used by a RoleManager. Not directly.
+! 	 * 
+! 	 * @param group
+! 	 */
+! 	public void removeGroup(Group group) {
+! 		getGroups().remove(group);
+! 	}
+! 
+! 	public void setGroupsAsSet(Set groups) {
+! 		this.groupSet = groups;
+! 	}
+! 
+! 	public Set getGroupsAsSet() {
+! 		return groupSet;
+! 	}
+  }
+
+Index: DynamicUser.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicUser.java,v
+retrieving revision 1.4
+retrieving revision 1.5
+diff -C2 -d -r1.4 -r1.5
+*** DynamicUser.java	18 Mar 2006 16:19:36 -0000	1.4
+--- DynamicUser.java	19 Jul 2006 09:15:17 -0000	1.5
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.model.dynamic.entity;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 28,77 ****
+  
+  /**
+!  * Represents the "simple" model where permissions are related to roles,
+!  * roles are related to groups and groups are related to users,
+!  * all in many to many relationships.
+   * 
+-  * Users have a set of delegates and delegatee's. 
+-  * If user A has B in their delegates - B assumes A's groups,roles and permissions
+-  * If user C has D in their delegatees - C assumes D's groups,roles and permissions
+-  *
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+   * @version $Id$
+   */
+! public class DynamicUser extends SecurityEntityImpl implements User
+! {
+  	private static final long serialVersionUID = -7298282701583455184L;
+  	private String password;
+-     private Date passwordExpiryDate;
+-     private long lockTime;
+-     private int loginAttempts;
+-         
+-     private List passwordHistory = new ArrayList<String>();
+-     private Set groupSet = new GroupSet();
+-     private Set delegators = new HashSet();
+-     private Set delegatees = new HashSet();
+  
+!     /**
+!      * 
+!      * @return Returns the password history.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+!     public List getPasswordHistory() {
+!     	return this.passwordHistory;
+!     }
+!     
+!     /**
+!      * 
+!      * @param passwordHistory The password history to set.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+!     public void setPasswordHistory(List passwordHistory) {
+!     	this.passwordHistory = passwordHistory;
+!     }
+!     
+  	/**
+  	 * @return Returns the delegatees.
+--- 29,83 ----
+  
+  /**
+!  * Represents the "simple" model where permissions are related to roles, roles
+!  * are related to groups and groups are related to users, all in many to many
+!  * relationships.
+!  * 
+!  * Users have a set of delegates and delegatee's. If user A has B in their
+!  * delegates - B assumes A's groups,roles and permissions If user C has D in
+!  * their delegatees - C assumes D's groups,roles and permissions
+   * 
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+   * @version $Id$
+   */
+! public class DynamicUser extends SecurityEntityImpl implements User {
+  	private static final long serialVersionUID = -7298282701583455184L;
++ 
+  	private String password;
+  
+! 	private Date passwordExpiryDate;
+! 
+! 	private long lockTime;
+! 
+! 	private int loginAttempts;
+! 
+! 	private List passwordHistory = new ArrayList<String>();
+! 
+! 	private Set groupSet = new GroupSet();
+! 
+! 	private Set delegators = new HashSet();
+! 
+! 	private Set delegatees = new HashSet();
+! 
+! 	/**
+! 	 * 
+! 	 * @return Returns the password history.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+! 	public List getPasswordHistory() {
+! 		return this.passwordHistory;
+! 	}
+! 
+! 	/**
+! 	 * 
+! 	 * @param passwordHistory
+! 	 *            The password history to set.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+! 	public void setPasswordHistory(List passwordHistory) {
+! 		this.passwordHistory = passwordHistory;
+! 	}
+! 
+  	/**
+  	 * @return Returns the delegatees.
+***************
+*** 80,91 ****
+  		return delegatees;
+  	}
+! 	
+  	/**
+! 	 * @param delegatees The delegatees to set.
+  	 */
+  	public void setDelegatees(Set delegatees) {
+  		this.delegatees = delegatees;
+  	}
+! 	
+  	/**
+  	 * @return Returns the delegators.
+--- 86,98 ----
+  		return delegatees;
+  	}
+! 
+  	/**
+! 	 * @param delegatees
+! 	 *            The delegatees to set.
+  	 */
+  	public void setDelegatees(Set delegatees) {
+  		this.delegatees = delegatees;
+  	}
+! 
+  	/**
+  	 * @return Returns the delegators.
+***************
+*** 94,139 ****
+  		return delegators;
+  	}
+! 	
+  	/**
+! 	 * @param delegates The delegators to set.
+  	 */
+  	public void setDelegators(Set delegates) {
+  		this.delegators = delegates;
+  	}
+! 	
+!     /**
+!      * @return Returns the password.
+!      */
+!     public String getPassword()
+!     {
+!         return password;
+!     }
+!     
+!     /**
+!      * @param password The password to set.
+!      */
+!     public void setPassword(String password)
+!     {
+!         this.password = password;
+!     }
+!     
+!     /**
+!      * 
+!      * @return The expiry date of the current password.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+!     public Date getPasswordExpiryDate() {
+  		return passwordExpiryDate;
+  	}
+  
+!     /**
+!      * 
+!      * @param passwordExpiryDate Set the expiry date of the password.
+!      *
+!      * @author richard.brooks
+!      * Created on Jan 11, 2006
+!      */
+  	public void setPasswordExpiryDate(Date passwordExpiryDate) {
+  		this.passwordExpiryDate = passwordExpiryDate;
+--- 101,145 ----
+  		return delegators;
+  	}
+! 
+  	/**
+! 	 * @param delegates
+! 	 *            The delegators to set.
+  	 */
+  	public void setDelegators(Set delegates) {
+  		this.delegators = delegates;
+  	}
+! 
+! 	/**
+! 	 * @return Returns the password.
+! 	 */
+! 	public String getPassword() {
+! 		return password;
+! 	}
+! 
+! 	/**
+! 	 * @param password
+! 	 *            The password to set.
+! 	 */
+! 	public void setPassword(String password) {
+! 		this.password = password;
+! 	}
+! 
+! 	/**
+! 	 * 
+! 	 * @return The expiry date of the current password.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+! 	public Date getPasswordExpiryDate() {
+  		return passwordExpiryDate;
+  	}
+  
+! 	/**
+! 	 * 
+! 	 * @param passwordExpiryDate
+! 	 *            Set the expiry date of the password.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+! 	 */
+  	public void setPasswordExpiryDate(Date passwordExpiryDate) {
+  		this.passwordExpiryDate = passwordExpiryDate;
+***************
+*** 143,149 ****
+  	 * 
+  	 * @return Return whether the user is locked.
+! 	 *
+! 	 * @author richard.brooks
+! 	 * Created on Jan 11, 2006
+  	 */
+  	public long getLockTime() {
+--- 149,154 ----
+  	 * 
+  	 * @return Return whether the user is locked.
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+  	 */
+  	public long getLockTime() {
+***************
+*** 153,206 ****
+  	/**
+  	 * 
+! 	 * @param locked Sets whether the user is locked
+! 	 *
+! 	 * @author richard.brooks
+! 	 * Created on Jan 11, 2006
+  	 */
+  	public void setLockTime(long lockTime) {
+  		this.lockTime = lockTime;
+  	}
+! 	
+  	/**
+!     * @return
+!     */
+!     public GroupSet getGroups()
+!     {
+!     	if( groupSet instanceof GroupSet )
+!     		return (GroupSet) groupSet;
+!     	else {
+!     		groupSet = new GroupSet(groupSet);
+!     		return (GroupSet)groupSet;
+!     	}
+!     }
+!     
+!     /**
+!      * @param groups
+!      */
+!     public void setGroups(GroupSet groups)
+!     {
+!     	if( groups != null )
+!     		this.groupSet = groups;
+!     	else
+!     		this.groupSet = new GroupSet();
+!     }
+!     
+!     public void removeGroup(Group group)
+!     {
+!         getGroups().remove(group);
+!     }
+!     
+!     public void addGroup(Group group)
+!     {
+!         getGroups().add(group);
+!     }
+  
+! 	public void setGroupsAsSet(Set groups)
+! 	{
+  		this.groupSet = groups;
+  	}
+! 	
+! 	public Set getGroupsAsSet()
+! 	{
+  		return groupSet;
+  	}
+--- 158,200 ----
+  	/**
+  	 * 
+! 	 * @param locked
+! 	 *            Sets whether the user is locked
+! 	 * 
+! 	 * @author richard.brooks Created on Jan 11, 2006
+  	 */
+  	public void setLockTime(long lockTime) {
+  		this.lockTime = lockTime;
+  	}
+! 
+  	/**
+! 	 * @return
+! 	 */
+! 	public GroupSet getGroups() {
+! 		return new GroupSet(groupSet);
+! 	}
+  
+! 	/**
+! 	 * @param groups
+! 	 */
+! 	public void setGroups(GroupSet groups) {
+! 		if (groups != null)
+! 			this.groupSet = groups;
+! 		else
+! 			this.groupSet = new GroupSet();
+! 	}
+! 
+! 	public void removeGroup(Group group) {
+! 		getGroups().remove(group);
+! 	}
+! 
+! 	public void addGroup(Group group) {
+! 		getGroups().add(group);
+! 	}
+! 
+! 	public void setGroupsAsSet(Set groups) {
+  		this.groupSet = groups;
+  	}
+! 
+! 	public Set getGroupsAsSet() {
+  		return groupSet;
+  	}
+
+Index: DynamicGroup.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicGroup.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DynamicGroup.java	18 Mar 2006 16:19:36 -0000	1.2
+--- DynamicGroup.java	19 Jul 2006 09:15:17 -0000	1.3
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.model.dynamic.entity;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 26,70 ****
+  
+  /**
+!  * Represents the "dynamic" model where permissions are related to roles,
+!  * roles are related to groups and groups are related to userSet,
+!  * all in many to many relationships.
+   * 
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+   * @version $Id$
+   */
+! public class DynamicGroup extends SecurityEntityImpl implements Group
+! {
+!     private Set roleSet = new RoleSet();
+!     private Set userSet = new UserSet();
+!     
+!     /**
+!      * @return
+!      */
+!     public UserSet getUsers()
+!     {
+!     	if( userSet instanceof UserSet )
+!     		return (UserSet) userSet;
+!     	else {
+!     		userSet = new UserSet(userSet);
+!     		return (UserSet)userSet;
+!     	}
+!     }
+  
+-     /**
+-      * @param userSet
+-      */
+-     public void setUsers(UserSet userSet)
+-     {
+-     	if( userSet != null )
+-     		this.userSet = userSet;
+-     	else
+-     		this.userSet = new UserSet();
+-     }
+-     
+  	/**
+  	 * @return
+  	 */
+! 	public Set getUsersAsSet()
+! 	{
+  		return userSet;
+  	}
+--- 27,63 ----
+  
+  /**
+!  * Represents the "dynamic" model where permissions are related to roles, roles
+!  * are related to groups and groups are related to userSet, all in many to many
+!  * relationships.
+   * 
+   * @author <a href="mailto:epugh at upstate.com">Eric Pugh</a>
+   * @version $Id$
+   */
+! public class DynamicGroup extends SecurityEntityImpl implements Group {
+! 	private Set roleSet = new RoleSet();
+! 
+! 	private Set userSet = new UserSet();
+  
+  	/**
+  	 * @return
+  	 */
+! 	public UserSet getUsers() {
+! 		return new UserSet(userSet);
+! 	}
+! 
+! 	/**
+! 	 * @param userSet
+! 	 */
+! 	public void setUsers(UserSet userSet) {
+! 		if (userSet != null)
+! 			this.userSet = userSet;
+! 		else
+! 			this.userSet = new UserSet();
+! 	}
+! 
+! 	/**
+! 	 * @return
+! 	 */
+! 	public Set getUsersAsSet() {
+  		return userSet;
+  	}
+***************
+*** 73,128 ****
+  	 * @param userSet
+  	 */
+! 	public void setUsersAsSet(Set users)
+! 	{
+  		this.userSet = users;
+! 	}    
+  
+!     /**
+!      * @return
+!      */
+!     public RoleSet getRoles()
+!     {
+!     	if( roleSet instanceof RoleSet )
+!     		return (RoleSet) roleSet;
+!     	else {
+!     		roleSet = new RoleSet(roleSet);
+!     		return (RoleSet)roleSet;
+!     	}
+!     }
+!     /**
+!      * @param roleSet
+!      */
+!     public void setRoles(RoleSet roleSet)
+!     {
+!     	if( roleSet != null )
+!     		this.roleSet = roleSet;
+!     	else
+!     		this.roleSet = new RoleSet();
+!     }
+!     public void addRole(Role role)
+!     {
+!         getRoles().add(role);
+!     }
+!     public void removeRole(Role role)
+!     {
+!         getRoles().remove(role);
+!     }
+  
+!     public void addUser(User user)
+!     {
+!         getUsers().add(user);
+!     }
+!     public void removeUser(User user)
+!     {
+!         getUsers().remove(user);
+!     }
+!     
+! 	public void setRolesAsSet(Set roles)
+! 	{
+  		this.roleSet = roles;
+  	}
+! 	public Set getRolesAsSet()
+! 	{
+  		return roleSet;
+! 	}    
+  }
+--- 66,112 ----
+  	 * @param userSet
+  	 */
+! 	public void setUsersAsSet(Set users) {
+  		this.userSet = users;
+! 	}
+  
+! 	/**
+! 	 * @return
+! 	 */
+! 	public RoleSet getRoles() {
+! 		return new RoleSet(roleSet);
+! 	}
+  
+! 	/**
+! 	 * @param roleSet
+! 	 */
+! 	public void setRoles(RoleSet roleSet) {
+! 		if (roleSet != null)
+! 			this.roleSet = roleSet;
+! 		else
+! 			this.roleSet = new RoleSet();
+! 	}
+! 
+! 	public void addRole(Role role) {
+! 		getRoles().add(role);
+! 	}
+! 
+! 	public void removeRole(Role role) {
+! 		getRoles().remove(role);
+! 	}
+! 
+! 	public void addUser(User user) {
+! 		getUsers().add(user);
+! 	}
+! 
+! 	public void removeUser(User user) {
+! 		getUsers().remove(user);
+! 	}
+! 
+! 	public void setRolesAsSet(Set roles) {
+  		this.roleSet = roles;
+  	}
+! 
+! 	public Set getRolesAsSet() {
+  		return roleSet;
+! 	}
+  }
+
+Index: DynamicPermission.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/model/dynamic/entity/DynamicPermission.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** DynamicPermission.java	18 Mar 2006 16:19:36 -0000	1.2
+--- DynamicPermission.java	19 Jul 2006 09:15:17 -0000	1.3
+***************
+*** 39,48 ****
+       */
+      public RoleSet getRoles() {
+!         if (roleSet instanceof RoleSet)
+!             return (RoleSet) roleSet;
+!         else {
+!             roleSet = new RoleSet(roleSet);
+!             return (RoleSet) roleSet;
+!         }
+      }
+  
+--- 39,44 ----
+       */
+      public RoleSet getRoles() {
+!     	
+!     	return new RoleSet(roleSet);
+      }
+  
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 11:15:47 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 11:15:47 +0200 (CEST)
+Subject: [Zebra-checkins]
+	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/resources
+	hibernate.cfg.xml, 1.2, 1.3
+Message-ID: <20060719091547.6A7795B06A@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/resources
+In directory sheep:/tmp/cvs-serv32711/src/test/resources
+
+Modified Files:
+	hibernate.cfg.xml 
+Log Message:
+
+
+Index: hibernate.cfg.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/resources/hibernate.cfg.xml,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** hibernate.cfg.xml	22 Dec 2005 16:26:01 -0000	1.2
+--- hibernate.cfg.xml	19 Jul 2006 09:15:42 -0000	1.3
+***************
+*** 6,10 ****
+   <!-- a SessionFactory instance listed as /jndi/name -->
+   <session-factory>
+!   <property name="show_sql">false</property>
+    <property name="use_outer_join">auto</property>
+    <!-- properties for this SessionFactory only -->
+--- 6,10 ----
+   <!-- a SessionFactory instance listed as /jndi/name -->
+   <session-factory>
+!   <property name="show_sql">true</property>
+    <property name="use_outer_join">auto</property>
+    <!-- properties for this SessionFactory only -->
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 11:15:47 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 11:15:47 +0200 (CEST)
+Subject: [Zebra-checkins]
+	zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate
+	HibernateUnecessaryDeletesTest.java, NONE, 1.1
+Message-ID: <20060719091547.330745AE2F@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/test/java/org/apache/fulcrum/security/hibernate
+In directory sheep:/tmp/cvs-serv32711/src/test/java/org/apache/fulcrum/security/hibernate
+
+Added Files:
+	HibernateUnecessaryDeletesTest.java 
+Log Message:
+
+
+--- NEW FILE: HibernateUnecessaryDeletesTest.java ---
+package org.apache.fulcrum.security.hibernate;
+
+import junit.framework.TestCase;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.fulcrum.hivemind.RegistryManager;
+import org.apache.fulcrum.security.GroupManager;
+import org.apache.fulcrum.security.ModelManager;
+import org.apache.fulcrum.security.UserManager;
+import org.apache.fulcrum.security.acl.AccessControlList;
+import org.apache.fulcrum.security.model.dynamic.DynamicModelManager;
+import org.apache.fulcrum.security.model.dynamic.entity.DynamicGroup;
+import org.apache.fulcrum.security.model.dynamic.entity.DynamicUser;
+import org.apache.fulcrum.security.util.DataBackendException;
+import org.apache.fulcrum.security.util.EntityDisabledException;
+import org.apache.fulcrum.security.util.EntityExistsException;
+import org.apache.fulcrum.security.util.UnknownEntityException;
+import org.apache.hivemind.Resource;
+import org.apache.hivemind.impl.DefaultClassResolver;
+import org.apache.hivemind.util.ClasspathResource;
+import org.hibernate.Session;
+
+public class HibernateUnecessaryDeletesTest extends TestCase {
+	private static final Log log = LogFactory
+			.getLog(HibernateUnecessaryDeletesTest.class);
+
+	public void setUp() throws Exception {
+		// Force Registry to have test configuration
+		Resource resource = new ClasspathResource(new DefaultClassResolver(),
+				"META-INF/hivemodule_test.xml");
+		RegistryManager.getInstance().getResources().add(resource);
+		super.setUp();
+	}
+
+	public void testDuplicateSave() throws UnknownEntityException,
+			DataBackendException, EntityDisabledException,
+			EntityExistsException {
+
+		UserManager userManager = (UserManager) RegistryManager.getInstance()
+				.getRegistry().getService(UserManager.class);
+
+		GroupManager groupManager = (GroupManager) RegistryManager
+				.getInstance().getRegistry().getService(GroupManager.class);
+
+		DynamicModelManager modelManager = (DynamicModelManager) RegistryManager
+				.getInstance().getRegistry().getService(DynamicModelManager.class);
+
+		DynamicGroup group = (DynamicGroup) groupManager
+				.getGroupInstance("Bobbies");
+		groupManager.addGroup(group);
+
+		DynamicUser bobby = (DynamicUser) userManager.getUserInstance("bobby");
+		userManager.addUser(bobby, "bobby");
+
+		modelManager.grant(bobby, group);
+		
+		AccessControlList acl = userManager.getACL(bobby);
+
+		Session session = (Session) RegistryManager.getInstance().getRegistry()
+				.getService(Session.class);
+		log.info("About to Flush, is dirty:" + session.isDirty());
+		session.flush();
+		log.info("Flushed");
+		assertFalse(session.isDirty());
+
+		assertNotNull(acl);
+		log.info("Saving Bobby");
+		//userManager.saveUser(bobby);
+
+	}
+}
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 14:49:54 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 14:49:54 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,
+	1.17, 1.18
+Message-ID: <20060719124954.6E5805B398@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind
+In directory sheep:/tmp/cvs-serv11871
+
+Modified Files:
+	pom.xml 
+Log Message:
+
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/pom.xml,v
+retrieving revision 1.17
+retrieving revision 1.18
+diff -C2 -d -r1.17 -r1.18
+*** pom.xml	25 Apr 2006 10:38:25 -0000	1.17
+--- pom.xml	19 Jul 2006 12:49:46 -0000	1.18
+***************
+*** 1,134 ****
+  <project xmlns="http://maven.apache.org/POM/4.0.0"
+!   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+!   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+!   <modelVersion>4.0.0</modelVersion>
+!   <groupId>fulcrum-hivemind</groupId>
+!   <artifactId>fulcrum-security</artifactId>
+!   <packaging>jar</packaging>
+!   <name>Fulcrum Security for Hivemind</name>
+!   <version>2.0</version>
+!   <description>A port of Fulcrum Security to run inside Hivemind.</description>
+!   <url>http://zebra.berlios.de</url>
+!   <issueManagement>
+!     <system>Berlios</system>
+!     <url>http://developer.berlios.de/bugs/?group_id=2683</url>
+!   </issueManagement>
+!   <ciManagement>
+!     <system>Luntbuild</system>
+!     <url>http://clank:8080/luntbuild/</url>
+!   </ciManagement>
+!   <inceptionYear>2005</inceptionYear>
+!   <developers>
+!     <developer>
+!       <id>bgidley</id>
+!       <name>Ben Gidley</name>
+!       <email>ben.gidley at anite.com</email>
+!       <url>http://www.gidley.co.uk</url>
+!       <organization>Anite</organization>
+!       <organizationUrl>http://www.anite.com/</organizationUrl>
+!       <roles>
+!         <role>Developer</role>
+!       </roles>
+!     </developer>
+!   </developers>
+!   <licenses>
+!     <license>
+!       <name>Apache License 2.0</name>
+!       <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+!       <distribution>repo</distribution>
+!     </license>
+!   </licenses>
+!   <scm>
+!     <connection>scm:cvs:pserver:anonymous at cvs.zebra.berlios.de:/cvsroot/zebra:zebra/src/java/fulcrum-security-hivemind</connection>
+!     <url>http://cvs.berlios.de/cgi-bin/viewcvs.cgi/zebra</url>
+!   </scm>
+!   <build>
+!     <plugins>
+!       <plugin>
+!         <groupId>org.apache.maven.plugins</groupId>
+!         <artifactId>maven-eclipse-plugin</artifactId>
+!         <executions>
+!           <execution>
+!             <phase>compile</phase>
+!             <goals>
+!               <goal>eclipse</goal>
+!             </goals>
+!           </execution>
+!         </executions>
+!       </plugin>
+!       <plugin>
+!         <groupId>org.apache.maven.plugins</groupId>
+!         <artifactId>maven-source-plugin</artifactId>
+!         <executions>
+!           <execution>
+!             <goals>
+!               <goal>jar</goal>
+!             </goals>
+!           </execution>
+!         </executions>
+!       </plugin>
+!       <plugin>
+!         <groupId>org.apache.maven.plugins</groupId>
+!         <artifactId>maven-compiler-plugin</artifactId>
+!         <configuration>
+!           <source>1.5</source>
+!           <target>1.5</target>
+!         </configuration>
+!       </plugin>
+!     </plugins>
+!   </build>
+!   <repositories>
+!     <repository>
+!       <id>Zebra</id>
+!       <name>Zebra at Berlios</name>
+!       <layout>default</layout>
+!       <url>http://zebra.berlios.de/maven2/</url>
+!     </repository>
+!     <repository>
+!       <id>Anite</id>
+!       <name>Anite Mirror</name>
+!       <layout>default</layout>
+!       <url>http://gnasher.aniteps.com/maven2</url>
+!       <snapshots>
+!         <enabled>false</enabled>
+!       </snapshots>
+!     </repository>
+!     <repository>
+!       <id>Zebra M1</id>
+!       <name>Zebra Maven 1</name>
+!       <layout>legacy</layout>
+!       <url>http://zebra.berlios.de/MavenRepository</url>
+!     </repository>
+!   </repositories>
+!   <dependencies>
+!     <dependency>
+!       <groupId>fulcrum-hivemind</groupId>
+!       <artifactId>fulcrum-hivemind</artifactId>
+!       <version>2.0</version>
+!     </dependency>
+!     <dependency>
+!       <groupId>fulcrum-hivemind</groupId>
+!       <artifactId>fulcrum-crypto</artifactId>
+!       <version>2.0</version>
+!     </dependency>
+!   </dependencies>
+!   <distributionManagement>
+!     <repository>
+!       <id>zebra-berlios</id>
+!       <url>scp://shell.berlios.de/home/groups/zebra/htdocs/maven2</url>
+!     </repository>
+!     <site>
+!       <id>zebra-berlios</id>
+!       <url>scp://shell.berlios.de/home/groups/zebra/htdocs/cc/fulcrum-security</url>
+!     </site>
+!   </distributionManagement>
+!   <reporting>
+!     <plugins>
+!       <plugin>
+!         <groupId>fulcrum-hivemind</groupId>
+!         <artifactId>hivedoc-maven-plugin</artifactId>
+!         <version>0.2</version>
+!       </plugin>
+!     </plugins>
+!   </reporting>
+  </project>
+--- 1,155 ----
+  <project xmlns="http://maven.apache.org/POM/4.0.0"
+! 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+! 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+! 	<modelVersion>4.0.0</modelVersion>
+! 	<groupId>fulcrum-hivemind</groupId>
+! 	<artifactId>fulcrum-security</artifactId>
+! 	<packaging>jar</packaging>
+! 	<name>Fulcrum Security for Hivemind</name>
+! 	<version>2.1</version>
+! 	<description>
+! 		A port of Fulcrum Security to run inside Hivemind.
+! 	</description>
+! 	<url>http://zebra.berlios.de</url>
+! 	<issueManagement>
+! 		<system>Berlios</system>
+! 		<url>http://developer.berlios.de/bugs/?group_id=2683</url>
+! 	</issueManagement>
+! 	<ciManagement>
+! 		<system>Luntbuild</system>
+! 		<url>http://clank:8080/luntbuild/</url>
+! 	</ciManagement>
+! 	<inceptionYear>2005</inceptionYear>
+! 	<developers>
+! 		<developer>
+! 			<id>bgidley</id>
+! 			<name>Ben Gidley</name>
+! 			<email>ben.gidley at anite.com</email>
+! 			<url>http://www.gidley.co.uk</url>
+! 			<organization>Anite</organization>
+! 			<organizationUrl>http://www.anite.com/</organizationUrl>
+! 			<roles>
+! 				<role>Developer</role>
+! 			</roles>
+! 		</developer>
+! 	</developers>
+! 	<licenses>
+! 		<license>
+! 			<name>Apache License 2.0</name>
+! 			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+! 			<distribution>repo</distribution>
+! 		</license>
+! 	</licenses>
+! 	<scm>
+! 		<connection>
+! 			scm:cvs:pserver:anonymous at cvs.zebra.berlios.de:/cvsroot/zebra:zebra/src/java/fulcrum-security-hivemind
+! 		</connection>
+! 		<url>http://cvs.berlios.de/cgi-bin/viewcvs.cgi/zebra</url>
+! 	</scm>
+! 	<build>
+! 		<plugins>
+! 			<plugin>
+! 				<groupId>org.apache.maven.plugins</groupId>
+! 				<artifactId>maven-eclipse-plugin</artifactId>
+! 				<executions>
+! 					<execution>
+! 						<phase>compile</phase>
+! 						<goals>
+! 							<goal>eclipse</goal>
+! 						</goals>
+! 					</execution>
+! 				</executions>
+! 			</plugin>
+! 			<plugin>
+! 				<groupId>org.apache.maven.plugins</groupId>
+! 				<artifactId>maven-source-plugin</artifactId>
+! 				<executions>
+! 					<execution>
+! 						<goals>
+! 							<goal>jar</goal>
+! 						</goals>
+! 					</execution>
+! 				</executions>
+! 			</plugin>
+! 			<plugin>
+! 				<groupId>org.apache.maven.plugins</groupId>
+! 				<artifactId>maven-compiler-plugin</artifactId>
+! 				<configuration>
+! 					<source>1.5</source>
+! 					<target>1.5</target>
+! 				</configuration>
+! 			</plugin>
+! 			<plugin>
+! 				<groupId>fulcrum-hivemind</groupId>
+! 				<artifactId>hivedoc-maven-plugin</artifactId>
+! 				<version>0.4</version>
+! 				<configuration>
+! 					<ignoredJars>
+! 						<ignoredJar>
+! 							tapestry-annotations-4.0.jar
+! 						</ignoredJar>
+! 						<ignoredJar>tapestry-4.0.jar</ignoredJar>
+! 						<ignoredJar>
+! 							tapestry-portlet-4.0.jar
+! 						</ignoredJar>
+! 						<ignoredJar>hivemind-1.1.1.jar</ignoredJar>
+! 						<ignoredJar>hivemind-lib-1.1.1.jar</ignoredJar>
+! 						<ignoredJar>
+! 							tapestry-contrib-4.0.jar
+! 						</ignoredJar>
+! 					</ignoredJars>
+! 				</configuration>
+! 			</plugin>
+! 		</plugins>
+! 	</build>
+! 	<repositories>
+! 		<repository>
+! 			<id>Zebra</id>
+! 			<name>Zebra at Berlios</name>
+! 			<layout>default</layout>
+! 			<url>http://zebra.berlios.de/maven2/</url>
+! 		</repository>
+! 		<repository>
+! 			<id>Anite</id>
+! 			<name>Anite Mirror</name>
+! 			<layout>default</layout>
+! 			<url>http://gnasher.aniteps.com/maven2</url>
+! 			<snapshots>
+! 				<enabled>false</enabled>
+! 			</snapshots>
+! 		</repository>
+! 		<repository>
+! 			<id>Zebra M1</id>
+! 			<name>Zebra Maven 1</name>
+! 			<layout>legacy</layout>
+! 			<url>http://zebra.berlios.de/MavenRepository</url>
+! 		</repository>
+! 	</repositories>
+! 	<dependencies>
+! 		<dependency>
+! 			<groupId>fulcrum-hivemind</groupId>
+! 			<artifactId>fulcrum-hivemind</artifactId>
+! 			<version>2.0</version>
+! 		</dependency>
+! 		<dependency>
+! 			<groupId>fulcrum-hivemind</groupId>
+! 			<artifactId>fulcrum-crypto</artifactId>
+! 			<version>2.0</version>
+! 		</dependency>
+! 	</dependencies>
+! 	<distributionManagement>
+! 		<repository>
+! 			<id>zebra-berlios</id>
+! 			<url>
+! 				scp://shell.berlios.de/home/groups/zebra/htdocs/maven2
+! 			</url>
+! 		</repository>
+! 		<site>
+! 			<id>zebra-berlios</id>
+! 			<url>
+! 				scp://shell.berlios.de/home/groups/zebra/htdocs/cc/fulcrum-security
+! 			</url>
+! 		</site>
+! 	</distributionManagement>
+! 
+  </project>
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 14:50:35 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 14:50:35 +0200 (CEST)
+Subject: [Zebra-checkins]
+	zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate
+	HibernateUserManagerImpl.java, 1.3, 1.4
+Message-ID: <20060719125035.788C85A7B2@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate
+In directory sheep:/tmp/cvs-serv12137/src/main/java/org/apache/fulcrum/security/hibernate
+
+Modified Files:
+	HibernateUserManagerImpl.java 
+Log Message:
+
+
+Index: HibernateUserManagerImpl.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/HibernateUserManagerImpl.java,v
+retrieving revision 1.3
+retrieving revision 1.4
+diff -C2 -d -r1.3 -r1.4
+*** HibernateUserManagerImpl.java	18 Mar 2006 16:18:21 -0000	1.3
+--- HibernateUserManagerImpl.java	19 Jul 2006 12:50:30 -0000	1.4
+***************
+*** 57,61 ****
+  					"from " + getClassName() + " su where su.name=:name");
+  			query.setString("name", userName);
+! 
+  			users = query.list();
+  		} catch (HibernateException e) {
+--- 57,61 ----
+  					"from " + getClassName() + " su where su.name=:name");
+  			query.setString("name", userName);
+! 						
+  			users = query.list();
+  		} catch (HibernateException e) {
+***************
+*** 88,92 ****
+  					"from " + getClassName() + " su where su.name=:name");
+  			query.setString("name", userName.toLowerCase());
+! 
+  			users = query.list();
+  		} catch (HibernateException e) {
+--- 88,93 ----
+  					"from " + getClassName() + " su where su.name=:name");
+  			query.setString("name", userName.toLowerCase());
+! 			query.setCacheable(true);
+! 			
+  			users = query.list();
+  		} catch (HibernateException e) {
+***************
+*** 242,245 ****
+--- 243,247 ----
+  										+ " su where su.id=:id");
+  				query.setLong("id", (Long) id);
++ 				query.setCacheable(true);
+  				List users = query.list();
+  				if (users.size() == 0) {
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 14:50:35 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 14:50:35 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate
+	pom.xml, 1.14, 1.15
+Message-ID: <20060719125035.44E8955E3B@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate
+In directory sheep:/tmp/cvs-serv12137
+
+Modified Files:
+	pom.xml 
+Log Message:
+
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind-hibernate/pom.xml,v
+retrieving revision 1.14
+retrieving revision 1.15
+diff -C2 -d -r1.14 -r1.15
+*** pom.xml	25 Apr 2006 10:52:13 -0000	1.14
+--- pom.xml	19 Jul 2006 12:50:28 -0000	1.15
+***************
+*** 1,112 ****
+  <project xmlns="http://maven.apache.org/POM/4.0.0"
+!     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+!     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+!     <modelVersion>4.0.0</modelVersion>
+!     <groupId>fulcrum-hivemind</groupId>
+!     <artifactId>fulcrum-security-hibernate</artifactId>
+!     <packaging>jar</packaging>
+! 	<version>2.0</version>
+!     <name>fulcrum-hibernate-security- Fuclrum Security Hibernate layer for Hivemind</name>
+!     <url>http://gnasher.aniteps.com/docs/</url>
+!     <build>
+!         <plugins>
+!             <plugin>
+!                 <groupId>org.apache.maven.plugins</groupId>
+!                 <artifactId>maven-eclipse-plugin</artifactId>
+!                 <executions>
+!                     <execution>
+!                         <phase>compile</phase>
+!                         <goals>
+!                             <goal>eclipse</goal>
+!                         </goals>
+!                     </execution>
+!                 </executions>
+!             </plugin>
+!             <plugin>
+!                 <groupId>org.apache.maven.plugins</groupId>
+!                 <artifactId>maven-source-plugin</artifactId>
+!                 <executions>
+!                     <execution>
+!                         <goals>
+!                             <goal>jar</goal>
+!                         </goals>
+!                     </execution>
+!                 </executions>
+!             </plugin>
+!             <plugin>
+!                 <groupId>org.apache.maven.plugins</groupId>
+!                 <artifactId>maven-compiler-plugin</artifactId>
+!                 <configuration>
+!                     <source>1.5</source>
+!                     <target>1.5</target>
+!                 </configuration>
+!             </plugin>
+!         </plugins>
+!     </build>
+!     <repositories>
+!         <repository>
+!             <id>Anite</id>
+!             <name>Anite Mirror</name>
+!             <layout>default</layout>
+!             <url>http://gnasher.aniteps.com/maven2</url>
+!             <snapshots>
+!                 <enabled>false</enabled>
+!             </snapshots>
+!         </repository>
+!         <repository>
+!             <id>Zebra2</id>
+!             <name>Zebra</name>
+!             <layout>default</layout>
+!             <url>http://zebra.berlios.de/maven2</url>
+!             <snapshots>
+!                 <enabled>false</enabled>
+!             </snapshots>
+!         </repository>
+!         <repository>
+!             <id>Zebra</id>
+!             <name>Zebra</name>
+!             <layout>legacy</layout>
+!             <url>http://zebra.berlios.de/MavenRepository</url>
+!             <snapshots>
+!                 <enabled>false</enabled>
+!             </snapshots>
+!         </repository>
+!     </repositories>
+!     <dependencies>       
+!         <dependency>
+!             <groupId>fulcrum-hivemind</groupId>
+!             <artifactId>fulcrum-security</artifactId>
+!             <version>2.0</version>
+!         </dependency>
+!         <dependency>
+!             <groupId>fulcrum-hivemind</groupId>
+!             <artifactId>fulcrum-hibernate</artifactId>
+!             <version>2.0</version>
+!         </dependency>
+!         <dependency>
+!             <groupId>mckoi</groupId>
+!             <artifactId>mckoi</artifactId>
+!             <version>1.0.2</version>
+!             <optional>true</optional>
+!         </dependency>
+!     </dependencies>
+!     <distributionManagement>
+!         <repository>
+!             <id>zebra-berlios</id>
+!             <url>scp://shell.berlios.de/home/groups/zebra/htdocs/maven2</url>
+!         </repository>
+!         <site>
+!             <id>zebra-berlios</id>
+!             <url>scp://shell.berlios.de/home/groups/zebra/htdocs/cc/fulcrum-security-hibernate</url>
+!         </site>
+!     </distributionManagement>
+!     <reporting>
+!         <plugins>
+!             <plugin>
+!                 <groupId>fulcrum-hivemind</groupId>
+!                 <artifactId>hivedoc-maven-plugin</artifactId>
+!                 <version>0.2</version>
+!             </plugin>
+!         </plugins>
+!     </reporting>
+  </project>
+--- 1,134 ----
+  <project xmlns="http://maven.apache.org/POM/4.0.0"
+! 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+! 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+! 	<modelVersion>4.0.0</modelVersion>
+! 	<groupId>fulcrum-hivemind</groupId>
+! 	<artifactId>fulcrum-security-hibernate</artifactId>
+! 	<packaging>jar</packaging>
+! 	<version>2.1</version>
+! 	<name>
+! 		fulcrum-hibernate-security- Fuclrum Security Hibernate layer for
+! 		Hivemind
+! 	</name>
+! 	<url>http://gnasher.aniteps.com/docs/</url>
+! 	<build>
+! 		<plugins>
+! 			<plugin>
+! 				<groupId>org.apache.maven.plugins</groupId>
+! 				<artifactId>maven-eclipse-plugin</artifactId>
+! 				<executions>
+! 					<execution>
+! 						<phase>compile</phase>
+! 						<goals>
+! 							<goal>eclipse</goal>
+! 						</goals>
+! 					</execution>
+! 				</executions>
+! 			</plugin>
+! 			<plugin>
+! 				<groupId>org.apache.maven.plugins</groupId>
+! 				<artifactId>maven-source-plugin</artifactId>
+! 				<executions>
+! 					<execution>
+! 						<goals>
+! 							<goal>jar</goal>
+! 						</goals>
+! 					</execution>
+! 				</executions>
+! 			</plugin>
+! 			<plugin>
+! 				<groupId>org.apache.maven.plugins</groupId>
+! 				<artifactId>maven-compiler-plugin</artifactId>
+! 				<configuration>
+! 					<source>1.5</source>
+! 					<target>1.5</target>
+! 				</configuration>
+! 			</plugin>
+! 			<plugin>
+! 				<groupId>fulcrum-hivemind</groupId>
+! 				<artifactId>hivedoc-maven-plugin</artifactId>
+! 				<version>0.4</version>
+! 				<configuration>
+! 					<ignoredJars>
+! 						<ignoredJar>
+! 							tapestry-annotations-4.0.jar
+! 						</ignoredJar>
+! 						<ignoredJar>tapestry-4.0.jar</ignoredJar>
+! 						<ignoredJar>
+! 							tapestry-portlet-4.0.jar
+! 						</ignoredJar>
+! 						<ignoredJar>hivemind-1.1.1.jar</ignoredJar>
+! 						<ignoredJar>hivemind-lib-1.1.1.jar</ignoredJar>
+! 						<ignoredJar>
+! 							tapestry-contrib-4.0.jar
+! 						</ignoredJar>
+! 					</ignoredJars>
+! 				</configuration>
+! 			</plugin>
+! 		</plugins>
+! 	</build>
+! 	<repositories>
+! 		<repository>
+! 			<id>Anite</id>
+! 			<name>Anite Mirror</name>
+! 			<layout>default</layout>
+! 			<url>http://gnasher.aniteps.com/maven2</url>
+! 			<snapshots>
+! 				<enabled>false</enabled>
+! 			</snapshots>
+! 		</repository>
+! 		<repository>
+! 			<id>Zebra2</id>
+! 			<name>Zebra</name>
+! 			<layout>default</layout>
+! 			<url>http://zebra.berlios.de/maven2</url>
+! 			<snapshots>
+! 				<enabled>false</enabled>
+! 			</snapshots>
+! 		</repository>
+! 		<repository>
+! 			<id>Zebra</id>
+! 			<name>Zebra</name>
+! 			<layout>legacy</layout>
+! 			<url>http://zebra.berlios.de/MavenRepository</url>
+! 			<snapshots>
+! 				<enabled>false</enabled>
+! 			</snapshots>
+! 		</repository>
+! 	</repositories>
+! 	<dependencies>
+! 		<dependency>
+! 			<groupId>fulcrum-hivemind</groupId>
+! 			<artifactId>fulcrum-security</artifactId>
+! 			<version>2.1</version>
+! 		</dependency>
+! 		<dependency>
+! 			<groupId>fulcrum-hivemind</groupId>
+! 			<artifactId>fulcrum-hibernate</artifactId>
+! 			<version>2.0</version>
+! 		</dependency>
+! 		<dependency>
+! 			<groupId>mckoi</groupId>
+! 			<artifactId>mckoi</artifactId>
+! 			<version>1.0.2</version>
+! 			<optional>true</optional>
+! 		</dependency>
+! 	</dependencies>
+! 	<distributionManagement>
+! 		<repository>
+! 			<id>zebra-berlios</id>
+! 			<url>
+! 				scp://shell.berlios.de/home/groups/zebra/htdocs/maven2
+! 			</url>
+! 		</repository>
+! 		<site>
+! 			<id>zebra-berlios</id>
+! 			<url>
+! 				scp://shell.berlios.de/home/groups/zebra/htdocs/cc/fulcrum-security-hibernate
+! 			</url>
+! 		</site>
+! 	</distributionManagement>
+! 
+! 
+! 
+  </project>
+
+
+
+From nobody at sheep.berlios.de  Wed Jul 19 15:11:14 2006
+From: nobody at sheep.berlios.de (bgidley)
+Date: Wed, 19 Jul 2006 15:11:14 +0200 (CEST)
+Subject: [Zebra-checkins] zebra/src/java/zebra-hivemind pom.xml,1.41,1.42
+Message-ID: <20060719131114.AF25D5B1ED@bat.berlios.de>
+
+Update of /cvsroot/zebra/zebra/src/java/zebra-hivemind
+In directory sheep:/tmp/cvs-serv20713
+
+Modified Files:
+	pom.xml 
+Log Message:
+
+
+Index: pom.xml
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/zebra-hivemind/pom.xml,v
+retrieving revision 1.41
+retrieving revision 1.42
+diff -C2 -d -r1.41 -r1.42
+*** pom.xml	5 Jul 2006 14:24:48 -0000	1.41
+--- pom.xml	19 Jul 2006 13:11:08 -0000	1.42
+***************
+*** 6,10 ****
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.5</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+--- 6,10 ----
+      <artifactId>zebra-hivemind</artifactId>
+      <packaging>jar</packaging>
+!     <version>4.0.6</version>
+      <name>Zebra Hivemind Layer</name>
+      <url>http://zebra.berlios.de/</url>
+***************
+*** 128,132 ****
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security-hibernate</artifactId>
+!             <version>2.0</version>
+          </dependency>
+          <!-- Zebra -->
+--- 128,132 ----
+              <groupId>fulcrum-hivemind</groupId>
+              <artifactId>fulcrum-security-hibernate</artifactId>
+!             <version>2.1</version>
+          </dependency>
+          <!-- Zebra -->
+
+
+

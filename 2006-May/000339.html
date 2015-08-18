@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries/workflowServices hivemoduleSchemeReturn.xml,NONE,1.1 hivemoduleShared.xml,NONE,1.1 hivemoduleSchemeTracking.xml,NONE,1.1 hivemoduleRandomGeneration.xml,NONE,1.1 hivemoduleCommonCallProcess.xml,NONE,1.1 hivemoduleSchemeReturnDataEntry.xml,NONE,1.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-May/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20src/java/hivedoc-maven-plugin/src/test/resources/castries/workflowServices%20hivemoduleSchemeReturn.xml%2CNONE%2C1.1%20hivemoduleShared.xml%2CNONE%2C1.1%20hivemoduleSchemeTracking.xml%2CNONE%2C1.1%20hivemoduleRandomGeneration.xml%2CNONE%2C1.1%20hivemoduleCommonCallProcess.xml%2CNONE%2C1.1%20hivemoduleSchemeReturnDataEntry.xml%2CNONE%2C1.1&In-Reply-To=%3C200605031435.k43EZqt03448%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000335.html">
+   <LINK REL="Next"  HREF="000342.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries/workflowServices hivemoduleSchemeReturn.xml,NONE,1.1 hivemoduleShared.xml,NONE,1.1 hivemoduleSchemeTracking.xml,NONE,1.1 hivemoduleRandomGeneration.xml,NONE,1.1 hivemoduleCommonCallProcess.xml,NONE,1.1 hivemoduleSchemeReturnDataEntry.xml,NONE,1.1</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20src/java/hivedoc-maven-plugin/src/test/resources/castries/workflowServices%20hivemoduleSchemeReturn.xml%2CNONE%2C1.1%20hivemoduleShared.xml%2CNONE%2C1.1%20hivemoduleSchemeTracking.xml%2CNONE%2C1.1%20hivemoduleRandomGeneration.xml%2CNONE%2C1.1%20hivemoduleCommonCallProcess.xml%2CNONE%2C1.1%20hivemoduleSchemeReturnDataEntry.xml%2CNONE%2C1.1&In-Reply-To=%3C200605031435.k43EZqt03448%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/resources/castries/workflowServices hivemoduleSchemeReturn.xml,NONE,1.1 hivemoduleShared.xml,NONE,1.1 hivemoduleSchemeTracking.xml,NONE,1.1 hivemoduleRandomGeneration.xml,NONE,1.1 hivemoduleCommonCallProcess.xml,NONE,1.1 hivemoduleSchemeReturnDataEntry.xml,NONE,1.1">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Wed May  3 16:35:52 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000335.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/java/com/anite/maven/plugin/hivedoc Dom4JRegistrySerializerTest.java,NONE,1.1
+</A></li>
+        <LI>Next message: <A HREF="000342.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/.settings - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#339">[ date ]</a>
+              <a href="thread.html#339">[ thread ]</a>
+              <a href="subject.html#339">[ subject ]</a>
+              <a href="author.html#339">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/src/java/hivedoc-maven-plugin/src/test/resources/castries/workflowServices
+In directory sheep:/tmp/cvs-serv25781/src/test/resources/castries/workflowServices
+
+Added Files:
+	hivemoduleSchemeReturn.xml hivemoduleShared.xml 
+	hivemoduleSchemeTracking.xml hivemoduleRandomGeneration.xml 
+	hivemoduleCommonCallProcess.xml 
+	hivemoduleSchemeReturnDataEntry.xml 
+Log Message:
+
+
+--- NEW FILE: hivemoduleSchemeReturn.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.workflows.schemeManagement&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;service-point id=&quot;QueueSchemeReturnNoticePrintItem&quot;
+        interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeManagement.QueueSchemeReturnNoticePrintItem&quot;
+            /&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;LogXmlIssueRecievedEvent&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeManagement.LogXmlIssueRecievedEvent&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;AwaitPrintItemProcessing&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeManagement.AwaitPrintItemProcessing&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;GenerateTargetIssueDate&quot; interface=&quot;com.anite.castries.workflows.schemeManagement.GenerateTargetIssueDate&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeManagement.GenerateTargetIssueDate&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleShared.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.workflows.shared&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;service-point id=&quot;GenerateSchemePassword&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.workflows.shared.GenerateSchemePassword&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;GeneratePassword&quot; interface=&quot;com.anite.castries.services.password.GeneratePassword&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.services.password.GeneratePassword&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;    
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleSchemeTracking.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.workflows.schemeTracking&quot;
+	version=&quot;1.0.0&quot;&gt;
+	&lt;service-point id=&quot;PreReceiptSchedulerLogic&quot;
+		interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct
+				class=&quot;com.anite.castries.workflows.schemeTracking.PreReceiptSchedulerLogic&quot;&gt;
+				&lt;set-configuration property=&quot;timeLimits&quot;
+					configuration-id=&quot;printmanager.TprTimeLimits&quot; /&gt;
+			&lt;/construct&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/service-point&gt;
+	&lt;service-point id=&quot;PostReceiptSchedulerLogic&quot;
+		interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct
+				class=&quot;com.anite.castries.workflows.schemeTracking.PostReceiptSchedulerLogic&quot;&gt;
+				&lt;set-configuration property=&quot;timeLimits&quot;
+					configuration-id=&quot;printmanager.TprTimeLimits&quot; /&gt;
+			&lt;/construct&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/service-point&gt;
+	&lt;service-point id=&quot;QueueReminderLetters&quot;
+		interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct
+				class=&quot;com.anite.castries.workflows.schemeTracking.QueueReminderLetters&quot; /&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/service-point&gt;
+	&lt;service-point id=&quot;QueueOverdueLetters&quot;
+		interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct
+				class=&quot;com.anite.castries.workflows.schemeTracking.QueueOverdueLetters&quot; /&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/service-point&gt;
+	&lt;service-point id=&quot;ExportInvalidData&quot;
+		interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct
+				class=&quot;com.anite.castries.workflows.schemeTracking.ExportInvalidData&quot; /&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/service-point&gt;
+	&lt;service-point id=&quot;ExportValidData&quot;
+		interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+		&lt;invoke-factory&gt;
+			&lt;construct
+				class=&quot;com.anite.castries.workflows.schemeTracking.ExportValidData&quot; /&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/service-point&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleRandomGeneration.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.randomString&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;service-point id=&quot;RandomString&quot; interface=&quot;com.anite.castries.randomString.api.RandomStringGeneration&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.randomString.impl.RandomStringImpl&quot;&gt;
+                &lt;set property=&quot;passwordSubLength&quot; value=&quot;3&quot;/&gt;
+                &lt;set property=&quot;usernameLength&quot; value=&quot;6&quot;/&gt;
+                &lt;set property=&quot;callBackCodeLength&quot; value=&quot;6&quot;/&gt;
+            &lt;/construct&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleCommonCallProcess.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.workflows.commonCallProcess&quot; version=&quot;1.0.0&quot;&gt;
+    &lt;service-point id=&quot;WhichCallType&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.workflows.commonCallProcess.WhichCallType&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;CallQueueService&quot;
+        interface=&quot;com.anite.castries.workflows.commonCallProcess.CallQueueService&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.workflows.commonCallProcess.CallQueueService&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;CallMadeLogOutcomeAndFollowUp&quot;
+        interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.commonCallProcess.CallMadeLogOutcomeAndFollowUp&quot;
+            /&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;QueueReissueNotice&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.workflows.commonCallProcess.QueueReissueNotice&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;PhoneNumber&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.workflows.commonCallProcess.PhoneNumber&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;QueueIssuePaperForm&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.workflows.commonCallProcess.QueueIssuePaperForm&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;QueueIssuePasswordReminder&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.commonCallProcess.QueueIssuePasswordReminder&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;IsValidCallBack&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.commonCallProcess.IsValidCallBack&quot;&gt;
+                &lt;set property=&quot;callsAllowed&quot; value=&quot;2&quot; /&gt;
+              &lt;/construct&gt;  
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;CallBackDelayMet&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.commonCallProcess.CallBackDelayMet&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;CallStateManager&quot; interface=&quot;com.anite.castries.services.callrecord.api.CallStateManager&quot;&gt;
+		&lt;invoke-factory model=&quot;threaded&quot;&gt;
+			&lt;construct class=&quot;com.anite.castries.services.callrecord.CallStateManagerImpl&quot; /&gt;
+		&lt;/invoke-factory&gt;
+	&lt;/service-point&gt;
+	
+&lt;/module&gt;
+
+--- NEW FILE: hivemoduleSchemeReturnDataEntry.xml ---
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;module id=&quot;com.anite.castries.workflows.schemeReturnDataEntry&quot; version=&quot;1.0.0&quot;&gt;    
+    &lt;service-point id=&quot;DataEntryQueueService&quot; interface=&quot;com.anite.castries.workflows.schemeReturnDataEntry.DataEntryQueueService&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeReturnDataEntry.DataEntryQueueService&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;QueueConfirmationLetters&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeReturnDataEntry.QueueConfirmationLetters&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;Duplicate&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeReturnDataEntry.Duplicate&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;Valid&quot; interface=&quot;com.anite.zebra.core.api.ITaskAction&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct
+                class=&quot;com.anite.castries.workflows.schemeReturnDataEntry.Valid&quot;/&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+    &lt;service-point id=&quot;DuplicatePSRService&quot;
+        interface=&quot;com.anite.castries.workflows.schemeReturnDataEntry.DuplicatePSRService&quot;&gt;
+        &lt;invoke-factory&gt;
+            &lt;construct class=&quot;com.anite.castries.workflows.schemeReturnDataEntry.DuplicatePSRService&quot;&gt;
+				&lt;set property=&quot;separator&quot; value=&quot;-DUP-&quot;/&gt;
+			&lt;/construct&gt;
+        &lt;/invoke-factory&gt;
+    &lt;/service-point&gt;
+&lt;/module&gt;
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000335.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/src/test/java/com/anite/maven/plugin/hivedoc Dom4JRegistrySerializerTest.java,NONE,1.1
+</A></li>
+	<LI>Next message: <A HREF="000342.html">[Zebra-checkins] src/java/hivedoc-maven-plugin/.settings - New directory
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#339">[ date ]</a>
+              <a href="thread.html#339">[ thread ]</a>
+              <a href="subject.html#339">[ subject ]</a>
+              <a href="author.html#339">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

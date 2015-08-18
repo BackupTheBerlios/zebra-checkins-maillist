@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind RegistryManager.java,1.1,1.2
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind%20RegistryManager.java%2C1.1%2C1.2&In-Reply-To=%3C200603061700.k26H01b25258%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000240.html">
+   <LINK REL="Next"  HREF="000242.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind RegistryManager.java,1.1,1.2</H1>
+    <B>bgidley</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind%20RegistryManager.java%2C1.1%2C1.2&In-Reply-To=%3C200603061700.k26H01b25258%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind RegistryManager.java,1.1,1.2">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Mon Mar  6 18:00:01 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000240.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.5,1.6
+</A></li>
+        <LI>Next message: <A HREF="000242.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind pom.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#241">[ date ]</a>
+              <a href="thread.html#241">[ thread ]</a>
+              <a href="subject.html#241">[ subject ]</a>
+              <a href="author.html#241">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind
+In directory sheep:/tmp/cvs-serv15938/src/main/java/org/apache/fulcrum/hivemind
+
+Modified Files:
+	RegistryManager.java 
+Log Message:
+
+
+Index: RegistryManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind/src/main/java/org/apache/fulcrum/hivemind/RegistryManager.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** RegistryManager.java	24 Nov 2005 15:09:41 -0000	1.1
+--- RegistryManager.java	6 Mar 2006 16:01:21 -0000	1.2
+***************
+*** 5,8 ****
+--- 5,10 ----
+  import java.util.Locale;
+  
++ import org.apache.commons.logging.Log;
++ import org.apache.commons.logging.LogFactory;
+  import org.apache.hivemind.Registry;
+  import org.apache.hivemind.Resource;
+***************
+*** 13,16 ****
+--- 15,20 ----
+  public class RegistryManager {
+  
++     private static final Log log = LogFactory.getLog(RegistryManager.class);
++ 
+      private Registry registry = null;
+  
+***************
+*** 20,24 ****
+  
+      private RegistryManager() {
+!         
+      }
+  
+--- 24,28 ----
+  
+      private RegistryManager() {
+!         log.debug(&quot;Registry Manager Constructed&quot;);
+      }
+  
+***************
+*** 28,32 ****
+       */
+      protected Registry constructRegistry() {
+! 
+          RegistryBuilder builder = new RegistryBuilder();
+  
+--- 32,36 ----
+       */
+      protected Registry constructRegistry() {
+!         log.debug(&quot;Constructing Registry (in call)&quot;);
+          RegistryBuilder builder = new RegistryBuilder();
+  
+***************
+*** 41,46 ****
+      }
+  
+!     public static RegistryManager getInstance() {
+          if (_instance == null) {
+              _instance = new RegistryManager();
+          }
+--- 45,51 ----
+      }
+  
+!     public static RegistryManager getInstance() {        
+          if (_instance == null) {
++             log.debug(&quot;Constructing RegistryManager&quot;);
+              _instance = new RegistryManager();
+          }
+***************
+*** 48,55 ****
+      }
+  
+!     public Registry getRegistry() {
+!         if (this.registry==null){
+              this.registry = constructRegistry();
+!         }        
+          return this.registry;
+      }
+--- 53,62 ----
+      }
+  
+!     public synchronized Registry getRegistry() {
+!         if (this.registry == null) {
+!             log.debug(&quot;Constructing Registry&quot;);
+              this.registry = constructRegistry();
+!             log.debug(&quot;Constructed Registry&quot;);
+!         }
+          return this.registry;
+      }
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000240.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/factory QuartzSchedulerFactory.java,1.5,1.6
+</A></li>
+	<LI>Next message: <A HREF="000242.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind pom.xml,1.3,1.4
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#241">[ date ]</a>
+              <a href="thread.html#241">[ thread ]</a>
+              <a href="subject.html#241">[ subject ]</a>
+              <a href="author.html#241">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

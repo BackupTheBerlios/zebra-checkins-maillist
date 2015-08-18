@@ -1,0 +1,1112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractRoleManager.java,1.1,1.2 AbstractGroupManager.java,1.1,1.2 AbstractPermissionManager.java,1.1,1.2 AbstractUserManager.java,1.7,1.8
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-March/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi%20AbstractRoleManager.java%2C1.1%2C1.2%20AbstractGroupManager.java%2C1.1%2C1.2%20AbstractPermissionManager.java%2C1.1%2C1.2%20AbstractUserManager.java%2C1.7%2C1.8&In-Reply-To=%3C200603181718.k2IHIHb18102%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000292.html">
+   <LINK REL="Next"  HREF="000296.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractRoleManager.java,1.1,1.2 AbstractGroupManager.java,1.1,1.2 AbstractPermissionManager.java,1.1,1.2 AbstractUserManager.java,1.7,1.8</H1>
+    <B>biggus_richus</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi%20AbstractRoleManager.java%2C1.1%2C1.2%20AbstractGroupManager.java%2C1.1%2C1.2%20AbstractPermissionManager.java%2C1.1%2C1.2%20AbstractUserManager.java%2C1.7%2C1.8&In-Reply-To=%3C200603181718.k2IHIHb18102%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi AbstractRoleManager.java,1.1,1.2 AbstractGroupManager.java,1.1,1.2 AbstractPermissionManager.java,1.1,1.2 AbstractUserManager.java,1.7,1.8">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Sat Mar 18 18:18:17 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000292.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelper.java,1.1,1.2 PersistenceHelperHivemindImplementation.java,1.2,1.3 HibernateRoleManagerImpl.java,1.1,1.2 HibernatePermissionManagerImpl.java,1.1,1.2 HibernateGroupManagerImpl.java,1.1,1.2 HibernateUserManagerImpl.java,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000296.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,1.15,1.16
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#294">[ date ]</a>
+              <a href="thread.html#294">[ thread ]</a>
+              <a href="subject.html#294">[ subject ]</a>
+              <a href="author.html#294">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi
+In directory sheep:/tmp/cvs-serv18372/src/main/java/org/apache/fulcrum/security/spi
+
+Modified Files:
+	AbstractRoleManager.java AbstractGroupManager.java 
+	AbstractPermissionManager.java AbstractUserManager.java 
+Log Message:
+Added functionality to disable users
+
+Index: AbstractRoleManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi/AbstractRoleManager.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** AbstractRoleManager.java	14 Nov 2005 18:20:48 -0000	1.1
+--- AbstractRoleManager.java	18 Mar 2006 16:19:37 -0000	1.2
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.spi;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 16,185 ****
+   */
+  import org.apache.commons.lang.StringUtils;
+- import org.apache.commons.logging.Log;
+- import org.apache.commons.logging.LogFactory;
+  import org.apache.fulcrum.security.RoleManager;
+  import org.apache.fulcrum.security.entity.Role;
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+  
+  /**
+!  *
+!  * This implementation keeps all objects in memory.  This is mostly meant to help
+   * with testing and prototyping of ideas.
+!  *
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public abstract class AbstractRoleManager
+!     extends AbstractEntityManager
+!     implements RoleManager
+! {
+!     /** Logging */
+!     private static Log log = LogFactory.getLog(AbstractRoleManager.class);
+  
+! 	protected abstract Role persistNewRole(Role role) throws DataBackendException;
+! 	
+!     /**
+!     	* Construct a blank Role object.
+!     	*
+!     	* This method calls getRoleClass, and then creates a new object using
+!     	* the default constructor.
+!     	*
+!     	* @return an object implementing Role interface.
+!     	* @throws DataBackendException if the object could not be instantiated.
+!     	*/
+!     public Role getRoleInstance() throws DataBackendException
+!     {
+!         Role role;
+!         try
+!         {
+!             role = (Role) Class.forName(getClassName()).newInstance();
+!         }
+!         catch (Exception e)
+!         {
+!             throw new DataBackendException(
+!                 &quot;Problem creating instance of class &quot; + getClassName(),
+!                 e);
+!         }
+  
+!         return role;
+!     }
+!     /**
+!     	* Construct a blank Role object.
+!     	*
+!     	* This method calls getRoleClass, and then creates a new object using
+!     	* the default constructor.
+!     	*
+!     	* @param roleName The name of the role.
+!     	*
+!     	* @return an object implementing Role interface.
+!     	*
+!     	* @throws DataBackendException if the object could not be instantiated.
+!     	*/
+!     public Role getRoleInstance(String roleName) throws DataBackendException
+!     {
+!         Role role = getRoleInstance();
+!         role.setName(roleName);
+!         return role;
+!     }
+!     /**
+!     	* Retrieve a Role object with specified name.
+!     	*
+!     	* @param name the name of the Role.
+!     	* @return an object representing the Role with specified name.
+!     	* @throws DataBackendException if there was an error accessing the
+!     	*         data backend.
+!     	* @throws UnknownEntityException if the role does not exist.
+!     	*/
+!     public Role getRoleByName(String name)
+!         throws DataBackendException, UnknownEntityException
+!     {
+!         Role role = getAllRoles().getRoleByName(name);
+!         if (role == null)
+!         {
+!             throw new UnknownEntityException(&quot;The specified role does not exist&quot;);
+!         }
+!         return role;
+!     }
+!     /**
+!     	* Retrieve a Role object with specified Id.
+!     	*
+!     	* @param name the name of the Role.
+!     	*
+!     	* @return an object representing the Role with specified name.
+!     	*
+!     	* @throws UnknownEntityException if the permission does not
+!     	*            exist in the database.
+!     	* @throws DataBackendException if there is a problem accessing the
+!     	*            storage.
+!     	*/
+!     public Role getRoleById(Object id)
+!         throws DataBackendException, UnknownEntityException
+!     {
+!         Role role = getAllRoles().getRoleById(id);
+!         if (role == null)
+!         {
+!             throw new UnknownEntityException(&quot;The specified role does not exist&quot;);
+!         }
+!         return role;
+!     }
+  
+!     /**
+!     	* Creates a new role with specified attributes.
+!     	*
+!     	* @param role the object describing the role to be created.
+!     	* @return a new Role object that has id set up properly.
+!     	* @throws DataBackendException if there was an error accessing the data
+!     	*         backend.
+!     	* @throws EntityExistsException if the role already exists.
+!     	*/
+!     public synchronized Role addRole(Role role)
+!         throws DataBackendException, EntityExistsException
+!     {
+!         boolean roleExists = false;
+!         if (StringUtils.isEmpty(role.getName()))
+!         {
+!             throw new DataBackendException(&quot;Could not create a role with empty name!&quot;);
+!         }
+!         if (role.getId() != null)
+!         {
+!             throw new DataBackendException(&quot;Could not create a role with an id!&quot;);
+!         }
+!         try
+!         {
+!             roleExists = checkExists(role);
+!             if (!roleExists)
+!             {
+!                 return persistNewRole(role);
+!             }
+!         }
+!         catch (Exception e)
+!         {
+!             throw new DataBackendException(&quot;addRole(Role) failed&quot;, e);
+!         }
+!         finally
+!         {
+!         }
+!         // the only way we could get here without return/throw tirggered
+!         // is that the roleExists was true.
+!         throw new EntityExistsException(&quot;Role '&quot; + role + &quot;' already exists&quot;);
+!     }
+!     
+!     /**
+! 	* Check whether a specified role exists.
+! 	*
+! 	* The name is used for looking up the role
+! 	*
+! 	* @param role The role to be checked.
+! 	* @return true if the specified role exists
+! 	* @throws DataBackendException if there was an error accessing
+! 	*         the data backend.
+! 	*/
+! 	public boolean checkExists(Role role) throws DataBackendException
+! 	{
+! 	    return checkExists(role.getName());
+! 	}    
+  
+-     
+  }
+--- 17,173 ----
+   */
+  import org.apache.commons.lang.StringUtils;
+  import org.apache.fulcrum.security.RoleManager;
+  import org.apache.fulcrum.security.entity.Role;
+  import org.apache.fulcrum.security.util.DataBackendException;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+  
+  /**
+!  * 
+!  * This implementation keeps all objects in memory. This is mostly meant to help
+   * with testing and prototyping of ideas.
+!  * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+   * @version $Id$
+   */
+! public abstract class AbstractRoleManager extends AbstractEntityManager
+! 		implements RoleManager {
+! 	protected abstract Role persistNewRole(Role role)
+! 			throws DataBackendException;
+  
+! 	/**
+! 	 * Construct a blank Role object.
+! 	 * 
+! 	 * This method calls getRoleClass, and then creates a new object using the
+! 	 * default constructor.
+! 	 * 
+! 	 * @return an object implementing Role interface.
+! 	 * @throws DataBackendException
+! 	 *             if the object could not be instantiated.
+! 	 */
+! 	public Role getRoleInstance() throws DataBackendException {
+! 		Role role;
+! 		try {
+! 			role = (Role) Class.forName(getClassName()).newInstance();
+! 		} catch (Exception e) {
+! 			throw new DataBackendException(
+! 					&quot;Problem creating instance of class &quot; + getClassName(), e);
+! 		}
+  
+! 		return role;
+! 	}
+  
+! 	/**
+! 	 * Construct a blank Role object.
+! 	 * 
+! 	 * This method calls getRoleClass, and then creates a new object using the
+! 	 * default constructor.
+! 	 * 
+! 	 * @param roleName
+! 	 *            The name of the role.
+! 	 * 
+! 	 * @return an object implementing Role interface.
+! 	 * 
+! 	 * @throws DataBackendException
+! 	 *             if the object could not be instantiated.
+! 	 */
+! 	public Role getRoleInstance(String roleName) throws DataBackendException {
+! 		Role role = getRoleInstance();
+! 		role.setName(roleName);
+! 		return role;
+! 	}
+! 
+! 	/**
+! 	 * Retrieve a Role object with specified name.
+! 	 * 
+! 	 * @param name
+! 	 *            the name of the Role.
+! 	 * @return an object representing the Role with specified name.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws UnknownEntityException
+! 	 *             if the role does not exist.
+! 	 */
+! 	public Role getRoleByName(String name) throws DataBackendException,
+! 			UnknownEntityException, EntityDisabledException {
+! 		Role role = getAllRoles().getRoleByName(name);
+! 		if (role == null) {
+! 			throw new UnknownEntityException(
+! 					&quot;The specified role does not exist&quot;);
+! 		}
+! 
+! 		if (role.isDisabled()) {
+! 			throw new EntityDisabledException(&quot;Role is disabled&quot;);
+! 		}
+! 		return role;
+! 	}
+! 
+! 	/**
+! 	 * Retrieve a Role object with specified Id.
+! 	 * 
+! 	 * @param name
+! 	 *            the name of the Role.
+! 	 * 
+! 	 * @return an object representing the Role with specified name.
+! 	 * 
+! 	 * @throws UnknownEntityException
+! 	 *             if the permission does not exist in the database.
+! 	 * @throws DataBackendException
+! 	 *             if there is a problem accessing the storage.
+! 	 */
+! 	public Role getRoleById(Object id) throws DataBackendException,
+! 			UnknownEntityException, EntityDisabledException {
+! 		Role role = getAllRoles().getRoleById(id);
+! 		if (role == null) {
+! 			throw new UnknownEntityException(
+! 					&quot;The specified role does not exist&quot;);
+! 		}
+! 
+! 		if (role.isDisabled()) {
+! 			throw new EntityDisabledException(&quot;Role is disabled&quot;);
+! 		}
+! 		return role;
+! 	}
+! 
+! 	/**
+! 	 * Creates a new role with specified attributes.
+! 	 * 
+! 	 * @param role
+! 	 *            the object describing the role to be created.
+! 	 * @return a new Role object that has id set up properly.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws EntityExistsException
+! 	 *             if the role already exists.
+! 	 */
+! 	public synchronized Role addRole(Role role) throws DataBackendException,
+! 			EntityExistsException {
+! 		if (StringUtils.isEmpty(role.getName())) {
+! 			throw new DataBackendException(
+! 					&quot;Could not create a role with empty name!&quot;);
+! 		}
+! 		
+! 		if (checkExists(role)) {
+! 			throw new EntityExistsException(&quot;Role '&quot; + role + &quot;' is unavailable&quot;);			
+! 		}
+! 		
+! 		return persistNewRole(role);
+! 	}
+! 
+! 	/**
+! 	 * Check whether a specified role exists.
+! 	 * 
+! 	 * The name is used for looking up the role
+! 	 * 
+! 	 * @param role
+! 	 *            The role to be checked.
+! 	 * @return true if the specified role exists
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 */
+! 	public boolean checkExists(Role role) throws DataBackendException {
+! 		return checkExists(role.getName());
+! 	}
+  
+  }
+
+Index: AbstractGroupManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi/AbstractGroupManager.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** AbstractGroupManager.java	14 Nov 2005 18:20:48 -0000	1.1
+--- AbstractGroupManager.java	18 Mar 2006 16:19:37 -0000	1.2
+***************
+*** 16,24 ****
+   */
+  import org.apache.commons.lang.StringUtils;
+- import org.apache.commons.logging.Log;
+- import org.apache.commons.logging.LogFactory;
+  import org.apache.fulcrum.security.GroupManager;
+  import org.apache.fulcrum.security.entity.Group;
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+--- 16,23 ----
+   */
+  import org.apache.commons.lang.StringUtils;
+  import org.apache.fulcrum.security.GroupManager;
+  import org.apache.fulcrum.security.entity.Group;
+  import org.apache.fulcrum.security.util.DataBackendException;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+***************
+*** 33,41 ****
+  public abstract class AbstractGroupManager
+      extends AbstractEntityManager
+!     implements GroupManager
+! {
+!     /** Logging */
+!     private static Log log = LogFactory.getLog(AbstractGroupManager.class);
+! 
+      protected abstract Group persistNewGroup(Group group) throws DataBackendException;
+  
+--- 32,36 ----
+  public abstract class AbstractGroupManager
+      extends AbstractEntityManager
+!     implements GroupManager {
+      protected abstract Group persistNewGroup(Group group) throws DataBackendException;
+  
+***************
+*** 49,61 ****
+      * @throws DataBackendException if the object could not be instantiated.
+      */
+!     public Group getGroupInstance() throws DataBackendException
+!     {
+          Group group;
+!         try
+!         {
+              group = (Group) Class.forName(getClassName()).newInstance();
+          }
+!         catch (Exception e)
+!         {
+              throw new DataBackendException(
+                  &quot;Problem creating instance of class &quot; + getClassName(),
+--- 44,53 ----
+      * @throws DataBackendException if the object could not be instantiated.
+      */
+!     public Group getGroupInstance() throws DataBackendException {
+          Group group;
+!         try {
+              group = (Group) Class.forName(getClassName()).newInstance();
+          }
+!         catch (Exception e) {
+              throw new DataBackendException(
+                  &quot;Problem creating instance of class &quot; + getClassName(),
+***************
+*** 77,82 ****
+      	* @throws DataBackendException if the object could not be instantiated.
+      	*/
+!     public Group getGroupInstance(String groupName) throws DataBackendException
+!     {
+          Group group = getGroupInstance();
+          group.setName(groupName);
+--- 69,73 ----
+      	* @throws DataBackendException if the object could not be instantiated.
+      	*/
+!     public Group getGroupInstance(String groupName) throws DataBackendException {
+          Group group = getGroupInstance();
+          group.setName(groupName);
+***************
+*** 94,104 ****
+       */
+      public Group getGroupByName(String name)
+!         throws DataBackendException, UnknownEntityException
+!     {
+          Group group = getAllGroups().getGroupByName(name);
+!         if (group == null)
+!         {
+              throw new UnknownEntityException(&quot;The specified group does not exist&quot;);
+          }
+          return group;
+      }
+--- 85,99 ----
+       */
+      public Group getGroupByName(String name)
+!         throws DataBackendException, UnknownEntityException, EntityDisabledException {
+          Group group = getAllGroups().getGroupByName(name);
+!         
+!         if (group == null) {
+              throw new UnknownEntityException(&quot;The specified group does not exist&quot;);
+          }
++         
++         if (group.isDisabled()) {
++         	throw new EntityDisabledException(&quot;Group is disabled&quot;);
++         }
++         
+          return group;
+      }
+***************
+*** 116,126 ****
+       */
+      public Group getGroupById(Object id)
+!         throws DataBackendException, UnknownEntityException
+!     {
+          Group group = getAllGroups().getGroupById(id);
+!         if (group == null)
+!         {
+              throw new UnknownEntityException(&quot;The specified group does not exist&quot;);
+          }
+          return group;
+      }
+--- 111,124 ----
+       */
+      public Group getGroupById(Object id)
+!         throws DataBackendException, UnknownEntityException, EntityDisabledException {
+          Group group = getAllGroups().getGroupById(id);
+!         if (group == null) {
+              throw new UnknownEntityException(&quot;The specified group does not exist&quot;);
+          }
++         
++         if (group.isDisabled()) {
++         	throw new EntityDisabledException(&quot;Group is disabled&quot;);
++         }
++         
+          return group;
+      }
+***************
+*** 136,162 ****
+      	*/
+      public synchronized Group addGroup(Group group)
+!         throws DataBackendException, EntityExistsException
+!     {
+!         boolean groupExists = false;
+!         if (StringUtils.isEmpty(group.getName()))
+!         {
+              throw new DataBackendException(&quot;Could not create a group with empty name!&quot;);
+          }
+-         if (group.getId() != null)
+-         {
+-             throw new DataBackendException(&quot;Could not create a group with an id!&quot;);
+-         }
+-         groupExists = checkExists(group);
+-         if (!groupExists)
+-         {
+  
+!             // return the object with correct id
+!             return persistNewGroup(group);
+!         }
+!         else
+!         {
+!             throw new EntityExistsException(
+!                 &quot;Group '&quot; + group + &quot;' already exists&quot;);
+          }
+      }
+      
+--- 134,148 ----
+      	*/
+      public synchronized Group addGroup(Group group)
+!         throws DataBackendException, EntityExistsException {
+!         if (StringUtils.isEmpty(group.getName())) {
+              throw new DataBackendException(&quot;Could not create a group with empty name!&quot;);
+          }
+  
+!         if (checkExists(group)) {
+! 	        throw new EntityExistsException(
+! 	                &quot;Group '&quot; + group + &quot;' is unavailable&quot;);
+          }
++ 
++         return persistNewGroup(group);
+      }
+      
+***************
+*** 171,176 ****
+  	*         the data backend.
+  	*/
+! 	public boolean checkExists(Group group) throws DataBackendException
+! 	{
+  	    return checkExists(group.getName());
+  	}      
+--- 157,161 ----
+  	*         the data backend.
+  	*/
+! 	public boolean checkExists(Group group) throws DataBackendException	{
+  	    return checkExists(group.getName());
+  	}      
+
+Index: AbstractPermissionManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi/AbstractPermissionManager.java,v
+retrieving revision 1.1
+retrieving revision 1.2
+diff -C2 -d -r1.1 -r1.2
+*** AbstractPermissionManager.java	14 Nov 2005 18:20:48 -0000	1.1
+--- AbstractPermissionManager.java	18 Mar 2006 16:19:37 -0000	1.2
+***************
+*** 1,3 ****
+--- 1,4 ----
+  package org.apache.fulcrum.security.spi;
++ 
+  /*
+   *  Copyright 2001-2004 The Apache Software Foundation
+***************
+*** 16,171 ****
+   */
+  import org.apache.commons.lang.StringUtils;
+- import org.apache.commons.logging.Log;
+- import org.apache.commons.logging.LogFactory;
+  import org.apache.fulcrum.security.PermissionManager;
+  import org.apache.fulcrum.security.entity.Permission;
+  import org.apache.fulcrum.security.util.DataBackendException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+  
+  /**
+!  * This implementation keeps all objects in memory. This is mostly meant to help with testing and
+!  * prototyping of ideas.
+   * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+!  * @version $Id$
+   */
+! public abstract class AbstractPermissionManager extends AbstractEntityManager implements PermissionManager
+! {
+!     /** Logging */
+!     private static Log log = LogFactory.getLog(AbstractPermissionManager.class);
+!     
+! 	protected abstract Permission persistNewPermission(Permission permission) throws DataBackendException;
+  
+!     /**
+  	 * Construct a blank Permission object.
+  	 * 
+! 	 * This method calls getPermissionClass, and then creates a new object using the default
+! 	 * constructor.
+  	 * 
+  	 * @return an object implementing Permission interface.
+! 	 * @throws UnknownEntityException if the object could not be instantiated.
+  	 */
+!     public Permission getPermissionInstance() throws UnknownEntityException
+!     {
+!         Permission permission;
+!         try
+!         {
+! 			permission = (Permission) Class.forName(getClassName()).newInstance();
+!         }
+!         catch (Exception e)
+!         {
+!             throw new UnknownEntityException(
+!                 &quot;Failed to instantiate a Permission implementation object&quot;,
+!                 e);
+!         }
+!         return permission;
+!     }
+!     /**
+  	 * Construct a blank Permission object.
+  	 * 
+! 	 * This method calls getPermissionClass, and then creates a new object using the default
+! 	 * constructor.
+  	 * 
+! 	 * @param permName The name of the permission.
+  	 * 
+  	 * @return an object implementing Permission interface.
+! 	 * @throws UnknownEntityException if the object could not be instantiated.
+  	 */
+!     public Permission getPermissionInstance(String permName) throws UnknownEntityException
+!     {
+!         Permission perm = getPermissionInstance();
+!         perm.setName(permName);
+!         return perm;
+!     }
+!     /**
+  	 * Retrieve a Permission object with specified name.
+  	 * 
+! 	 * @param name the name of the Permission.
+  	 * @return an object representing the Permission with specified name.
+! 	 * @throws DataBackendException if there was an error accessing the data backend.
+! 	 * @throws UnknownEntityException if the permission does not exist.
+  	 */
+!     public Permission getPermissionByName(String name)
+!         throws DataBackendException, UnknownEntityException
+!     {
+!         Permission permission = getAllPermissions().getPermissionByName(name);
+!         if (permission == null)
+!         {
+!             throw new UnknownEntityException(&quot;The specified permission does not exist&quot;);
+!         }
+!         return permission;
+!     }
+!     /**
+  	 * Retrieve a Permission object with specified Id.
+  	 * 
+! 	 * @param name the name of the Permission.
+  	 * 
+  	 * @return an object representing the Permission with specified name.
+  	 * 
+! 	 * @throws UnknownEntityException if the permission does not exist in the database.
+! 	 * @throws DataBackendException if there is a problem accessing the storage.
+  	 */
+!     public Permission getPermissionById(Object id)
+!         throws DataBackendException, UnknownEntityException
+!     {
+!         Permission permission = getAllPermissions().getPermissionById(id);
+!         if (permission == null)
+!         {
+!             throw new UnknownEntityException(&quot;The specified permission does not exist&quot;);
+!         }
+!         return permission;
+!     }
+!         /**
+  	 * Creates a new permission with specified attributes.
+  	 * 
+! 	 * @param permission the object describing the permission to be created.
+  	 * @return a new Permission object that has id set up properly.
+! 	 * @throws DataBackendException if there was an error accessing the data backend.
+! 	 * @throws EntityExistsException if the permission already exists.
+  	 */
+!     public synchronized Permission addPermission(Permission permission)
+!         throws DataBackendException, EntityExistsException
+!     {
+!         boolean permissionExists = false;
+!         if (StringUtils.isEmpty(permission.getName()))
+!         {
+!             throw new DataBackendException(&quot;Could not create a permission with empty name!&quot;);
+!         }
+!         if (permission.getId() != null)
+!         {
+!             throw new DataBackendException(&quot;Could not create a permission with an id!&quot;);
+!         }
+!         try
+!         {
+!             permissionExists = checkExists(permission);
+!             if (!permissionExists)
+!             {
+!                return persistNewPermission(permission);
+!             }
+!         }
+!         catch (Exception e)
+!         {
+!             throw new DataBackendException(&quot;addPermission(Permission) failed&quot;, e);
+!         }
+!         // the only way we could get here without return/throw tirggered
+!         // is that the permissionExists was true.
+!         throw new EntityExistsException(&quot;Permission '&quot; + permission + &quot;' already exists&quot;);
+!     }
+!    
+!     /**
+! 	* Check whether a specifieds permission exists.
+! 	*
+! 	* The name is used for looking up the permission
+! 	*
+! 	* @param role The permission to be checked.
+! 	* @return true if the specified permission exists
+! 	* @throws DataBackendException if there was an error accessing
+! 	*         the data backend.
+! 	*/
+! 	public boolean checkExists(Permission permission) throws DataBackendException
+! 	{
+! 	    return checkExists(permission.getName());
+! 	}  
+!    
+  }
+--- 17,176 ----
+   */
+  import org.apache.commons.lang.StringUtils;
+  import org.apache.fulcrum.security.PermissionManager;
+  import org.apache.fulcrum.security.entity.Permission;
+  import org.apache.fulcrum.security.util.DataBackendException;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.UnknownEntityException;
+  
+  /**
+!  * This implementation keeps all objects in memory. This is mostly meant to help
+!  * with testing and prototyping of ideas.
+   * 
+   * @author &lt;a href=&quot;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/zebra-checkins">epugh at upstate.com</A>&quot;&gt;Eric Pugh&lt;/a&gt;
+!  * @version $Id: AbstractPermissionManager.java,v 1.1 2005/11/14 18:20:48
+!  *          bgidley Exp $
+   */
+! public abstract class AbstractPermissionManager extends AbstractEntityManager
+! 		implements PermissionManager {
+! 	protected abstract Permission persistNewPermission(Permission permission)
+! 			throws DataBackendException;
+  
+! 	/**
+  	 * Construct a blank Permission object.
+  	 * 
+! 	 * This method calls getPermissionClass, and then creates a new object using
+! 	 * the default constructor.
+  	 * 
+  	 * @return an object implementing Permission interface.
+! 	 * @throws UnknownEntityException
+! 	 *             if the object could not be instantiated.
+  	 */
+! 	public Permission getPermissionInstance() throws UnknownEntityException {
+! 		Permission permission;
+! 		try {
+! 			permission = (Permission) Class.forName(getClassName())
+! 					.newInstance();
+! 		} catch (Exception e) {
+! 			throw new UnknownEntityException(
+! 					&quot;Failed to instantiate a Permission implementation object&quot;,
+! 					e);
+! 		}
+! 		return permission;
+! 	}
+! 
+! 	/**
+  	 * Construct a blank Permission object.
+  	 * 
+! 	 * This method calls getPermissionClass, and then creates a new object using
+! 	 * the default constructor.
+  	 * 
+! 	 * @param permName
+! 	 *            The name of the permission.
+  	 * 
+  	 * @return an object implementing Permission interface.
+! 	 * @throws UnknownEntityException
+! 	 *             if the object could not be instantiated.
+  	 */
+! 	public Permission getPermissionInstance(String permName)
+! 			throws UnknownEntityException {
+! 		Permission perm = getPermissionInstance();
+! 		perm.setName(permName);
+! 		return perm;
+! 	}
+! 
+! 	/**
+  	 * Retrieve a Permission object with specified name.
+  	 * 
+! 	 * @param name
+! 	 *            the name of the Permission.
+  	 * @return an object representing the Permission with specified name.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws UnknownEntityException
+! 	 *             if the permission does not exist.
+  	 */
+! 	public Permission getPermissionByName(String name)
+! 			throws DataBackendException, UnknownEntityException,
+! 			EntityDisabledException {
+! 		Permission permission = getAllPermissions().getPermissionByName(name);
+! 		if (permission == null) {
+! 			throw new UnknownEntityException(
+! 					&quot;The specified permission does not exist&quot;);
+! 		}
+! 
+! 		if (permission.isDisabled()) {
+! 			throw new EntityDisabledException(&quot;Permission is disabled&quot;);
+! 		}
+! 		return permission;
+! 	}
+! 
+! 	/**
+  	 * Retrieve a Permission object with specified Id.
+  	 * 
+! 	 * @param name
+! 	 *            the name of the Permission.
+  	 * 
+  	 * @return an object representing the Permission with specified name.
+  	 * 
+! 	 * @throws UnknownEntityException
+! 	 *             if the permission does not exist in the database.
+! 	 * @throws DataBackendException
+! 	 *             if there is a problem accessing the storage.
+  	 */
+! 	public Permission getPermissionById(Object id) throws DataBackendException,
+! 			UnknownEntityException, EntityDisabledException {
+! 		Permission permission = getAllPermissions().getPermissionById(id);
+! 		if (permission == null) {
+! 			throw new UnknownEntityException(
+! 					&quot;The specified permission does not exist&quot;);
+! 		}
+! 		if (permission.isDisabled()) {
+! 			throw new EntityDisabledException(&quot;Permission is disabled&quot;);
+! 		}
+! 		return permission;
+! 	}
+! 
+! 	/**
+  	 * Creates a new permission with specified attributes.
+  	 * 
+! 	 * @param permission
+! 	 *            the object describing the permission to be created.
+  	 * @return a new Permission object that has id set up properly.
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 * @throws EntityExistsException
+! 	 *             if the permission already exists.
+  	 */
+! 	public synchronized Permission addPermission(Permission permission)
+! 			throws DataBackendException, EntityExistsException {
+! 		if (StringUtils.isEmpty(permission.getName())) {
+! 			throw new DataBackendException(
+! 					&quot;Could not create a permission with empty name!&quot;);
+! 		}
+! 		
+! 		if (checkExists(permission)) {
+! 			throw new EntityExistsException(&quot;Permission '&quot; + permission
+! 					+ &quot;' is unavailable&quot;);			
+! 		}
+! 		
+! 		return persistNewPermission(permission);
+! 	}
+! 
+! 	/**
+! 	 * Check whether a specifieds permission exists.
+! 	 * 
+! 	 * The name is used for looking up the permission
+! 	 * 
+! 	 * @param role
+! 	 *            The permission to be checked.
+! 	 * @return true if the specified permission exists
+! 	 * @throws DataBackendException
+! 	 *             if there was an error accessing the data backend.
+! 	 */
+! 	public boolean checkExists(Permission permission)
+! 			throws DataBackendException {
+! 		return checkExists(permission.getName());
+! 	}
+! 
+  }
+
+Index: AbstractUserManager.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-security-hivemind/src/main/java/org/apache/fulcrum/security/spi/AbstractUserManager.java,v
+retrieving revision 1.7
+retrieving revision 1.8
+diff -C2 -d -r1.7 -r1.8
+*** AbstractUserManager.java	24 Jan 2006 11:38:55 -0000	1.7
+--- AbstractUserManager.java	18 Mar 2006 16:19:37 -0000	1.8
+***************
+*** 28,31 ****
+--- 28,32 ----
+  import org.apache.fulcrum.security.model.ACLFactory;
+  import org.apache.fulcrum.security.util.DataBackendException;
++ import org.apache.fulcrum.security.util.EntityDisabledException;
+  import org.apache.fulcrum.security.util.EntityExistsException;
+  import org.apache.fulcrum.security.util.PasswordExpiredException;
+***************
+*** 110,114 ****
+  	public User getUser(String userName, String password)
+  			throws PasswordMismatchException, UnknownEntityException,
+! 			UserLockedException, DataBackendException, PasswordExpiredException {
+  		User user = getUser(userName);
+  		
+--- 111,115 ----
+  	public User getUser(String userName, String password)
+  			throws PasswordMismatchException, UnknownEntityException,
+! 			UserLockedException, DataBackendException, PasswordExpiredException, EntityDisabledException {
+  		User user = getUser(userName);
+  		
+***************
+*** 127,132 ****
+  
+  	public User getUser(String name) throws DataBackendException,
+! 			UnknownEntityException {
+  		User user = getAllUsers().getUserByName(name);
+  		if (user == null) {
+  			throw new UnknownEntityException(
+--- 128,138 ----
+  
+  	public User getUser(String name) throws DataBackendException,
+! 			UnknownEntityException, EntityDisabledException {
+  		User user = getAllUsers().getUserByName(name);
++ 		
++ 		if (user.isDisabled()) {
++ 			throw new EntityDisabledException(&quot;The specified user is unavailable&quot;);
++ 		}
++ 		
+  		if (user == null) {
+  			throw new UnknownEntityException(
+***************
+*** 150,155 ****
+  	 */
+  	public User getUserById(Object id) throws DataBackendException,
+! 			UnknownEntityException {
+  		User user = getAllUsers().getUserById(id);
+  		if (user == null) {
+  			throw new UnknownEntityException(
+--- 156,166 ----
+  	 */
+  	public User getUserById(Object id) throws DataBackendException,
+! 			UnknownEntityException, EntityDisabledException {
+  		User user = getAllUsers().getUserById(id);
++ 
++ 		
++ 		if (user.isDisabled()) {
++ 			throw new EntityDisabledException(&quot;The specified user is unavailable&quot;);
++ 		}
+  		if (user == null) {
+  			throw new UnknownEntityException(
+***************
+*** 172,179 ****
+  	 * @exception DataBackendException
+  	 *                if there is a problem accessing the storage.
+  	 */
+  	public void authenticate(User user, String password)
+  			throws PasswordMismatchException, UnknownEntityException, 
+! 			DataBackendException, UserLockedException {
+  
+  		if (!checkExists(user)) {
+--- 183,191 ----
+  	 * @exception DataBackendException
+  	 *                if there is a problem accessing the storage.
++ 	 * @throws EntityDisabledException 
+  	 */
+  	public void authenticate(User user, String password)
+  			throws PasswordMismatchException, UnknownEntityException, 
+! 			DataBackendException, UserLockedException, EntityDisabledException {
+  
+  		if (!checkExists(user)) {
+***************
+*** 182,185 ****
+--- 194,201 ----
+  		}
+  
++ 		if (user.isDisabled()) {
++ 			throw new EntityDisabledException(&quot;User is disabled&quot;);
++ 		}
++ 		
+  		if (user.getLockTime() != 0) {
+  			long elapsedTime = user.getLockTime() + (HOURS_TO_MILLIS * lockResetHours);
+***************
+*** 225,229 ****
+  	public void changePassword(User user, String oldPassword, String newPassword)
+  			throws PasswordMismatchException, UserLockedException, 
+! 			       UnknownEntityException, DataBackendException, PasswordHistoryException {
+  		authenticate(user, oldPassword);
+  		forcePassword(user, newPassword);
+--- 241,245 ----
+  	public void changePassword(User user, String oldPassword, String newPassword)
+  			throws PasswordMismatchException, UserLockedException, 
+! 			       UnknownEntityException, DataBackendException, PasswordHistoryException, EntityDisabledException {
+  		authenticate(user, oldPassword);
+  		forcePassword(user, newPassword);
+***************
+*** 242,245 ****
+--- 258,262 ----
+  	 * Created on Jan 16, 2006
+  	 */
++ 	@SuppressWarnings(&quot;unchecked&quot;)
+  	private void cyclePassword(User user, String newPassword)
+  			throws DataBackendException, PasswordHistoryException {
+***************
+*** 369,386 ****
+  					&quot;Could not create a user with empty name!&quot;);
+  		}
+  		if (checkExists(user)) {
+  			throw new EntityExistsException(&quot;The account '&quot; + user.getName()
+! 					+ &quot;' already exists&quot;);
+  		}
+  		user.setPassword(authenticator.getCryptoPassword(password));
+  		setPasswordExpiry(user);
+  		user.setLockTime(0);
+  		user.setLoginAttempts(0);
+! 		try {
+! 			return persistNewUser(user);
+! 		} catch (Exception e) {
+! 			throw new DataBackendException(&quot;Failed to create account '&quot;
+! 					+ user.getName() + &quot;'&quot;, e);
+! 		}
+  	}
+  
+--- 386,401 ----
+  					&quot;Could not create a user with empty name!&quot;);
+  		}
++ 		
+  		if (checkExists(user)) {
+  			throw new EntityExistsException(&quot;The account '&quot; + user.getName()
+! 					+ &quot;' is unavailable&quot;);
+  		}
++ 		
+  		user.setPassword(authenticator.getCryptoPassword(password));
+  		setPasswordExpiry(user);
+  		user.setLockTime(0);
+  		user.setLoginAttempts(0);
+! 
+! 		return persistNewUser(user);
+  	}
+  
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000292.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate PersistenceHelper.java,1.1,1.2 PersistenceHelperHivemindImplementation.java,1.2,1.3 HibernateRoleManagerImpl.java,1.1,1.2 HibernatePermissionManagerImpl.java,1.1,1.2 HibernateGroupManagerImpl.java,1.1,1.2 HibernateUserManagerImpl.java,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000296.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind pom.xml,1.15,1.16
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#294">[ date ]</a>
+              <a href="thread.html#294">[ thread ]</a>
+              <a href="subject.html#294">[ subject ]</a>
+              <a href="author.html#294">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>

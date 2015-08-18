@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreatePostgresTables.java,1.2,1.3
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/zebra-checkins/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables%20CreatePostgresTables.java%2C1.2%2C1.3&In-Reply-To=%3C200601201128.k0KBSTx00465%40bat.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000080.html">
+   <LINK REL="Next"  HREF="000081.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreatePostgresTables.java,1.2,1.3</H1>
+    <B>peter_courcoux</B> 
+    <A HREF="mailto:zebra-checkins%40lists.berlios.de?Subject=Re%3A%20%5BZebra-checkins%5D%20zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables%20CreatePostgresTables.java%2C1.2%2C1.3&In-Reply-To=%3C200601201128.k0KBSTx00465%40bat.berlios.de%3E"
+       TITLE="[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables CreatePostgresTables.java,1.2,1.3">nobody at sheep.berlios.de
+       </A><BR>
+    <I>Fri Jan 20 12:28:29 CET 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000080.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicUser.java,1.2,1.3
+</A></li>
+        <LI>Next message: <A HREF="000081.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#82">[ date ]</a>
+              <a href="thread.html#82">[ thread ]</a>
+              <a href="subject.html#82">[ subject ]</a>
+              <a href="author.html#82">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Update of /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables
+In directory sheep:/tmp/cvs-serv15923/src/main/java/org/apache/fulcrum/quartz/tables
+
+Modified Files:
+	CreatePostgresTables.java 
+Log Message:
+Quartz now uses tables in the quartz schema in postgres. 
+Bumped version to 1.0.1
+
+Index: CreatePostgresTables.java
+===================================================================
+RCS file: /cvsroot/zebra/zebra/src/java/fulcrum-hivemind-quartz/src/main/java/org/apache/fulcrum/quartz/tables/CreatePostgresTables.java,v
+retrieving revision 1.2
+retrieving revision 1.3
+diff -C2 -d -r1.2 -r1.3
+*** CreatePostgresTables.java	4 Jan 2006 12:59:10 -0000	1.2
+--- CreatePostgresTables.java	20 Jan 2006 11:28:27 -0000	1.3
+***************
+*** 27,31 ****
+  	public void addCommands() {
+  	addSql(&quot;DROP TABLE qrtz_locks;&quot;);
+- 	addSql(&quot;CREATE TABLE qrtz_locks (LOCK_NAME  VARCHAR(40) NOT NULL, PRIMARY KEY (LOCK_NAME));&quot;);
+  	addSql(&quot;drop table qrtz_job_listeners;&quot;);
+  	addSql(&quot;drop table qrtz_trigger_listeners;&quot;);
+--- 27,30 ----
+***************
+*** 39,53 ****
+  	addSql(&quot;drop table qrtz_job_details;&quot;);
+  	addSql(&quot;drop table qrtz_calendars;&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_job_details (JOB_NAME  VARCHAR(80) NOT NULL, JOB_GROUP VARCHAR(80) NOT NULL, DESCRIPTION VARCHAR(120) NULL, JOB_CLASS_NAME VARCHAR(128) NOT NULL, IS_DURABLE BOOL NOT NULL, IS_VOLATILE BOOL NOT NULL, IS_STATEFUL BOOL NOT NULL, REQUESTS_RECOVERY BOOL NOT NULL, JOB_DATA BYTEA NULL, PRIMARY KEY (JOB_NAME,JOB_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_job_listeners ( JOB_NAME  VARCHAR(80) NOT NULL, JOB_GROUP VARCHAR(80) NOT NULL, JOB_LISTENER VARCHAR(80) NOT NULL, PRIMARY KEY (JOB_NAME,JOB_GROUP,JOB_LISTENER), FOREIGN KEY (JOB_NAME,JOB_GROUP) REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_triggers (TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, JOB_NAME  VARCHAR(80) NOT NULL, JOB_GROUP VARCHAR(80) NOT NULL, IS_VOLATILE BOOL NOT NULL, DESCRIPTION VARCHAR(120) NULL, NEXT_FIRE_TIME BIGINT NULL, PREV_FIRE_TIME BIGINT NULL, TRIGGER_STATE VARCHAR(16) NOT NULL, TRIGGER_TYPE VARCHAR(8) NOT NULL, START_TIME BIGINT NOT NULL, END_TIME BIGINT NULL, CALENDAR_NAME VARCHAR(80) NULL, MISFIRE_INSTR SMALLINT NULL, JOB_DATA BYTEA NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (JOB_NAME,JOB_GROUP)REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_simple_triggers ( TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, REPEAT_COUNT BIGINT NOT NULL, REPEAT_INTERVAL BIGINT NOT NULL, TIMES_TRIGGERED BIGINT NOT NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_cron_triggers (TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, CRON_EXPRESSION VARCHAR(80) NOT NULL, TIME_ZONE_ID VARCHAR(80), PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_blob_triggers ( TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, BLOB_DATA BYTEA NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_trigger_listeners ( TRIGGER_NAME  VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, TRIGGER_LISTENER VARCHAR(80) NOT NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_LISTENER), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_calendars ( CALENDAR_NAME  VARCHAR(80) NOT NULL, CALENDAR BYTEA NOT NULL, PRIMARY KEY (CALENDAR_NAME));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_paused_trigger_grps (TRIGGER_GROUP  VARCHAR(80) NOT NULL, PRIMARY KEY (TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_fired_triggers  ( ENTRY_ID VARCHAR(95) NOT NULL, TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, IS_VOLATILE BOOL NOT NULL, INSTANCE_NAME VARCHAR(80) NOT NULL, FIRED_TIME BIGINT NOT NULL, STATE VARCHAR(16) NOT NULL, JOB_NAME VARCHAR(80) NULL, JOB_GROUP VARCHAR(80) NULL, IS_STATEFUL BOOL NULL, REQUESTS_RECOVERY BOOL NULL, PRIMARY KEY (ENTRY_ID));&quot;);
+! 	addSql(&quot;CREATE TABLE qrtz_scheduler_state ( INSTANCE_NAME VARCHAR(80) NOT NULL, LAST_CHECKIN_TIME BIGINT NOT NULL, CHECKIN_INTERVAL BIGINT NOT NULL, RECOVERER VARCHAR(80) NULL, PRIMARY KEY (INSTANCE_NAME));&quot;);
+  	addSql(&quot;INSERT INTO qrtz_locks values('TRIGGER_ACCESS');&quot;);
+  	addSql(&quot;INSERT INTO qrtz_locks values('JOB_ACCESS');&quot;);
+--- 38,56 ----
+  	addSql(&quot;drop table qrtz_job_details;&quot;);
+  	addSql(&quot;drop table qrtz_calendars;&quot;);
+! 	addSql(&quot;drop schema quartz;&quot;);
+! 	addSql(&quot;create schema quartz;&quot;);
+! 	addSql(&quot;set search_path to public, quartz;&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_locks (LOCK_NAME  VARCHAR(40) NOT NULL, PRIMARY KEY (LOCK_NAME));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_job_details (JOB_NAME  VARCHAR(80) NOT NULL, JOB_GROUP VARCHAR(80) NOT NULL, DESCRIPTION VARCHAR(120) NULL, JOB_CLASS_NAME VARCHAR(128) NOT NULL, IS_DURABLE BOOL NOT NULL, IS_VOLATILE BOOL NOT NULL, IS_STATEFUL BOOL NOT NULL, REQUESTS_RECOVERY BOOL NOT NULL, JOB_DATA BYTEA NULL, PRIMARY KEY (JOB_NAME,JOB_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_job_listeners ( JOB_NAME  VARCHAR(80) NOT NULL, JOB_GROUP VARCHAR(80) NOT NULL, JOB_LISTENER VARCHAR(80) NOT NULL, PRIMARY KEY (JOB_NAME,JOB_GROUP,JOB_LISTENER), FOREIGN KEY (JOB_NAME,JOB_GROUP) REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_triggers (TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, JOB_NAME  VARCHAR(80) NOT NULL, JOB_GROUP VARCHAR(80) NOT NULL, IS_VOLATILE BOOL NOT NULL, DESCRIPTION VARCHAR(120) NULL, NEXT_FIRE_TIME BIGINT NULL, PREV_FIRE_TIME BIGINT NULL, TRIGGER_STATE VARCHAR(16) NOT NULL, TRIGGER_TYPE VARCHAR(8) NOT NULL, START_TIME BIGINT NOT NULL, END_TIME BIGINT NULL, CALENDAR_NAME VARCHAR(80) NULL, MISFIRE_INSTR SMALLINT NULL, JOB_DATA BYTEA NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (JOB_NAME,JOB_GROUP)REFERENCES QRTZ_JOB_DETAILS(JOB_NAME,JOB_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_simple_triggers ( TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, REPEAT_COUNT BIGINT NOT NULL, REPEAT_INTERVAL BIGINT NOT NULL, TIMES_TRIGGERED BIGINT NOT NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_cron_triggers (TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, CRON_EXPRESSION VARCHAR(80) NOT NULL, TIME_ZONE_ID VARCHAR(80), PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_blob_triggers ( TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, BLOB_DATA BYTEA NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_trigger_listeners ( TRIGGER_NAME  VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, TRIGGER_LISTENER VARCHAR(80) NOT NULL, PRIMARY KEY (TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_LISTENER), FOREIGN KEY (TRIGGER_NAME,TRIGGER_GROUP) REFERENCES QRTZ_TRIGGERS(TRIGGER_NAME,TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_calendars ( CALENDAR_NAME  VARCHAR(80) NOT NULL, CALENDAR BYTEA NOT NULL, PRIMARY KEY (CALENDAR_NAME));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_paused_trigger_grps (TRIGGER_GROUP  VARCHAR(80) NOT NULL, PRIMARY KEY (TRIGGER_GROUP));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_fired_triggers  ( ENTRY_ID VARCHAR(95) NOT NULL, TRIGGER_NAME VARCHAR(80) NOT NULL, TRIGGER_GROUP VARCHAR(80) NOT NULL, IS_VOLATILE BOOL NOT NULL, INSTANCE_NAME VARCHAR(80) NOT NULL, FIRED_TIME BIGINT NOT NULL, STATE VARCHAR(16) NOT NULL, JOB_NAME VARCHAR(80) NULL, JOB_GROUP VARCHAR(80) NULL, IS_STATEFUL BOOL NULL, REQUESTS_RECOVERY BOOL NULL, PRIMARY KEY (ENTRY_ID));&quot;);
+! 	addSql(&quot;CREATE TABLE quartz.qrtz_scheduler_state ( INSTANCE_NAME VARCHAR(80) NOT NULL, LAST_CHECKIN_TIME BIGINT NOT NULL, CHECKIN_INTERVAL BIGINT NOT NULL, RECOVERER VARCHAR(80) NULL, PRIMARY KEY (INSTANCE_NAME));&quot;);
+  	addSql(&quot;INSERT INTO qrtz_locks values('TRIGGER_ACCESS');&quot;);
+  	addSql(&quot;INSERT INTO qrtz_locks values('JOB_ACCESS');&quot;);
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000080.html">[Zebra-checkins] zebra/src/java/fulcrum-security-hivemind-hibernate/src/main/java/org/apache/fulcrum/security/hibernate/dynamic/model HibernateDynamicUser.java,1.2,1.3
+</A></li>
+	<LI>Next message: <A HREF="000081.html">[Zebra-checkins] zebra/src/java/fulcrum-hivemind-quartz pom.xml,1.2,1.3
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#82">[ date ]</a>
+              <a href="thread.html#82">[ thread ]</a>
+              <a href="subject.html#82">[ subject ]</a>
+              <a href="author.html#82">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/zebra-checkins">More information about the Zebra-checkins
+mailing list</a><br>
+</body></html>
